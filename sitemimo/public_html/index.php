@@ -26,22 +26,19 @@ if (defined('ASSET_VERSION')) {
     $cookieName = 'mimo_version';
     $currentVersion = ASSET_VERSION;
     $cookieVersion = $_COOKIE[$cookieName] ?? null;
+    $urlVersion = $_GET['_v'] ?? null;
     
-    // SEMPRE setar cookie (mesmo se já existe) para garantir que está atualizado
+    // SEMPRE setar cookie (httponly=false para JavaScript poder ler)
     // Isso força Varnish a criar cache diferente quando Vary: Cookie está presente
-    setcookie($cookieName, $currentVersion, time() + 31536000, '/', '', false, true);
+    setcookie($cookieName, $currentVersion, time() + 31536000, '/', '', false, false);
     $_COOKIE[$cookieName] = $currentVersion; // Disponibilizar imediatamente
     
-    // Se versão mudou E não tem query param _v, fazer redirect
-    if ($cookieVersion !== $currentVersion && !isset($_GET['_v'])) {
-        $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        header('Location: ' . $url . '?_v=' . $currentVersion, true, 302);
-        header('Cache-Control: no-cache, no-store, must-revalidate');
-        exit;
-    }
-    
-    // Se tem query param _v mas não corresponde à versão atual, atualizar
-    if (isset($_GET['_v']) && $_GET['_v'] !== $currentVersion) {
+    // Só fazer redirect se:
+    // 1. Versão mudou E não tem query param _v (primeira visita ou versão mudou)
+    // 2. Query param _v existe mas não corresponde à versão atual
+    // IMPORTANTE: Não fazer redirect se já tem _v correto para evitar loops
+    if ($urlVersion !== $currentVersion) {
+        // Se tem _v mas está errado, ou não tem _v mas versão mudou
         $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         header('Location: ' . $url . '?_v=' . $currentVersion, true, 302);
         header('Cache-Control: no-cache, no-store, must-revalidate');
@@ -895,35 +892,34 @@ if ($_POST) {
 
     <script>
         // Force Varnish bypass: Locaweb Varnish tem cache fixo de 3min para HTML
-        // Verificar se versão na URL/cookie corresponde à versão atual
+        // Verificar se versão na URL corresponde à versão atual
+        // IMPORTANTE: Só fazer reload se realmente necessário para evitar loops
         (function() {
             var currentVersion = '<?php echo defined('ASSET_VERSION') ? ASSET_VERSION : date('Ymd'); ?>';
-            
-            // Ler cookie de versão
-            function getCookie(name) {
-                var value = "; " + document.cookie;
-                var parts = value.split("; " + name + "=");
-                if (parts.length === 2) return parts.pop().split(";").shift();
-                return null;
-            }
-            
-            var cookieVersion = getCookie('mimo_version');
             var urlVersion = new URLSearchParams(window.location.search).get('_v');
             var storedVersion = sessionStorage.getItem('mimo_version');
             
-            // Se versão na URL não corresponde OU cookie não corresponde OU versão mudou
-            if (urlVersion !== currentVersion || cookieVersion !== currentVersion || (storedVersion && storedVersion !== currentVersion)) {
-                sessionStorage.setItem('mimo_version', currentVersion);
-                // Forçar reload com versão correta na URL
-                var url = new URL(window.location.href);
-                url.searchParams.set('_v', currentVersion);
-                url.searchParams.delete('_refresh'); // Limpar params temporários
-                window.location.href = url.toString();
-                return;
+            // Se versão na URL não corresponde à versão atual, fazer reload UMA VEZ
+            // Usar sessionStorage para evitar loops infinitos
+            if (urlVersion !== currentVersion) {
+                // Se já tentamos atualizar nesta sessão, não tentar novamente (evitar loop)
+                var reloadAttempted = sessionStorage.getItem('mimo_reload_attempted');
+                if (!reloadAttempted) {
+                    sessionStorage.setItem('mimo_reload_attempted', '1');
+                    sessionStorage.setItem('mimo_version', currentVersion);
+                    // Forçar reload com versão correta na URL
+                    var url = new URL(window.location.href);
+                    url.searchParams.set('_v', currentVersion);
+                    window.location.href = url.toString();
+                    return;
+                }
+            } else {
+                // Versão está correta, limpar flag de tentativa
+                sessionStorage.removeItem('mimo_reload_attempted');
             }
             
             // Salvar versão atual
-            if (!storedVersion) {
+            if (!storedVersion || storedVersion !== currentVersion) {
                 sessionStorage.setItem('mimo_version', currentVersion);
             }
             
