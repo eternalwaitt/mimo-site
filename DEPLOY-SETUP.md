@@ -29,7 +29,8 @@ O arquivo `.github/workflows/deploy.yml` já foi criado. Ele faz:
 | `SFTP_HOST` | Hostname do servidor FTP | `ftp.minhamimo.com.br` |
 | `SFTP_USER` | Usuário FTP | `esteticamimo` |
 | `SFTP_PASSWORD` | Senha FTP | `Mimomimo123123!` |
-| `SFTP_PORT` | Porta FTP (opcional) | `21` |
+
+**Nota**: A porta 21 está configurada diretamente no workflow, não é necessário criar o secret `SFTP_PORT`.
 
 **⚠️ IMPORTANTE**: A senha acima está exposta aqui apenas como referência. Configure os secrets no GitHub com esses valores.
 
