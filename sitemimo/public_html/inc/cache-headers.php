@@ -216,14 +216,17 @@ function set_html_cache_headers() {
     // HTML - NO CACHE (força sempre buscar versão nova)
     // Headers agressivos para bypassar cache Varnish da Locaweb
     // 'private' força bypass de cache compartilhado (Varnish/CDN)
-    @header('Cache-Control: private, no-cache, no-store, must-revalidate, proxy-revalidate, max-age=0');
+    // s-maxage=0 força Varnish a não cachear
+    @header('Cache-Control: private, no-cache, no-store, must-revalidate, proxy-revalidate, max-age=0, s-maxage=0');
     @header('Pragma: no-cache');
     @header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
-    @header('Vary: Accept-Encoding, User-Agent');
+    @header('Vary: Accept-Encoding, User-Agent, Cookie');
     
     // Headers específicos para Varnish/Nginx (Locaweb usa Varnish)
     @header('X-Accel-Expires: 0'); // Nginx/Varnish: 0 = bypass cache
     @header('X-Cache-Status: BYPASS'); // Para debugging
+    @header('X-Cache-Control: no-cache'); // Header adicional para Varnish
+    @header('Surrogate-Control: no-store'); // Específico para Varnish
     
     // Remover ETag completamente (não gerar ETag para HTML)
     // ETags podem causar 304 Not Modified mesmo com no-cache

@@ -861,6 +861,29 @@ if ($_POST) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.18/jquery.touchSwipe.min.js"></script>
 
     <script>
+        // Force cache bypass: verificar versão e forçar reload se necessário
+        (function() {
+            var currentVersion = '<?php echo defined('ASSET_VERSION') ? ASSET_VERSION : date('Ymd'); ?>';
+            var storedVersion = sessionStorage.getItem('mimo_version');
+            
+            // Se versão mudou ou é primeira visita, limpar cache e recarregar
+            if (storedVersion && storedVersion !== currentVersion) {
+                // Versão mudou - forçar reload sem cache
+                sessionStorage.setItem('mimo_version', currentVersion);
+                window.location.reload(true);
+                return;
+            }
+            
+            // Salvar versão atual
+            if (!storedVersion) {
+                sessionStorage.setItem('mimo_version', currentVersion);
+            }
+            
+            // Adicionar timestamp à URL para bypassar cache em recursos
+            var timestamp = '<?php echo defined('ASSET_VERSION') ? ASSET_VERSION : time(); ?>';
+            document.documentElement.setAttribute('data-version', timestamp);
+        })();
+        
         if ($('.carousel').length) {
             $('.carousel').carousel({ interval: 7000, pause: false });
             $(".carousel").swipe({
