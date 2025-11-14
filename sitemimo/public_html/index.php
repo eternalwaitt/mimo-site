@@ -16,6 +16,16 @@ error_reporting(E_ALL & ~E_DEPRECATED);
 // Carregar configuração primeiro (necessário para ASSET_VERSION)
 require_once 'config.php';
 
+// Force cache bypass: se não tem query string com versão, adicionar e redirect
+// Isso força o Varnish a não usar cache mesmo se ignorar headers
+if (!isset($_GET['_v']) && defined('ASSET_VERSION')) {
+    $currentUrl = $_SERVER['REQUEST_URI'];
+    $separator = (strpos($currentUrl, '?') !== false) ? '&' : '?';
+    $newUrl = $currentUrl . $separator . '_v=' . ASSET_VERSION . '&_t=' . time();
+    header('Location: ' . $newUrl, true, 302);
+    exit;
+}
+
 // Cache headers para páginas HTML (ANTES de qualquer outro header)
 require_once 'inc/cache-headers.php';
 set_html_cache_headers();
