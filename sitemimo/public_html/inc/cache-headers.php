@@ -211,26 +211,15 @@ function set_html_cache_headers() {
         return;
     }
 
-    // HTML - cache muito curto com revalidação obrigatória
-    // ETag inclui ASSET_VERSION para invalidar quando versão mudar
-    $assetVersion = defined('ASSET_VERSION') ? ASSET_VERSION : '0';
-    $etag = md5($_SERVER['REQUEST_URI'] . $assetVersion . filemtime(__FILE__));
-    header('ETag: "' . $etag . '"');
-    
-    // Verificar If-None-Match para retornar 304
-    if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && $_SERVER['HTTP_IF_NONE_MATCH'] === '"' . $etag . '"') {
-        http_response_code(304);
-        exit;
-    }
-    
-    // Cache muito curto (1 minuto) com revalidação obrigatória
-    // Vary header para evitar cache intermediário
+    // HTML - NO CACHE (força sempre buscar versão nova)
+    // Solução concisa para garantir que mudanças apareçam imediatamente
+    header('Cache-Control: no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0');
+    header('Pragma: no-cache');
+    header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
     header('Vary: Accept-Encoding, User-Agent');
-    header('Cache-Control: public, max-age=60, must-revalidate, proxy-revalidate');
-    header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 60) . ' GMT');
-    header('Pragma: public');
     
-    // Headers adicionais para evitar cache intermediário
+    // ETag para debugging (mas não usamos 304 para HTML)
+    $assetVersion = defined('ASSET_VERSION') ? ASSET_VERSION : '0';
     header('X-Cache-Version: ' . $assetVersion);
 }
 
