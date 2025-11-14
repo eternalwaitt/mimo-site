@@ -32,11 +32,26 @@ ErrorDocument 404 /404.php
 </FilesMatch>
 
 # HTML/PHP - NO CACHE (força sempre buscar versão nova)
-# Necessário para garantir que mudanças apareçam imediatamente
+# Desabilitar ETag completamente (pode causar 304 mesmo com no-cache)
+FileETag None
+
 <FilesMatch "\.(html|htm|php)$">
-    Header set Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0"
-    Header set Pragma "no-cache"
-    Header set Expires "Thu, 01 Jan 1970 00:00:00 GMT"
+    <IfModule mod_headers.c>
+        # Remover ETag e Last-Modified se existirem
+        Header unset ETag
+        Header unset Last-Modified
+        
+        # Headers agressivos para bypassar cache Varnish da Locaweb
+        # 'private' força bypass de cache compartilhado (Varnish/CDN)
+        Header set Cache-Control "private, no-cache, no-store, must-revalidate, proxy-revalidate, max-age=0"
+        Header set Pragma "no-cache"
+        Header set Expires "Thu, 01 Jan 1970 00:00:00 GMT"
+        Header set Vary "Accept-Encoding, User-Agent"
+        
+        # Headers específicos para Varnish/Nginx (Locaweb usa Varnish)
+        Header set X-Accel-Expires "0"
+        Header set X-Cache-Status "BYPASS"
+    </IfModule>
 </FilesMatch>
 
 # Ativar módulo headers se disponível

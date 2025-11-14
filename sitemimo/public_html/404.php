@@ -8,15 +8,16 @@
  * Página de erro 404 com humor e otimizada para SEO
  */
 
-// Cabeçalhos de segurança
-require_once 'inc/security-headers.php';
-
-// Carregar configuração
+// IMPORTANTE: Cache headers DEVEM ser os PRIMEIROS headers enviados
+// Carregar configuração primeiro (necessário para ASSET_VERSION)
 require_once 'config.php';
 
-// Cache headers para páginas HTML
+// Cache headers para páginas HTML (ANTES de qualquer outro header)
 require_once 'inc/cache-headers.php';
 set_html_cache_headers();
+
+// Cabeçalhos de segurança (depois dos cache headers)
+require_once 'inc/security-headers.php';
 
 // Helper de SEO
 require_once 'inc/seo-helper.php';

@@ -212,13 +212,23 @@ function set_html_cache_headers() {
     }
 
     // HTML - NO CACHE (força sempre buscar versão nova)
-    // Solução concisa para garantir que mudanças apareçam imediatamente
-    header('Cache-Control: no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0');
+    // Headers agressivos para bypassar cache Varnish da Locaweb
+    // 'private' força bypass de cache compartilhado (Varnish/CDN)
+    header('Cache-Control: private, no-cache, no-store, must-revalidate, proxy-revalidate, max-age=0');
     header('Pragma: no-cache');
     header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
     header('Vary: Accept-Encoding, User-Agent');
     
-    // ETag para debugging (mas não usamos 304 para HTML)
+    // Headers específicos para Varnish/Nginx (Locaweb usa Varnish)
+    header('X-Accel-Expires: 0'); // Nginx/Varnish: 0 = bypass cache
+    header('X-Cache-Status: BYPASS'); // Para debugging
+    
+    // Remover ETag completamente (não gerar ETag para HTML)
+    // ETags podem causar 304 Not Modified mesmo com no-cache
+    header_remove('ETag');
+    header_remove('Last-Modified');
+    
+    // Header de debug com versão
     $assetVersion = defined('ASSET_VERSION') ? ASSET_VERSION : '0';
     header('X-Cache-Version: ' . $assetVersion);
 }

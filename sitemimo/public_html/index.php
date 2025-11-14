@@ -12,18 +12,19 @@
 // Suprimir avisos de depreciação de bibliotecas de terceiros (compatibilidade PHP 8.4)
 error_reporting(E_ALL & ~E_DEPRECATED);
 
-// Cabeçalhos de segurança
+// IMPORTANTE: Cache headers DEVEM ser os PRIMEIROS headers enviados
+// Carregar configuração primeiro (necessário para ASSET_VERSION)
+require_once 'config.php';
+
+// Cache headers para páginas HTML (ANTES de qualquer outro header)
+require_once 'inc/cache-headers.php';
+set_html_cache_headers();
+
+// Cabeçalhos de segurança (depois dos cache headers)
 require_once 'inc/security-headers.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-
-// Carregar configuração (inclui variáveis de ambiente)
-require_once 'config.php';
-
-// Cache headers para páginas HTML
-require_once 'inc/cache-headers.php';
-set_html_cache_headers();
 
 // Funções auxiliares de imagem
 require_once 'inc/image-helper.php';
@@ -226,6 +227,11 @@ if ($_POST) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Victor Penter">
+    
+    <!-- Meta tags no-cache como fallback (caso headers HTTP não funcionem) -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     
     <?php
     // SEO Meta Tags

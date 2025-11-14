@@ -34,15 +34,16 @@
 // Suprimir avisos de depreciação (compatibilidade PHP 8.4)
 error_reporting(E_ALL & ~E_DEPRECATED);
 
-// Cabeçalhos de segurança (devem estar antes de qualquer saída HTML)
-require_once '../inc/security-headers.php';
-
-// Carregar configuração para versionamento de assets
+// IMPORTANTE: Cache headers DEVEM ser os PRIMEIROS headers enviados
+// Carregar configuração primeiro (necessário para ASSET_VERSION)
 require_once '../config.php';
 
-// Cache headers para páginas HTML
+// Cache headers para páginas HTML (ANTES de qualquer outro header)
 require_once '../inc/cache-headers.php';
 set_html_cache_headers();
+
+// Cabeçalhos de segurança (depois dos cache headers)
+require_once '../inc/security-headers.php';
 
 // Funções auxiliares de imagem para suporte WebP
 require_once '../inc/image-helper.php';
