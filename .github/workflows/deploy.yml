@@ -79,30 +79,6 @@ jobs:
           port: ${{ secrets.SFTP_PORT || 22 }}
           local_path: "./Site Mimo/public_html"
           remote_path: "/public_html"
-          args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-          exclude: |
-            **/.git*
-            **/.env*
-            **/node_modules/**
-            **/vendor/**
-            **/wp-*/
-            **/x6f7689/**
-            **/cache/**
-            **/img_backup_*/
-            **/*.md
-            **/.DS_Store
-            **/Thumbs.db
-            **/build/**
-            **/README*
-            **/CHANGELOG*
-            **/VERSIONING*
-            **/IMPROVEMENTS*
-            **/NEXT-STEPS*
-            **/SEO-OPTIMIZATION*
-            **/STRUCTURE-ANALYSIS*
-            **/AI-DEVELOPMENT-GUIDE*
-            **/GOOGLE-*
-            **/LICENSE*
-            **/license.txt
-            **/readme.html
+          sftpArgs: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+          rsyncArgs: "--exclude='.git*' --exclude='.env*' --exclude='node_modules' --exclude='vendor' --exclude='wp-*' --exclude='x6f7689' --exclude='cache' --exclude='img_backup_*' --exclude='*.md' --exclude='.DS_Store' --exclude='Thumbs.db' --exclude='build' --exclude='README*' --exclude='CHANGELOG*' --exclude='VERSIONING*' --exclude='IMPROVEMENTS*' --exclude='NEXT-STEPS*' --exclude='SEO-OPTIMIZATION*' --exclude='STRUCTURE-ANALYSIS*' --exclude='AI-DEVELOPMENT-GUIDE*' --exclude='GOOGLE-*' --exclude='LICENSE*' --exclude='license.txt' --exclude='readme.html'"
 
