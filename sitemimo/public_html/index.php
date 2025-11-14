@@ -16,13 +16,17 @@ error_reporting(E_ALL & ~E_DEPRECATED);
 // Carregar configuração primeiro (necessário para ASSET_VERSION)
 require_once 'config.php';
 
-// Force cache bypass: se não tem query string com versão, adicionar e redirect
-// Isso força o Varnish a não usar cache mesmo se ignorar headers
+// Force Varnish bypass: Locaweb Varnish tem cache fixo de 3min para HTML
+// Solução: adicionar query string com versão para forçar cache diferente
+// URLs diferentes = cache diferente no Varnish (mesmo que ignore headers)
 if (!isset($_GET['_v']) && defined('ASSET_VERSION')) {
-    $currentUrl = $_SERVER['REQUEST_URI'];
-    $separator = (strpos($currentUrl, '?') !== false) ? '&' : '?';
-    $newUrl = $currentUrl . $separator . '_v=' . ASSET_VERSION . '&_t=' . time();
+    // Remover query params antigos se existirem (manter apenas _v)
+    $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $newUrl = $currentPath . '?_v=' . ASSET_VERSION;
+    
+    // Fazer redirect apenas uma vez (evitar loop)
     header('Location: ' . $newUrl, true, 302);
+    header('Cache-Control: no-cache, no-store, must-revalidate'); // Header adicional para redirect
     exit;
 }
 
@@ -871,18 +875,20 @@ if ($_POST) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.18/jquery.touchSwipe.min.js"></script>
 
     <script>
-        // Force cache bypass: verificar versão e forçar reload se necessário
+        // Force Varnish bypass: Locaweb Varnish tem cache fixo de 3min para HTML
+        // Verificar se versão na URL corresponde à versão atual
         (function() {
             var currentVersion = '<?php echo defined('ASSET_VERSION') ? ASSET_VERSION : date('Ymd'); ?>';
+            var urlVersion = new URLSearchParams(window.location.search).get('_v');
             var storedVersion = sessionStorage.getItem('mimo_version');
             
-            // Se versão mudou, forçar reload sem cache
-            if (storedVersion && storedVersion !== currentVersion) {
+            // Se versão na URL não corresponde ou versão mudou, forçar reload
+            if (urlVersion !== currentVersion || (storedVersion && storedVersion !== currentVersion)) {
                 sessionStorage.setItem('mimo_version', currentVersion);
-                // Forçar reload sem cache usando timestamp na URL
+                // Forçar reload com versão correta na URL
                 var url = new URL(window.location.href);
                 url.searchParams.set('_v', currentVersion);
-                url.searchParams.set('_nocache', Date.now());
+                url.searchParams.delete('_nocache'); // Limpar params temporários
                 window.location.href = url.toString();
                 return;
             }
@@ -892,9 +898,8 @@ if ($_POST) {
                 sessionStorage.setItem('mimo_version', currentVersion);
             }
             
-            // Adicionar timestamp à URL para bypassar cache em recursos
-            var timestamp = '<?php echo defined('ASSET_VERSION') ? ASSET_VERSION : time(); ?>';
-            document.documentElement.setAttribute('data-version', timestamp);
+            // Adicionar versão ao DOM para referência
+            document.documentElement.setAttribute('data-version', currentVersion);
         })();
         
         if ($('.carousel').length) {
