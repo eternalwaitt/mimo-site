@@ -165,3 +165,14 @@ Site atualizado! 🎉
 
 **Nota**: A Locaweb utiliza FTP na porta 21 para publicação de arquivos. O servidor não suporta FTPS (comando AUTH não é reconhecido), então usamos FTP normal.
 
+### Acesso SSH (Alternativa)
+
+Caso seja necessário usar SSH/SFTP no futuro:
+- **Porta**: 22 (SSH/SFTP)
+- **Credenciais**: Mesmas do FTP (usuário e senha)
+- **Host**: `ftp.minhamimo.com.br` ou IP do servidor
+- **Usuário**: `esteticamimo`
+- **Pasta raiz**: `/home/esteticamimo/`
+
+**Nota**: Atualmente estamos usando FTP na porta 21, que é o método recomendado para publicação de arquivos na Locaweb.
+
