@@ -26,9 +26,10 @@ O arquivo `.github/workflows/deploy.yml` já foi criado. Ele faz:
 
 | Secret | Descrição | Valor para MIMO |
 |--------|-----------|-----------------|
-| `FTP_HOST` | Hostname do servidor FTP | `ftp.minhamimo.com.br` |
-| `FTP_USER` | Usuário FTP | `esteticamimo` |
-| `FTP_PASSWORD` | Senha FTP | `Mimomimo123123!` |
+| `SFTP_HOST` | Hostname do servidor FTP | `ftp.minhamimo.com.br` |
+| `SFTP_USER` | Usuário FTP | `esteticamimo` |
+| `SFTP_PASSWORD` | Senha FTP | `Mimomimo123123!` |
+| `SFTP_PORT` | Porta FTP (opcional) | `21` |
 
 **⚠️ IMPORTANTE**: A senha acima está exposta aqui apenas como referência. Configure os secrets no GitHub com esses valores.
 
@@ -92,7 +93,7 @@ Após o deploy:
 - Verifique se o firewall não está bloqueando a conexão
 
 ### Erro: "Authentication failed"
-- Verifique se `FTP_USER` e `FTP_PASSWORD` estão corretos nos secrets
+- Verifique se `SFTP_USER` e `SFTP_PASSWORD` estão corretos nos secrets
 - Confirme que as credenciais são de FTP/FTPS
 - Verifique se o usuário tem permissão de acesso ao diretório remoto
 

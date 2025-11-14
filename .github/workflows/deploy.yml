@@ -94,30 +94,30 @@ jobs:
       
       - name: Verify FTP secrets are configured
         run: |
-          if [ -z "${{ secrets.FTP_HOST }}" ]; then
-            echo "❌ ERROR: FTP_HOST secret is not configured!"
-            echo "Please configure FTP_HOST, FTP_USER, and FTP_PASSWORD secrets in GitHub Settings > Secrets and variables > Actions"
+          if [ -z "${{ secrets.SFTP_HOST }}" ]; then
+            echo "❌ ERROR: SFTP_HOST secret is not configured!"
+            echo "Please configure SFTP_HOST, SFTP_USER, and SFTP_PASSWORD secrets in GitHub Settings > Secrets and variables > Actions"
             exit 1
           fi
-          if [ -z "${{ secrets.FTP_USER }}" ]; then
-            echo "❌ ERROR: FTP_USER secret is not configured!"
+          if [ -z "${{ secrets.SFTP_USER }}" ]; then
+            echo "❌ ERROR: SFTP_USER secret is not configured!"
             exit 1
           fi
-          if [ -z "${{ secrets.FTP_PASSWORD }}" ]; then
-            echo "❌ ERROR: FTP_PASSWORD secret is not configured!"
+          if [ -z "${{ secrets.SFTP_PASSWORD }}" ]; then
+            echo "❌ ERROR: SFTP_PASSWORD secret is not configured!"
             exit 1
           fi
           echo "✅ All FTP secrets are configured"
-          echo "Server: ${{ secrets.FTP_HOST }}"
-          echo "User: ${{ secrets.FTP_USER }}"
+          echo "Server: ${{ secrets.SFTP_HOST }}"
+          echo "User: ${{ secrets.SFTP_USER }}"
           echo "Password: [HIDDEN]"
       
       - name: Deploy to Locaweb via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASSWORD }}
+          server: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USER }}
+          password: ${{ secrets.SFTP_PASSWORD }}
           port: 21
           local-dir: "./sitemimo/public_html/"
           server-dir: "./public_html/"
