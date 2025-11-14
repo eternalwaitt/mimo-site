@@ -18,19 +18,37 @@ jobs:
         with:
           node-version: '18'
       
-      - name: Run CSS minification
-        working-directory: Site Mimo/public_html
+      - name: Verify directory structure
         run: |
-          chmod +x build/minify-css.sh
-          ./build/minify-css.sh || echo "CSS minification completed with warnings"
-          ls -la minified/*.css || echo "No CSS files found in minified/"
+          ls -la
+          ls -la "Site Mimo/public_html" || echo "Directory not found"
+          ls -la "Site Mimo/public_html/build" || echo "Build directory not found"
+      
+      - name: Run CSS minification
+        run: |
+          cd "Site Mimo/public_html" || exit 1
+          pwd
+          ls -la build/ || echo "Build directory not found"
+          if [ -f "build/minify-css.sh" ]; then
+            chmod +x build/minify-css.sh
+            ./build/minify-css.sh || echo "CSS minification completed with warnings"
+            ls -la minified/*.css 2>/dev/null || echo "No CSS files found in minified/"
+          else
+            echo "Error: build/minify-css.sh not found"
+            exit 1
+          fi
       
       - name: Run JS minification
-        working-directory: Site Mimo/public_html
         run: |
-          chmod +x build/minify-js.sh
-          ./build/minify-js.sh || echo "JS minification completed with warnings"
-          ls -la minified/*.js || echo "No JS files found in minified/"
+          cd "Site Mimo/public_html" || exit 1
+          if [ -f "build/minify-js.sh" ]; then
+            chmod +x build/minify-js.sh
+            ./build/minify-js.sh || echo "JS minification completed with warnings"
+            ls -la minified/*.js 2>/dev/null || echo "No JS files found in minified/"
+          else
+            echo "Error: build/minify-js.sh not found"
+            exit 1
+          fi
       
       - name: Deploy to Locaweb via SFTP
         uses: wlixcc/SFTP-Deploy-Action@v1.2.6
