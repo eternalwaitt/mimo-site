@@ -94,9 +94,9 @@ function set_cache_headers($filePath = null, $contentType = null) {
  * @return array Configuração de cache
  */
 function get_cache_config($contentType, $filePath = null) {
-    // HTML - cache curto (1 hora) ou no-cache
+    // HTML - cache curto (5 minutos) para permitir atualizações rápidas
     if (strpos($contentType, 'text/html') !== false) {
-        return ['max_age' => 3600]; // 1 hora
+        return ['max_age' => 300]; // 5 minutos
     }
 
     // CSS e JS versionados - cache longo (1 ano)
@@ -211,10 +211,21 @@ function set_html_cache_headers() {
         return;
     }
 
-    // HTML tem cache curto (1 hora) para permitir atualizações rápidas
-    // Mas pode ser invalidado facilmente
-    header('Cache-Control: public, max-age=3600, must-revalidate');
-    header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 3600) . ' GMT');
+    // HTML tem cache curto (5 minutos) para permitir atualizações rápidas
+    // ETag inclui ASSET_VERSION para invalidar quando versão mudar
+    $assetVersion = defined('ASSET_VERSION') ? ASSET_VERSION : '0';
+    $etag = md5($_SERVER['REQUEST_URI'] . $assetVersion);
+    header('ETag: "' . $etag . '"');
+    
+    // Verificar If-None-Match para retornar 304
+    if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && $_SERVER['HTTP_IF_NONE_MATCH'] === '"' . $etag . '"') {
+        http_response_code(304);
+        exit;
+    }
+    
+    // Cache curto com revalidação obrigatória
+    header('Cache-Control: public, max-age=300, must-revalidate');
+    header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 300) . ' GMT');
     header('Pragma: public');
 }
 
