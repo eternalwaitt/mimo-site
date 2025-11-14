@@ -1,0 +1,45 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Sensitive credentials
+x6f7689/MailgunCredentials.php
+
+# WordPress (if not used)
+wp-config.php
+wp-content/uploads/
+wp-content/cache/
+
+# Composer
+/vendor/
+composer.lock
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.bak
+*_backup.*
+*_old.*
+
+# Node modules (if any)
+node_modules/
+
+# Build files
+dist/
+build/
+

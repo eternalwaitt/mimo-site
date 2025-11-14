@@ -5,3 +5,41 @@
 RewriteEngine On
 RewriteCond %{SERVER_PORT} 80
 RewriteRule ^(.*)$ https://www.minhamimo.com.br/$1 [R,L]
+
+# Custom 404 Error Page
+ErrorDocument 404 /404.php
+
+# Cache Headers para Assets Estáticos
+# CSS e JS versionados - cache longo (1 ano)
+<FilesMatch "\.(css|js)$">
+    <If "%{QUERY_STRING} =~ /v=|version=/">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+        Header set Expires "Thu, 31 Dec 2025 23:59:59 GMT"
+    </If>
+</FilesMatch>
+
+# Imagens - cache longo (1 ano)
+<FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|ico)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+    Header set Expires "Thu, 31 Dec 2025 23:59:59 GMT"
+</FilesMatch>
+
+# Fontes - cache longo (1 ano)
+<FilesMatch "\.(woff|woff2|ttf|otf|eot)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+    Header set Expires "Thu, 31 Dec 2025 23:59:59 GMT"
+    Header set Access-Control-Allow-Origin "*"
+</FilesMatch>
+
+# HTML/PHP - cache curto (1 hora) com must-revalidate
+<FilesMatch "\.(html|htm|php)$">
+    Header set Cache-Control "public, max-age=3600, must-revalidate"
+</FilesMatch>
+
+# Ativar módulo headers se disponível
+<IfModule mod_headers.c>
+    # Vary header para compressão
+    <FilesMatch "\.(css|js)$">
+        Header append Vary Accept-Encoding
+    </FilesMatch>
+</IfModule>

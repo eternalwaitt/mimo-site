@@ -1,57 +1,219 @@
 <?php
+/**
+ * Site Mimo - Página Inicial
+ * 
+ * Desenvolvido por: Victor Penter
+ * Versão: 2.2.3
+ * 
+ * Este arquivo contém a página principal do site com formulário de contato
+ * e seções de serviços, depoimentos e informações de contato.
+ */
+
+// Suprimir avisos de depreciação de bibliotecas de terceiros (compatibilidade PHP 8.4)
+error_reporting(E_ALL & ~E_DEPRECATED);
+
+// Cabeçalhos de segurança
+require_once 'inc/security-headers.php';
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-include_once 'x6f7689/MailgunCredentials.php';
 
+// Carregar configuração (inclui variáveis de ambiente)
+require_once 'config.php';
+
+// Cache headers para páginas HTML
+require_once 'inc/cache-headers.php';
+set_html_cache_headers();
+
+// Funções auxiliares de imagem
+require_once 'inc/image-helper.php';
+
+// Helper de SEO
+require_once 'inc/seo-helper.php';
+
+// Helper de assets (CSS/JS com suporte a minificação)
+require_once 'inc/asset-helper.php';
+
+// Helper de segurança do formulário
+require_once 'inc/form-security.php';
+
+// Helper de reviews do Google (opcional - requer API key)
+require_once 'inc/google-reviews.php';
+
+// Helper de reviews manuais (alternativa grátis)
+require_once 'inc/manual-reviews.php';
+
+// Autoloader do Composer (PHPMailer, etc.)
 require 'vendor/autoload.php';
+
+// Iniciar sessão para rate limiting
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 if ($_POST) {
 
     $is_mail_sent = false;
+    $form_errors = [];
 
-    $nomeremetente = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
-    $emailremetente = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-    $assunto = filter_input(INPUT_POST, 'subject', FILTER_SANITIZE_STRING);
-    $mensagem = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
-    $mensagemHTML = '<strong>Formulário de Contato</strong>
-                     <p><b>Nome:</b> ' . $nomeremetente . '
-                     <p><b>E-Mail:</b> ' . $emailremetente . '
-                     <p><b>Assunto:</b> ' . $assunto . '
-                     <p><b>Mensagem:</b> ' . $mensagem . '</p>
-                     <hr>';
+    // Verificar honeypot (campo escondido que bots preenchem)
+    if (is_honeypot_filled()) {
+        // Silenciosamente rejeitar (não mostrar erro para não alertar bots)
+        $is_mail_sent = false;
+    } else {
+        // Verificar rate limiting
+        $rateLimit = check_rate_limit(3, 3600); // 3 tentativas por hora
+        if (!$rateLimit['allowed']) {
+            $form_errors[] = 'Muitas tentativas. Por favor, tente novamente em ' . 
+                           round(($rateLimit['reset_at'] - time()) / 60) . ' minutos.';
+        } else {
+            // Validar e sanitizar dados
+            $nomeremetente = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $emailremetente = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+            $assunto = filter_input(INPUT_POST, 'subject', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $mensagem = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-    // validou tudo OK;
-    $is_mail_sent = true;
+            // Validações
+            if (!validate_name($nomeremetente)) {
+                $form_errors[] = 'Nome inválido. Deve ter entre 2 e 100 caracteres.';
+            }
+
+            if (!validate_email($emailremetente)) {
+                $form_errors[] = 'Email inválido.';
+            }
+
+            if (!validate_subject($assunto)) {
+                $form_errors[] = 'Assunto inválido.';
+            }
+
+            if (!validate_message($mensagem)) {
+                $form_errors[] = 'Mensagem inválida. Deve ter entre 10 e 2000 caracteres.';
+            }
+
+            // Verificar palavras de spam
+            if (contains_spam_keywords($mensagem)) {
+                $form_errors[] = 'Mensagem contém conteúdo não permitido.';
+            }
+
+            // Se passou todas as validações
+            if (empty($form_errors)) {
+                $mensagemHTML = '<strong>Formulário de Contato</strong>
+                                 <p><b>Nome:</b> ' . sanitize_html($nomeremetente) . '</p>
+                                 <p><b>E-Mail:</b> ' . sanitize_html($emailremetente) . '</p>
+                                 <p><b>Assunto:</b> ' . sanitize_html($assunto) . '</p>
+                                 <p><b>Mensagem:</b> ' . nl2br(sanitize_html($mensagem)) . '</p>
+                                 <hr>
+                                 <p><small>IP: ' . ($_SERVER['REMOTE_ADDR'] ?? 'unknown') . '</small></p>';
+
+                // Verificar se credenciais do Mailgun estão configuradas
+                if (!isset($MailGunUsername) || empty($MailGunUsername) || !isset($MailGunPassword) || empty($MailGunPassword)) {
+                    $form_errors[] = 'Configuração de email não encontrada. Entre em contato com o administrador.';
+                    error_log('Mailgun credentials not configured');
+                    increment_rate_limit();
+                } else {
+                    $is_mail_sent = true;
+                }
+            } else {
+                // Incrementar rate limit mesmo em caso de erro
+                increment_rate_limit();
+            }
+        }
+    }
 
     if ($is_mail_sent) {
+        // Em desenvolvimento, salvar email em arquivo ao invés de enviar
+        if (defined('APP_ENV') && APP_ENV === 'development') {
+            $devEmailDir = __DIR__ . '/dev-emails';
+            if (!is_dir($devEmailDir)) {
+                mkdir($devEmailDir, 0755, true);
+            }
+            
+            $emailFile = $devEmailDir . '/email_' . date('Y-m-d_H-i-s') . '_' . uniqid() . '.html';
+            $emailContent = "<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <title>Email de Desenvolvimento</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .email-container { background: white; padding: 20px; border-radius: 5px; max-width: 600px; margin: 0 auto; }
+        .header { background: #ccb7bc; color: white; padding: 15px; border-radius: 5px 5px 0 0; margin: -20px -20px 20px -20px; }
+        .meta { background: #f9f9f9; padding: 10px; border-left: 3px solid #ccb7bc; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class='email-container'>
+        <div class='header'>
+            <h2>📧 Email de Desenvolvimento (não enviado)</h2>
+            <p>Este email foi salvo em arquivo porque APP_ENV=development</p>
+        </div>
+        <div class='meta'>
+            <strong>De:</strong> contato@minhamimo.com.br<br>
+            <strong>Para:</strong> atendimento@minhamimo.com.br<br>
+            <strong>Assunto:</strong> Formulário site - {$assunto}<br>
+            <strong>Data:</strong> " . date('d/m/Y H:i:s') . "<br>
+            <strong>Arquivo:</strong> {$emailFile}
+        </div>
+        <hr>
+        {$mensagemHTML}
+    </div>
+</body>
+</html>";
+            
+            file_put_contents($emailFile, $emailContent);
+            error_log("DEV: Email salvo em: {$emailFile}");
+            
+            // Incrementar rate limit
+            increment_rate_limit();
+            
+        } else {
+            // Produção: enviar email real via SMTP
+            $mail = new PHPMailer(true);
+            $email_error = null;
 
-        $mail = new PHPMailer(true);
+            try {
+                $mail->SMTPDebug = 0;
+                $mail->Debugoutput = function($str, $level) use (&$email_error) {
+                    if ($level > 0) {
+                        error_log("PHPMailer Debug: $str");
+                        $email_error .= $str . "\n";
+                    }
+                };
+                
+                $mail->isSMTP();
+                $mail->Host = 'smtp.mailgun.org';
+                $mail->SMTPAuth = true;
+                $mail->Username = $MailGunUsername;
+                $mail->Password = $MailGunPassword;
+                $mail->SMTPSecure = 'tls';
+                $mail->Port = 587;
+                $mail->Timeout = 10;
 
-        try {
-            $mail->SMTPDebug = 0;
-            $mail->isSMTP();
-            $mail->Host = 'smtp.mailgun.org';
-            $mail->SMTPAuth = true;
-            $mail->Username = $MailGunUsername;
-            $mail->Password = $MailGunPassword;
-            $mail->SMTPSecure = 'tls';
-            $mail->Port = 587;
+                $mail->setFrom('contato@minhamimo.com.br', 'Estética MIMO');
+                $mail->addAddress('atendimento@minhamimo.com.br', 'Atendimento');
+                $mail->addReplyTo($emailremetente ?? 'contato@minhamimo.com.br', $nomeremetente ?? 'Estética MIMO');
 
-            $mail->setFrom('contato@esteticamimo.com.br', 'Estética MIMO');
-            $mail->addAddress('contato@esteticamimo.com.br', 'Contato');
-            $mail->addReplyTo('contato@esteticamimo.com.br', 'Estética MIMO');
+                $mail->isHTML(true);
+                $mail->CharSet = 'UTF-8';
+                $mail->Subject = 'Formulário site - ' . $assunto;
+                $mail->Body = $mensagemHTML;
+                $mail->AltBody = strip_tags($mensagemHTML);
+                
+                $mail->send();
+                
+                // Incrementar rate limit apenas após envio bem-sucedido
+                increment_rate_limit();
 
-            $mail->isHTML(true);
-            $mail->CharSet = 'UTF-8';
-            $mail->Subject = 'Formulário site - ' . $assunto;
-            $mail->Body = $mensagemHTML;
-            $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-            $mail->send();
-
-        } catch (Exception $e) {
-            echo 'Sua mensagem não pode ser enviada. Erro: ', $mail->ErrorInfo;
-
-            $is_mail_sent = false;
+            } catch (Exception $e) {
+                // Log do erro detalhado
+                $error_message = 'Email send failed: ' . $mail->ErrorInfo;
+                if ($e->getMessage()) {
+                    $error_message .= ' | Exception: ' . $e->getMessage();
+                }
+                error_log($error_message);
+                
+                $is_mail_sent = false;
+            }
         }
     }
 }
@@ -60,14 +222,37 @@ if ($_POST) {
 <html lang="pt-br">
 
 <head>
+    <meta name="generator" content="Mimo Site v<?php echo APP_VERSION; ?>">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Oferecendo o que há de melhor no mundo da Estética com preços acessíveis.
-    Você merece esse mimo.">
-    <meta name="author" content="Michelle Fernandes">
+    <meta name="author" content="Victor Penter">
+    
+    <?php
+    // SEO Meta Tags
+    $pageTitle = 'MIMO Estética - Centro de Beleza em São Paulo | Estética, Salão, Cílios e Design';
+    $pageDescription = 'Centro de beleza e estética em São Paulo oferecendo serviços de qualidade: estética facial, estética corporal, salão, esmalteria, micropigmentação e cílios. Preços acessíveis. Você merece esse mimo!';
+    $pageKeywords = 'estética são paulo, centro de beleza vila madalena, salão de beleza, estética facial, estética corporal, esmalteria, micropigmentação, cílios e design, alongamento de unhas, design de sobrancelha';
+    
+    echo generate_seo_meta_tags($pageTitle, $pageDescription, $pageKeywords);
+    echo generate_canonical_url();
+    echo generate_open_graph_tags($pageTitle, $pageDescription, 'img/bgheader.jpg');
+    echo generate_twitter_cards($pageTitle, $pageDescription, 'img/bgheader.jpg');
+    ?>
 
-    <title>MINHA MIMO</title>
+    <!-- Resource Hints for Performance -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="dns-prefetch" href="https://stackpath.bootstrapcdn.com">
+    <link rel="dns-prefetch" href="https://use.fontawesome.com">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="img/bgheader.jpg" as="image">
+    <link rel="preload" href="product.css?<?php echo defined('ASSET_VERSION') ? ASSET_VERSION : '20211226'; ?>" as="style">
 
+    <!-- Critical CSS (Above the fold) -->
+    <?php include 'inc/critical-css.php'; ?>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400" rel="stylesheet">
@@ -81,11 +266,11 @@ if ($_POST) {
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="product.css?20211226" rel="stylesheet">
+    <?php echo css_tag('product.css'); ?>
 
     <!-- Form -->
     <link rel="stylesheet" type="text/css" href="form/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="form/main.css">
+    <?php echo css_tag('form/main.css', ['id' => 'form-css']); ?>
 
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png?20211226">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png?20211226">
@@ -175,7 +360,7 @@ if ($_POST) {
         <!--<div class=" container mt-3" >&nbsp;</div>-->
         <div class="container row mx-auto" style="display: flex; flex-wrap: wrap;">
             <div class="col-md-5 mx-auto mt-lg-5 overflow-hidden" id="florzinha">
-                <img src="img/mimo5.png" class="img-fluid" alt="foto-flores">
+                <?php echo picture_webp('img/mimo5.png', 'foto-flores', 'img-fluid'); ?>
             </div>
             <div class="col-md-7 mx-auto my-5 overflow-hidden">
                 <h1 class="display-4 font-weight-normal text-align-right text-uppercase"
@@ -214,13 +399,13 @@ if ($_POST) {
             <div class="row col-xs-12" style="display: inline-flex; margin-top:30px">
                 <a href="esteticafacial/">
                     <div class="col-xs-6" style="margin-right: 50px;">
-                        <img class="img-cat" src="img/categoria_facial.png" alt="ESTÉTICA FACIAL" />
+                        <?php echo picture_webp('img/categoria_facial.png', 'ESTÉTICA FACIAL', 'img-cat'); ?>
                         <p class="textPink" style="margin-top: 15px;">ESTÉTICA <br /> FACIAL</p>
                     </div>
                 </a>
                 <a href="estetica/">
                     <div class="col-xs-6">
-                        <img class="img-cat" src="img/menu_estetica_corporal.png" alt="ESTÉTICA CORPORAL" />
+                        <?php echo picture_webp('img/menu_estetica_corporal.png', 'ESTÉTICA CORPORAL', 'img-cat'); ?>
                         <p class="textPink" style="margin-top: 15px;">ESTÉTICA</p>
                     </div>
                 </a>
@@ -228,28 +413,37 @@ if ($_POST) {
             <div class="row col-xs-12" style="display: inline-flex; margin-top:30px">
                 <a href="esmalteria/">
                     <div class="col-xs-6" style="margin-right: 50px;">
-                        <img class="img-cat" src="img/MENU-ESMALTERIA.png" alt="ESMALTERIA" />
+                        <?php echo picture_webp('img/MENU-ESMALTERIA.png', 'ESMALTERIA', 'img-cat'); ?>
                         <p class="textPink" style="margin-top: 15px;">ESMALTERIA</p>
                     </div>
                 </a>
                 <a href="salao/">
                     <div class="col-xs-6">
-                        <img class="img-cat" src="img/menu_salao.png" alt="SALÃO" />
+                        <?php echo picture_webp('img/menu_salao.png', 'SALÃO', 'img-cat'); ?>
                         <p class="textPink" style="margin-top: 15px;">SALÃO</p>
                     </div>
                 </a>
             </div>
             <div class="row col-xs-12" style="display: inline-flex; margin-top:30px">
+                <a href="vagas.php">
+                    <div class="col-xs-6" style="margin-right: 50px;">
+                        <div style="background: linear-gradient(135deg, rgba(204, 183, 188, 0.8), rgba(58, 80, 90, 0.8)); border-radius: 15px; padding: 40px; text-align: center; height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                            <i class="fas fa-briefcase" style="font-size: 3rem; color: white; margin-bottom: 15px;"></i>
+                            <p class="text-white" style="font-size: 1.2rem; font-weight: 600; margin: 0;">VAGAS</p>
+                            <p class="text-white" style="font-size: 0.9rem; margin-top: 5px; opacity: 0.9;">Trabalhe Conosco</p>
+                        </div>
+                    </div>
+                </a>
                 <a href="micropigmentacao/">
                     <div class="col-xs-6"
                         style="margin-right: 50px;width: 100px;height: 100px;overflow: hidden;border-radius: 50%;">
-                        <img class="img-cat" src="img/micro.png" alt="MICROPIGMENTAÇÃO" />
+                        <?php echo picture_webp('img/micro.png', 'MICROPIGMENTAÇÃO', 'img-cat'); ?>
                     </div>
                     <p class="textPink" style="margin-top: 15px; font-size:10px;width: 100px">MICROPIGMENTAÇÃO</p>
                 </a>
                 <a href="cilios/">
                     <div class="col-xs-6">
-                        <img class="img-cat" src="img/categoria_cilios.png" alt="CÍLIOS E DESIGN" />
+                        <?php echo picture_webp('img/categoria_cilios.png', 'CÍLIOS E DESIGN', 'img-cat'); ?>
                         <p class="textPink" style="margin-top: 15px;">CÍLIOS E <br />DESIGN</p>
                     </div>
                 </a>
@@ -261,7 +455,7 @@ if ($_POST) {
             <div class="sessoes container">
                 <div class="content">
                     <div class="content-overlay"></div>
-                    <img class="content-image" src="img/esmalteria.png" alt="ESMALTERIA" style="min-width: 500px;">
+                    <?php echo picture_webp('img/esmalteria.png', 'ESMALTERIA', 'content-image', ['style' => 'min-width: 500px;']); ?>
                     <div class="content-details fadeIn-top">
                         <h3>ESMALTERIA</h3>
                         <a class="btn btnSeeMore" href="esmalteria/">PROCEDIMENTOS</a>
@@ -272,7 +466,7 @@ if ($_POST) {
             <div class="sessoes container">
                 <div class="content">
                     <div class="content-overlay"></div>
-                    <img class="content-image" src="img/corporal.png" alt="ESTÉTICA" style="min-width: 500px;">
+                    <?php echo picture_webp('img/corporal.png', 'ESTÉTICA', 'content-image', ['style' => 'min-width: 500px;']); ?>
                     <div class="content-details fadeIn-top">
                         <h3>ESTÉTICA</h3>
                         <a class="btn btnSeeMore" href="estetica/">PROCEDIMENTOS</a>
@@ -283,7 +477,7 @@ if ($_POST) {
             <div class="sessoes container">
                 <div class="content">
                     <div class="content-overlay"></div>
-                    <img class="content-image" src="img/salao.png" style="min-width:600px;" alt="SALÃO">
+                    <?php echo picture_webp('img/salao.png', 'SALÃO', 'content-image', ['style' => 'min-width:600px;']); ?>
                     <div class="content-details fadeIn-top">
                         <h3>SALÃO</h3>
                         <a class="btn btnSeeMore" href="salao/">PROCEDIMENTOS</a>
@@ -294,7 +488,7 @@ if ($_POST) {
             <div class="sessoes container">
                 <div class="content">
                     <div class="content-overlay"></div>
-                    <img class="content-image" src="img/facial.png" alt="ESTÉTICA FACIAL" style="min-width: 500px;">
+                    <?php echo picture_webp('img/facial.png', 'ESTÉTICA FACIAL', 'content-image', ['style' => 'min-width: 500px;']); ?>
                     <div class="content-details fadeIn-top">
                         <h3>ESTÉTICA FACIAL</h3>
                         <a class="btn btnSeeMore" href="esteticafacial/">PROCEDIMENTOS</a>
@@ -305,7 +499,7 @@ if ($_POST) {
             <div class="sessoes container">
                 <div class="content">
                     <div class="content-overlay"></div>
-                    <img class="content-image" src="img/cilios.png" alt="CÍLIOS E DESIGN" style="min-width: 500px;">
+                    <?php echo picture_webp('img/cilios.png', 'CÍLIOS E DESIGN', 'content-image', ['style' => 'min-width: 500px;']); ?>
                     <div class="content-details fadeIn-top">
                         <h3>CÍLIOS E DESIGN</h3>
                         <a class="btn btnSeeMore" href="cilios/">PROCEDIMENTOS</a>
@@ -316,7 +510,7 @@ if ($_POST) {
             <div class="sessoes container">
                 <div class="content">
                     <div class="content-overlay"></div>
-                    <img class="content-image" src="img/micro.png" style="min-width:600px;" alt="MICROPIGMENTAÇÃO">
+                    <?php echo picture_webp('img/micro.png', 'MICROPIGMENTAÇÃO', 'content-image', ['style' => 'min-width:600px;']); ?>
                     <div class="content-details fadeIn-top">
                         <h3>MICROPIGMENTAÇÃO </h3>
                         <a class="btn btnSeeMore" href="micropigmentacao/">PROCEDIMENTOS</a>
@@ -343,13 +537,11 @@ if ($_POST) {
                                 <li data-target="#myCarousel" data-slide-to="3"></li>
                                 <li data-target="#myCarousel" data-slide-to="4"></li>
                                 <li data-target="#myCarousel" data-slide-to="5"></li>
-                                <li data-target="#myCarousel" data-slide-to="6"></li>
                             </ol>
                             <!-- Wrapper for carousel items -->
                             <div class="carousel-inner">
                                 <div class="item carousel-item active">
-                                    <div class="img-box"><img src="img/depo/pdamora.png" class="img-fluid"
-                                            alt="foto-pdamora"></div>
+                                    <div class="img-box"><?php echo picture_webp('img/depo/pdamora.png', 'foto-pdamora', 'img-fluid'); ?></div>
                                     <h5 class="font-weight-bold textDarkGrey mt-4">@pdamora</h5>
                                     <p class="testimonial">
                                         No meu caso eu só compartilho o que faz bem para mim. Com a Mimo não é
@@ -361,8 +553,7 @@ if ($_POST) {
                                     </p>
                                 </div>
                                 <div class="item carousel-item">
-                                    <div class="img-box"><img src="img/depo/barbara.jpeg" class="img-fluid"
-                                            alt="foto-barbara"></div>
+                                    <div class="img-box"><?php echo picture_webp('img/depo/barbara.jpeg', 'foto-barbara', 'img-fluid'); ?></div>
                                     <h5 class="font-weight-bold textDarkGrey mt-4">@babiputtini</h5>
                                     <p class="testimonial">
                                         Desde que me mudei pra SP, há 7 anos atrás, eu perdi a rotina que eu tinha de ir
@@ -382,8 +573,7 @@ if ($_POST) {
                                             </p>
                                 </div>
                                 <div class="item carousel-item">
-                                    <div class="img-box"><img src="img/depo/amanda.jpeg" class="img-fluid"
-                                            alt="foto-amanda"></div>
+                                    <div class="img-box"><?php echo picture_webp('img/depo/amanda.jpeg', 'foto-amanda', 'img-fluid'); ?></div>
                                     <h5 class="font-weight-bold textDarkGrey mt-4">@amandices</h5>
                                     <p class="testimonial">
                                         Eu simplesmente amo a Mimo. Frequento há mais de 2 anos e já fiz quase tudo que
@@ -396,22 +586,7 @@ if ($_POST) {
                                     </p>
                                 </div>
                                 <div class="item carousel-item">
-                                    <div class="img-box"><img src="img/depo/showliana.jpeg" class="img-fluid"
-                                            alt="foto-showliana"></div>
-                                    <h5 class="font-weight-bold textDarkGrey mt-4">@showliana</h5>
-                                    <h4 class="font-weight-light textDarkGrey text-uppercase">SUPER RECOMENDO!</h4>
-                                    <p class="testimonial">
-                                        Sempre me considerei uma pessoa vaidosa mas nunca fui muito antenada nas
-                                        novidades em tratamentos estéticos, até que conheci a Mimo.
-                                        A proposta de trazer esses procedimentos a valores acessíveis é incrível, e toda
-                                        vez que saio de lá, sinto como se tivesse renovado as energias, porque separar
-                                        um tempinho pra cuidar de mim mesma é maravilhoso e os profissionais da Mimo são
-                                        todos uns amores, dá vontade de ficar lá pra sempre.
-                                    </p>
-                                </div>
-                                <div class="item carousel-item">
-                                    <div class="img-box"><img src="img/depo/mamoderoso.jpeg" class="img-fluid"
-                                            alt="foto-mamoderoso"></div>
+                                    <div class="img-box"><?php echo picture_webp('img/depo/mamoderoso.jpeg', 'foto-mamoderoso', 'img-fluid'); ?></div>
                                     <h5 class="font-weight-bold textDarkGrey mt-4">@mamoderoso</h5>
                                     <h4 class="font-weight-light textDarkGrey text-uppercase">Assim que cheguei na Mimo,
                                         nunca mais saí!</h4>
@@ -428,8 +603,7 @@ if ($_POST) {
                                     </p>
                                 </div>
                                 <div class="item carousel-item">
-                                    <div class="img-box"><img src="img/depo/livcordeiro.jpeg" class="img-fluid"
-                                            alt="foto-livcordeiro"></div>
+                                    <div class="img-box"><?php echo picture_webp('img/depo/livcordeiro.jpeg', 'foto-livcordeiro', 'img-fluid'); ?></div>
                                     <h5 class="font-weight-bold textDarkGrey mt-4">@livcordeiro</h5>
                                     <h4 class="font-weight-light textDarkGrey text-uppercase">Saio de lá me sentindo bem
                                         comigo mesma e com as energias renovadas!</h4>
@@ -441,8 +615,7 @@ if ($_POST) {
                                     </p>
                                 </div>
                                 <div class="item carousel-item">
-                                    <div class="img-box"><img src="img/depo/cathamendonca.jpeg" class="img-fluid"
-                                            alt="foto-cathamendonca"></div>
+                                    <div class="img-box"><?php echo picture_webp('img/depo/cathamendonca.jpeg', 'foto-cathamendonca', 'img-fluid'); ?></div>
                                     <h5 class="font-weight-bold textDarkGrey mt-4">@cathamendonca</h5>
                                     <h4 class="font-weight-light textDarkGrey text-uppercase">indico pra todo mundo ❤
                                     </h4>
@@ -472,87 +645,6 @@ if ($_POST) {
         </div>
     </div>
 
-    <!--<div id="promo">-->
-    <!--<div id="carouselExampleIndicators3" class="carousel slide d-none d-sm-block" data-ride="carousel" style="height: 100%;-->
-    <!--    overflow: hidden; margin: 0; padding: 0;">-->
-    <!--    <div class="carousel-inner">-->
-    <!--        <div class="carousel-item active">-->
-    <!--            <div class="d-block w-100">-->
-    <!--                <img src="img/promocional/jan/ferias.png" style="width: 100%" alt="fotos-promoção-do-mês">-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--        <div class="carousel-item">-->
-    <!--            <div class="d-block w-100">-->
-    <!--                <img src="img/promocional/jan/promosdomes_cronogramacapilar.png" style="width: 100%" alt="fotos-promoção-do-mês">-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--        <div class="carousel-item">-->
-    <!--            <div class="d-block w-100">-->
-    <!--                <img src="img/promocional/jan/promosdomes_cilios.png" style="width: 100%" alt="fotos-promoção-do-mês">-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--        <div class="carousel-item">-->
-    <!--            <div class="d-block w-100">-->
-    <!--                <img src="img/promocional/jan/promosdomes_esmalteria.png" style="width: 100%" alt="fotos-promoção-do-mês">-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--        <div class="carousel-item">-->
-    <!--            <div class="d-block w-100">-->
-    <!--                <img src="img/promocional/jan/promosdomes_estetica.png" style="width: 100%" alt="fotos-promoção-do-mês">-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
-    <!--    <a class="carousel-control-prev" href="#carouselExampleIndicators3" role="button" data-slide="prev">-->
-    <!--        <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
-    <!--        <span class="sr-only">Previous</span>-->
-    <!--    </a>-->
-    <!--    <a class="carousel-control-next" href="#carouselExampleIndicators3" role="button" data-slide="next">-->
-    <!--        <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
-    <!--        <span class="sr-only">Next</span>-->
-    <!--    </a>-->
-    <!--</div>-->
-    <!---->
-    <!-- Carousel Mobile -->
-    <!--<div id="carouselExampleIndicators2" class="carousel slide d-block d-sm-none" data-ride="carousel" style="height: 100%;-->
-    <!--    overflow: hidden; margin: 0; padding: 0;">-->
-    <!--    <div class="carousel-inner">-->
-    <!--        <div class="carousel-item active">-->
-    <!--            <div class="d-block w-100">-->
-    <!--                <img src="img/mobile_promocional/jan/promo_janeiro_ferias1.png" style="width: 100%" alt="fotos-promoção-do-mês">-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--        <div class="carousel-item">-->
-    <!--            <div class="d-block w-100">-->
-    <!--                <img src="img/mobile_promocional/jan/promo_janeiro_cronograma-capilar.png" style="width: 100%" alt="fotos-promoção-do-mês">-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--        <div class="carousel-item">-->
-    <!--            <div class="d-block w-100">-->
-    <!--                <img src="img/mobile_promocional/jan/promo_janeiro_cilios.png" style="width: 100%" alt="fotos-promoção-do-mês">-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--        <div class="carousel-item">-->
-    <!--            <div class="d-block w-100">-->
-    <!--                <img src="img/mobile_promocional/jan/promo_janeiro_esmalteria.png" style="width: 100%" alt="fotos-promoção-do-mês">-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--        <div class="carousel-item">-->
-    <!--            <div class="d-block w-100">-->
-    <!--                <img src="img/mobile_promocional/jan/promo_janeiro_estetica.png" style="width: 100%" alt="fotos-promoção-do-mês">-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
-    <!--    <a class="carousel-control-prev" href="#carouselExampleIndicators2" role="button" data-slide="prev">-->
-    <!--        <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
-    <!--        <span class="sr-only">Previous</span>-->
-    <!--    </a>-->
-    <!--    <a class="carousel-control-next" href="#carouselExampleIndicators2" role="button" data-slide="next">-->
-    <!--        <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
-    <!--        <span class="sr-only">Next</span>-->
-    <!--    </a>-->
-    <!--</div>-->
-    <!--</div>-->
-
     <div class="layerCor" id="contact">
         <div class="backgroundLogo py-md-5">
             <div class="d-md-flex flex-md-equal row py-md-5" style="margin-right:0!important; overflow-x: hidden">
@@ -580,46 +672,73 @@ if ($_POST) {
                         <div class="container-contact100">
 
                             <div class="wrap-contact100">
-                                <form class="contact100-form validate-form" id="form-mobile"
-                                    enctype="multipart/form-data" action="index.php#contact" method="POST">
+                                <form class="contact100-form validate-form" id="form-mobile" 
+                                    enctype="multipart/form-data" action="#contact" method="POST" data-ajax-form="true">
                                     <h5 class="font-weight-light text-align-left">DÚVIDAS OU SUGESTÕES?</h5>
                                     <h4 class="font-weight-bold text-align-left mb-4" style="letter-spacing: 2px;">ENTRE
                                         EM CONTATO</h4>
 
                                     <?php if (isset($is_mail_sent) && $is_mail_sent) { ?>
                                         <div class="alert alert-success" role="alert">
-                                            Sua mensagem foi enviada com sucesso!
+                                            <strong>Sucesso!</strong> Sua mensagem foi enviada com sucesso!
+                                            <?php if (defined('APP_ENV') && APP_ENV === 'development'): ?>
+                                                <br><small>⚠️ Modo desenvolvimento: Email salvo em arquivo (não enviado via SMTP)</small>
+                                            <?php endif; ?>
                                         </div>
-                                    <?php } else if (isset($is_mail_sent)) { ?>
-                                            <div class="alert alert-warning" role="alert">
-                                                Desculpe, sua mensagem não pode ser enviada. <br>Tente novamente mais tarde.
-                                            </div>
+                                    <?php } else if (isset($form_errors) && !empty($form_errors)) { ?>
+                                        <div class="alert alert-danger" role="alert">
+                                            <strong>Erro:</strong>
+                                            <ul class="mb-0 mt-2">
+                                                <?php foreach ($form_errors as $error): ?>
+                                                    <li><?php echo htmlspecialchars($error); ?></li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        </div>
+                                    <?php } else if (isset($is_mail_sent) && !$is_mail_sent) { ?>
+                                        <div class="alert alert-warning" role="alert">
+                                            <strong>Erro ao enviar:</strong> Desculpe, sua mensagem não pode ser enviada no momento.
+                                            <?php if (defined('APP_ENV') && APP_ENV === 'development' && !empty($form_errors)): ?>
+                                                <br><small>Detalhes: <?php echo htmlspecialchars(implode(', ', $form_errors)); ?></small>
+                                            <?php else: ?>
+                                                <br>Tente novamente mais tarde ou entre em contato pelo WhatsApp.
+                                            <?php endif; ?>
+                                        </div>
                                     <?php } ?>
 
                                     <div class="wrap-input100 validate-input" data-validate="Insira seu nome completo">
-                                        <input class="input100" type="text" name="name" placeholder="Nome completo">
+                                        <input class="input100" type="text" name="name" placeholder="Nome completo" 
+                                            value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name'], ENT_QUOTES, 'UTF-8') : ''; ?>" 
+                                            required minlength="2" maxlength="100">
                                     </div>
 
                                     <div class="wrap-input100 validate-input"
                                         data-validate="Insira um e-mail válido, ex: nome@algo.com.br">
-                                        <input class="input100" type="text" name="email" placeholder="E-mail">
+                                        <input class="input100" type="email" name="email" placeholder="E-mail" 
+                                            value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8') : ''; ?>" 
+                                            required>
                                     </div>
 
                                     <div class="" data-validate="Selecione o assunto">
                                         <select class="wrap-input100 validate-input assunto-form"
-                                            id="exampleFormControlSelect1" name="subject">
-                                            <option disabled>Selecione o assunto</option>
-                                            <option>Dúvidas</option>
-                                            <option>Agradecimentos/Depoimentos</option>
-                                            <option>Outro</option>
+                                            id="exampleFormControlSelect1" name="subject" required>
+                                            <option value="" disabled <?php echo !isset($_POST['subject']) ? 'selected' : ''; ?>>Selecione o assunto</option>
+                                            <option value="Dúvidas" <?php echo (isset($_POST['subject']) && $_POST['subject'] === 'Dúvidas') ? 'selected' : ''; ?>>Dúvidas</option>
+                                            <option value="Agradecimentos/Depoimentos" <?php echo (isset($_POST['subject']) && $_POST['subject'] === 'Agradecimentos/Depoimentos') ? 'selected' : ''; ?>>Agradecimentos/Depoimentos</option>
+                                            <option value="Outro" <?php echo (isset($_POST['subject']) && $_POST['subject'] === 'Outro') ? 'selected' : ''; ?>>Outro</option>
                                         </select>
                                     </div>
 
 
                                     <div class="wrap-input100 validate-input"
-                                        data-validate="Por favor, digite uma mensagem aqui.">
-                                        <textarea class="input100" name="message"
-                                            placeholder="Sua mensagem aqui"></textarea>
+                                        data-validate="Por favor, digite uma mensagem aqui (mínimo 10 caracteres).">
+                                        <textarea class="input100" name="message" placeholder="Sua mensagem aqui (mínimo 10 caracteres)" 
+                                            required minlength="10" maxlength="2000"><?php echo isset($_POST['message']) ? htmlspecialchars($_POST['message'], ENT_QUOTES, 'UTF-8') : ''; ?></textarea>
+                                        <span id="message-counter" class="message-counter">0 / 2000</span>
+                                    </div>
+
+                                    <!-- Honeypot field (escondido, bots preenchem) -->
+                                    <div style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" aria-hidden="true">
+                                        <input type="text" name="website" tabindex="-1" autocomplete="off">
                                     </div>
 
                                     <div class="container-contact100-form-btn" style="justify-content: flex-end;">
@@ -667,6 +786,60 @@ if ($_POST) {
         </div>
     </footer>
 
+    <?php
+    // Schema.org Structured Data - LocalBusiness
+    echo generate_local_business_schema([
+        'geo' => [
+            'latitude' => '-23.5505',
+            'longitude' => '-46.6333'
+        ]
+    ]);
+    
+    // Google Reviews Schema
+    // Opção 1: Se tiver API key configurada, usa reviews do Google
+    if (defined('GOOGLE_PLACES_API_KEY') && !empty(GOOGLE_PLACES_API_KEY) && 
+        defined('GOOGLE_PLACE_ID') && !empty(GOOGLE_PLACE_ID)) {
+        $reviews = get_google_reviews(GOOGLE_PLACE_ID, GOOGLE_PLACES_API_KEY, 4, 10);
+        
+        if ($reviews && !empty($reviews)) {
+            // Calcular rating médio
+            $totalRating = 0;
+            foreach ($reviews as $review) {
+                $totalRating += $review['rating'];
+            }
+            $avgRating = $totalRating / count($reviews);
+            
+            // AggregateRating Schema
+            echo generate_aggregate_rating_schema($avgRating, count($reviews));
+            
+            // Individual Review Schemas (primeiros 3)
+            foreach (array_slice($reviews, 0, 3) as $review) {
+                echo generate_review_schema($review, 'MIMO Estética');
+            }
+        }
+    } else {
+        // Opção 2: Usa reviews manuais (grátis, sem API)
+        $reviews = get_manual_reviews(4, 10);
+        
+        if (!empty($reviews)) {
+            // Calcular rating médio
+            $totalRating = 0;
+            foreach ($reviews as $review) {
+                $totalRating += $review['rating'];
+            }
+            $avgRating = $totalRating / count($reviews);
+            
+            // AggregateRating Schema
+            echo generate_manual_aggregate_rating_schema($avgRating, count($reviews));
+            
+            // Individual Review Schemas (primeiros 3)
+            foreach (array_slice($reviews, 0, 3) as $review) {
+                echo generate_manual_review_schema($review, 'MIMO Estética');
+            }
+        }
+    }
+    ?>
+
 
     <!-- Bootstrap core JavaScript
 ================================================== -->
@@ -677,8 +850,8 @@ if ($_POST) {
     <script>window.jQuery || document.write('<script src="bootstrap/jquery/dist/jquery.slim.min.js"><\/script>')</script>
     <script src="bootstrap/popper.js/dist/popper.min.js"></script>
     <script src="bootstrap/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="form/main.js"></script>
-    <script src="main.js"></script>
+    <?php echo js_tag('form/main.js'); ?>
+    <?php echo js_tag('main.js'); ?>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.18/jquery.touchSwipe.min.js"></script>
 
     <script>
@@ -710,6 +883,9 @@ if ($_POST) {
     <!-- End Piwik Code -->
 
     <script src="//code.tidio.co/ylbfxpiqcmi2on8duid7rpjgqydlrqne.js"></script>
+
+    <!-- Botão Voltar ao Topo -->
+    <?php include 'inc/back-to-top.php'; ?>
 
 </body>
 

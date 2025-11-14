@@ -1,0 +1,68 @@
+name: Deploy to Locaweb
+
+on:
+  push:
+    branches: [ "main", "master" ]  # Deploy quando push em main ou master
+  workflow_dispatch:  # Permite deploy manual via GitHub UI
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js (for build scripts)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Run CSS minification
+        working-directory: Site Mimo/public_html
+        run: |
+          chmod +x build/minify-css.sh
+          ./build/minify-css.sh
+      
+      - name: Run JS minification
+        working-directory: Site Mimo/public_html
+        run: |
+          chmod +x build/minify-js.sh
+          ./build/minify-js.sh
+      
+      - name: Deploy to Locaweb via SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.3.1
+        with:
+          server: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USER }}
+          password: ${{ secrets.SFTP_PASSWORD }}
+          port: ${{ secrets.SFTP_PORT || 22 }}
+          local_path: "./Site Mimo/public_html"
+          remote_path: "/public_html"
+          args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+          exclude: |
+            **/.git*
+            **/.env*
+            **/node_modules/**
+            **/vendor/**
+            **/wp-*/
+            **/x6f7689/**
+            **/cache/**
+            **/img_backup_*/
+            **/*.md
+            **/.DS_Store
+            **/Thumbs.db
+            **/build/**
+            **/README*
+            **/CHANGELOG*
+            **/VERSIONING*
+            **/IMPROVEMENTS*
+            **/SEO-OPTIMIZATION*
+            **/STRUCTURE-ANALYSIS*
+            **/AI-DEVELOPMENT-GUIDE*
+            **/GOOGLE-*
+            **/LICENSE*
+            **/license.txt
+            **/readme.html
+

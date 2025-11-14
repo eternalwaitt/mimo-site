@@ -1,4 +1,11 @@
 <?php
+/**
+ * Cabeçalho das Páginas Internas (Serviços)
+ * Navegação para páginas de serviços
+ * 
+ * Desenvolvido por: Victor Penter
+ */
+
 /*if($_GET['teste']) {
 
 } else {
@@ -22,15 +29,15 @@
 ?>
 <nav class="navbar navbar-expand-sm fixed-top navbar-light">
     <div class="container">
-        <a class="navbar-brand" href="http://minhamimo.com.br"><img class="logonav"
-                src="http://minhamimo.com.br/img/logobranco1.png" alt="logo-mimo" /></a>
+        <a class="navbar-brand" href="../"><img class="logonav"
+                src="../img/logobranco1.png" alt="logo-mimo" /></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar2">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbar2">
             <ul class="navbar-nav ml-auto  ">
                 <li class="nav-item active">
-                    <a class="nav-link" href="http://minhamimo.com.br">HOME</a>
+                    <a class="nav-link" href="../">HOME</a>
                 </li>
                 <li class="nav-item ml-md-2">
                     <a class="nav-link" href="../#about">SOBRE</a>
