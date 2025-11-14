@@ -6,13 +6,13 @@ Este guia explica como configurar o deploy automático via GitHub Actions para o
 
 - Repositório no GitHub
 - Acesso ao painel da Locaweb
-- Credenciais SFTP da Locaweb
+- Credenciais FTP/FTPS da Locaweb
 
 ## 🚀 Passo 1: Criar o Workflow
 
 O arquivo `.github/workflows/deploy.yml` já foi criado. Ele faz:
 - Minificação automática de CSS/JS antes do deploy
-- Upload via SFTP para o servidor
+- Upload via FTPS (porta 21) para o servidor
 - Exclusão de arquivos desnecessários
 
 ## 🔐 Passo 2: Configurar Secrets no GitHub
@@ -87,17 +87,19 @@ Após o deploy:
 ## 🐛 Troubleshooting
 
 ### Erro: "Connection refused"
-- Verifique se `SFTP_PORT` está correto
-- Confirme que o servidor permite conexões SFTP
-- Tente porta 2222 se 22 não funcionar
+- Verifique se a porta está correta (21 para FTPS)
+- Confirme que o servidor permite conexões FTPS
+- Verifique se o firewall não está bloqueando a conexão
 
 ### Erro: "Authentication failed"
-- Verifique se `SFTP_USER` e `SFTP_PASSWORD` estão corretos
-- Confirme que as credenciais são de SFTP, não FTP
+- Verifique se `FTP_USER` e `FTP_PASSWORD` estão corretos nos secrets
+- Confirme que as credenciais são de FTP/FTPS
+- Verifique se o usuário tem permissão de acesso ao diretório remoto
 
 ### Erro: "Permission denied"
-- Verifique se o usuário SFTP tem permissão de escrita
-- Confirme que o caminho `remote_path` está correto
+- Verifique se o usuário FTP tem permissão de escrita no diretório remoto
+- Confirme que o caminho `server-dir` está correto (`./public_html/`)
+- Verifique as permissões do diretório no servidor
 
 ### Build falha
 - Verifique os logs do GitHub Actions
@@ -119,7 +121,7 @@ Minifica CSS (build/minify-css.sh)
     ↓
 Minifica JS (build/minify-js.sh)
     ↓
-Deploy via SFTP
+Deploy via FTPS (porta 21)
     ↓
 Site atualizado! 🎉
 ```
@@ -144,6 +146,15 @@ Site atualizado! 🎉
 ## 📚 Referências
 
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
-- [SFTP Deploy Action](https://github.com/wlixcc/SFTP-Deploy-Action)
-- [Locaweb FTP/SFTP Guide](https://www.locaweb.com.br/suporte/)
+- [FTP-Deploy-Action](https://github.com/SamKirkland/FTP-Deploy-Action) (SamKirkland)
+- [Locaweb FTP/FTPS Guide](https://www.locaweb.com.br/suporte/)
+
+## ⚙️ Configuração Técnica
+
+### Protocolo e Porta
+- **Protocolo**: FTPS (FTP sobre SSL/TLS)
+- **Porta**: 21 (padrão para FTPS)
+- **Action**: `SamKirkland/FTP-Deploy-Action@4.0.0`
+
+**Nota**: A action `SamKirkland/FTP-Deploy-Action` não suporta SFTP (porta 22), apenas FTP/FTPS. Para hospedagem compartilhada na Locaweb, use FTPS na porta 21.
 
