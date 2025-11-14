@@ -861,8 +861,7 @@ if ($_POST) {
     <?php echo js_tag('form/main.js'); ?>
     <?php echo js_tag('main.js'); ?>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.18/jquery.touchSwipe.min.js"></script>
-
-        
+    <script>
         if ($('.carousel').length) {
             $('.carousel').carousel({ interval: 7000, pause: false });
             $(".carousel").swipe({
