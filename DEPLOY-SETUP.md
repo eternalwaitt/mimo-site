@@ -157,9 +157,11 @@ Site atualizado! 🎉
 ## ⚙️ Configuração Técnica
 
 ### Protocolo e Porta
-- **Protocolo**: FTPS (FTP sobre SSL/TLS)
-- **Porta**: 21 (padrão para FTPS)
+- **Protocolo**: FTP (sem SSL/TLS)
+- **Porta**: 21 (padrão para FTP)
 - **Action**: `SamKirkland/FTP-Deploy-Action@4.0.0`
+- **Pasta raiz**: `/home/esteticamimo/`
+- **Diretório remoto**: `/home/esteticamimo/public_html/`
 
-**Nota**: A action `SamKirkland/FTP-Deploy-Action` não suporta SFTP (porta 22), apenas FTP/FTPS. Para hospedagem compartilhada na Locaweb, use FTPS na porta 21.
+**Nota**: A Locaweb utiliza FTP na porta 21 para publicação de arquivos. O servidor não suporta FTPS (comando AUTH não é reconhecido), então usamos FTP normal.
 
