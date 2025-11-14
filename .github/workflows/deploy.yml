@@ -116,7 +116,7 @@ jobs:
           echo "Password length: $PASS_LEN characters"
           echo "Port: 21"
           echo "Protocol: FTP"
-          echo "Remote path: /home/esteticamimo/public_html/"
+          echo "Remote path: ./public_html/ (relative to FTP root)"
           echo ""
           echo "⚠️  TROUBLESHOOTING:"
           echo "If authentication fails, verify:"
@@ -133,7 +133,7 @@ jobs:
           password: ${{ secrets.SFTP_PASSWORD }}
           port: 21
           local-dir: "./sitemimo/public_html/"
-          server-dir: "/home/esteticamimo/public_html/"
+          server-dir: "./public_html/"
           protocol: ftp
           exclude: |
             **/.git*

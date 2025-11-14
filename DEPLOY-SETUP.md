@@ -187,7 +187,7 @@ Site atualizado! 🎉
 - **Porta**: 21 (padrão para FTP)
 - **Action**: `SamKirkland/FTP-Deploy-Action@4.0.0`
 - **Pasta raiz**: `/home/esteticamimo/`
-- **Diretório remoto**: `/home/esteticamimo/public_html/`
+- **Diretório remoto**: `./public_html/` (relativo à raiz FTP `/home/esteticamimo/`)
 
 **Nota**: A Locaweb utiliza FTP na porta 21 para publicação de arquivos. O servidor não suporta FTPS (comando AUTH não é reconhecido), então usamos FTP normal.
 
