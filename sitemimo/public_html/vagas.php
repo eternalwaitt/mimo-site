@@ -60,167 +60,68 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
     <link rel="stylesheet" href="bootstrap/bootstrap/dist/css/bootstrap.min.css?<?php echo ASSET_VERSION; ?>">
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" type="text/css" href="form/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <?php echo css_tag('product.css'); ?>
+    
+    <!-- Fix para ícones Font Awesome no footer -->
+    <style>
+    /* Garantir que o Font Awesome carregue */
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
+    
+    .site-footer .footer-social-link {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 42px !important;
+        height: 42px !important;
+    }
+    
+    .site-footer .footer-social-link i.fab {
+        font-family: "Font Awesome 6 Brands" !important;
+        font-weight: 400 !important;
+        font-size: 18px !important;
+        display: inline-block !important;
+        line-height: 1 !important;
+        width: auto !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-font-smoothing: antialiased !important;
+        -moz-osx-font-smoothing: grayscale !important;
+    }
+    
+    .site-footer .footer-social-link i.fa-instagram::before {
+        content: "\f16d" !important;
+        font-family: "Font Awesome 6 Brands" !important;
+        font-weight: 400 !important;
+        display: inline-block !important;
+    }
+    
+    .site-footer .footer-social-link i.fa-facebook-f::before {
+        content: "\f39e" !important;
+        font-family: "Font Awesome 6 Brands" !important;
+        font-weight: 400 !important;
+        display: inline-block !important;
+    }
+    
+    .site-footer .footer-social-link i.fa-whatsapp::before {
+        content: "\f232" !important;
+        font-family: "Font Awesome 6 Brands" !important;
+        font-weight: 400 !important;
+        display: inline-block !important;
+    }
+    </style>
 
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png?20211226">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png?20211226">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png?20211226">
     <link rel="manifest" href="favicon/site.webmanifest">
 
-    <style>
-        .vagas-hero {
-            background: linear-gradient(135deg, rgba(204, 183, 188, 0.9), rgba(58, 80, 90, 0.9)), url('/img/bgheader.jpg');
-            background-size: cover;
-            background-position: center;
-            height: 40vh;
-            min-height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-align: center;
-            position: relative;
-        }
-
-        .vagas-hero h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            margin-bottom: 1rem;
-        }
-
-        .vagas-hero p {
-            font-size: 1.2rem;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-        }
-
-        .vaga-card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .vaga-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .vaga-title {
-            color: #3a505a;
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #ccb7bc;
-            padding-bottom: 10px;
-        }
-
-        .vaga-info {
-            margin-bottom: 15px;
-        }
-
-        .vaga-info-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            color: #666;
-        }
-
-        .vaga-info-item i {
-            color: #ccb7bc;
-            margin-right: 10px;
-            width: 20px;
-        }
-
-        .vaga-description {
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .vaga-requirements {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .vaga-requirements h4 {
-            color: #3a505a;
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-        }
-
-        .vaga-requirements ul {
-            margin: 0;
-            padding-left: 20px;
-        }
-
-        .vaga-requirements li {
-            color: #666;
-            margin-bottom: 5px;
-        }
-
-        .btn-candidatar {
-            background: linear-gradient(135deg, #ccb7bc, #b8a3a8);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-candidatar:hover {
-            background: linear-gradient(135deg, #b8a3a8, #ccb7bc);
-            transform: scale(1.05);
-            color: white;
-            text-decoration: none;
-        }
-
-        .no-vagas {
-            text-align: center;
-            padding: 60px 20px;
-            color: #666;
-        }
-
-        .no-vagas i {
-            font-size: 4rem;
-            color: #ccb7bc;
-            margin-bottom: 20px;
-        }
-
-        .no-vagas h3 {
-            color: #3a505a;
-            margin-bottom: 15px;
-        }
-
-        @media (max-width: 768px) {
-            .vagas-hero h1 {
-                font-size: 2rem;
-            }
-
-            .vagas-hero p {
-                font-size: 1rem;
-            }
-
-            .vaga-card {
-                padding: 20px;
-            }
-        }
-    </style>
 
     <?php include 'inc/gtm-head.php'; ?>
 </head>
@@ -230,19 +131,19 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
     <?php include "inc/header.php"; ?>
 
     <!-- Hero Section -->
-    <div class="vagas-hero">
-        <div>
+    <div class="page-hero">
+        <div class="container">
             <h1 class="Akrobat">TRABALHE CONOSCO</h1>
             <p>Faça parte da equipe Mimo</p>
         </div>
     </div>
 
     <!-- Vagas Section -->
-    <section class="py-5" style="background: #f8f9fa;">
+    <section class="page-section">
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <h2 class="text-center mb-5" style="color: #3a505a; font-weight: 700;">
+                    <h2 class="text-center mb-5 textDarkGrey">
                         Vagas Disponíveis
                     </h2>
 
@@ -309,34 +210,34 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
                             echo '<h3 class="vaga-title">' . htmlspecialchars($vaga['titulo']) . '</h3>';
                             
                             echo '<div class="vaga-info">';
-                            echo '<div class="vaga-info-item"><i class="fas fa-clock"></i> <strong>Tipo:</strong> ' . htmlspecialchars($vaga['tipo']) . '</div>';
+                            echo '<div class="vaga-info-item"><i class="fas fa-briefcase"></i> <strong>Tipo:</strong> ' . htmlspecialchars($vaga['tipo']) . '</div>';
                             echo '<div class="vaga-info-item"><i class="fas fa-map-marker-alt"></i> <strong>Localização:</strong> ' . htmlspecialchars($vaga['localizacao']) . '</div>';
-                            echo '<div class="vaga-info-item"><i class="fas fa-dollar-sign"></i> <strong>Salário:</strong> ' . htmlspecialchars($vaga['salario']) . '</div>';
+                            echo '<div class="vaga-info-item"><i class="fas fa-money-bill-wave"></i> <strong>Salário:</strong> ' . htmlspecialchars($vaga['salario']) . '</div>';
                             echo '</div>';
                             
                             // Sobre a Mimo
                             if (!empty($vaga['sobre_mimo'])) {
-                                echo '<div class="vaga-requirements" style="background: #f0f4f8; border-left: 4px solid #ccb7bc;">';
-                                echo '<h4 style="color: #3a505a; margin-bottom: 10px;"><i class="fas fa-building" style="color: #ccb7bc; margin-right: 8px;"></i> Sobre a Mimo</h4>';
-                                echo '<p style="color: #555; margin: 0; line-height: 1.6;">' . htmlspecialchars($vaga['sobre_mimo']) . '</p>';
+                                echo '<div class="vaga-requirements vaga-about-mimo">';
+                                echo '<h4><i class="fas fa-building"></i> Sobre a Mimo</h4>';
+                                echo '<p>' . htmlspecialchars($vaga['sobre_mimo']) . '</p>';
                                 echo '</div>';
                             }
                             
                             // Sobre a Vaga
                             if (!empty($vaga['sobre_vaga'])) {
-                                echo '<div class="vaga-description" style="margin-top: 20px;">';
-                                echo '<h4 style="color: #3a505a; margin-bottom: 15px;"><i class="fas fa-info-circle" style="color: #ccb7bc; margin-right: 8px;"></i> Sobre a Vaga</h4>';
-                                echo '<p style="color: #555; line-height: 1.6;">' . htmlspecialchars($vaga['sobre_vaga']) . '</p>';
+                                echo '<div class="vaga-description">';
+                                echo '<h4><i class="fas fa-info-circle"></i> Sobre a Vaga</h4>';
+                                echo '<p>' . htmlspecialchars($vaga['sobre_vaga']) . '</p>';
                                 echo '</div>';
                             }
                             
                             // Atividades Exercidas
                             if (!empty($vaga['atividades'])) {
-                                echo '<div class="vaga-requirements" style="margin-top: 20px;">';
-                                echo '<h4 style="color: #3a505a; margin-bottom: 15px;"><i class="fas fa-tasks" style="color: #ccb7bc; margin-right: 8px;"></i> Atividades Exercidas</h4>';
-                                echo '<ul style="margin: 0; padding-left: 20px;">';
+                                echo '<div class="vaga-requirements">';
+                                echo '<h4><i class="fas fa-tasks"></i> Atividades Exercidas</h4>';
+                                echo '<ul>';
                                 foreach ($vaga['atividades'] as $atividade) {
-                                    echo '<li style="color: #666; margin-bottom: 10px; line-height: 1.6;">' . htmlspecialchars($atividade) . '</li>';
+                                    echo '<li>' . htmlspecialchars($atividade) . '</li>';
                                 }
                                 echo '</ul>';
                                 echo '</div>';
@@ -344,11 +245,11 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
                             
                             // Experiência e Formação
                             if (!empty($vaga['experiencia'])) {
-                                echo '<div class="vaga-requirements" style="margin-top: 20px; background: #fff3e0;">';
-                                echo '<h4 style="color: #3a505a; margin-bottom: 15px;"><i class="fas fa-graduation-cap" style="color: #ccb7bc; margin-right: 8px;"></i> Experiência e Formação</h4>';
-                                echo '<ul style="margin: 0; padding-left: 20px;">';
+                                echo '<div class="vaga-requirements vaga-experiencia">';
+                                echo '<h4><i class="fas fa-graduation-cap"></i> Experiência e Formação</h4>';
+                                echo '<ul>';
                                 foreach ($vaga['experiencia'] as $exp) {
-                                    echo '<li style="color: #666; margin-bottom: 8px; line-height: 1.6;">' . htmlspecialchars($exp) . '</li>';
+                                    echo '<li>' . htmlspecialchars($exp) . '</li>';
                                 }
                                 echo '</ul>';
                                 echo '</div>';
@@ -356,11 +257,11 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
                             
                             // Competências
                             if (!empty($vaga['competencias'])) {
-                                echo '<div class="vaga-requirements" style="margin-top: 20px; background: #e8f5e9;">';
-                                echo '<h4 style="color: #3a505a; margin-bottom: 15px;"><i class="fas fa-star" style="color: #ccb7bc; margin-right: 8px;"></i> Competências</h4>';
-                                echo '<ul style="margin: 0; padding-left: 20px;">';
+                                echo '<div class="vaga-requirements vaga-competencias">';
+                                echo '<h4><i class="fas fa-star"></i> Competências</h4>';
+                                echo '<ul>';
                                 foreach ($vaga['competencias'] as $competencia) {
-                                    echo '<li style="color: #666; margin-bottom: 8px; line-height: 1.6;">' . htmlspecialchars($competencia) . '</li>';
+                                    echo '<li>' . htmlspecialchars($competencia) . '</li>';
                                 }
                                 echo '</ul>';
                                 echo '</div>';
@@ -368,9 +269,9 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
                             
                             // Nosso Jeito de Trabalhar
                             if (!empty($vaga['nosso_jeito'])) {
-                                echo '<div class="vaga-requirements" style="margin-top: 20px; background: #f3e5f5; border-left: 4px solid #ccb7bc;">';
-                                echo '<h4 style="color: #3a505a; margin-bottom: 15px;"><i class="fas fa-heart" style="color: #ccb7bc; margin-right: 8px;"></i> Nosso Jeito de Trabalhar</h4>';
-                                echo '<p style="color: #555; margin: 0; line-height: 1.6; font-style: italic;">' . htmlspecialchars($vaga['nosso_jeito']) . '</p>';
+                                echo '<div class="vaga-requirements vaga-nosso-jeito">';
+                                echo '<h4><i class="fas fa-heart"></i> Nosso Jeito de Trabalhar</h4>';
+                                echo '<p class="italic">' . htmlspecialchars($vaga['nosso_jeito']) . '</p>';
                                 echo '</div>';
                             }
                             
@@ -386,13 +287,13 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
                     ?>
 
                     <!-- Informações Adicionais -->
-                    <div class="vaga-card" style="background: linear-gradient(135deg, #ccb7bc, #b8a3a8); color: white;">
-                        <h3 style="color: white; border-bottom-color: white;">Como se candidatar</h3>
-                        <p style="color: white; margin-bottom: 15px;">
+                    <div class="vaga-card vaga-candidatar">
+                        <h3>Como se candidatar</h3>
+                        <p>
                             Envie seu currículo para <strong>atendimento@minhamimo.com.br</strong> com o assunto contendo o nome da vaga de interesse.
                         </p>
-                        <p style="color: white; margin-bottom: 0;">
-                            <i class="fas fa-info-circle"></i> <strong>Dica:</strong> Inclua uma carta de apresentação contando por que você gostaria de fazer parte da equipe MIMO!
+                        <p>
+                            <i class="fas fa-info-circle"></i> <strong>Dica:</strong> Inclua uma carta de apresentação contando por que você gostaria de fazer parte da equipe Mimo!
                         </p>
                     </div>
 
@@ -401,15 +302,96 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
         </div>
     </section>
 
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <!-- Links de Navegação -->
+                <div class="col-12 col-md-4 mb-4 mb-md-0">
+                    <h5 class="footer-title">Navegação</h5>
+                    <nav class="footer-nav-vertical">
+                        <a href="/#about" class="footer-link">Sobre</a>
+                        <a href="/#services" class="footer-link">Serviços</a>
+                        <a href="/contato.php" class="footer-link">Contato</a>
+                        <a href="/faq/" class="footer-link">FAQ</a>
+                        <a href="/vagas.php" class="footer-link">Trabalhe Conosco</a>
+                    </nav>
+                </div>
+                
+                <!-- Informações de Contato -->
+                <div class="col-12 col-md-4 mb-4 mb-md-0">
+                    <h5 class="footer-title">Contato</h5>
+                    <div class="footer-contact">
+                        <p class="footer-contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Rua Heitor Penteado, 626<br>Vila Madalena, São Paulo - SP</span>
+                        </p>
+                        <p class="footer-contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span><strong>Telefone:</strong> (11) 3062-8295</span>
+                        </p>
+                        <p class="footer-contact-item">
+                            <i class="fab fa-whatsapp"></i>
+                            <span><strong>WhatsApp:</strong> (11) 99478-1012</span>
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Redes Sociais -->
+                <div class="col-12 col-md-4">
+                    <h5 class="footer-title">Redes Sociais</h5>
+                    <div class="footer-social">
+                        <a href="https://www.instagram.com/minhamimo/" target="_blank" class="footer-social-link" aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.facebook.com/mimocuidadoebeleza/" target="_blank" class="footer-social-link" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        <a href="https://api.whatsapp.com/send?1=pt_BR&phone=5511994781012" target="_blank" class="footer-social-link" aria-label="WhatsApp">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="footer-copyright">
+                        <p>&copy; <?php echo date('Y'); ?> Mimo | 57.659.472/0001-78 | Todos os direitos reservados</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <!-- Scripts -->
-    <script src="bootstrap/jquery/dist/jquery.min.js"></script>
-    <script src="bootstrap/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     <?php echo js_tag('main.js'); ?>
 
     <?php include 'inc/gtm-body.php'; ?>
 
     <!-- Botão Voltar ao Topo -->
     <?php include 'inc/back-to-top.php'; ?>
+
+    <script>
+        // Forçar navbar com fundo desde o início em páginas internas
+        $(document).ready(function() {
+            if ($('.page-hero').length > 0) {
+                $('.navbar').addClass('compressed');
+                $('.navbar-nav').addClass('changecolormenu');
+                $('.navbar-brand').addClass('changecolorlogo');
+            }
+        });
+    </script>
 </body>
 
 </html>

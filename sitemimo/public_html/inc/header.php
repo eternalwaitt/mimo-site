@@ -49,13 +49,10 @@ if($_GET['teste']) {
                     <a class="nav-link scroll" href="#promo">PROMOÇÕES</a>
                 </li> -->
                 <li class="nav-item ml-md-2">
-                    <a class="nav-link scroll" href="#contact">CONTATO</a>
+                    <a class="nav-link" href="contato.php">CONTATO</a>
                 </li>
                 <li class="nav-item ml-md-2">
                     <a class="nav-link" href="faq/">FAQ</a>
-                </li>
-                <li class="nav-item ml-md-2">
-                    <a class="nav-link" href="vagas.php">VAGAS</a>
                 </li>
                 <!-- <li class="nav-item ml-md-3">
                     <a class="btn btn-rosa" data-toggle="modal" data-target="#exampleModalCenterNav" style="letter-spacing: 1.3px; color:white;">AGENDAR</a>

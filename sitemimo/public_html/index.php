@@ -266,9 +266,8 @@ if ($_POST) {
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700i&display=swap" rel="stylesheet">
     <link href="Akrobat-Regular.woff" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
-        integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
     <!-- Bootstrap core CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -276,8 +275,54 @@ if ($_POST) {
     <!-- Custom styles for this template -->
     <?php echo css_tag('product.css'); ?>
 
-    <!-- Form -->
-    <link rel="stylesheet" type="text/css" href="form/css/font-awesome.min.css">
+    <!-- Fix para ícones Font Awesome no footer -->
+    <style>
+    /* Garantir que o Font Awesome carregue */
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
+    
+    .site-footer .footer-social-link {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 42px !important;
+        height: 42px !important;
+    }
+    
+    .site-footer .footer-social-link i.fab {
+        font-family: "Font Awesome 6 Brands" !important;
+        font-weight: 400 !important;
+        font-size: 18px !important;
+        display: inline-block !important;
+        line-height: 1 !important;
+        width: auto !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-font-smoothing: antialiased !important;
+        -moz-osx-font-smoothing: grayscale !important;
+    }
+    
+    .site-footer .footer-social-link i.fa-instagram::before {
+        content: "\f16d" !important;
+        font-family: "Font Awesome 6 Brands" !important;
+        font-weight: 400 !important;
+        display: inline-block !important;
+    }
+    
+    .site-footer .footer-social-link i.fa-facebook-f::before {
+        content: "\f39e" !important;
+        font-family: "Font Awesome 6 Brands" !important;
+        font-weight: 400 !important;
+        display: inline-block !important;
+    }
+    
+    .site-footer .footer-social-link i.fa-whatsapp::before {
+        content: "\f232" !important;
+        font-family: "Font Awesome 6 Brands" !important;
+        font-weight: 400 !important;
+        display: inline-block !important;
+    }
+    </style>
     <?php echo css_tag('form/main.css', ['id' => 'form-css']); ?>
 
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png?20211226">
@@ -463,8 +508,8 @@ if ($_POST) {
 
     </div>
     <!-- Depoimentos -->
-    <div class="position-relative overflow-hidden p-3 text-center backgroundGrey">
-        <div class="col-md-12 p-lg-12 mx-auto my-5">
+    <div class="position-relative overflow-hidden p-3 text-center backgroundGrey" style="margin-bottom: 0; padding-bottom: 0;">
+        <div class="col-md-12 p-lg-12 mx-auto" style="margin-top: 3rem; margin-bottom: 0;">
             <div class="container">
                 <div class="row">
                     <div class="col-md-10 col-center m-auto">
@@ -587,14 +632,14 @@ if ($_POST) {
                         if (!empty($googleReviews)) {
                             $reviewCount = count($googleReviews);
                             ?>
-                            <div id="testimonialsCarousel" class="testimonials-carousel carousel slide" data-ride="carousel" data-interval="7000">
-                                <!-- Carousel indicators -->
+                            <div id="testimonialsCarousel" class="testimonials-carousel carousel slide carousel-fade" data-ride="carousel" data-interval="7000">
+                            <!-- Carousel indicators -->
                                 <ol class="carousel-indicators testimonials-indicators">
                                     <?php for ($i = 0; $i < $reviewCount; $i++): ?>
                                         <li data-target="#testimonialsCarousel" data-slide-to="<?php echo $i; ?>" <?php echo $i === 0 ? 'class="active"' : ''; ?>></li>
                                     <?php endfor; ?>
-                                </ol>
-                                <!-- Wrapper for carousel items -->
+                            </ol>
+                            <!-- Wrapper for carousel items -->
                                 <div class="carousel-inner testimonials-inner">
                                     <?php foreach ($googleReviews as $index => $review): ?>
                                         <div class="carousel-item testimonial-card <?php echo $index === 0 ? 'active' : ''; ?>">
@@ -609,6 +654,9 @@ if ($_POST) {
                                                     echo '<div class="testimonial-avatar testimonial-avatar-placeholder">' . htmlspecialchars($initial) . '</div>';
                                                 }
                                                 ?>
+                                                <div class="testimonial-author">
+                                                    <strong><?php echo htmlspecialchars($review['author']); ?></strong>
+                                </div>
                                                 <div class="testimonial-rating">
                                                     <?php if (isset($review['rating'])): ?>
                                                         <?php for ($i = 1; $i <= 5; $i++): ?>
@@ -619,18 +667,15 @@ if ($_POST) {
                                                             <?php endif; ?>
                                                         <?php endfor; ?>
                                                     <?php endif; ?>
-                                                </div>
+                                </div>
                                                 <blockquote class="testimonial-text">
                                                     <?php echo nl2br(htmlspecialchars($review['text'])); ?>
                                                 </blockquote>
-                                                <div class="testimonial-author">
-                                                    <strong><?php echo htmlspecialchars($review['author']); ?></strong>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <?php endforeach; ?>
                                 </div>
-                                <!-- Carousel controls -->
+                                </div>
+                                    <?php endforeach; ?>
+                            </div>
+                            <!-- Carousel controls -->
                                 <a class="carousel-control-prev testimonials-control" href="#testimonialsCarousel" role="button" data-slide="prev">
                                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                                     <span class="sr-only">Anterior</span>
@@ -638,19 +683,19 @@ if ($_POST) {
                                 <a class="carousel-control-next testimonials-control" href="#testimonialsCarousel" role="button" data-slide="next">
                                     <i class="fa fa-angle-right" aria-hidden="true"></i>
                                     <span class="sr-only">Próximo</span>
-                                </a>
-                            </div>
+                            </a>
+                        </div>
                             <?php
                             // Link para reviews do Google (se tiver Place ID configurado)
                             if (defined('GOOGLE_PLACE_ID') && !empty(GOOGLE_PLACE_ID)) {
                                 $googleMapsUrl = 'https://www.google.com/maps/place/?q=place_id:' . urlencode(GOOGLE_PLACE_ID);
                                 ?>
-                                <div class="text-center mt-4">
+                                <div class="text-center mt-3 mb-0">
                                     <a href="<?php echo htmlspecialchars($googleMapsUrl); ?>" target="_blank" rel="noopener noreferrer" class="google-reviews-link">
                                         <i class="fab fa-google" style="color: #4285F4; font-size: 0.9rem;"></i>
                                         <span style="color: #fff; font-size: 0.9rem; margin-left: 5px;">Ver todos os reviews no Google</span>
                                     </a>
-                                </div>
+                    </div>
                                 <?php
                             }
                             ?>
@@ -662,150 +707,75 @@ if ($_POST) {
                             <?php
                         }
                         ?>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="layerCor" id="contact">
-        <div class="backgroundLogo py-md-5">
-            <div class="d-md-flex flex-md-equal row py-md-5" style="margin-right:0!important; overflow-x: hidden">
-                <div class="infos-form text-white col-md-12">
-                    <ul class="float-right text-align-right mr-5" style="margin-top: 85px;" id="infos-gerais">
-                        <li class="nav-item mt-md-3">
-                            <h5 class="font-weight-normal mb-md-1">Endereço</h5>
-                            <p>Rua Heitor Penteado, 626 <br>(Próximo ao metrô Vila Madalena e Sumaré)</p>
-                            <p>SÃO PAULO - SP</p>
-                        </li>
-                        <li class="nav-item mt-md-3">
-                            <h5 class="font-weight-normal mb-md-1">Telefone</h5>
-                            <p>(11) 3062-8295</p>
-                            <p>(11) 99478-1012 (Somente Whatsapp)</p>
-                        </li>
-                        <li class="nav-item font-weight-light mt-md-3">
-                            <h5 class="font-weight-normal mb-md-1">Horário de <br />funcionamento</h5>
-                            <p>Terça-Feira à Sábado</p>
-                            <p>08h30 às 22h</p>
-                        </li>
-                    </ul>
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <!-- Links de Navegação -->
+                <div class="col-12 col-md-4 mb-4 mb-md-0">
+                    <h5 class="footer-title">Navegação</h5>
+                    <nav class="footer-nav-vertical">
+                        <a href="/#about" class="footer-link">Sobre</a>
+                        <a href="/#services" class="footer-link">Serviços</a>
+                        <a href="/contato.php" class="footer-link">Contato</a>
+                        <a href="/faq/" class="footer-link">FAQ</a>
+                        <a href="/vagas.php" class="footer-link">Trabalhe Conosco</a>
+                    </nav>
                 </div>
-                <div class="bg-form text-center text-white overflow-hidden">
-                    <div class="form">
-                        <div class="container-contact100">
 
-                            <div class="wrap-contact100">
-                                <form class="contact100-form validate-form" id="form-mobile" 
-                                    enctype="multipart/form-data" action="#contact" method="POST" data-ajax-form="true">
-                                    <h5 class="font-weight-light text-align-left">DÚVIDAS OU SUGESTÕES?</h5>
-                                    <h4 class="font-weight-bold text-align-left mb-4" style="letter-spacing: 2px;">ENTRE
-                                        EM CONTATO</h4>
-
-                                    <?php if (isset($is_mail_sent) && $is_mail_sent) { ?>
-                                        <div class="alert alert-success" role="alert">
-                                            <strong>Sucesso!</strong> Sua mensagem foi enviada com sucesso!
-                                            <?php if (defined('APP_ENV') && APP_ENV === 'development'): ?>
-                                                <br><small>⚠️ Modo desenvolvimento: Email salvo em arquivo (não enviado via SMTP)</small>
-                                            <?php endif; ?>
+                <!-- Informações de Contato -->
+                <div class="col-12 col-md-4 mb-4 mb-md-0">
+                    <h5 class="footer-title">Contato</h5>
+                    <div class="footer-contact">
+                        <p class="footer-contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Rua Heitor Penteado, 626<br>Vila Madalena, São Paulo - SP</span>
+                        </p>
+                        <p class="footer-contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span><strong>Telefone:</strong> (11) 3062-8295</span>
+                        </p>
+                        <p class="footer-contact-item">
+                            <i class="fab fa-whatsapp"></i>
+                            <span><strong>WhatsApp:</strong> (11) 99478-1012</span>
+                        </p>
                                         </div>
-                                    <?php } else if (isset($form_errors) && !empty($form_errors)) { ?>
-                                        <div class="alert alert-danger" role="alert">
-                                            <strong>Erro:</strong>
-                                            <ul class="mb-0 mt-2">
-                                                <?php foreach ($form_errors as $error): ?>
-                                                    <li><?php echo htmlspecialchars($error); ?></li>
-                                                <?php endforeach; ?>
-                                            </ul>
                                         </div>
-                                    <?php } else if (isset($is_mail_sent) && !$is_mail_sent) { ?>
-                                        <div class="alert alert-warning" role="alert">
-                                            <strong>Erro ao enviar:</strong> Desculpe, sua mensagem não pode ser enviada no momento.
-                                            <?php if (defined('APP_ENV') && APP_ENV === 'development' && !empty($form_errors)): ?>
-                                                <br><small>Detalhes: <?php echo htmlspecialchars(implode(', ', $form_errors)); ?></small>
-                                            <?php else: ?>
-                                                <br>Tente novamente mais tarde ou entre em contato pelo WhatsApp.
-                                            <?php endif; ?>
-                                        </div>
-                                    <?php } ?>
 
-                                    <div class="wrap-input100 validate-input" data-validate="Insira seu nome completo">
-                                        <input class="input100" type="text" name="name" placeholder="Nome completo" 
-                                            value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name'], ENT_QUOTES, 'UTF-8') : ''; ?>" 
-                                            required minlength="2" maxlength="100">
-                                    </div>
-
-                                    <div class="wrap-input100 validate-input"
-                                        data-validate="Insira um e-mail válido, ex: nome@algo.com.br">
-                                        <input class="input100" type="email" name="email" placeholder="E-mail" 
-                                            value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8') : ''; ?>" 
-                                            required>
-                                    </div>
-
-                                    <div class="" data-validate="Selecione o assunto">
-                                        <label for="exampleFormControlSelect1" class="sr-only">Assunto</label>
-                                        <select class="wrap-input100 validate-input assunto-form"
-                                            id="exampleFormControlSelect1" name="subject" required aria-label="Assunto">
-                                            <option value="" disabled <?php echo !isset($_POST['subject']) ? 'selected' : ''; ?>>Selecione o assunto</option>
-                                            <option value="Dúvidas" <?php echo (isset($_POST['subject']) && $_POST['subject'] === 'Dúvidas') ? 'selected' : ''; ?>>Dúvidas</option>
-                                            <option value="Agradecimentos/Depoimentos" <?php echo (isset($_POST['subject']) && $_POST['subject'] === 'Agradecimentos/Depoimentos') ? 'selected' : ''; ?>>Agradecimentos/Depoimentos</option>
-                                            <option value="Outro" <?php echo (isset($_POST['subject']) && $_POST['subject'] === 'Outro') ? 'selected' : ''; ?>>Outro</option>
-                                        </select>
-                                    </div>
-
-
-                                    <div class="wrap-input100 validate-input"
-                                        data-validate="Por favor, digite uma mensagem aqui (mínimo 10 caracteres).">
-                                        <textarea class="input100" name="message" placeholder="Sua mensagem aqui (mínimo 10 caracteres)" 
-                                            required minlength="10" maxlength="2000"><?php echo isset($_POST['message']) ? htmlspecialchars($_POST['message'], ENT_QUOTES, 'UTF-8') : ''; ?></textarea>
-                                        <span id="message-counter" class="message-counter">0 / 2000</span>
-                                    </div>
-
-                                    <!-- Honeypot field (escondido, bots preenchem) -->
-                                    <div style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" aria-hidden="true">
-                                        <input type="text" name="website" tabindex="-1" autocomplete="off">
-                                    </div>
-
-                                    <div class="container-contact100-form-btn" style="justify-content: flex-end;">
-                                        <button class="contact100-form-btn" type="submit" name="submit" id="submit">
-                                            <span class="font-weight-bold textDarkGrey"
-                                                style="letter-spacing: 2px;">ENVIAR</span>
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
+                <!-- Redes Sociais -->
+                <div class="col-12 col-md-4">
+                    <h5 class="footer-title">Redes Sociais</h5>
+                        <div class="footer-social">
+                        <a href="https://www.instagram.com/minhamimo/" target="_blank" class="footer-social-link" aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.facebook.com/mimocuidadoebeleza/" target="_blank" class="footer-social-link" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        <a href="https://api.whatsapp.com/send?1=pt_BR&phone=5511994781012" target="_blank" class="footer-social-link" aria-label="WhatsApp">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                            </svg>
+                        </a>
                         </div>
-                    </div>
-                </div>
-                <div class="align-content-center text-center col-md-2">
-                    <div class="box-redes-sociais">
-                        <h5 class="text-white text-redes">NOS ACOMPANHE <br /> NAS REDES SOCIAIS</h5>
-                        <ul class="navbar-nav ml-auto" style="display: -webkit-inline-box;">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="https://www.instagram.com/minhamimo/" target="_blank"><i
-                                        class="fab fa-instagram"></i></a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="https://www.facebook.com/mimocuidadoebeleza/"
-                                    target="_blank"><i class="fab fa-facebook-square pl-4 pr-4 "></i></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="https://api.whatsapp.com/send?1=pt_BR&phone=5511994781012"
-                                    target="_blank"><i class="fab fa-whatsapp"></i></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-2"></div>
-            </div>
-        </div>
-    </div>
+                                    </div>
+                                    </div>
 
-
-    <footer class="container">
+            <!-- Copyright -->
         <div class="row">
-            <div class="col-12 col-md my-2 py-2">
-                <small class="d-block text-muted text-center" style="line-height: 3;">&copy; MIMO CENTRO DE BELEZA LTDA
-                    | 57.659.472/0001-78 | 2018 | Todos os direitos reservados</small>
+                <div class="col-12">
+                    <div class="footer-copyright">
+                        <p>&copy; <?php echo date('Y'); ?> Mimo | 57.659.472/0001-78 | Todos os direitos reservados</p>
+                                    </div>
+                                    </div>
             </div>
         </div>
     </footer>
@@ -887,19 +857,39 @@ if ($_POST) {
                     $carousel.carousel({ 
                         interval: 7000, 
                         pause: 'hover',
-                        wrap: true
+                        wrap: true,
+                        ride: 'carousel'
                     });
+                    
+                    // Otimizar transições do carousel de reviews
+                    if ($carousel.attr('id') === 'testimonialsCarousel') {
+                        // Pre-carregar imagens do próximo item para evitar delay
+                        $carousel.on('slide.bs.carousel', function (e) {
+                            var $nextItem = jQuery(e.relatedTarget);
+                            var $nextImg = $nextItem.find('img[data-src]');
+                            if ($nextImg.length) {
+                                $nextImg.attr('src', $nextImg.attr('data-src'));
+                                $nextImg.removeAttr('data-src');
+                            }
+                        });
+                        
+                        // Forçar repaint para suavizar transição
+                        $carousel.on('slid.bs.carousel', function () {
+                            var $active = jQuery(this).find('.carousel-item.active');
+                            $active.css('transform', 'translateZ(0)');
+                        });
+                    }
                     
                     // Swipe para mobile
                     if (jQuery.fn.swipe) {
                         $carousel.swipe({
-                            swipe: function (event, direction, distance, duration, fingerCount, fingerData) {
+                swipe: function (event, direction, distance, duration, fingerCount, fingerData) {
                                 if (direction == 'left') $carousel.carousel('next');
                                 if (direction == 'right') $carousel.carousel('prev');
-                            },
-                            allowPageScroll: "vertical"
-                        });
-                    }
+                },
+                allowPageScroll: "vertical"
+            });
+        }
                 });
             }
         });

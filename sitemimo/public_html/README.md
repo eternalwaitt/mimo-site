@@ -15,6 +15,7 @@ Mimo Site is a PHP-based website for a beauty and aesthetics center. The site fe
 - **Deployment**: FTP/SFTP to shared hosting
 - **Template System**: PHP-based service page template to reduce code duplication
 - **SEO**: Schema.org structured data, Open Graph, Twitter Cards, sitemap.xml, robots.txt
+- **Reviews System**: Hybrid Google Reviews (API + manual reviews) with optimized carousel display
 
 ### Directory Structure
 
@@ -255,6 +256,16 @@ php -S localhost:8000
 - ✅ Activated CSS/JS minification in production
 - ✅ Added "Back to Top" button component
 - ✅ Implemented breadcrumbs with Schema.org structured data
+- ✅ Optimized testimonials carousel (v2.2.7)
+  - Reduced height from 650px to 550px for more compact design
+  - Fixed layout shift issues during transitions
+  - All cards use consistent `position: absolute` for smooth transitions
+  - Improved spacing and font sizes for better space utilization
+- ✅ Hybrid Google Reviews system (API + manual reviews)
+  - Automatic fetching from Google Places API
+  - Manual reviews for quality control
+  - Prioritized display (photos, 5-star, longer texts, older dates)
+  - Optimized carousel with fixed heights to prevent layout shifts
 
 ### Recommended Future Improvements
 

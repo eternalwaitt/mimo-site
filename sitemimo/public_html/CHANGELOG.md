@@ -5,6 +5,52 @@ All notable changes to the Mimo Site project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.8] - 2025-11-14
+
+### Changed
+- **Footer Redesign**: Complete footer redesign with modern 3-column layout
+  - Navigation links now displayed vertically for better readability
+  - Contact information clearly labeled (Telefone vs WhatsApp)
+  - Social media icons section with improved alignment
+  - Reduced spacing between contact items (8px gap)
+  - Physical address added to footer
+- **Social Media Icons**: Replaced Font Awesome icons with inline SVG for better reliability
+  - Instagram, Facebook, and WhatsApp icons now use SVG inline
+  - Icons are always visible regardless of Font Awesome loading
+  - Consistent 20x20px size across all icons
+  - Applied to all pages: index.php, contato.php, vagas.php, 404.php, service-template.php
+
+### Fixed
+- **Layout Spacing**: Removed white space between testimonials section and footer
+  - Removed extra closing `</div>` tag causing large gap
+  - Footer now directly follows testimonials section
+  - Adjusted margins and padding for seamless transition
+- **Contact Section Spacing**: Reduced gap between phone and WhatsApp in footer
+  - Changed from 15px to 8px gap for more compact layout
+  - Applied to both desktop and mobile breakpoints
+
+## [2.2.7] - 2025-01-20
+
+### Changed
+- **Carousel Optimization**: Optimized testimonials carousel for better performance and UX
+  - Reduced carousel height from 650px to 550px for more compact design
+  - Reduced content padding from 50px to 30px vertical
+  - Optimized avatar size from 100px to 80px
+  - Reduced spacing between elements (margins and paddings)
+  - Smaller font sizes for better space utilization
+  - Mobile responsive adjustments (500px height on mobile)
+- **Layout Shift Fix**: Fixed carousel layout shift issue during transitions
+  - All testimonial cards now use `position: absolute` consistently (never changes to `relative`)
+  - Only `z-index` changes between active and inactive cards
+  - Changed container from `display: flex` to `display: block` to prevent absolute positioning issues
+  - Eliminated visual "jump" when transitioning between reviews
+
+### Fixed
+- **Carousel Transition**: Improved transition smoothness
+  - Fixed position change causing height jumps during carousel transitions
+  - All cards maintain consistent positioning throughout transitions
+  - Smooth fade transitions without layout shifts
+
 ## [2.2.6] - 2025-01-19
 
 ### Added

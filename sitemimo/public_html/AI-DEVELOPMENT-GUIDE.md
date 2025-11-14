@@ -4,8 +4,8 @@
 
 Esta é a documentação principal para desenvolvimento do site MIMO Estética. Otimizada para uso por IAs e desenvolvedores humanos.
 
-**Última Atualização**: 2025-01-19  
-**Versão Atual**: 2.1.0  
+**Última Atualização**: 2025-11-14  
+**Versão Atual**: 2.2.8  
 **Desenvolvedor**: Victor Penter
 
 ---
@@ -25,7 +25,7 @@ Esta é a documentação principal para desenvolvimento do site MIMO Estética. 
 
 ## 🎯 Estado Atual do Projeto {#estado-atual}
 
-### Versão: 2.1.0 (2025-01-19)
+### Versão: 2.2.8 (2025-11-14)
 
 ### ✅ Implementações Completas
 
@@ -35,6 +35,15 @@ Esta é a documentação principal para desenvolvimento do site MIMO Estética. 
 - ✅ **Critical CSS**: CSS acima da dobra inline no `<head>`
 - ✅ **Resource Hints**: DNS prefetch, preconnect, preload implementados
 - ✅ **Template System**: Sistema de templates para páginas de serviço (redução de 70% de código duplicado)
+- ✅ **Carousel Optimization**: Testimonials carousel otimizado (v2.2.7)
+  - Altura reduzida de 650px para 550px (design mais compacto)
+  - Fix de layout shift durante transições
+  - Todos os cards usam `position: absolute` consistentemente
+  - Transições suaves sem "pulos" visuais
+- ✅ **Google Reviews System**: Sistema híbrido de reviews
+  - Integração com Google Places API
+  - Reviews manuais para controle de qualidade
+  - Priorização inteligente (fotos, 5 estrelas, textos longos, datas antigas)
 
 #### SEO & Otimização de Busca
 - ✅ **Meta Tags Dinâmicas**: Títulos e descrições otimizadas por página
@@ -532,6 +541,71 @@ SITE_URL=https://minhamimo.com.br
 
 /* Comentários em português quando necessário */
 ```
+
+#### Otimização de Carousels e Prevenção de Layout Shift
+
+**Padrão para Carousels com Transições:**
+
+1. **Container sempre com altura fixa:**
+```css
+.carousel-container {
+    height: 550px; /* Altura fixa - nunca muda */
+    min-height: 550px;
+    max-height: 550px;
+    position: relative;
+    overflow: hidden;
+}
+```
+
+2. **Todos os cards sempre `position: absolute`:**
+```css
+.carousel-item {
+    position: absolute; /* SEMPRE absolute - nunca muda para relative */
+    width: 100%;
+    height: 550px; /* Mesma altura do container */
+    top: 0;
+    left: 0;
+    opacity: 0;
+    z-index: 0;
+    transition: opacity 0.6s ease-in-out;
+}
+
+.carousel-item.active {
+    position: absolute; /* MANTÉM absolute */
+    opacity: 1;
+    z-index: 1; /* Apenas z-index muda */
+}
+```
+
+3. **Container NÃO deve usar `display: flex` com elementos absolutos:**
+```css
+/* ❌ ERRADO - causa problemas com absolute */
+.carousel-container {
+    display: flex;
+}
+
+/* ✅ CORRETO - usar block */
+.carousel-container {
+    display: block;
+    position: relative;
+}
+```
+
+4. **Elementos internos com alturas fixas:**
+```css
+.carousel-content {
+    height: 500px; /* Altura fixa */
+    min-height: 500px;
+    max-height: 500px;
+    /* Evita que conteúdo mude altura durante transição */
+}
+```
+
+**Por que isso é importante:**
+- Evita Cumulative Layout Shift (CLS) - métrica importante do Core Web Vitals
+- Transições suaves sem "pulos" visuais
+- Melhor experiência do usuário
+- Performance melhorada (menos repaints)
 
 ### Comandos Úteis
 

@@ -49,7 +49,7 @@
                     <a class="nav-link" href="../#promo">PROMOÇÕES</a>
                 </li> -->
                 <li class="nav-item ml-md-2">
-                    <a class="nav-link" href="../#contact">CONTATO</a>
+                    <a class="nav-link" href="../contato.php">CONTATO</a>
                 </li>
                 <li class="nav-item ml-md-2">
                     <a class="nav-link" href="../faq/">FAQ</a>
