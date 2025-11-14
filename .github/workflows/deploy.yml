@@ -70,15 +70,36 @@ jobs:
             exit 1
           fi
       
-      - name: Deploy to Locaweb via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
+      - name: Clean files before deploy
+        run: |
+          cd sitemimo/public_html
+          echo "Removing files that shouldn't be deployed..."
+          # Remove documentation and build files
+          find . -name "*.md" -type f -delete 2>/dev/null || true
+          find . -name "README*" -type f -delete 2>/dev/null || true
+          find . -name "CHANGELOG*" -type f -delete 2>/dev/null || true
+          find . -name "VERSIONING*" -type f -delete 2>/dev/null || true
+          find . -name "IMPROVEMENTS*" -type f -delete 2>/dev/null || true
+          find . -name "NEXT-STEPS*" -type f -delete 2>/dev/null || true
+          find . -name "SEO-OPTIMIZATION*" -type f -delete 2>/dev/null || true
+          find . -name "STRUCTURE-ANALYSIS*" -type f -delete 2>/dev/null || true
+          find . -name "AI-DEVELOPMENT-GUIDE*" -type f -delete 2>/dev/null || true
+          find . -name "GOOGLE-*" -type f -delete 2>/dev/null || true
+          find . -name "LICENSE*" -type f -delete 2>/dev/null || true
+          find . -name "license.txt" -type f -delete 2>/dev/null || true
+          find . -name "readme.html" -type f -delete 2>/dev/null || true
+          # Remove directories
+          rm -rf .git* .env* node_modules vendor wp-* x6f7689 cache img_backup_* .DS_Store Thumbs.db build 2>/dev/null || true
+          echo "Cleanup complete. Ready for deploy."
+      
+      - name: Deploy to Locaweb via FTP
+        uses: locaweb/ftp-deploy@1.0.0
         with:
-          server: ${{ secrets.SFTP_HOST }}
-          username: ${{ secrets.SFTP_USER }}
-          password: ${{ secrets.SFTP_PASSWORD }}
-          port: ${{ secrets.SFTP_PORT || 22 }}
-          local_path: "./sitemimo/public_html"
-          remote_path: "/public_html"
-          sftpArgs: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-          rsyncArgs: "--exclude='.git*' --exclude='.env*' --exclude='node_modules' --exclude='vendor' --exclude='wp-*' --exclude='x6f7689' --exclude='cache' --exclude='img_backup_*' --exclude='*.md' --exclude='.DS_Store' --exclude='Thumbs.db' --exclude='build' --exclude='README*' --exclude='CHANGELOG*' --exclude='VERSIONING*' --exclude='IMPROVEMENTS*' --exclude='NEXT-STEPS*' --exclude='SEO-OPTIMIZATION*' --exclude='STRUCTURE-ANALYSIS*' --exclude='AI-DEVELOPMENT-GUIDE*' --exclude='GOOGLE-*' --exclude='LICENSE*' --exclude='license.txt' --exclude='readme.html'"
+          host: ${{ secrets.FTP_HOST }}
+          user: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          localDir: "sitemimo/public_html"
+          remoteDir: "public_html"
+          forceSsl: true
+          options: "set sftp:auto-confirm yes; set net:timeout 30; set net:max-retries 3;"
 

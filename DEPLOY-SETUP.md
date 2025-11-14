@@ -24,22 +24,13 @@ O arquivo `.github/workflows/deploy.yml` já foi criado. Ele faz:
 
 ### Secrets Necessários
 
-| Secret | Descrição | Exemplo |
-|--------|-----------|---------|
-| `SFTP_HOST` | Hostname do servidor SFTP | `ftp.locaweb.com.br` |
-| `SFTP_USER` | Usuário SFTP | `seu_usuario` |
-| `SFTP_PASSWORD` | Senha SFTP | `sua_senha` |
-| `SFTP_PORT` | Porta SFTP (opcional, padrão: 22) | `22` ou `2222` |
+| Secret | Descrição | Valor para MIMO |
+|--------|-----------|-----------------|
+| `FTP_HOST` | Hostname do servidor FTP | `ftp.minhamimo.com.br` |
+| `FTP_USER` | Usuário FTP | `esteticamimo` |
+| `FTP_PASSWORD` | Senha FTP | `Mimomimo123123!` |
 
-### Como Obter as Credenciais
-
-1. Acesse o painel da Locaweb
-2. Vá em **FTP/SFTP** ou **Acesso SSH**
-3. Procure por:
-   - **Servidor FTP/SFTP**: Use como `SFTP_HOST`
-   - **Usuário**: Use como `SFTP_USER`
-   - **Senha**: Use como `SFTP_PASSWORD`
-   - **Porta**: Use como `SFTP_PORT` (geralmente 22 ou 2222)
+**⚠️ IMPORTANTE**: A senha acima está exposta aqui apenas como referência. Configure os secrets no GitHub com esses valores.
 
 ## ✅ Passo 3: Testar o Deploy
 
