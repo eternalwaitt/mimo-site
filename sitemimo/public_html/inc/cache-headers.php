@@ -220,6 +220,8 @@ function set_html_cache_headers() {
     @header('Cache-Control: private, no-cache, no-store, must-revalidate, proxy-revalidate, max-age=0, s-maxage=0');
     @header('Pragma: no-cache');
     @header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
+    // Vary: Cookie é CRUCIAL - força Varnish a criar cache diferente por cookie
+    // Combinado com Set-Cookie de versão, isso bypassa completamente o cache fixo
     @header('Vary: Accept-Encoding, User-Agent, Cookie');
     
     // Headers específicos para Varnish/Nginx (Locaweb usa Varnish)

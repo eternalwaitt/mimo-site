@@ -16,18 +16,32 @@ error_reporting(E_ALL & ~E_DEPRECATED);
 // Carregar configuração primeiro (necessário para ASSET_VERSION)
 require_once 'config.php';
 
-// Force Varnish bypass: Locaweb Varnish tem cache fixo de 3min para HTML
-// Solução: adicionar query string com versão para forçar cache diferente
-// URLs diferentes = cache diferente no Varnish (mesmo que ignore headers)
-if (!isset($_GET['_v']) && defined('ASSET_VERSION')) {
-    // Remover query params antigos se existirem (manter apenas _v)
-    $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-    $newUrl = $currentPath . '?_v=' . ASSET_VERSION;
+// Force Varnish bypass: Locaweb Varnish tem cache fixo de 3min para HTML e não é editável
+// SOLUÇÃO DEFINITIVA: usar cookie com versão + Vary: Cookie
+// Varnish cria cache diferente para cada valor de cookie quando Vary: Cookie está presente
+// Isso força bypass completo do cache mesmo com tempos fixos
+
+if (defined('ASSET_VERSION')) {
+    $cookieName = 'mimo_version';
+    $currentVersion = ASSET_VERSION;
+    $cookieVersion = $_COOKIE[$cookieName] ?? null;
     
-    // Fazer redirect apenas uma vez (evitar loop)
-    header('Location: ' . $newUrl, true, 302);
-    header('Cache-Control: no-cache, no-store, must-revalidate'); // Header adicional para redirect
-    exit;
+    // Se versão mudou, atualizar cookie e forçar reload
+    if ($cookieVersion !== $currentVersion) {
+        // Set cookie com versão atual (válido por 1 ano)
+        setcookie($cookieName, $currentVersion, time() + 31536000, '/', '', true, true);
+        $_COOKIE[$cookieName] = $currentVersion; // Disponibilizar imediatamente
+        
+        // Se já tinha cookie antigo, forçar reload para pegar nova versão
+        if ($cookieVersion !== null) {
+            // Redirect com timestamp para forçar bypass
+            $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+            $query = $_SERVER['QUERY_STRING'] ?? '';
+            $separator = $query ? '&' : '?';
+            header('Location: ' . $url . $separator . '_refresh=' . time(), true, 302);
+            exit;
+        }
+    }
 }
 
 // Cache headers para páginas HTML (ANTES de qualquer outro header)
@@ -876,19 +890,27 @@ if ($_POST) {
 
     <script>
         // Force Varnish bypass: Locaweb Varnish tem cache fixo de 3min para HTML
-        // Verificar se versão na URL corresponde à versão atual
+        // Verificar se cookie de versão corresponde à versão atual
         (function() {
             var currentVersion = '<?php echo defined('ASSET_VERSION') ? ASSET_VERSION : date('Ymd'); ?>';
-            var urlVersion = new URLSearchParams(window.location.search).get('_v');
+            
+            // Ler cookie de versão
+            function getCookie(name) {
+                var value = "; " + document.cookie;
+                var parts = value.split("; " + name + "=");
+                if (parts.length === 2) return parts.pop().split(";").shift();
+                return null;
+            }
+            
+            var cookieVersion = getCookie('mimo_version');
             var storedVersion = sessionStorage.getItem('mimo_version');
             
-            // Se versão na URL não corresponde ou versão mudou, forçar reload
-            if (urlVersion !== currentVersion || (storedVersion && storedVersion !== currentVersion)) {
+            // Se versão no cookie não corresponde ou versão mudou, forçar reload
+            if (cookieVersion !== currentVersion || (storedVersion && storedVersion !== currentVersion)) {
                 sessionStorage.setItem('mimo_version', currentVersion);
-                // Forçar reload com versão correta na URL
+                // Remover param _refresh se existir (evitar loop)
                 var url = new URL(window.location.href);
-                url.searchParams.set('_v', currentVersion);
-                url.searchParams.delete('_nocache'); // Limpar params temporários
+                url.searchParams.delete('_refresh');
                 window.location.href = url.toString();
                 return;
             }

@@ -47,6 +47,8 @@ FileETag None
         Header always set Cache-Control "private, no-cache, no-store, must-revalidate, proxy-revalidate, max-age=0, s-maxage=0"
         Header always set Pragma "no-cache"
         Header always set Expires "Thu, 01 Jan 1970 00:00:00 GMT"
+        # Vary: Cookie é CRUCIAL - força Varnish a criar cache diferente por cookie
+        # Combinado com Set-Cookie de versão, isso bypassa completamente o cache fixo
         Header always set Vary "Accept-Encoding, User-Agent, Cookie"
         
         # Headers específicos para Varnish/Nginx (Locaweb usa Varnish)
