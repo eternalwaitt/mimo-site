@@ -211,10 +211,10 @@ function set_html_cache_headers() {
         return;
     }
 
-    // HTML tem cache curto (5 minutos) para permitir atualizações rápidas
+    // HTML - cache muito curto com revalidação obrigatória
     // ETag inclui ASSET_VERSION para invalidar quando versão mudar
     $assetVersion = defined('ASSET_VERSION') ? ASSET_VERSION : '0';
-    $etag = md5($_SERVER['REQUEST_URI'] . $assetVersion);
+    $etag = md5($_SERVER['REQUEST_URI'] . $assetVersion . filemtime(__FILE__));
     header('ETag: "' . $etag . '"');
     
     // Verificar If-None-Match para retornar 304
@@ -223,9 +223,14 @@ function set_html_cache_headers() {
         exit;
     }
     
-    // Cache curto com revalidação obrigatória
-    header('Cache-Control: public, max-age=300, must-revalidate');
-    header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 300) . ' GMT');
+    // Cache muito curto (1 minuto) com revalidação obrigatória
+    // Vary header para evitar cache intermediário
+    header('Vary: Accept-Encoding, User-Agent');
+    header('Cache-Control: public, max-age=60, must-revalidate, proxy-revalidate');
+    header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 60) . ' GMT');
     header('Pragma: public');
+    
+    // Headers adicionais para evitar cache intermediário
+    header('X-Cache-Version: ' . $assetVersion);
 }
 

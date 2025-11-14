@@ -31,9 +31,12 @@ ErrorDocument 404 /404.php
     Header set Access-Control-Allow-Origin "*"
 </FilesMatch>
 
-# HTML/PHP - cache curto (1 hora) com must-revalidate
+# HTML/PHP - cache muito curto (1 minuto) com revalidação obrigatória
+# proxy-revalidate força proxies/CDNs a revalidar também
 <FilesMatch "\.(html|htm|php)$">
-    Header set Cache-Control "public, max-age=3600, must-revalidate"
+    Header set Cache-Control "public, max-age=60, must-revalidate, proxy-revalidate"
+    Header set Pragma "public"
+    Header unset Expires
 </FilesMatch>
 
 # Ativar módulo headers se disponível
