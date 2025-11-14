@@ -207,29 +207,36 @@ function get_content_type_from_request() {
  * Deve ser chamado no início de arquivos PHP
  */
 function set_html_cache_headers() {
-    if (headers_sent()) {
-        return;
-    }
-
+    // Tentar enviar headers mesmo se headers_sent() retornar true
+    // Alguns servidores (como Apache com mod_headers) podem enviar headers automaticamente
+    // mas ainda permitem adicionar headers adicionais
+    
+    $headersSent = headers_sent($file, $line);
+    
     // HTML - NO CACHE (força sempre buscar versão nova)
     // Headers agressivos para bypassar cache Varnish da Locaweb
     // 'private' força bypass de cache compartilhado (Varnish/CDN)
-    header('Cache-Control: private, no-cache, no-store, must-revalidate, proxy-revalidate, max-age=0');
-    header('Pragma: no-cache');
-    header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
-    header('Vary: Accept-Encoding, User-Agent');
+    @header('Cache-Control: private, no-cache, no-store, must-revalidate, proxy-revalidate, max-age=0');
+    @header('Pragma: no-cache');
+    @header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
+    @header('Vary: Accept-Encoding, User-Agent');
     
     // Headers específicos para Varnish/Nginx (Locaweb usa Varnish)
-    header('X-Accel-Expires: 0'); // Nginx/Varnish: 0 = bypass cache
-    header('X-Cache-Status: BYPASS'); // Para debugging
+    @header('X-Accel-Expires: 0'); // Nginx/Varnish: 0 = bypass cache
+    @header('X-Cache-Status: BYPASS'); // Para debugging
     
     // Remover ETag completamente (não gerar ETag para HTML)
     // ETags podem causar 304 Not Modified mesmo com no-cache
-    header_remove('ETag');
-    header_remove('Last-Modified');
+    @header_remove('ETag');
+    @header_remove('Last-Modified');
     
     // Header de debug com versão
     $assetVersion = defined('ASSET_VERSION') ? ASSET_VERSION : '0';
-    header('X-Cache-Version: ' . $assetVersion);
+    @header('X-Cache-Version: ' . $assetVersion);
+    
+    // Se headers já foram enviados, adicionar informação de debug
+    if ($headersSent) {
+        @header('X-Headers-Sent-At: ' . $file . ':' . $line);
+    }
 }
 
