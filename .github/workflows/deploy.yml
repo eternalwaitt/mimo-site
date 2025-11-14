@@ -92,6 +92,26 @@ jobs:
           rm -rf .git* .env* node_modules vendor wp-* x6f7689 cache img_backup_* .DS_Store Thumbs.db build 2>/dev/null || true
           echo "Cleanup complete. Ready for deploy."
       
+      - name: Verify FTP secrets are configured
+        run: |
+          if [ -z "${{ secrets.FTP_HOST }}" ]; then
+            echo "❌ ERROR: FTP_HOST secret is not configured!"
+            echo "Please configure FTP_HOST, FTP_USER, and FTP_PASSWORD secrets in GitHub Settings > Secrets and variables > Actions"
+            exit 1
+          fi
+          if [ -z "${{ secrets.FTP_USER }}" ]; then
+            echo "❌ ERROR: FTP_USER secret is not configured!"
+            exit 1
+          fi
+          if [ -z "${{ secrets.FTP_PASSWORD }}" ]; then
+            echo "❌ ERROR: FTP_PASSWORD secret is not configured!"
+            exit 1
+          fi
+          echo "✅ All FTP secrets are configured"
+          echo "Server: ${{ secrets.FTP_HOST }}"
+          echo "User: ${{ secrets.FTP_USER }}"
+          echo "Password: [HIDDEN]"
+      
       - name: Deploy to Locaweb via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
