@@ -62,7 +62,7 @@ git push origin main
 
 ## 📁 Estrutura do Deploy
 
-O workflow faz deploy apenas da pasta `Site Mimo/public_html/` para `/public_html` no servidor.
+O workflow faz deploy apenas da pasta `sitemimo/public_html/` para `/public_html` no servidor.
 
 ### Arquivos Excluídos
 

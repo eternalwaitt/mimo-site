@@ -213,7 +213,7 @@ All pages include security headers via `inc/security-headers.php`:
 
 ### Local Development
 ```bash
-cd "Site Mimo/public_html"
+cd sitemimo/public_html
 php -S localhost:8000
 ```
 
@@ -398,7 +398,7 @@ php -S localhost:8000
 #### Converting Images to WebP
 Use the provided script to convert images:
 ```bash
-cd "Site Mimo/public_html"
+cd sitemimo/public_html
 ./build/convert-webp.sh [quality] [directory]
 # Example: ./build/convert-webp.sh 85 img
 ```

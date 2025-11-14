@@ -540,11 +540,11 @@ SITE_URL=https://minhamimo.com.br
 php -l arquivo.php
 
 # Converter imagens para WebP
-cd "Site Mimo/public_html"
+cd sitemimo/public_html
 ./build/convert-webp.sh 85 img
 
 # Servidor local
-cd "Site Mimo/public_html"
+cd sitemimo/public_html
 php -S localhost:8000
 
 # Verificar versão

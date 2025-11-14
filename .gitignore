@@ -45,4 +45,7 @@ build/
 # But allow build scripts (needed for CI/CD)
 !**/build/*.sh
 !**/build/README.md
+# Update path after directory rename
+!sitemimo/public_html/build/*.sh
+!sitemimo/public_html/build/README.md
 
