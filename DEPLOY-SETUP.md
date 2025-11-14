@@ -12,7 +12,7 @@ Este guia explica como configurar o deploy automático via GitHub Actions para o
 
 O arquivo `.github/workflows/deploy.yml` já foi criado. Ele faz:
 - Minificação automática de CSS/JS antes do deploy
-- Upload via SFTP (porta 22) para o servidor
+- Upload via FTP (porta 21) para o servidor
 - Exclusão de arquivos desnecessários
 
 ## 🔐 Passo 2: Configurar Secrets no GitHub
@@ -88,17 +88,18 @@ Após o deploy:
 ## 🐛 Troubleshooting
 
 ### Erro: "Connection refused"
-- Verifique se a porta está correta (22 para SFTP)
-- Confirme que o servidor permite conexões SFTP
+- Verifique se a porta está correta (21 para FTP)
+- Confirme que o servidor permite conexões FTP
 - Verifique se o firewall não está bloqueando a conexão
-- Teste a conexão manualmente com um cliente SFTP (FileZilla, etc.)
+- Teste a conexão manualmente com um cliente FTP (FileZilla, etc.)
 
 ### Erro: "530 Authentication failed" ou "Permission denied"
 - Verifique se `SFTP_USER` e `SFTP_PASSWORD` estão corretos nos secrets do GitHub
 - Confirme que não há espaços extras no início ou fim dos valores dos secrets
-- Teste as credenciais manualmente com um cliente SFTP (FileZilla, etc.)
-- Verifique se a conta SFTP está ativa no painel da Locaweb
-- Confirme que está usando as mesmas credenciais de acesso SSH/FTP do painel
+- Teste as credenciais manualmente com um cliente FTP (FileZilla, etc.)
+- Verifique se a conta FTP está ativa no painel da Locaweb
+- Confirme que está usando as mesmas credenciais de acesso FTP do painel
+- Verifique se o caminho remoto está correto: `/home/esteticamimo/public_html/`
 
 ### Erro: "Permission denied"
 - Verifique se o usuário FTP tem permissão de escrita no diretório remoto
@@ -125,7 +126,7 @@ Minifica CSS (build/minify-css.sh)
     ↓
 Minifica JS (build/minify-js.sh)
     ↓
-Deploy via SFTP (porta 22)
+Deploy via FTP (porta 21)
     ↓
 Site atualizado! 🎉
 ```

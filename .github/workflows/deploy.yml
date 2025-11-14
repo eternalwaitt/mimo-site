@@ -107,23 +107,48 @@ jobs:
             echo "❌ ERROR: SFTP_PASSWORD secret is not configured!"
             exit 1
           fi
-          echo "✅ All SFTP secrets are configured"
+          echo "✅ All FTP secrets are configured"
           echo "Server: ${{ secrets.SFTP_HOST }}"
           echo "User: ${{ secrets.SFTP_USER }}"
           echo "User length: $(echo -n '${{ secrets.SFTP_USER }}' | wc -c)"
           echo "Password length: $(echo -n '${{ secrets.SFTP_PASSWORD }}' | wc -c)"
-          echo "Port: 22"
-          echo "Protocol: SFTP"
+          echo "Port: 21"
+          echo "Protocol: FTP"
+          echo "Remote path: /home/esteticamimo/public_html/"
       
-      - name: Deploy to Locaweb via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
+      - name: Deploy to Locaweb via FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
           server: ${{ secrets.SFTP_HOST }}
           username: ${{ secrets.SFTP_USER }}
           password: ${{ secrets.SFTP_PASSWORD }}
-          port: 22
-          local_path: "./sitemimo/public_html/"
-          remote_path: "./public_html/"
-          sftpArgs: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-          rsyncArgs: "--exclude='.git*' --exclude='.env*' --exclude='node_modules/' --exclude='vendor/' --exclude='wp-*' --exclude='x6f7689/' --exclude='cache/' --exclude='img_backup_*' --exclude='*.md' --exclude='.DS_Store' --exclude='Thumbs.db' --exclude='build/' --exclude='README*' --exclude='CHANGELOG*' --exclude='VERSIONING*' --exclude='IMPROVEMENTS*' --exclude='NEXT-STEPS*' --exclude='SEO-OPTIMIZATION*' --exclude='STRUCTURE-ANALYSIS*' --exclude='AI-DEVELOPMENT-GUIDE*' --exclude='GOOGLE-*' --exclude='LICENSE*' --exclude='license.txt' --exclude='readme.html'"
+          port: 21
+          local-dir: "./sitemimo/public_html/"
+          server-dir: "/home/esteticamimo/public_html/"
+          protocol: ftp
+          exclude: |
+            **/.git*
+            **/.env*
+            **/node_modules/**
+            **/vendor/**
+            **/wp-*/
+            **/x6f7689/**
+            **/cache/**
+            **/img_backup_*/
+            **/*.md
+            **/.DS_Store
+            **/Thumbs.db
+            **/build/**
+            **/README*
+            **/CHANGELOG*
+            **/VERSIONING*
+            **/IMPROVEMENTS*
+            **/NEXT-STEPS*
+            **/SEO-OPTIMIZATION*
+            **/STRUCTURE-ANALYSIS*
+            **/AI-DEVELOPMENT-GUIDE*
+            **/GOOGLE-*
+            **/LICENSE*
+            **/license.txt
+            **/readme.html
 
