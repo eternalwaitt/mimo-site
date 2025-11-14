@@ -20,33 +20,53 @@ jobs:
       
       - name: Verify directory structure
         run: |
+          pwd
           ls -la
-          ls -la "Site Mimo/public_html" || echo "Directory not found"
-          ls -la "Site Mimo/public_html/build" || echo "Build directory not found"
+          echo "--- Checking Site Mimo directory ---"
+          ls -la "Site Mimo/" 2>&1 || echo "Site Mimo directory not found"
+          echo "--- Checking public_html directory ---"
+          ls -la "Site Mimo/public_html/" 2>&1 | head -20 || echo "public_html directory not found"
+          echo "--- Checking build directory ---"
+          ls -la "Site Mimo/public_html/build/" 2>&1 || echo "Build directory not found"
+          echo "--- Checking for minify scripts ---"
+          find "Site Mimo" -name "minify-*.sh" -type f 2>&1 || echo "No minify scripts found"
       
       - name: Run CSS minification
         run: |
-          cd "Site Mimo/public_html" || exit 1
+          WORK_DIR="Site Mimo/public_html"
+          if [ ! -d "$WORK_DIR" ]; then
+            echo "Error: Directory $WORK_DIR does not exist"
+            exit 1
+          fi
+          cd "$WORK_DIR" || exit 1
           pwd
-          ls -la build/ || echo "Build directory not found"
+          echo "--- Contents of current directory ---"
+          ls -la
+          echo "--- Checking for build directory ---"
+          if [ ! -d "build" ]; then
+            echo "Error: build directory does not exist in $(pwd)"
+            exit 1
+          fi
+          ls -la build/
           if [ -f "build/minify-css.sh" ]; then
             chmod +x build/minify-css.sh
             ./build/minify-css.sh || echo "CSS minification completed with warnings"
             ls -la minified/*.css 2>/dev/null || echo "No CSS files found in minified/"
           else
-            echo "Error: build/minify-css.sh not found"
+            echo "Error: build/minify-css.sh not found in $(pwd)"
             exit 1
           fi
       
       - name: Run JS minification
         run: |
-          cd "Site Mimo/public_html" || exit 1
+          WORK_DIR="Site Mimo/public_html"
+          cd "$WORK_DIR" || exit 1
           if [ -f "build/minify-js.sh" ]; then
             chmod +x build/minify-js.sh
             ./build/minify-js.sh || echo "JS minification completed with warnings"
             ls -la minified/*.js 2>/dev/null || echo "No JS files found in minified/"
           else
-            echo "Error: build/minify-js.sh not found"
+            echo "Error: build/minify-js.sh not found in $(pwd)"
             exit 1
           fi
       

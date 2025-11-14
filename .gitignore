@@ -42,4 +42,7 @@ node_modules/
 # Build files
 dist/
 build/
+# But allow build scripts (needed for CI/CD)
+!**/build/*.sh
+!**/build/README.md
 
