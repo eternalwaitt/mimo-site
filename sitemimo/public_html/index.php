@@ -17,30 +17,35 @@ error_reporting(E_ALL & ~E_DEPRECATED);
 require_once 'config.php';
 
 // Force Varnish bypass: Locaweb Varnish tem cache fixo de 3min para HTML e não é editável
-// SOLUÇÃO DEFINITIVA: usar cookie com versão + Vary: Cookie
-// Varnish cria cache diferente para cada valor de cookie quando Vary: Cookie está presente
-// Isso força bypass completo do cache mesmo com tempos fixos
+// SOLUÇÃO MULTI-CAMADA: combinar cookie + query string + headers
+// 1. Sempre setar cookie com versão (força Varnish a criar cache diferente por cookie)
+// 2. Se versão mudou, redirect com query string única
+// 3. Headers Vary: Cookie força Varnish a respeitar diferentes cookies
 
 if (defined('ASSET_VERSION')) {
     $cookieName = 'mimo_version';
     $currentVersion = ASSET_VERSION;
     $cookieVersion = $_COOKIE[$cookieName] ?? null;
     
-    // Se versão mudou, atualizar cookie e forçar reload
-    if ($cookieVersion !== $currentVersion) {
-        // Set cookie com versão atual (válido por 1 ano)
-        setcookie($cookieName, $currentVersion, time() + 31536000, '/', '', true, true);
-        $_COOKIE[$cookieName] = $currentVersion; // Disponibilizar imediatamente
-        
-        // Se já tinha cookie antigo, forçar reload para pegar nova versão
-        if ($cookieVersion !== null) {
-            // Redirect com timestamp para forçar bypass
-            $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-            $query = $_SERVER['QUERY_STRING'] ?? '';
-            $separator = $query ? '&' : '?';
-            header('Location: ' . $url . $separator . '_refresh=' . time(), true, 302);
-            exit;
-        }
+    // SEMPRE setar cookie (mesmo se já existe) para garantir que está atualizado
+    // Isso força Varnish a criar cache diferente quando Vary: Cookie está presente
+    setcookie($cookieName, $currentVersion, time() + 31536000, '/', '', false, true);
+    $_COOKIE[$cookieName] = $currentVersion; // Disponibilizar imediatamente
+    
+    // Se versão mudou E não tem query param _v, fazer redirect
+    if ($cookieVersion !== $currentVersion && !isset($_GET['_v'])) {
+        $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        header('Location: ' . $url . '?_v=' . $currentVersion, true, 302);
+        header('Cache-Control: no-cache, no-store, must-revalidate');
+        exit;
+    }
+    
+    // Se tem query param _v mas não corresponde à versão atual, atualizar
+    if (isset($_GET['_v']) && $_GET['_v'] !== $currentVersion) {
+        $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        header('Location: ' . $url . '?_v=' . $currentVersion, true, 302);
+        header('Cache-Control: no-cache, no-store, must-revalidate');
+        exit;
     }
 }
 
@@ -890,7 +895,7 @@ if ($_POST) {
 
     <script>
         // Force Varnish bypass: Locaweb Varnish tem cache fixo de 3min para HTML
-        // Verificar se cookie de versão corresponde à versão atual
+        // Verificar se versão na URL/cookie corresponde à versão atual
         (function() {
             var currentVersion = '<?php echo defined('ASSET_VERSION') ? ASSET_VERSION : date('Ymd'); ?>';
             
@@ -903,14 +908,16 @@ if ($_POST) {
             }
             
             var cookieVersion = getCookie('mimo_version');
+            var urlVersion = new URLSearchParams(window.location.search).get('_v');
             var storedVersion = sessionStorage.getItem('mimo_version');
             
-            // Se versão no cookie não corresponde ou versão mudou, forçar reload
-            if (cookieVersion !== currentVersion || (storedVersion && storedVersion !== currentVersion)) {
+            // Se versão na URL não corresponde OU cookie não corresponde OU versão mudou
+            if (urlVersion !== currentVersion || cookieVersion !== currentVersion || (storedVersion && storedVersion !== currentVersion)) {
                 sessionStorage.setItem('mimo_version', currentVersion);
-                // Remover param _refresh se existir (evitar loop)
+                // Forçar reload com versão correta na URL
                 var url = new URL(window.location.href);
-                url.searchParams.delete('_refresh');
+                url.searchParams.set('_v', currentVersion);
+                url.searchParams.delete('_refresh'); // Limpar params temporários
                 window.location.href = url.toString();
                 return;
             }
