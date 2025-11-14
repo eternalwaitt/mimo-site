@@ -96,10 +96,13 @@ Após o deploy:
 - O servidor não suporta FTPS. Use `protocol: ftp` (sem SSL/TLS)
 - Verifique se o protocolo está configurado como `ftp` e não `ftps`
 
-### Erro: "Authentication failed"
-- Verifique se `SFTP_USER` e `SFTP_PASSWORD` estão corretos nos secrets
-- Confirme que as credenciais são de FTP/FTPS
-- Verifique se o usuário tem permissão de acesso ao diretório remoto
+### Erro: "530 Authentication failed"
+- Verifique se `SFTP_USER` e `SFTP_PASSWORD` estão corretos nos secrets do GitHub
+- Confirme que não há espaços extras no início ou fim dos valores dos secrets
+- Verifique se o usuário precisa incluir algum sufixo (ex: `@ftp.minhamimo.com.br`)
+- Teste as credenciais manualmente com um cliente FTP (FileZilla, etc.)
+- Verifique se a conta FTP está ativa no painel da Locaweb
+- Confirme que as credenciais são de FTP (não SFTP/SSH)
 
 ### Erro: "Permission denied"
 - Verifique se o usuário FTP tem permissão de escrita no diretório remoto

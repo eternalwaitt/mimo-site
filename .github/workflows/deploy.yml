@@ -110,7 +110,10 @@ jobs:
           echo "✅ All FTP secrets are configured"
           echo "Server: ${{ secrets.SFTP_HOST }}"
           echo "User: ${{ secrets.SFTP_USER }}"
-          echo "Password: [HIDDEN]"
+          echo "User length: $(echo -n '${{ secrets.SFTP_USER }}' | wc -c)"
+          echo "Password length: $(echo -n '${{ secrets.SFTP_PASSWORD }}' | wc -c)"
+          echo "Port: 21"
+          echo "Protocol: ftp"
       
       - name: Deploy to Locaweb via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
