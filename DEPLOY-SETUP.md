@@ -12,7 +12,7 @@ Este guia explica como configurar o deploy automático via GitHub Actions para o
 
 O arquivo `.github/workflows/deploy.yml` já foi criado. Ele faz:
 - Minificação automática de CSS/JS antes do deploy
-- Upload via FTPS (porta 21) para o servidor
+- Upload via FTP (porta 21) para o servidor
 - Exclusão de arquivos desnecessários
 
 ## 🔐 Passo 2: Configurar Secrets no GitHub
@@ -88,9 +88,13 @@ Após o deploy:
 ## 🐛 Troubleshooting
 
 ### Erro: "Connection refused"
-- Verifique se a porta está correta (21 para FTPS)
-- Confirme que o servidor permite conexões FTPS
+- Verifique se a porta está correta (21 para FTP)
+- Confirme que o servidor permite conexões FTP
 - Verifique se o firewall não está bloqueando a conexão
+
+### Erro: "500 Command 'AUTH' not understood"
+- O servidor não suporta FTPS. Use `protocol: ftp` (sem SSL/TLS)
+- Verifique se o protocolo está configurado como `ftp` e não `ftps`
 
 ### Erro: "Authentication failed"
 - Verifique se `SFTP_USER` e `SFTP_PASSWORD` estão corretos nos secrets
@@ -122,7 +126,7 @@ Minifica CSS (build/minify-css.sh)
     ↓
 Minifica JS (build/minify-js.sh)
     ↓
-Deploy via FTPS (porta 21)
+Deploy via FTP (porta 21)
     ↓
 Site atualizado! 🎉
 ```

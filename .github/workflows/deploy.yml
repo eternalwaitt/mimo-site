@@ -121,7 +121,7 @@ jobs:
           port: 21
           local-dir: "./sitemimo/public_html/"
           server-dir: "./public_html/"
-          protocol: ftps
+          protocol: ftp
           exclude: |
             **/.git*
             **/.env*
