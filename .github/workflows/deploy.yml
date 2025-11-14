@@ -107,24 +107,24 @@ jobs:
             echo "❌ ERROR: SFTP_PASSWORD secret is not configured!"
             exit 1
           fi
-          echo "✅ All FTP secrets are configured"
+          echo "✅ All SFTP secrets are configured"
           echo "Server: ${{ secrets.SFTP_HOST }}"
           echo "User: ${{ secrets.SFTP_USER }}"
           echo "User length: $(echo -n '${{ secrets.SFTP_USER }}' | wc -c)"
           echo "Password length: $(echo -n '${{ secrets.SFTP_PASSWORD }}' | wc -c)"
-          echo "Port: 21"
-          echo "Protocol: ftp"
+          echo "Port: 22"
+          echo "Protocol: SFTP"
       
-      - name: Deploy to Locaweb via FTP
-        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+      - name: Deploy to Locaweb via SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v2.0
         with:
           server: ${{ secrets.SFTP_HOST }}
           username: ${{ secrets.SFTP_USER }}
           password: ${{ secrets.SFTP_PASSWORD }}
-          port: 21
-          local-dir: "./sitemimo/public_html/"
-          server-dir: "./public_html/"
-          protocol: ftp
+          port: 22
+          local_path: "./sitemimo/public_html/*"
+          remote_path: "./public_html/"
+          sftp_args: "-o StrictHostKeyChecking=no"
           exclude: |
             **/.git*
             **/.env*

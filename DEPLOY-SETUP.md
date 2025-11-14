@@ -12,7 +12,7 @@ Este guia explica como configurar o deploy automático via GitHub Actions para o
 
 O arquivo `.github/workflows/deploy.yml` já foi criado. Ele faz:
 - Minificação automática de CSS/JS antes do deploy
-- Upload via FTP (porta 21) para o servidor
+- Upload via SFTP (porta 22) para o servidor
 - Exclusão de arquivos desnecessários
 
 ## 🔐 Passo 2: Configurar Secrets no GitHub
@@ -88,21 +88,17 @@ Após o deploy:
 ## 🐛 Troubleshooting
 
 ### Erro: "Connection refused"
-- Verifique se a porta está correta (21 para FTP)
-- Confirme que o servidor permite conexões FTP
+- Verifique se a porta está correta (22 para SFTP)
+- Confirme que o servidor permite conexões SFTP
 - Verifique se o firewall não está bloqueando a conexão
+- Teste a conexão manualmente com um cliente SFTP (FileZilla, etc.)
 
-### Erro: "500 Command 'AUTH' not understood"
-- O servidor não suporta FTPS. Use `protocol: ftp` (sem SSL/TLS)
-- Verifique se o protocolo está configurado como `ftp` e não `ftps`
-
-### Erro: "530 Authentication failed"
+### Erro: "530 Authentication failed" ou "Permission denied"
 - Verifique se `SFTP_USER` e `SFTP_PASSWORD` estão corretos nos secrets do GitHub
 - Confirme que não há espaços extras no início ou fim dos valores dos secrets
-- Verifique se o usuário precisa incluir algum sufixo (ex: `@ftp.minhamimo.com.br`)
-- Teste as credenciais manualmente com um cliente FTP (FileZilla, etc.)
-- Verifique se a conta FTP está ativa no painel da Locaweb
-- Confirme que as credenciais são de FTP (não SFTP/SSH)
+- Teste as credenciais manualmente com um cliente SFTP (FileZilla, etc.)
+- Verifique se a conta SFTP está ativa no painel da Locaweb
+- Confirme que está usando as mesmas credenciais de acesso SSH/FTP do painel
 
 ### Erro: "Permission denied"
 - Verifique se o usuário FTP tem permissão de escrita no diretório remoto
@@ -129,7 +125,7 @@ Minifica CSS (build/minify-css.sh)
     ↓
 Minifica JS (build/minify-js.sh)
     ↓
-Deploy via FTP (porta 21)
+Deploy via SFTP (porta 22)
     ↓
 Site atualizado! 🎉
 ```
