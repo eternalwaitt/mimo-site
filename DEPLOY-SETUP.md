@@ -93,13 +93,38 @@ Após o deploy:
 - Verifique se o firewall não está bloqueando a conexão
 - Teste a conexão manualmente com um cliente FTP (FileZilla, etc.)
 
-### Erro: "530 Authentication failed" ou "Permission denied"
-- Verifique se `SFTP_USER` e `SFTP_PASSWORD` estão corretos nos secrets do GitHub
-- Confirme que não há espaços extras no início ou fim dos valores dos secrets
-- Teste as credenciais manualmente com um cliente FTP (FileZilla, etc.)
-- Verifique se a conta FTP está ativa no painel da Locaweb
-- Confirme que está usando as mesmas credenciais de acesso FTP do painel
-- Verifique se o caminho remoto está correto: `/home/esteticamimo/public_html/`
+### Erro: "530 Authentication failed"
+Este erro indica que as credenciais de autenticação estão incorretas. Siga estes passos:
+
+1. **Verifique a senha no GitHub Secrets:**
+   - Acesse **Settings** → **Secrets and variables** → **Actions**
+   - Verifique se `SFTP_PASSWORD` está exatamente igual à senha do painel da Locaweb
+   - **IMPORTANTE**: Não pode haver espaços extras no início ou fim da senha
+   - Copie e cole a senha diretamente do painel da Locaweb
+
+2. **Teste as credenciais manualmente:**
+   - Use FileZilla ou outro cliente FTP
+   - Configure:
+     - Host: `ftp.minhamimo.com.br`
+     - Usuário: `esteticamimo`
+     - Senha: (a mesma do painel)
+     - Porta: `21`
+     - Protocolo: `FTP - File Transfer Protocol`
+   - Se não conectar manualmente, a senha pode estar incorreta
+
+3. **Redefina a senha FTP se necessário:**
+   - Acesse o painel da Locaweb
+   - Vá em **FTP** ou **Acesso FTP**
+   - Altere a senha FTP
+   - Atualize o secret `SFTP_PASSWORD` no GitHub com a nova senha
+
+4. **Verifique se a conta está ativa:**
+   - Confirme no painel da Locaweb que a conta FTP está ativa
+   - Verifique se não há bloqueios temporários por tentativas falhadas
+
+5. **Confirme o formato do usuário:**
+   - O usuário deve ser exatamente: `esteticamimo`
+   - Sem espaços, sem prefixos ou sufixos
 
 ### Erro: "Permission denied"
 - Verifique se o usuário FTP tem permissão de escrita no diretório remoto

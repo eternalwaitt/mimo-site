@@ -110,11 +110,20 @@ jobs:
           echo "✅ All FTP secrets are configured"
           echo "Server: ${{ secrets.SFTP_HOST }}"
           echo "User: ${{ secrets.SFTP_USER }}"
-          echo "User length: $(echo -n '${{ secrets.SFTP_USER }}' | wc -c)"
-          echo "Password length: $(echo -n '${{ secrets.SFTP_PASSWORD }}' | wc -c)"
+          USER_LEN=$(echo -n "${{ secrets.SFTP_USER }}" | wc -c)
+          PASS_LEN=$(echo -n "${{ secrets.SFTP_PASSWORD }}" | wc -c)
+          echo "User length: $USER_LEN characters"
+          echo "Password length: $PASS_LEN characters"
           echo "Port: 21"
           echo "Protocol: FTP"
           echo "Remote path: /home/esteticamimo/public_html/"
+          echo ""
+          echo "⚠️  TROUBLESHOOTING:"
+          echo "If authentication fails, verify:"
+          echo "1. Password in GitHub secrets matches the FTP password in Locaweb panel"
+          echo "2. No extra spaces before/after password in GitHub secrets"
+          echo "3. User account is active in Locaweb panel"
+          echo "4. Test credentials manually with FileZilla or similar FTP client"
       
       - name: Deploy to Locaweb via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
