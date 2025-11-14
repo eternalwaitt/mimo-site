@@ -3,7 +3,7 @@
  * Site Mimo - Página Inicial
  * 
  * Desenvolvido por: Victor Penter
- * Versão: 2.2.3
+ * Versão: 2.2.5
  * 
  * Este arquivo contém a página principal do site com formulário de contato
  * e seções de serviços, depoimentos e informações de contato.
@@ -262,9 +262,9 @@ if ($_POST) {
     <!-- Critical CSS (Above the fold) -->
     <?php include 'inc/critical-css.php'; ?>
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700i" rel="stylesheet">
+    <!-- Fonts with font-display: swap for better performance -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700i&display=swap" rel="stylesheet">
     <link href="Akrobat-Regular.woff" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
         integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
@@ -291,72 +291,6 @@ if ($_POST) {
 
     <?php include "inc/header.php"; ?>
 
-    <!-- Modal Impedimento -->
-    <div class="modal fade" id="exampleModalCenterNav" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h3 class="textPink text-center my-3">ATENÇÃO!</h3>
-                    <p class="textDarkGrey text-center">
-                        Para concluir o agendamento é necessário depósito de <b>R$20</b> para cada procedimento
-                        agendado, a fim de evitar segurarmos vagas na agenda e haver falta no dia. Solicitamos que seja
-                        depositado em até <b>48 horas</b> após o pré-agendamento para confirmar seu horário. Caso não
-                        seja efetuado o agendamento é cancelado para não segurar vaga na agenda.
-                        <span class="textPink font-weight-bold">
-                            O restante do valor deverá ser pago no dia do atendimento. Aceitamos dinheiro ou cartão
-                            débito/crédito.
-                        </span><br />
-                        Pedimos por gentileza que se atente ao horário agendado, pois atrasos superiores a 10 minutos
-                        podem ocasionar o cancelamento do seu atendimento sem a possibilidade de novo agendamento.<br />
-                        Obs. O não comparecimento com aviso prévio de 48hrs acarretará na perda integral do valor
-                        depositado. Caso não possa comparecer nos comunique com 48hrs de antecedência e o valor será
-                        creditado para reagendar uma nova visita.
-                        <br /><br />
-                        <span class="textPink font-weight-bold">
-                            Dados bancários:<br />
-                        </span>
-                        MIMO CENTRO DE BELEZA LTDA<br />
-                        28.038.663/0001-14<br />
-                        BANCO ITAÚ: 341<br />
-                        AGÊNCIA VILLA LOBOS: 2954<br />
-                        CONTA CORRENTE: 17793-3 <br>
-                        PIX: 28.038.663/0001-14
-                    </p>
-                </div>
-                <button data-dismiss="modal" class="d-none d-sm-block">
-                    <a class="btn btnAgendamento" data-toggle="modal" data-target="#exampleModalCenterNav2"
-                        style="width: 100%">ENTENDI E QUERO AGENDAR</a>
-                </button>
-                <button class="d-sm-none">
-                    <a class="btn btnAgendamento" href="https://agendamento.salaovip.com.br/?slug=mimoestetica"
-                        target="_blank" style="width: 100%">ENTENDI E QUERO AGENDAR</a>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModalCenterNav2" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <iframe id="agendaWidgetSalaoNav" width="100%" height="520px"
-                        style="border:none; border-radius: 10px;"
-                        src="https://agendamento.salaovip.com.br/?slug=mimoestetica"></iframe>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 
@@ -727,8 +661,9 @@ if ($_POST) {
                                     </div>
 
                                     <div class="" data-validate="Selecione o assunto">
+                                        <label for="exampleFormControlSelect1" class="sr-only">Assunto</label>
                                         <select class="wrap-input100 validate-input assunto-form"
-                                            id="exampleFormControlSelect1" name="subject" required>
+                                            id="exampleFormControlSelect1" name="subject" required aria-label="Assunto">
                                             <option value="" disabled <?php echo !isset($_POST['subject']) ? 'selected' : ''; ?>>Selecione o assunto</option>
                                             <option value="Dúvidas" <?php echo (isset($_POST['subject']) && $_POST['subject'] === 'Dúvidas') ? 'selected' : ''; ?>>Dúvidas</option>
                                             <option value="Agradecimentos/Depoimentos" <?php echo (isset($_POST['subject']) && $_POST['subject'] === 'Agradecimentos/Depoimentos') ? 'selected' : ''; ?>>Agradecimentos/Depoimentos</option>
@@ -856,22 +791,25 @@ if ($_POST) {
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
     <script>window.jQuery || document.write('<script src="bootstrap/jquery/dist/jquery.slim.min.js"><\/script>')</script>
-    <script src="bootstrap/popper.js/dist/popper.min.js"></script>
-    <script src="bootstrap/bootstrap/dist/js/bootstrap.min.js"></script>
-    <?php echo js_tag('form/main.js'); ?>
-    <?php echo js_tag('main.js'); ?>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.18/jquery.touchSwipe.min.js"></script>
+    <script src="bootstrap/popper.js/dist/popper.min.js" defer></script>
+    <script src="bootstrap/bootstrap/dist/js/bootstrap.min.js" defer></script>
+    <?php echo js_tag('form/main.js', ['defer' => true]); ?>
+    <?php echo js_tag('main.js', ['defer' => true]); ?>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.18/jquery.touchSwipe.min.js" defer></script>
     <script>
-        if ($('.carousel').length) {
-            $('.carousel').carousel({ interval: 7000, pause: false });
-            $(".carousel").swipe({
-                swipe: function (event, direction, distance, duration, fingerCount, fingerData) {
-                    if (direction == 'left') $(this).carousel('next');
-                    if (direction == 'right') $(this).carousel('prev');
-                },
-                allowPageScroll: "vertical"
-            });
-        }
+        // Wait for DOM and jQuery to be ready (defer ensures scripts load after DOM)
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof jQuery !== 'undefined' && jQuery('.carousel').length) {
+                jQuery('.carousel').carousel({ interval: 7000, pause: false });
+                jQuery(".carousel").swipe({
+                    swipe: function (event, direction, distance, duration, fingerCount, fingerData) {
+                        if (direction == 'left') jQuery(this).carousel('next');
+                        if (direction == 'right') jQuery(this).carousel('prev');
+                    },
+                    allowPageScroll: "vertical"
+                });
+            }
+        });
     </script>
 
     <!-- Piwik -->
@@ -880,7 +818,7 @@ if ($_POST) {
         _paq.push(['trackPageView']);
         _paq.push(['enableLinkTracking']);
         (function () {
-            var u = "http://cluster-piwik.locaweb.com.br/";
+            var u = "https://cluster-piwik.locaweb.com.br/";
             _paq.push(['setTrackerUrl', u + 'piwik.php']);
             _paq.push(['setSiteId', 28515]);
             var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
@@ -889,7 +827,7 @@ if ($_POST) {
     </script>
     <!-- End Piwik Code -->
 
-    <script src="//code.tidio.co/ylbfxpiqcmi2on8duid7rpjgqydlrqne.js"></script>
+    <script src="https://code.tidio.co/ylbfxpiqcmi2on8duid7rpjgqydlrqne.js" defer></script>
 
     <!-- Botão Voltar ao Topo -->
     <?php include 'inc/back-to-top.php'; ?>

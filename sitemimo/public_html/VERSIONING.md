@@ -144,6 +144,7 @@ Before releasing a new version:
 See `CHANGELOG.md` for detailed version history.
 
 Quick reference:
+- **2.2.5** (2025-01-19): Performance optimizations (font-display, defer scripts), accessibility improvements, removed booking system references
 - **2.2.4** (2025-01-19): Added vagas page (job listings) with full integration
 - **2.2.3** (2025-01-19): Fixed form submission (removed WhatsApp redirect, now sends to email, AJAX, validation)
 - **2.2.2** (2025-01-19): Font-display optimization, print styles, form loading states

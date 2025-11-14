@@ -72,10 +72,10 @@ define('GOOGLE_PLACES_API_KEY', getenv('GOOGLE_PLACES_API_KEY') ?: 'AIzaSyBHKeuR
 define('GOOGLE_PLACE_ID', getenv('GOOGLE_PLACE_ID') ?: 'ChIJkVYWuB1XzpQRjbjBjyb4H6M');
 
 // Application Version (Semantic Versioning: MAJOR.MINOR.PATCH)
-define('APP_VERSION', '2.2.4');
+define('APP_VERSION', '2.2.5');
 define('APP_VERSION_MAJOR', 2);
 define('APP_VERSION_MINOR', 2);
-define('APP_VERSION_PATCH', 4);
+define('APP_VERSION_PATCH', 5);
 
 // Asset version for cache busting (update this when deploying changes)
 // Format: YYYYMMDD (date-based for easy tracking)

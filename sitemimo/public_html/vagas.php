@@ -3,7 +3,7 @@
  * Site Mimo - Vagas Disponíveis
  * 
  * Desenvolvido por: Victor Penter
- * Versão: 2.2.4
+ * Versão: 2.2.5
  * 
  * Página para exibir vagas disponíveis na MIMO Estética
  */
@@ -233,7 +233,7 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
     <div class="vagas-hero">
         <div>
             <h1 class="Akrobat">TRABALHE CONOSCO</h1>
-            <p>Faça parte da equipe MIMO Estética</p>
+            <p>Faça parte da equipe Mimo</p>
         </div>
     </div>
 
@@ -406,14 +406,15 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
         </div>
     </section>
 
-    <?php include 'inc/back-to-top.php'; ?>
-
     <!-- Scripts -->
     <script src="bootstrap/jquery/dist/jquery.min.js"></script>
     <script src="bootstrap/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <?php echo js_tag('main.js'); ?>
 
     <?php include 'inc/gtm-body.php'; ?>
+
+    <!-- Botão Voltar ao Topo -->
+    <?php include 'inc/back-to-top.php'; ?>
 </body>
 
 </html>

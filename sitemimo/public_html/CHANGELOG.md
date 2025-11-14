@@ -5,6 +5,22 @@ All notable changes to the Mimo Site project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.5] - 2025-01-19
+
+### Changed
+- **Performance Improvements**: Implemented PageSpeed Insights optimizations
+  - Added `font-display: swap` to Google Fonts (estimated savings: 730ms)
+  - Added `defer` attribute to non-critical scripts (estimated savings: 690ms)
+  - Fixed HTTPS mixed content issue (piwik.js now uses HTTPS)
+  - Updated CSP to allow cluster-piwik.locaweb.com.br
+- **Accessibility**: Added label and aria-label to form select element
+- **Removed**: All references to agendamento.salaovip.com.br and agendamento.avec.beauty
+  - Removed booking iframe and buttons
+  - Removed booking modal
+  - Removed booking URLs from CSP headers
+- **Vagas Page**: Updated text from "Faça parte da equipe MIMO Estética" to "Faça parte da equipe Mimo"
+- **Vagas Page**: Fixed back-to-top button positioning (moved to end of body, same as index.php)
+
 ## [2.2.4] - 2025-01-19
 
 ### Added
