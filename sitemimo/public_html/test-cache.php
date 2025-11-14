@@ -134,7 +134,8 @@ require_once 'inc/security-headers.php';
         <h1>🔍 Test Cache Headers</h1>
         
         <div class="info">
-            <strong>Objetivo:</strong> Verificar se os headers de cache estão sendo aplicados corretamente para bypassar o cache Varnish da Locaweb.
+            <strong>Objetivo:</strong> Verificar se os headers de cache estão sendo aplicados corretamente para bypassar o cache Varnish da Locaweb.<br><br>
+            <strong>Nota:</strong> Se "Headers já enviados?" mostrar "SIM (NORMAL)", isso significa que os headers foram enviados quando o output HTML começou, o que é esperado. O importante é verificar se os headers de cache aparecem na tabela abaixo com status "OK".
         </div>
 
         <h2>Headers HTTP Enviados</h2>
@@ -234,8 +235,16 @@ require_once 'inc/security-headers.php';
                 <td>
                     <?php 
                     if (headers_sent($debugFile, $debugLine)) {
-                        echo '<span class="status error">SIM (ERRO)</span><br>';
-                        echo '<small style="color: #999;">Enviados em: ' . htmlspecialchars($debugFile) . ':' . $debugLine . '</small>';
+                        // Se foi enviado no início do HTML, isso é NORMAL e esperado
+                        $isNormal = (strpos($debugFile, 'test-cache.php') !== false && $debugLine >= 43);
+                        if ($isNormal) {
+                            echo '<span class="status ok">SIM (NORMAL)</span><br>';
+                            echo '<small style="color: #666;">Headers enviados quando output HTML começou (linha ' . $debugLine . ')<br>';
+                            echo 'Isso é esperado - os headers de cache foram definidos ANTES do output começar.</small>';
+                        } else {
+                            echo '<span class="status error">SIM (ERRO)</span><br>';
+                            echo '<small style="color: #999;">Enviados em: ' . htmlspecialchars($debugFile) . ':' . $debugLine . '</small>';
+                        }
                     } else {
                         echo '<span class="status ok">NÃO (OK)</span>';
                     }
