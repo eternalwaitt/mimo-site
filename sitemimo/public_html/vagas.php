@@ -5,7 +5,7 @@
  * Desenvolvido por: Victor Penter
  * Versão: 2.2.5
  * 
- * Página para exibir vagas disponíveis na MIMO Estética
+ * Página para exibir vagas disponíveis na Mimo
  */
 
 // Suprimir avisos de depreciação (compatibilidade PHP 8.4)
@@ -35,8 +35,8 @@ require_once 'inc/asset-helper.php';
 require_once 'inc/breadcrumbs.php';
 
 // Definir variáveis para SEO
-$pageTitle = 'Vagas Disponíveis - MIMO Estética | Trabalhe Conosco';
-$pageDescription = 'Venha fazer parte da equipe MIMO Estética! Confira as vagas disponíveis e trabalhe em um ambiente acolhedor e profissional.';
+$pageTitle = 'Vagas Disponíveis - Mimo | Trabalhe Conosco';
+$pageDescription = 'Venha fazer parte da equipe Mimo! Confira as vagas disponíveis e trabalhe em um ambiente acolhedor e profissional.';
 $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são paulo, vaga salão beleza, emprego centro beleza';
 ?>
 <!doctype html>
@@ -236,11 +236,6 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
             <p>Faça parte da equipe Mimo</p>
         </div>
     </div>
-
-    <!-- Breadcrumbs -->
-    <?php
-    echo generate_service_breadcrumbs('Vagas', 'vagas.php');
-    ?>
 
     <!-- Vagas Section -->
     <section class="py-5" style="background: #f8f9fa;">

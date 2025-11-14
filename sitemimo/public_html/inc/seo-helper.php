@@ -38,7 +38,7 @@ function generate_open_graph_tags($title, $description, $image = '', $url = '', 
     $html .= '    <meta property="og:image:width" content="1200">' . "\n";
     $html .= '    <meta property="og:image:height" content="630">' . "\n";
     $html .= '    <meta property="og:locale" content="pt_BR">' . "\n";
-    $html .= '    <meta property="og:site_name" content="MIMO Estética">' . "\n";
+    $html .= '    <meta property="og:site_name" content="Mimo">' . "\n";
     
     return $html;
 }
@@ -82,7 +82,7 @@ function generate_local_business_schema($options = []) {
     $siteUrl = defined('SITE_URL') ? SITE_URL : 'https://minhamimo.com.br';
     
     $defaults = [
-        'name' => 'MIMO Estética',
+        'name' => 'Mimo',
         'description' => 'Centro de beleza e estética oferecendo serviços de qualidade com preços acessíveis. Você merece esse mimo!',
         'address' => [
             'streetAddress' => 'Rua Heitor Penteado, 626',
@@ -182,7 +182,7 @@ function generate_service_schema($serviceName, $description, $priceRange = '', $
         'description' => $description,
         'provider' => [
             '@type' => 'BeautySalon',
-            'name' => 'MIMO Estética',
+            'name' => 'Mimo',
             'url' => $siteUrl
         ]
     ];

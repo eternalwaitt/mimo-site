@@ -93,8 +93,8 @@ if (!isset($includeGTM)) {
         'Salão' => 'Salão de beleza em São Paulo: mechas, coloração, corte, alisamento e mega hair. Serviços completos de cabelo com profissionais especializadas.'
     ];
     
-    $pageDescription = $serviceDescriptions[$serviceNameClean] ?? "Serviços de {$serviceNameClean} em São Paulo. Centro de beleza MIMO Estética com profissionais especializadas e preços acessíveis.";
-    $pageTitle = "{$serviceNameClean} em São Paulo - MIMO Estética | Preços e Agendamento";
+    $pageDescription = $serviceDescriptions[$serviceNameClean] ?? "Serviços de {$serviceNameClean} em São Paulo. Centro de beleza Mimo com profissionais especializadas e preços acessíveis.";
+    $pageTitle = "{$serviceNameClean} em São Paulo - Mimo | Preços e Agendamento";
     $pageKeywords = strtolower($serviceNameClean) . ' são paulo, ' . strtolower($serviceNameClean) . ' vila madalena, mimo estética, centro de beleza são paulo';
     
     echo generate_seo_meta_tags($pageTitle, $pageDescription, $pageKeywords);
@@ -222,7 +222,7 @@ if (!isset($includeGTM)) {
         
         // Support custom footer inside tab-content (for salao)
         if (isset($footerInsideTabContent) && $footerInsideTabContent):
-            echo '<footer class="container"><div class="row"><div class="col-12 col-md my-2 py-2"><small class="d-block text-muted text-center" style="line-height: 3;">&copy; MIMO Estética 2018 | Todos os direitos reservados</small></div></div></footer>';
+            echo '<footer class="container"><div class="row"><div class="col-12 col-md my-2 py-2"><small class="d-block text-muted text-center" style="line-height: 3;">&copy; Mimo 2018 | Todos os direitos reservados</small></div></div></footer>';
         endif;
         ?>
     </div>
@@ -231,7 +231,7 @@ if (!isset($includeGTM)) {
     <footer class="container">
         <div class="row">
             <div class="col-12 col-md my-2 py-2">
-                <small class="d-block text-muted text-center" style="line-height: 3;">&copy; MIMO Estética 2018 | Todos os direitos reservados</small>
+                <small class="d-block text-muted text-center" style="line-height: 3;">&copy; Mimo 2018 | Todos os direitos reservados</small>
             </div>
         </div>
     </footer>

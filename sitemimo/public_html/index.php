@@ -237,7 +237,7 @@ if ($_POST) {
     
     <?php
     // SEO Meta Tags
-    $pageTitle = 'MIMO Estética - Centro de Beleza em São Paulo | Estética, Salão, Cílios e Design';
+    $pageTitle = 'Mimo - Centro de Beleza em São Paulo | Estética, Salão, Cílios e Design';
     $pageDescription = 'Centro de beleza e estética em São Paulo oferecendo serviços de qualidade: estética facial, estética corporal, salão, esmalteria, micropigmentação e cílios. Preços acessíveis. Você merece esse mimo!';
     $pageKeywords = 'estética são paulo, centro de beleza vila madalena, salão de beleza, estética facial, estética corporal, esmalteria, micropigmentação, cílios e design, alongamento de unhas, design de sobrancelha';
     
@@ -467,120 +467,201 @@ if ($_POST) {
         <div class="col-md-12 p-lg-12 mx-auto my-5">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-8 col-center m-auto">
-                        <h4 class="textDarkGrey" style="margin-bottom: 0!important">MAIS SOBRE NÓS</h4>
-                        <h3 style="color:#fff">DEPOIMENTOS</h3>
-                        <div id="myCarousel" class="carousel slide" data-ride="carousel">
-                            <!-- Carousel indicators -->
-                            <ol class="carousel-indicators ">
-                                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                                <li data-target="#myCarousel" data-slide-to="1"></li>
-                                <li data-target="#myCarousel" data-slide-to="2"></li>
-                                <li data-target="#myCarousel" data-slide-to="3"></li>
-                                <li data-target="#myCarousel" data-slide-to="4"></li>
-                                <li data-target="#myCarousel" data-slide-to="5"></li>
-                            </ol>
-                            <!-- Wrapper for carousel items -->
-                            <div class="carousel-inner">
-                                <div class="item carousel-item active">
-                                    <div class="img-box"><?php echo picture_webp('img/depo/pdamora.png', 'foto-pdamora', 'img-fluid'); ?></div>
-                                    <h5 class="font-weight-bold textDarkGrey mt-4">@pdamora</h5>
-                                    <p class="testimonial">
-                                        No meu caso eu só compartilho o que faz bem para mim. Com a Mimo não é
-                                        diferente. Não tem ninguém que eu conheça que não me pergunte aonde eu faço meu
-                                        alongamento de unhas e a cor do meu cabelo! Faço questão de recomendar a Mimo,
-                                        pois confio de olhos fechados nas profissionais, que além de talentosas são
-                                        responsáveis, cuidadosas e o mais importante: sabem o que estão fazendo. Sempre
-                                        saio de lá feliz da vida :)
-                                    </p>
+                    <div class="col-md-10 col-center m-auto">
+                        <h3 style="color:#fff; margin-bottom: 30px;">O QUE NOSSAS CLIENTES DIZEM</h3>
+                        <?php
+                        // Buscar reviews do Google (4 e 5 estrelas, ordenados por qualidade)
+                        $googleReviews = [];
+                        if (defined('GOOGLE_PLACES_API_KEY') && !empty(GOOGLE_PLACES_API_KEY) && 
+                            defined('GOOGLE_PLACE_ID') && !empty(GOOGLE_PLACE_ID)) {
+                            $googleReviews = get_google_reviews(GOOGLE_PLACE_ID, GOOGLE_PLACES_API_KEY, 4, 10);
+                        }
+                        
+                        // Se tiver menos de 10 reviews do Google, complementar com reviews manuais
+                        if (count($googleReviews) < 10) {
+                            $manualReviews = get_manual_reviews(4, 10);
+                            // Converter formato manual para formato compatível
+                            foreach ($manualReviews as &$review) {
+                                if (isset($review['date'])) {
+                                    $review['time'] = strtotime($review['date']);
+                                }
+                                if (!isset($review['profile_photo'])) {
+                                    $review['profile_photo'] = null;
+                                }
+                            }
+                            
+                            // Combinar reviews do Google com manuais, evitando duplicatas
+                            $existingAuthors = array_map(function($r) { return mb_strtolower($r['author']); }, $googleReviews);
+                            foreach ($manualReviews as $manualReview) {
+                                if (count($googleReviews) >= 20) break; // Coletar mais para depois ordenar
+                                $authorLower = mb_strtolower($manualReview['author']);
+                                if (!in_array($authorLower, $existingAuthors)) {
+                                    // Adicionar campos necessários para ordenação
+                                    if (!isset($manualReview['text_length'])) {
+                                        $manualReview['text_length'] = mb_strlen($manualReview['text'] ?? '');
+                                    }
+                                    if (!isset($manualReview['has_photo'])) {
+                                        $manualReview['has_photo'] = !empty($manualReview['profile_photo']);
+                                    }
+                                    $googleReviews[] = $manualReview;
+                                    $existingAuthors[] = $authorLower;
+                                }
+                            }
+                            
+                            // Reordenar todos os reviews combinados com a mesma lógica de prioridade
+                            // 1. Reviews com foto
+                            // 2. Rating (5 estrelas antes de 4)
+                            // 3. Comprimento do texto (mais longos primeiro)
+                            // 4. Mais antigos primeiro (para ter variedade temporal)
+                            usort($googleReviews, function($a, $b) {
+                                $aHasPhoto = isset($a['has_photo']) ? $a['has_photo'] : !empty($a['profile_photo']);
+                                $bHasPhoto = isset($b['has_photo']) ? $b['has_photo'] : !empty($b['profile_photo']);
+                                
+                                // Prioridade 1: Reviews com foto
+                                if ($aHasPhoto != $bHasPhoto) {
+                                    return $bHasPhoto ? 1 : -1;
+                                }
+                                
+                                // Prioridade 2: Rating (5 estrelas antes de 4)
+                                if ($a['rating'] != $b['rating']) {
+                                    return $b['rating'] - $a['rating'];
+                                }
+                                
+                                // Prioridade 3: Comprimento do texto (mais longos primeiro)
+                                $aLength = isset($a['text_length']) ? $a['text_length'] : mb_strlen($a['text'] ?? '');
+                                $bLength = isset($b['text_length']) ? $b['text_length'] : mb_strlen($b['text'] ?? '');
+                                if ($aLength != $bLength) {
+                                    return $bLength - $aLength;
+                                }
+                                
+                                // Prioridade 4: Mais antigos primeiro (para ter variedade temporal)
+                                $aTime = isset($a['time']) ? $a['time'] : 0;
+                                $bTime = isset($b['time']) ? $b['time'] : 0;
+                                return $aTime - $bTime;
+                            });
+                        }
+                        
+                        // Se ainda não tiver reviews, usar apenas manuais
+                        if (empty($googleReviews)) {
+                            $googleReviews = get_manual_reviews(4, 10);
+                            // Converter formato manual para formato compatível
+                            foreach ($googleReviews as &$review) {
+                                if (isset($review['date'])) {
+                                    $review['time'] = strtotime($review['date']);
+                                }
+                                if (!isset($review['profile_photo'])) {
+                                    $review['profile_photo'] = null;
+                                }
+                                if (!isset($review['text_length'])) {
+                                    $review['text_length'] = mb_strlen($review['text'] ?? '');
+                                }
+                                if (!isset($review['has_photo'])) {
+                                    $review['has_photo'] = false;
+                                }
+                            }
+                            
+                            // Ordenar reviews manuais também
+                            usort($googleReviews, function($a, $b) {
+                                $aHasPhoto = isset($a['has_photo']) ? $a['has_photo'] : !empty($a['profile_photo']);
+                                $bHasPhoto = isset($b['has_photo']) ? $b['has_photo'] : !empty($b['profile_photo']);
+                                if ($aHasPhoto != $bHasPhoto) {
+                                    return $bHasPhoto ? 1 : -1;
+                                }
+                                if ($a['rating'] != $b['rating']) {
+                                    return $b['rating'] - $a['rating'];
+                                }
+                                $aLength = isset($a['text_length']) ? $a['text_length'] : 0;
+                                $bLength = isset($b['text_length']) ? $b['text_length'] : 0;
+                                if ($aLength != $bLength) {
+                                    return $bLength - $aLength;
+                                }
+                                $aTime = isset($a['time']) ? $a['time'] : 0;
+                                $bTime = isset($b['time']) ? $b['time'] : 0;
+                                return $aTime - $bTime;
+                            });
+                        }
+                        
+                        // Limitar a 10 reviews no máximo (já ordenados)
+                        $googleReviews = array_slice($googleReviews, 0, 10);
+                        
+                        if (!empty($googleReviews)) {
+                            $reviewCount = count($googleReviews);
+                            ?>
+                            <div id="testimonialsCarousel" class="testimonials-carousel carousel slide" data-ride="carousel" data-interval="7000">
+                                <!-- Carousel indicators -->
+                                <ol class="carousel-indicators testimonials-indicators">
+                                    <?php for ($i = 0; $i < $reviewCount; $i++): ?>
+                                        <li data-target="#testimonialsCarousel" data-slide-to="<?php echo $i; ?>" <?php echo $i === 0 ? 'class="active"' : ''; ?>></li>
+                                    <?php endfor; ?>
+                                </ol>
+                                <!-- Wrapper for carousel items -->
+                                <div class="carousel-inner testimonials-inner">
+                                    <?php foreach ($googleReviews as $index => $review): ?>
+                                        <div class="carousel-item testimonial-card <?php echo $index === 0 ? 'active' : ''; ?>">
+                                            <div class="testimonial-content">
+                                                <?php
+                                                // Foto do perfil (se disponível) ou placeholder
+                                                if (!empty($review['profile_photo'])) {
+                                                    echo '<div class="testimonial-avatar"><img src="' . htmlspecialchars($review['profile_photo']) . '" alt="' . htmlspecialchars($review['author']) . '" loading="lazy"></div>';
+                                                } else {
+                                                    // Placeholder com inicial do nome
+                                                    $initial = mb_substr(mb_strtoupper($review['author']), 0, 1);
+                                                    echo '<div class="testimonial-avatar testimonial-avatar-placeholder">' . htmlspecialchars($initial) . '</div>';
+                                                }
+                                                ?>
+                                                <div class="testimonial-rating">
+                                                    <?php if (isset($review['rating'])): ?>
+                                                        <?php for ($i = 1; $i <= 5; $i++): ?>
+                                                            <?php if ($i <= $review['rating']): ?>
+                                                                <i class="fas fa-star"></i>
+                                                            <?php else: ?>
+                                                                <i class="far fa-star"></i>
+                                                            <?php endif; ?>
+                                                        <?php endfor; ?>
+                                                    <?php endif; ?>
+                                                </div>
+                                                <blockquote class="testimonial-text">
+                                                    <?php echo nl2br(htmlspecialchars($review['text'])); ?>
+                                                </blockquote>
+                                                <div class="testimonial-author">
+                                                    <strong><?php echo htmlspecialchars($review['author']); ?></strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
                                 </div>
-                                <div class="item carousel-item">
-                                    <div class="img-box"><?php echo picture_webp('img/depo/barbara.jpeg', 'foto-barbara', 'img-fluid'); ?></div>
-                                    <h5 class="font-weight-bold textDarkGrey mt-4">@babiputtini</h5>
-                                    <p class="testimonial">
-                                        Desde que me mudei pra SP, há 7 anos atrás, eu perdi a rotina que eu tinha de ir
-                                        ao salão. Não sei se pela correria do dia a dia, se pela preguiça… Mas fato é
-                                        que, desde que comecei a me aventurar por salões de beleza por aqui, eu nunca
-                                        encontrei um que me fazia sentir à vontade. Era conhecer um, fazer a sobrancelha
-                                        e ok, próximo. Gostar de uma manicure, fazer por um mês, toda semana, e já ficar
-                                        desanimada pra ir de novo. De verdade, eu aproveito esse espaço pra dizer que ir
-                                        pra Mimo não me dá preguiça, não me exige nenhum esforço. Eu gosto de ir, bater
-                                        papo… eu sinto as profissionais muito próximas e muito verdadeiras. Ninguém
-                                        tenta te empurrar nada, os serviços não são feitos de forma corrida e são sempre
-                                        feitos com muito cuidado. Eu faço sobrancelha, cílios, unhas, massagem, limpeza
-                                        de pele… Teve semana que cheguei a ir 3x pra fazer todas as princesices que eu
-                                        queria. Obrigada, meninas por todo o cuidado e paciência, desde a hora de marcar
-                                        até a hora de pagar. Vocês são seres humanas especiais e construíram uma cultura
-                                        de trabalho de atendimento leve e gostoso, o que é muito difícil de achar. <3
-                                            </p>
-                                </div>
-                                <div class="item carousel-item">
-                                    <div class="img-box"><?php echo picture_webp('img/depo/amanda.jpeg', 'foto-amanda', 'img-fluid'); ?></div>
-                                    <h5 class="font-weight-bold textDarkGrey mt-4">@amandices</h5>
-                                    <p class="testimonial">
-                                        Eu simplesmente amo a Mimo. Frequento há mais de 2 anos e já fiz quase tudo que
-                                        tem disponível: unha, cabelo, cílios, sobrancelha, estética corporal... Sempre
-                                        saio de lá me sentindo melhor comigo mesma, tanto pela qualidade dos
-                                        procedimentos, quanto pelo tratamento da equipe que é sempre muito atenciosa,
-                                        desde o momento do agendamento de horário, até a hora que saio de lá. Meus dias
-                                        são muito corridos e, quando estou na Mimo, posso parar pra relaxar e ter um
-                                        momento de cuidado comigo mesma com total confiança.
-                                    </p>
-                                </div>
-                                <div class="item carousel-item">
-                                    <div class="img-box"><?php echo picture_webp('img/depo/mamoderoso.jpeg', 'foto-mamoderoso', 'img-fluid'); ?></div>
-                                    <h5 class="font-weight-bold textDarkGrey mt-4">@mamoderoso</h5>
-                                    <h4 class="font-weight-light textDarkGrey text-uppercase">Assim que cheguei na Mimo,
-                                        nunca mais saí!</h4>
-                                    <p class="testimonial">
-                                        A mimo pra mim foi a descoberta de um lugar novo na minha vida. Era uma portinha
-                                        com uma recepção e duas salas, com duas meninas que conquistaram meu coração.
-                                        Assim que cheguei na Mimo, nunca mais saí. Fez parte de me sentir mais eu e mais
-                                        feliz comigo mesma. E ver cada fase dessa portinha com duas salas, crescer
-                                        tanto, num lugar incrível, com diversas opções pra fazer milhares de meninas
-                                        como eu se sentirem mais felizes consigo mesmas. Todo mundo que trabalha lá me
-                                        conquistou, além de fazerem um trabalho impecável e com todo carinho. Desejo só
-                                        mais sucesso e amor pra esse lugar incrível, e pra essas duas meninas que eu
-                                        amo! ❤
-                                    </p>
-                                </div>
-                                <div class="item carousel-item">
-                                    <div class="img-box"><?php echo picture_webp('img/depo/livcordeiro.jpeg', 'foto-livcordeiro', 'img-fluid'); ?></div>
-                                    <h5 class="font-weight-bold textDarkGrey mt-4">@livcordeiro</h5>
-                                    <h4 class="font-weight-light textDarkGrey text-uppercase">Saio de lá me sentindo bem
-                                        comigo mesma e com as energias renovadas!</h4>
-                                    <p class="testimonial">
-                                        Já vou na mimo a uma ano e com certeza é um dos meus lugares favoritos da vida!
-                                        Sempre fui muito bem atendida e todos os procedimentos me agradaram muito, além
-                                        da energia maravilhosa que o lugar tem! Saio de lá me sentindo bem comigo mesma
-                                        e com as energias renovadas. Recomendo muito!
-                                    </p>
-                                </div>
-                                <div class="item carousel-item">
-                                    <div class="img-box"><?php echo picture_webp('img/depo/cathamendonca.jpeg', 'foto-cathamendonca', 'img-fluid'); ?></div>
-                                    <h5 class="font-weight-bold textDarkGrey mt-4">@cathamendonca</h5>
-                                    <h4 class="font-weight-light textDarkGrey text-uppercase">indico pra todo mundo ❤
-                                    </h4>
-                                    <p class="testimonial">
-                                        Pra quem vem de outro estado, é bem difícil encontrar lugares onde a gente se
-                                        sinta em casa. Com a Mimo foi assim, eu comecei indo fazer uma coisinha aqui e
-                                        outra ali e agora faço boa parte dos procedimentos disponíveis. E são as horas
-                                        mais relaxantes da semana. Depois disso, eu mudei muito a forma como eu me vejo
-                                        e as outras pessoas sempre comentam como notam essa diferença em mim. Me sinto
-                                        parte, indico pra todo mundo e torço pra que a Mimo cresça muito mais.
-                                    </p>
-                                </div>
+                                <!-- Carousel controls -->
+                                <a class="carousel-control-prev testimonials-control" href="#testimonialsCarousel" role="button" data-slide="prev">
+                                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                                    <span class="sr-only">Anterior</span>
+                                </a>
+                                <a class="carousel-control-next testimonials-control" href="#testimonialsCarousel" role="button" data-slide="next">
+                                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    <span class="sr-only">Próximo</span>
+                                </a>
                             </div>
-                            <!-- Carousel controls -->
-                            <a class="carousel-control left carousel-control-prev d-none d-md-flex" href="#myCarousel"
-                                data-slide="prev">
-                                <i class="fa fa-angle-left"></i>
-                            </a>
-                            <a class="carousel-control right carousel-control-next d-none d-md-flex" href="#myCarousel"
-                                data-slide="next">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </div>
+                            <?php
+                            // Link para reviews do Google (se tiver Place ID configurado)
+                            if (defined('GOOGLE_PLACE_ID') && !empty(GOOGLE_PLACE_ID)) {
+                                $googleMapsUrl = 'https://www.google.com/maps/place/?q=place_id:' . urlencode(GOOGLE_PLACE_ID);
+                                ?>
+                                <div class="text-center mt-4">
+                                    <a href="<?php echo htmlspecialchars($googleMapsUrl); ?>" target="_blank" rel="noopener noreferrer" class="google-reviews-link">
+                                        <i class="fab fa-google" style="color: #4285F4; font-size: 0.9rem;"></i>
+                                        <span style="color: #fff; font-size: 0.9rem; margin-left: 5px;">Ver todos os reviews no Google</span>
+                                    </a>
+                                </div>
+                                <?php
+                            }
+                            ?>
+                            <?php
+                        } else {
+                            // Fallback se não houver reviews
+                            ?>
+                            <p class="textDarkGrey">Aguardando depoimentos...</p>
+                            <?php
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
@@ -757,7 +838,7 @@ if ($_POST) {
             
             // Individual Review Schemas (primeiros 3)
             foreach (array_slice($reviews, 0, 3) as $review) {
-                echo generate_review_schema($review, 'MIMO Estética');
+                echo generate_review_schema($review, 'Mimo');
             }
         }
     } else {
@@ -777,7 +858,7 @@ if ($_POST) {
             
             // Individual Review Schemas (primeiros 3)
             foreach (array_slice($reviews, 0, 3) as $review) {
-                echo generate_manual_review_schema($review, 'MIMO Estética');
+                echo generate_manual_review_schema($review, 'Mimo');
             }
         }
     }
@@ -799,14 +880,26 @@ if ($_POST) {
     <script>
         // Wait for DOM and jQuery to be ready (defer ensures scripts load after DOM)
         document.addEventListener('DOMContentLoaded', function() {
-            if (typeof jQuery !== 'undefined' && jQuery('.carousel').length) {
-                jQuery('.carousel').carousel({ interval: 7000, pause: false });
-                jQuery(".carousel").swipe({
-                    swipe: function (event, direction, distance, duration, fingerCount, fingerData) {
-                        if (direction == 'left') jQuery(this).carousel('next');
-                        if (direction == 'right') jQuery(this).carousel('prev');
-                    },
-                    allowPageScroll: "vertical"
+            if (typeof jQuery !== 'undefined') {
+                // Inicializar todos os carousels
+                jQuery('.carousel').each(function() {
+                    var $carousel = jQuery(this);
+                    $carousel.carousel({ 
+                        interval: 7000, 
+                        pause: 'hover',
+                        wrap: true
+                    });
+                    
+                    // Swipe para mobile
+                    if (jQuery.fn.swipe) {
+                        $carousel.swipe({
+                            swipe: function (event, direction, distance, duration, fingerCount, fingerData) {
+                                if (direction == 'left') $carousel.carousel('next');
+                                if (direction == 'right') $carousel.carousel('prev');
+                            },
+                            allowPageScroll: "vertical"
+                        });
+                    }
                 });
             }
         });

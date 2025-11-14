@@ -5,6 +5,42 @@ All notable changes to the Mimo Site project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.6] - 2025-01-19
+
+### Added
+- **404 Page Improvements**: Enhanced 404 error page with service cards and icons
+  - Added visual service cards with Font Awesome icons for better conversion
+  - Services: Esmalteria, Cílios e Design, Estética Corporal, Estética Facial, Micropigmentação, Salão
+  - Cards with hover effects and animations
+  - Responsive layout for mobile devices
+- **Blog Post Page**: Created/updated blog post template (`blog/posts/post1.html`)
+  - Full blog post structure with hero section
+  - Navbar scroll behavior matching main site (transparent → dark on scroll)
+  - Improved CSS with card-based content layout
+  - Better typography and spacing
+  - Responsive design
+
+### Changed
+- **Branding Consistency**: Replaced "MIMO Estética" with "Mimo" or "Minha Mimo" across entire site
+  - Updated page titles and descriptions in `index.php`, `vagas.php`, `404.php`
+  - Updated SEO meta tags in `inc/seo-helper.php`
+  - Updated service template in `inc/service-template.php`
+  - Updated footer text in blog post
+- **404 Page**: Improved user experience and conversion potential
+  - Replaced text-only service links with visual cards
+  - Added gradient icon backgrounds matching site color scheme
+  - Better call-to-action layout
+
+### Fixed
+- **Blog Navbar**: Fixed navbar scroll behavior on blog pages
+  - Added JavaScript to detect scroll and apply dark background
+  - Added CSS for `.compressed` navbar state
+  - Navbar now matches main site behavior (transparent at top, dark when scrolled)
+- **Blog CSS**: Fixed CSS loading and styling issues
+  - Corrected relative paths for assets
+  - Added proper Bootstrap CDN links
+  - Improved layout and spacing
+
 ## [2.2.5] - 2025-01-19
 
 ### Changed

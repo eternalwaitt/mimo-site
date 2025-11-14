@@ -25,6 +25,9 @@ require_once 'inc/seo-helper.php';
 // Helper de imagem
 require_once 'inc/image-helper.php';
 
+// Asset helper para CSS/JS minificados
+require_once 'inc/asset-helper.php';
+
 // Definir status 404
 http_response_code(404);
 ?>
@@ -38,7 +41,7 @@ http_response_code(404);
     
     <?php
     // SEO Meta Tags
-    $pageTitle = 'Página Não Encontrada - 404 | MIMO Estética';
+    $pageTitle = 'Página Não Encontrada - 404 | Mimo';
     $pageDescription = 'Ops! A página que você procura não foi encontrada. Mas não se preocupe, você ainda pode conhecer nossos serviços de beleza e estética em São Paulo!';
     $pageKeywords = '404, página não encontrada, mimo estética, são paulo';
     
@@ -63,8 +66,11 @@ http_response_code(404);
     <!-- Bootstrap -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" crossorigin="anonymous">
+    
     <!-- Custom CSS -->
-    <link href="product.css?<?php echo defined('ASSET_VERSION') ? ASSET_VERSION : '20211226'; ?>" rel="stylesheet">
+    <?php echo css_tag('product.css'); ?>
     
     <style>
         .error-404 {
@@ -77,7 +83,8 @@ http_response_code(404);
         }
         .error-404-content {
             text-align: center;
-            max-width: 600px;
+            max-width: 1000px;
+            width: 100%;
         }
         .error-404 h1 {
             font-size: 8rem;
@@ -126,21 +133,58 @@ http_response_code(404);
             color: white;
             transform: translateY(-2px);
         }
-        .error-404-links {
+        .error-404-services {
             margin-top: 3rem;
             padding-top: 2rem;
             border-top: 1px solid #e0e0e0;
+            width: 100%;
         }
-        .error-404-links a {
-            color: #ccb7bc;
+        .service-card-404 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 25px 15px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             text-decoration: none;
-            margin: 0 1rem;
-            font-size: 1rem;
-            transition: color 0.3s ease;
+            color: #3a505a;
+            transition: all 0.3s ease;
+            height: 100%;
+            border: 2px solid transparent;
         }
-        .error-404-links a:hover {
-            color: #b8a3a8;
-            text-decoration: underline;
+        .service-card-404:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(204, 183, 188, 0.3);
+            border-color: #ccb7bc;
+            text-decoration: none;
+            color: #3a505a;
+        }
+        .service-icon-404 {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ccb7bc, #b8a3a8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        .service-card-404:hover .service-icon-404 {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(204, 183, 188, 0.4);
+        }
+        .service-icon-404 i {
+            font-size: 2rem;
+            color: white;
+        }
+        .service-card-404 h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0;
+            color: #3a505a;
         }
         @media (max-width: 768px) {
             .error-404 h1 {
@@ -151,6 +195,19 @@ http_response_code(404);
             }
             .error-404 p {
                 font-size: 1rem;
+            }
+            .service-card-404 {
+                padding: 20px 10px;
+            }
+            .service-icon-404 {
+                width: 60px;
+                height: 60px;
+            }
+            .service-icon-404 i {
+                font-size: 1.5rem;
+            }
+            .service-card-404 h4 {
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -164,7 +221,7 @@ http_response_code(404);
             <h2>Deixou a coroa cair, princesa? 👑</h2>
             <p>
                 Ops! A página que você procura não foi encontrada. 
-                Mas não se preocupe, aqui na MIMO Estética sempre cuidamos de você! 
+                Mas não se preocupe, aqui na Mimo sempre cuidamos de você! 
                 Que tal conhecer nossos serviços?
             </p>
             
@@ -173,13 +230,58 @@ http_response_code(404);
                 <a href="/#services" class="btn btn-outline-secondary">Ver Serviços</a>
             </div>
             
-            <div class="error-404-links">
-                <a href="/esmalteria/">Esmalteria</a> |
-                <a href="/cilios/">Cílios e Design</a> |
-                <a href="/estetica/">Estética Corporal</a> |
-                <a href="/esteticafacial/">Estética Facial</a> |
-                <a href="/micropigmentacao/">Micropigmentação</a> |
-                <a href="/salao/">Salão</a>
+            <div class="error-404-services">
+                <h3 style="color: #3a505a; margin-top: 3rem; margin-bottom: 2rem; font-size: 1.5rem;">Conheça Nossos Serviços</h3>
+                <div class="row justify-content-center">
+                    <div class="col-6 col-md-4 col-lg-3 mb-3">
+                        <a href="/esmalteria/" class="service-card-404">
+                            <div class="service-icon-404">
+                                <i class="fas fa-hand-sparkles"></i>
+                            </div>
+                            <h4>Esmalteria</h4>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-3 mb-3">
+                        <a href="/cilios/" class="service-card-404">
+                            <div class="service-icon-404">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <h4>Cílios e Design</h4>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-3 mb-3">
+                        <a href="/estetica/" class="service-card-404">
+                            <div class="service-icon-404">
+                                <i class="fas fa-spa"></i>
+                            </div>
+                            <h4>Estética Corporal</h4>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-3 mb-3">
+                        <a href="/esteticafacial/" class="service-card-404">
+                            <div class="service-icon-404">
+                                <i class="fas fa-smile"></i>
+                            </div>
+                            <h4>Estética Facial</h4>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-3 mb-3">
+                        <a href="/micropigmentacao/" class="service-card-404">
+                            <div class="service-icon-404">
+                                <i class="fas fa-palette"></i>
+                            </div>
+                            <h4>Micropigmentação</h4>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-3 mb-3">
+                        <a href="/salao/" class="service-card-404">
+                            <div class="service-icon-404">
+                                <i class="fas fa-cut"></i>
+                            </div>
+                            <h4>Salão</h4>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

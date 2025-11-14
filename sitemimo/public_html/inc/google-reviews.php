@@ -17,7 +17,58 @@
  * @return array|false Array de reviews ou false em caso de erro
  */
 function get_google_reviews($placeId, $apiKey, $minRating = 4, $maxResults = 10) {
-    // Cache key
+    // PRIORIDADE 1: Verificar se existe arquivo de reviews scraped (do script Python)
+    // Este arquivo é gerado periodicamente pelo scraper e tem mais reviews
+    $scrapedFile = __DIR__ . '/../cache/google_reviews_scraped.json';
+    if (file_exists($scrapedFile)) {
+        $scrapedData = json_decode(file_get_contents($scrapedFile), true);
+        if ($scrapedData !== null && !empty($scrapedData)) {
+            // Filtrar por rating mínimo (4 e 5 estrelas apenas)
+            $filtered = array_filter($scrapedData, function($review) use ($minRating) {
+                $rating = isset($review['rating']) ? (int)$review['rating'] : 0;
+                return $rating >= $minRating && $rating <= 5;
+            });
+            
+            // Reordenar os reviews scraped com a mesma lógica de prioridade
+            // 1. Reviews com foto
+            // 2. Rating (5 estrelas antes de 4)
+            // 3. Comprimento do texto (mais longos primeiro)
+            // 4. Mais antigos primeiro (para ter variedade temporal)
+            usort($filtered, function($a, $b) {
+                $aHasPhoto = isset($a['has_photo']) ? $a['has_photo'] : !empty($a['profile_photo']);
+                $bHasPhoto = isset($b['has_photo']) ? $b['has_photo'] : !empty($b['profile_photo']);
+                
+                // Prioridade 1: Reviews com foto
+                if ($aHasPhoto != $bHasPhoto) {
+                    return $bHasPhoto ? 1 : -1;
+                }
+                
+                // Prioridade 2: Rating (5 estrelas antes de 4)
+                if ($a['rating'] != $b['rating']) {
+                    return $b['rating'] - $a['rating'];
+                }
+                
+                // Prioridade 3: Comprimento do texto (mais longos primeiro)
+                $aLength = isset($a['text_length']) ? $a['text_length'] : mb_strlen($a['text'] ?? '');
+                $bLength = isset($b['text_length']) ? $b['text_length'] : mb_strlen($b['text'] ?? '');
+                if ($aLength != $bLength) {
+                    return $bLength - $aLength;
+                }
+                
+                // Prioridade 4: Mais antigos primeiro (para ter variedade temporal)
+                $aTime = isset($a['time']) ? $a['time'] : 0;
+                $bTime = isset($b['time']) ? $b['time'] : 0;
+                return $aTime - $bTime;
+            });
+            
+            $result = array_slice($filtered, 0, $maxResults);
+            if (!empty($result)) {
+                return array_values($result);
+            }
+        }
+    }
+    
+    // PRIORIDADE 2: Usar cache da API (se existir e estiver válido)
     $cacheKey = 'google_reviews_' . md5($placeId . $minRating);
     $cacheFile = __DIR__ . '/../cache/' . $cacheKey . '.json';
     // Cache de 24 horas (reviews não mudam com frequência)
@@ -27,7 +78,54 @@ function get_google_reviews($placeId, $apiKey, $minRating = 4, $maxResults = 10)
     // Verificar cache
     if (file_exists($cacheFile) && (time() - filemtime($cacheFile)) < $cacheTime) {
         $cached = json_decode(file_get_contents($cacheFile), true);
-        if ($cached !== null) {
+        if ($cached !== null && !empty($cached)) {
+            // Se cache antigo não tem quality_score, recalcular e reordenar
+            $needsReorder = false;
+            foreach ($cached as &$review) {
+                if (!isset($review['quality_score'])) {
+                    $textLength = mb_strlen($review['text'] ?? '');
+                    $words = preg_split('/\s+/u', trim($review['text'] ?? ''));
+                    $wordCount = count(array_filter($words, function($word) {
+                        return mb_strlen(trim($word)) > 0;
+                    }));
+                    $rating = $review['rating'] ?? 4;
+                    $hasPhoto = !empty($review['profile_photo']);
+                    $review['quality_score'] = ($textLength * 0.4) + ($wordCount * 2) + ($rating * 10);
+                    if ($hasPhoto) {
+                        $review['quality_score'] += 50;
+                    }
+                    $review['text_length'] = $textLength;
+                    $review['word_count'] = $wordCount;
+                    $review['has_photo'] = $hasPhoto;
+                    $needsReorder = true;
+                }
+            }
+            
+            // Reordenar se necessário (mesma lógica: foto > rating > comprimento > mais antigos)
+            if ($needsReorder) {
+                usort($cached, function($a, $b) {
+                    $aHasPhoto = isset($a['has_photo']) ? $a['has_photo'] : !empty($a['profile_photo']);
+                    $bHasPhoto = isset($b['has_photo']) ? $b['has_photo'] : !empty($b['profile_photo']);
+                    if ($aHasPhoto != $bHasPhoto) {
+                        return $bHasPhoto ? 1 : -1;
+                    }
+                    if ($a['rating'] != $b['rating']) {
+                        return $b['rating'] - $a['rating'];
+                    }
+                    $aLength = isset($a['text_length']) ? $a['text_length'] : 0;
+                    $bLength = isset($b['text_length']) ? $b['text_length'] : 0;
+                    if ($aLength != $bLength) {
+                        return $bLength - $aLength;
+                    }
+                    // Mais antigos primeiro
+                    $aTime = isset($a['time']) ? $a['time'] : 0;
+                    $bTime = isset($b['time']) ? $b['time'] : 0;
+                    return $aTime - $bTime;
+                });
+                // Salvar cache atualizado
+                file_put_contents($cacheFile, json_encode($cached));
+            }
+            
             return $cached;
         }
     }
@@ -82,7 +180,11 @@ function get_google_reviews($placeId, $apiKey, $minRating = 4, $maxResults = 10)
     foreach ($data['reviews'] as $review) {
         $rating = isset($review['rating']) ? (int)$review['rating'] : 0;
         
-        // Filtrar apenas 4 e 5 estrelas
+        // Filtrar APENAS 4 e 5 estrelas (nada além disso)
+        if ($rating < 4 || $rating > 5) {
+            continue;
+        }
+        
         if ($rating >= $minRating) {
             $authorName = 'Anônimo';
             if (isset($review['authorAttribution']['displayName'])) {
@@ -92,6 +194,11 @@ function get_google_reviews($placeId, $apiKey, $minRating = 4, $maxResults = 10)
             $reviewText = '';
             if (isset($review['text']['text'])) {
                 $reviewText = $review['text']['text'];
+            }
+            
+            // Pular reviews sem texto ou muito curtos (menos de 20 caracteres)
+            if (empty($reviewText) || mb_strlen($reviewText) < 20) {
+                continue;
             }
             
             $publishTime = time();
@@ -104,19 +211,63 @@ function get_google_reviews($placeId, $apiKey, $minRating = 4, $maxResults = 10)
                 $profilePhoto = $review['authorAttribution']['photoUri'];
             }
             
+            // Calcular "score de qualidade" do texto
+            // Baseado em: comprimento, número de palavras, rating, e se tem foto
+            $textLength = mb_strlen($reviewText);
+            // Contar palavras considerando acentuação (mb_split funciona melhor que str_word_count)
+            $words = preg_split('/\s+/u', trim($reviewText));
+            $wordCount = count(array_filter($words, function($word) {
+                return mb_strlen(trim($word)) > 0;
+            }));
+            
+            // Verificar se tem foto de perfil
+            $hasPhoto = !empty($profilePhoto);
+            
+            // Score base: comprimento (40%) + palavras (20%) + rating (40%)
+            $qualityScore = ($textLength * 0.4) + ($wordCount * 2) + ($rating * 10);
+            
+            // Bonus significativo para reviews com foto
+            if ($hasPhoto) {
+                $qualityScore += 50;
+            }
+            
             $reviews[] = [
                 'author' => $authorName,
                 'rating' => $rating,
                 'text' => $reviewText,
                 'time' => $publishTime,
-                'profile_photo' => $profilePhoto
+                'profile_photo' => $profilePhoto,
+                'quality_score' => $qualityScore,
+                'text_length' => $textLength,
+                'word_count' => $wordCount,
+                'has_photo' => $hasPhoto
             ];
-            
-            if (count($reviews) >= $maxResults) {
-                break;
-            }
         }
     }
+    
+    // Ordenar por qualidade com prioridades:
+    // 1. Reviews com foto (tem foto antes de não tem)
+    // 2. Rating (5 estrelas antes de 4)
+    // 3. Comprimento do texto (mais longos primeiro)
+    usort($reviews, function($a, $b) {
+        // Prioridade 1: Reviews com foto
+        $aHasPhoto = isset($a['has_photo']) ? $a['has_photo'] : !empty($a['profile_photo']);
+        $bHasPhoto = isset($b['has_photo']) ? $b['has_photo'] : !empty($b['profile_photo']);
+        if ($aHasPhoto != $bHasPhoto) {
+            return $bHasPhoto ? 1 : -1; // True (tem foto) vem antes
+        }
+        
+        // Prioridade 2: Rating (5 estrelas antes de 4)
+        if ($a['rating'] != $b['rating']) {
+            return $b['rating'] - $a['rating'];
+        }
+        
+        // Prioridade 3: Comprimento do texto (mais longos primeiro)
+        return $b['text_length'] - $a['text_length'];
+    });
+    
+    // Limitar quantidade
+    $reviews = array_slice($reviews, 0, $maxResults);
     
     // Salvar no cache
     if (!is_dir(__DIR__ . '/../cache')) {
