@@ -866,11 +866,14 @@ if ($_POST) {
             var currentVersion = '<?php echo defined('ASSET_VERSION') ? ASSET_VERSION : date('Ymd'); ?>';
             var storedVersion = sessionStorage.getItem('mimo_version');
             
-            // Se versão mudou ou é primeira visita, limpar cache e recarregar
+            // Se versão mudou, forçar reload sem cache
             if (storedVersion && storedVersion !== currentVersion) {
-                // Versão mudou - forçar reload sem cache
                 sessionStorage.setItem('mimo_version', currentVersion);
-                window.location.reload(true);
+                // Forçar reload sem cache usando timestamp na URL
+                var url = new URL(window.location.href);
+                url.searchParams.set('_v', currentVersion);
+                url.searchParams.set('_nocache', Date.now());
+                window.location.href = url.toString();
                 return;
             }
             
