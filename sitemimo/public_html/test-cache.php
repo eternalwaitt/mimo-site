@@ -6,12 +6,36 @@
  * Acesse: https://minhamimo.com.br/test-cache.php
  */
 
+// Desabilitar output buffering e garantir que não há output antes dos headers
+while (ob_get_level()) {
+    ob_end_clean();
+}
+
+// Limpar qualquer output que possa ter sido enviado
+if (ob_get_contents()) {
+    ob_clean();
+}
+
+// Verificar se headers já foram enviados ANTES de carregar qualquer coisa
+$headersSentBefore = headers_sent($file, $line);
+
 // Carregar configuração
 require_once 'config.php';
 
+// Verificar novamente após config.php
+$headersSentAfterConfig = headers_sent($file2, $line2);
+
 // Cache headers (mesma ordem que index.php)
 require_once 'inc/cache-headers.php';
+
+// Verificar antes de chamar set_html_cache_headers
+$headersSentBeforeSet = headers_sent($file3, $line3);
+
+// Tentar definir headers de cache
 set_html_cache_headers();
+
+// Verificar após chamar set_html_cache_headers
+$headersSentAfterSet = headers_sent($file4, $line4);
 
 // Security headers
 require_once 'inc/security-headers.php';
@@ -207,8 +231,30 @@ require_once 'inc/security-headers.php';
             </tr>
             <tr>
                 <td>Headers já enviados?</td>
-                <td><?php echo headers_sent() ? '<span class="status error">SIM (ERRO)</span>' : '<span class="status ok">NÃO (OK)</span>'; ?></td>
+                <td>
+                    <?php 
+                    if (headers_sent($debugFile, $debugLine)) {
+                        echo '<span class="status error">SIM (ERRO)</span><br>';
+                        echo '<small style="color: #999;">Enviados em: ' . htmlspecialchars($debugFile) . ':' . $debugLine . '</small>';
+                    } else {
+                        echo '<span class="status ok">NÃO (OK)</span>';
+                    }
+                    ?>
+                </td>
             </tr>
+            <?php if (isset($headersSentBefore) || isset($headersSentAfterConfig) || isset($headersSentBeforeSet) || isset($headersSentAfterSet)): ?>
+            <tr>
+                <td>Debug: Headers enviados em</td>
+                <td>
+                    <small>
+                        Antes de config.php: <?php echo $headersSentBefore ? 'SIM (' . htmlspecialchars($file ?? '') . ':' . ($line ?? '') . ')' : 'NÃO'; ?><br>
+                        Após config.php: <?php echo $headersSentAfterConfig ? 'SIM (' . htmlspecialchars($file2 ?? '') . ':' . ($line2 ?? '') . ')' : 'NÃO'; ?><br>
+                        Antes de set_html_cache_headers(): <?php echo $headersSentBeforeSet ? 'SIM (' . htmlspecialchars($file3 ?? '') . ':' . ($line3 ?? '') . ')' : 'NÃO'; ?><br>
+                        Após set_html_cache_headers(): <?php echo $headersSentAfterSet ? 'SIM (' . htmlspecialchars($file4 ?? '') . ':' . ($line4 ?? '') . ')' : 'NÃO'; ?>
+                    </small>
+                </td>
+            </tr>
+            <?php endif; ?>
             <tr>
                 <td>PHP Version</td>
                 <td><?php echo PHP_VERSION; ?></td>
