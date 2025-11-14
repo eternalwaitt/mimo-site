@@ -116,7 +116,7 @@ jobs:
           echo "Protocol: SFTP"
       
       - name: Deploy to Locaweb via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v2.0
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
         with:
           server: ${{ secrets.SFTP_HOST }}
           username: ${{ secrets.SFTP_USER }}
