@@ -32,7 +32,7 @@ jobs:
           ./build/minify-js.sh
       
       - name: Deploy to Locaweb via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.3.1
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
         with:
           server: ${{ secrets.SFTP_HOST }}
           username: ${{ secrets.SFTP_USER }}
@@ -58,6 +58,7 @@ jobs:
             **/CHANGELOG*
             **/VERSIONING*
             **/IMPROVEMENTS*
+            **/NEXT-STEPS*
             **/SEO-OPTIMIZATION*
             **/STRUCTURE-ANALYSIS*
             **/AI-DEVELOPMENT-GUIDE*
