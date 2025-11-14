@@ -70,6 +70,23 @@ jobs:
             exit 1
           fi
       
+      - name: Update ASSET_VERSION for cache busting
+        run: |
+          cd sitemimo/public_html
+          ASSET_VERSION=$(date +%Y%m%d)
+          echo "Updating ASSET_VERSION to: $ASSET_VERSION"
+          # Update ASSET_VERSION in config.php using sed
+          if [[ "$OSTYPE" == "darwin"* ]]; then
+            # macOS
+            sed -i '' "s/define('ASSET_VERSION', '[0-9]*');/define('ASSET_VERSION', '$ASSET_VERSION');/" config.php
+          else
+            # Linux
+            sed -i "s/define('ASSET_VERSION', '[0-9]*');/define('ASSET_VERSION', '$ASSET_VERSION');/" config.php
+          fi
+          echo "✅ ASSET_VERSION updated to $ASSET_VERSION"
+          # Verify the change
+          grep "ASSET_VERSION" config.php | head -1
+      
       - name: Clean files before deploy
         run: |
           cd sitemimo/public_html

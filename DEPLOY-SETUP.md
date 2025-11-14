@@ -161,7 +161,7 @@ Site atualizado! 🎉
 
 1. **`.env` nunca é enviado**: O arquivo `.env` está no `.gitignore` e não é enviado no deploy. Configure as variáveis de ambiente diretamente no servidor.
 
-2. **Cache de assets**: Após deploy, atualize `ASSET_VERSION` em `config.php` para forçar cache busting.
+2. **Cache de assets**: O `ASSET_VERSION` é atualizado automaticamente a cada deploy com a data atual (formato YYYYMMDD) para forçar cache busting. Não é necessário atualizar manualmente.
 
 3. **Backup antes de deploy**: Sempre faça backup antes de fazer deploy de mudanças grandes.
 
