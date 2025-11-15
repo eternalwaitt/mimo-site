@@ -1198,25 +1198,13 @@ if ($_POST) {
     <!-- Bootstrap core JavaScript
 ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <!-- jQuery - Load with defer for better performance -->
-    <!-- jQuery - Load async to avoid blocking critical path -->
+    <!-- jQuery - Load synchronously to ensure it's available before Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script>
-    (function() {
-        var script = document.createElement('script');
-        script.src = 'https://code.jquery.com/jquery-3.3.1.slim.min.js';
-        script.integrity = 'sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo';
-        script.crossOrigin = 'anonymous';
-        script.async = true;
-        script.defer = true;
-        script.onerror = function() {
-            // Fallback to local jQuery if CDN fails
-            var fallback = document.createElement('script');
-            fallback.src = 'bootstrap/jquery/dist/jquery.slim.min.js';
-            fallback.defer = true;
-            document.head.appendChild(fallback);
-        };
-        document.head.appendChild(script);
-    })();
+    // Fallback to local jQuery if CDN fails
+    if (typeof jQuery === 'undefined') {
+        document.write('<script src="bootstrap/jquery/dist/jquery.slim.min.js"><\/script>');
+    }
     </script>
     <script src="bootstrap/popper.js/dist/popper.min.js" defer></script>
     <!-- Bootstrap JS - Usar completo temporariamente até corrigir build custom -->
