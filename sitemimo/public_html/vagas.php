@@ -411,8 +411,8 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
     })();
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous" defer></script>
-    <!-- Bootstrap JS Custom Build - Apenas Carousel e Tab (economia: 37 KiB) -->
-    <script src="bootstrap/bootstrap-custom.min.js" defer></script>
+    <!-- Bootstrap JS - Usar completo temporariamente até corrigir build custom -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous" defer></script>
     <?php echo js_tag('js/bc-swipe.js', ['defer' => true]); ?>
     <?php echo js_tag('main.js', ['defer' => true]); ?>
     <?php echo js_tag('js/dark-mode.js', ['defer' => false]); ?>

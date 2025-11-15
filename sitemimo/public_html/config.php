@@ -90,5 +90,5 @@ define('ASSET_VERSION', '20251115-5');
 //   - build/minify-css.sh
 //   - build/minify-js.sh
 // Isso garante que os arquivos .min.css e .min.js existam na pasta minified/
-define('USE_MINIFIED', true);
+define('USE_MINIFIED', false); // TEMPORARIAMENTE DESABILITADO: CSS purgados muito agressivos
 
