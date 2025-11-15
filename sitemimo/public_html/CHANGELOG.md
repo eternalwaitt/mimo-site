@@ -5,6 +5,15 @@ All notable changes to the Mimo Site project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.9] - 2025-01-25
+
+### Fixed
+- **Testimonials Layout**: Corrigido posicionamento dos indicadores do carousel de depoimentos
+  - Indicadores agora ficam mais próximos do bloco de depoimentos (`bottom: -10px`)
+  - Botão "Ver todos os reviews no Google" movido para fora do container do carousel
+  - Adicionado espaçamento adequado entre botão Google e footer (`margin-bottom: 40px`)
+  - Resolvida sobreposição entre indicadores e botão Google
+
 ## [2.3.8] - 2025-01-24
 
 ### Fixed

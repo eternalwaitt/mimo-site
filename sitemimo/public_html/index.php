@@ -3,7 +3,7 @@
  * Site Mimo - Página Inicial
  * 
  * Desenvolvido por: Victor Penter
- * Versão: 2.3.8
+ * Versão: 2.3.9
  * 
  * Este arquivo contém a página principal do site com formulário de contato
  * e seções de serviços, depoimentos e informações de contato.
@@ -1018,10 +1018,11 @@ if ($_POST) {
                         </div>
                             <?php
                             // Link para reviews do Google (se tiver Place ID configurado)
+                            // Movido para fora do container do carousel para evitar sobreposição com indicadores
                             if (defined('GOOGLE_PLACE_ID') && !empty(GOOGLE_PLACE_ID)) {
                                 $googleMapsUrl = 'https://www.google.com/maps/place/?q=place_id:' . urlencode(GOOGLE_PLACE_ID);
                                 ?>
-                                <div class="text-center mt-3 mb-0">
+                                <div class="text-center mt-4 mb-4" style="margin-top: 20px !important; margin-bottom: 40px !important; position: relative; z-index: 10;">
                                     <a href="<?php echo htmlspecialchars($googleMapsUrl); ?>" target="_blank" rel="noopener noreferrer" class="google-reviews-link">
                                         <i class="fab fa-google" style="color: #4285F4; font-size: 0.9rem;"></i>
                                         <span style="color: #fff; font-size: 0.9rem; margin-left: 5px;">Ver todos os reviews no Google</span>
