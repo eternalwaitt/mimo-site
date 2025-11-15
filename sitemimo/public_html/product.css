@@ -525,7 +525,13 @@ nav.footer-nav-vertical {
 
 	max-height: 500px;
 
-	background-position: center
+	background-position: center;
+
+	width: 100%;
+
+	display: block;
+
+	position: relative;
 
 }
 
@@ -534,6 +540,10 @@ nav.footer-nav-vertical {
 .logonav {
 
 	height: 40px;
+	width: auto !important;
+	max-width: 120px;
+	object-fit: contain;
+	object-position: left center;
 
 	transition: .3s height;
 
@@ -544,7 +554,15 @@ nav.footer-nav-vertical {
 .navbar.compressed .logonav {
 
 	height: 25px;
+	width: auto !important;
+	max-width: 100px;
 
+}
+
+/* Garantir que o logo não seja distorcido */
+.navbar-brand img.logonav {
+	aspect-ratio: auto;
+	transform: none !important;
 }
 
 .site-header {
@@ -1461,6 +1479,24 @@ textarea {
 
 		order: 20!important
 
+	}
+
+	#florzinha {
+		padding: 0 !important;
+		display: flex !important;
+		align-items: center !important;
+		justify-content: center !important;
+	}
+
+	#florzinha img,
+	#florzinha picture,
+	#florzinha picture img {
+		width: 100% !important;
+		height: auto !important;
+		max-width: 100% !important;
+		display: block !important;
+		object-fit: contain;
+		margin: 0 auto;
 	}
 
 /*	#florzinha img {

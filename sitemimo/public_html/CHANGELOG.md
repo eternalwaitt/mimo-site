@@ -5,6 +5,35 @@ All notable changes to the Mimo Site project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.4] - 2025-01-21
+
+### Fixed
+- **Content Security Policy**: Fixed Font Awesome CSP blocking by adding `cdnjs.cloudflare.com` to allowed sources
+- **Tidio Chat**: Removed broken Tidio chat script (404 errors) from all pages
+- **Font Loading**: Fixed Akrobat font loading - removed incorrect CSS loading, now uses @font-face properly
+- **Mixed Content**: Fixed HTTP links in FAQ page (changed to HTTPS)
+- **bcSwipe Plugin**: Added availability check and retry logic to prevent "bcSwipe is not a function" errors
+- **Manifest.json**: Fixed manifest path from `favicon/site.webmanifest` to `/manifest.json` across all pages
+- **Header Layout**: Fixed dark mode toggle button breaking navbar layout
+  - Changed display from `flex` to `inline-flex`
+  - Added proper Bootstrap classes for alignment
+  - Added responsive styles for mobile
+- **Logo Display**: Fixed logo distortion in navbar
+  - Removed fixed width/height attributes causing distortion
+  - Added `width: auto` and `object-fit: contain` to maintain aspect ratio
+  - Added CSS to prevent transforms that distort the logo
+- **Hero Section**: Fixed hero section to occupy full width
+  - Removed padding that was reducing available space
+  - Added `width: 100%` to ensure full coverage
+- **About Section Image**: Fixed `mimo5.png` image to occupy full column width
+  - Removed `mx-auto` that was limiting space
+  - Added `width: 100%` styles to image and picture elements
+  - Improved flexbox alignment for better display
+
+### Changed
+- **Script Loading**: Added `defer` attribute to `main.js` in all pages for better performance
+- **Dark Mode Toggle**: Improved toggle button styling and positioning in navbar
+
 ## [2.3.1] - 2025-01-15
 
 ### Added

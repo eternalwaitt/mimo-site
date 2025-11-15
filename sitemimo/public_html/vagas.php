@@ -126,7 +126,7 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png?20211226">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png?20211226">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png?20211226">
-    <link rel="manifest" href="favicon/site.webmanifest">
+    <link rel="manifest" href="/manifest.json">
 
 
     <?php include 'inc/gtm-head.php'; ?>
@@ -382,7 +382,7 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     <?php echo js_tag('js/bc-swipe.js'); ?>
-    <?php echo js_tag('main.js'); ?>
+    <?php echo js_tag('main.js', ['defer' => true]); ?>
     <?php echo js_tag('js/dark-mode.js', ['defer' => false]); ?>
 
     <?php include 'inc/gtm-body.php'; ?>

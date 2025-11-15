@@ -44,8 +44,8 @@ function image_file_exists($filePath, $rootPath = null) {
  * @param string $src Original image path (jpg/png)
  * @param string $alt Alt text
  * @param string $class CSS classes
- * @param array $attributes Additional HTML attributes
- * @param bool $lazy Use lazy loading (default: true)
+ * @param array $attributes Additional HTML attributes (can include 'width' and 'height' for explicit dimensions)
+ * @param bool $lazy Use lazy loading (default: true, false for above-the-fold images)
  * @param bool $generateSrcset Generate srcset with 1x, 2x, 3x sizes (default: true)
  * @param string $sizes Sizes attribute for responsive images (default: '100vw')
  * @return string HTML picture element
@@ -108,9 +108,18 @@ function picture_webp($src, $alt = '', $class = '', $attributes = [], $lazy = tr
     $imgAlt = $alt ? ' alt="' . htmlspecialchars($alt) . '"' : '';
     $imgLoading = $lazy ? ' loading="lazy"' : '';
     
+    // Extract width and height for explicit dimensions (prevents layout shift)
+    $width = isset($attributes['width']) ? $attributes['width'] : '';
+    $height = isset($attributes['height']) ? $attributes['height'] : '';
+    $widthAttr = $width ? ' width="' . htmlspecialchars($width) . '"' : '';
+    $heightAttr = $height ? ' height="' . htmlspecialchars($height) . '"' : '';
+    
+    // Build additional attributes (excluding width/height as they're handled separately)
     $additionalAttrs = '';
     foreach ($attributes as $key => $value) {
-        $additionalAttrs .= ' ' . htmlspecialchars($key) . '="' . htmlspecialchars($value) . '"';
+        if ($key !== 'width' && $key !== 'height') {
+            $additionalAttrs .= ' ' . htmlspecialchars($key) . '="' . htmlspecialchars($value) . '"';
+        }
     }
     
     $html = '<picture>';
@@ -139,7 +148,7 @@ function picture_webp($src, $alt = '', $class = '', $attributes = [], $lazy = tr
         }
     }
     
-    $html .= '<img src="' . htmlspecialchars($imgSrc) . '"' . $imgSrcset . $imgClass . $imgAlt . $imgLoading . $additionalAttrs . '>';
+    $html .= '<img src="' . htmlspecialchars($imgSrc) . '"' . $imgSrcset . $imgClass . $imgAlt . $imgLoading . $widthAttr . $heightAttr . $additionalAttrs . '>';
     $html .= '</picture>';
     
     return $html;

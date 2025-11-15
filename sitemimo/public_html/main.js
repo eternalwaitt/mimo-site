@@ -60,8 +60,17 @@
      * NOTA: O plugin bcSwipe é carregado via script tag antes deste arquivo
      */
 
-    // Aplicar swipe a todos os carousels
-    $('.carousel').bcSwipe({ threshold: 50 });
+    // Aplicar swipe a todos os carousels (verificar se bcSwipe está disponível)
+    if (typeof $.fn.bcSwipe === 'function') {
+        $('.carousel').bcSwipe({ threshold: 50 });
+    } else {
+        // Se bcSwipe não estiver carregado, tentar novamente após um delay
+        setTimeout(function() {
+            if (typeof $.fn.bcSwipe === 'function') {
+                $('.carousel').bcSwipe({ threshold: 50 });
+            }
+        }, 100);
+    }
 
 
     /**

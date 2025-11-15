@@ -118,13 +118,15 @@
             
             if (nav) {
                 const li = document.createElement('li');
-                li.className = 'nav-item ml-md-2';
+                li.className = 'nav-item ml-md-2 d-flex align-items-center';
+                li.style.listStyle = 'none';
                 li.appendChild(toggleButton);
                 nav.appendChild(li);
             } else {
                 // Fallback: adicionar direto no container se não encontrar nav
                 console.warn('Navbar nav não encontrado, adicionando toggle no container');
                 toggleButton.style.marginLeft = 'auto';
+                toggleButton.style.display = 'inline-flex';
                 navbar.appendChild(toggleButton);
             }
             

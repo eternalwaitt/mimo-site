@@ -114,7 +114,7 @@ if (!isset($includeGTM)) {
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=EB+Garamond:400,400i" rel="stylesheet">
-    <link href="../Akrobat-Regular.woff" rel="stylesheet">
+    <!-- Akrobat font loaded via CSS @font-face in product.css -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
         integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     
@@ -188,7 +188,7 @@ if (!isset($includeGTM)) {
     <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png?<?php echo defined('ASSET_VERSION') ? ASSET_VERSION : '20211226'; ?>">
     <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png?<?php echo defined('ASSET_VERSION') ? ASSET_VERSION : '20211226'; ?>">
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png?<?php echo defined('ASSET_VERSION') ? ASSET_VERSION : '20211226'; ?>">
-    <link rel="manifest" href="../favicon/site.webmanifest">
+    <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#ffffff">
 </head>
 
@@ -384,9 +384,9 @@ if (!isset($includeGTM)) {
     <script src="../bootstrap/bootstrap/dist/js/bootstrap.min.js"></script>
     <?php echo js_tag('form/main.js'); ?>
     <?php echo js_tag('js/bc-swipe.js'); ?>
-    <?php echo js_tag('main.js'); ?>
+    <?php echo js_tag('main.js', ['defer' => true]); ?>
     <?php echo js_tag('js/dark-mode.js', ['defer' => false]); ?>
-    <script src="//code.tidio.co/ylbfxpiqcmi2on8duid7rpjgqydlrqne.js"></script>
+    <!-- Tidio chat removido - script retorna 404 -->
     
     <!-- Botão Voltar ao Topo -->
     <?php include '../inc/back-to-top.php'; ?>

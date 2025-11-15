@@ -1,13 +1,25 @@
 # Mimo Site - Roadmap de Melhorias
 
 **Última Atualização**: 2025-01-21  
-**Versão Atual**: 2.3.3
+**Versão Atual**: 2.3.4
 
 Este documento apresenta um roadmap completo de melhorias, otimizações e novas funcionalidades para o site Mimo, baseado em melhores práticas modernas de desenvolvimento web.
 
 ---
 
 ## 🎯 Status Atual
+
+### Versão 2.3.4 (2025-01-21) - Correções de Layout e Performance
+- ✅ Correção de CSP para Font Awesome (cdnjs.cloudflare.com)
+- ✅ Remoção de script Tidio quebrado (404 errors)
+- ✅ Correção de carregamento de fonte Akrobat
+- ✅ Correção de links HTTP para HTTPS na FAQ
+- ✅ Correção de erro bcSwipe não encontrado
+- ✅ Correção de caminho do manifest.json
+- ✅ Correção de layout do header (dark mode toggle)
+- ✅ Correção de logo distorcido no navbar
+- ✅ Correção de seção hero para ocupar largura total
+- ✅ Correção de imagem da página principal (mimo5.png) para ocupar espaço completo
 
 ### Versão 2.3.3 (2025-01-21) - Dark Mode Profissional
 - ✅ Dark Mode implementado seguindo boas práticas

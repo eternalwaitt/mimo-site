@@ -13,11 +13,47 @@
     padding: 8px 12px;
     border-radius: 4px;
     cursor: pointer;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     transition: all var(--transition-base);
-    margin-left: 10px;
+    margin-left: 0;
+    min-width: 40px;
+    height: auto;
+    vertical-align: middle;
+}
+
+/* Ajuste para o nav-item que contém o toggle */
+.nav-item .dark-mode-toggle {
+    margin-left: 0;
+}
+
+/* Garantir que o toggle não quebre o layout do navbar */
+.navbar-nav .nav-item:last-child .dark-mode-toggle {
+    margin-left: 0;
+}
+
+/* Ajustes para garantir que o nav-item com toggle não quebre o layout */
+.navbar-nav .nav-item.d-flex {
+    display: flex !important;
+    align-items: center;
+}
+
+/* Garantir que o toggle tenha tamanho consistente */
+.navbar-nav .dark-mode-toggle {
+    width: auto;
+    min-width: 40px;
+    height: 38px;
+    padding: 6px 10px;
+    border: 1px solid var(--color-pink);
+}
+
+/* Responsive: ajustar tamanho em telas menores */
+@media (max-width: 991px) {
+    .navbar-nav .dark-mode-toggle {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
 }
 
 .dark-mode-toggle:hover {

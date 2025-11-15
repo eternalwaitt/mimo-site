@@ -264,29 +264,39 @@ if ($_POST) {
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="img/bgheader.jpg" as="image">
+    <!-- Preload critical images with fetchpriority -->
+    <link rel="preload" href="img/bgheader.jpg" as="image" fetchpriority="high">
+    <link rel="preload" href="img/mimo5.png" as="image" fetchpriority="high">
     <link rel="preload" href="product.css?<?php echo defined('ASSET_VERSION') ? ASSET_VERSION : '20211226'; ?>" as="style">
 
     <!-- Critical CSS (Above the fold) -->
     <?php include 'inc/critical-css.php'; ?>
 
-    <!-- Fonts with font-display: swap for better performance -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700i&display=swap" rel="stylesheet">
-    <link href="Akrobat-Regular.woff" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <!-- Script loader for deferred CSS - Must come before deferred resources -->
+    <script src="<?php echo get_js_asset('js/loadcss-polyfill.js'); ?>"></script>
 
-    <!-- Bootstrap core CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Fonts with font-display: swap for better performance - Defer loading -->
+    <script>loadCSS("https://fonts.googleapis.com/css?family=Nunito:200,300,400&display=swap");</script>
+    <noscript><link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400&display=swap" rel="stylesheet"></noscript>
+    <script>loadCSS("https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700i&display=swap");</script>
+    <noscript><link href="https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700i&display=swap" rel="stylesheet"></noscript>
+    <!-- Akrobat font loaded via CSS @font-face in product.css -->
+    
+    <!-- Font Awesome - Defer loading -->
+    <script>loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css");</script>
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer"></noscript>
+
+    <!-- Bootstrap core CSS - Defer non-critical -->
+    <script>loadCSS("https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css");</script>
+    <noscript><link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"></noscript>
 
     <!-- CSS Variables (deve vir antes de product.css) -->
     <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/_variables.css'); ?>">
     
-    <!-- Custom styles for this template -->
+    <!-- Custom styles for this template - Load normally (already optimized) -->
     <?php echo css_tag('product.css'); ?>
     
-    <!-- Dark Mode Styles -->
+    <!-- Dark Mode Styles - Load normally -->
     <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/dark-mode.css'); ?>">
 
     <!-- Fix para ícones Font Awesome no footer -->
@@ -427,26 +437,25 @@ if ($_POST) {
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png?20211226">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png?20211226">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png?20211226">
-    <link rel="manifest" href="favicon/site.webmanifest">
+    <link rel="manifest" href="/manifest.json">
 
 </head>
 
 <body>
 
     <?php include "inc/header.php"; ?>
-
-
-
-
-    <div class="position-relative overflow-hidden p-3 text-center bg-header">
-
+    
+    <main id="main-content" role="main">
+    
+    <div class="position-relative overflow-hidden text-center bg-header" role="banner" aria-label="Hero section" style="width: 100%; padding: 0;">
+        <!-- Hero background image loaded via CSS -->
     </div>
 
     <div class="row position-relative overflow-hidden pt-3 text-center backgroundGrey" id="about">
         <!--<div class=" container mt-3" >&nbsp;</div>-->
         <div class="container row mx-auto" style="display: flex; flex-wrap: wrap;">
-            <div class="col-md-5 mx-auto mt-lg-5 overflow-hidden" id="florzinha">
-                <?php echo picture_webp('img/mimo5.png', 'foto-flores', 'img-fluid'); ?>
+            <div class="col-md-5 mt-lg-5 p-0" id="florzinha" style="display: flex; align-items: center; justify-content: center;">
+                <?php echo picture_webp('img/mimo5.png', 'foto-flores', 'img-fluid', ['width' => '500', 'height' => '500', 'style' => 'width: 100%; height: auto; max-width: 100%;'], false); ?>
             </div>
             <div class="col-md-7 mx-auto my-5 overflow-hidden">
                 <h1 class="display-4 font-weight-normal text-align-right text-uppercase"
@@ -485,13 +494,13 @@ if ($_POST) {
             <div class="row col-xs-12" style="display: inline-flex; margin-top:30px">
                 <a href="esteticafacial/">
                     <div class="col-xs-6" style="margin-right: 50px;">
-                        <?php echo picture_webp('img/categoria_facial.png', 'ESTÉTICA FACIAL', 'img-cat'); ?>
+                        <?php echo picture_webp('img/categoria_facial.png', 'ESTÉTICA FACIAL', 'img-cat', ['width' => '150', 'height' => '150'], true); ?>
                         <p class="textPink" style="margin-top: 15px;">ESTÉTICA <br /> FACIAL</p>
                     </div>
                 </a>
                 <a href="estetica/">
                     <div class="col-xs-6">
-                        <?php echo picture_webp('img/menu_estetica_corporal.png', 'ESTÉTICA CORPORAL', 'img-cat'); ?>
+                        <?php echo picture_webp('img/menu_estetica_corporal.png', 'ESTÉTICA CORPORAL', 'img-cat', ['width' => '150', 'height' => '150'], true); ?>
                         <p class="textPink" style="margin-top: 15px;">ESTÉTICA</p>
                     </div>
                 </a>
@@ -499,13 +508,13 @@ if ($_POST) {
             <div class="row col-xs-12" style="display: inline-flex; margin-top:30px">
                 <a href="esmalteria/">
                     <div class="col-xs-6" style="margin-right: 50px;">
-                        <?php echo picture_webp('img/MENU-ESMALTERIA.png', 'ESMALTERIA', 'img-cat'); ?>
+                        <?php echo picture_webp('img/MENU-ESMALTERIA.png', 'ESMALTERIA', 'img-cat', ['width' => '150', 'height' => '150'], true); ?>
                         <p class="textPink" style="margin-top: 15px;">ESMALTERIA</p>
                     </div>
                 </a>
                 <a href="salao/">
                     <div class="col-xs-6">
-                        <?php echo picture_webp('img/menu_salao.png', 'SALÃO', 'img-cat'); ?>
+                        <?php echo picture_webp('img/menu_salao.png', 'SALÃO', 'img-cat', ['width' => '150', 'height' => '150'], true); ?>
                         <p class="textPink" style="margin-top: 15px;">SALÃO</p>
                     </div>
                 </a>
@@ -523,13 +532,13 @@ if ($_POST) {
                 <a href="micropigmentacao/">
                     <div class="col-xs-6"
                         style="margin-right: 50px;width: 100px;height: 100px;overflow: hidden;border-radius: 50%;">
-                        <?php echo picture_webp('img/micro.png', 'MICROPIGMENTAÇÃO', 'img-cat'); ?>
+                        <?php echo picture_webp('img/micro.png', 'MICROPIGMENTAÇÃO', 'img-cat', ['width' => '150', 'height' => '150'], true); ?>
                     </div>
                     <p class="textPink" style="margin-top: 15px; font-size:10px;width: 100px">MICROPIGMENTAÇÃO</p>
                 </a>
                 <a href="cilios/">
                     <div class="col-xs-6">
-                        <?php echo picture_webp('img/categoria_cilios.png', 'CÍLIOS E DESIGN', 'img-cat'); ?>
+                        <?php echo picture_webp('img/categoria_cilios.png', 'CÍLIOS E DESIGN', 'img-cat', ['width' => '150', 'height' => '150'], true); ?>
                         <p class="textPink" style="margin-top: 15px;">CÍLIOS E <br />DESIGN</p>
                     </div>
                 </a>
@@ -541,10 +550,10 @@ if ($_POST) {
             <div class="sessoes container">
                 <div class="content">
                     <div class="content-overlay"></div>
-                    <?php echo picture_webp('img/esmalteria.png', 'ESMALTERIA', 'content-image', ['style' => 'min-width: 500px;']); ?>
+                    <?php echo picture_webp('img/esmalteria.png', 'ESMALTERIA', 'content-image', ['style' => 'min-width: 500px;', 'width' => '500', 'height' => '400'], true); ?>
                     <div class="content-details fadeIn-top">
                         <h3>ESMALTERIA</h3>
-                        <a class="btn btnSeeMore" href="esmalteria/">PROCEDIMENTOS</a>
+                        <a class="btn btnSeeMore" href="esmalteria/" aria-label="Ver procedimentos de esmalteria">PROCEDIMENTOS</a>
                     </div>
                 </div>
             </div>
@@ -552,7 +561,7 @@ if ($_POST) {
             <div class="sessoes container">
                 <div class="content">
                     <div class="content-overlay"></div>
-                    <?php echo picture_webp('img/corporal.png', 'ESTÉTICA', 'content-image', ['style' => 'min-width: 500px;']); ?>
+                    <?php echo picture_webp('img/corporal.png', 'ESTÉTICA', 'content-image', ['style' => 'min-width: 500px;', 'width' => '500', 'height' => '400'], true); ?>
                     <div class="content-details fadeIn-top">
                         <h3>ESTÉTICA</h3>
                         <a class="btn btnSeeMore" href="estetica/">PROCEDIMENTOS</a>
@@ -563,7 +572,7 @@ if ($_POST) {
             <div class="sessoes container">
                 <div class="content">
                     <div class="content-overlay"></div>
-                    <?php echo picture_webp('img/salao.png', 'SALÃO', 'content-image', ['style' => 'min-width:600px;']); ?>
+                    <?php echo picture_webp('img/salao.png', 'SALÃO', 'content-image', ['style' => 'min-width:600px;', 'width' => '600', 'height' => '400'], true); ?>
                     <div class="content-details fadeIn-top">
                         <h3>SALÃO</h3>
                         <a class="btn btnSeeMore" href="salao/">PROCEDIMENTOS</a>
@@ -574,7 +583,7 @@ if ($_POST) {
             <div class="sessoes container">
                 <div class="content">
                     <div class="content-overlay"></div>
-                    <?php echo picture_webp('img/facial.png', 'ESTÉTICA FACIAL', 'content-image', ['style' => 'min-width: 500px;']); ?>
+                    <?php echo picture_webp('img/facial.png', 'ESTÉTICA FACIAL', 'content-image', ['style' => 'min-width: 500px;', 'width' => '500', 'height' => '400'], true); ?>
                     <div class="content-details fadeIn-top">
                         <h3>ESTÉTICA FACIAL</h3>
                         <a class="btn btnSeeMore" href="esteticafacial/">PROCEDIMENTOS</a>
@@ -585,7 +594,7 @@ if ($_POST) {
             <div class="sessoes container">
                 <div class="content">
                     <div class="content-overlay"></div>
-                    <?php echo picture_webp('img/cilios.png', 'CÍLIOS E DESIGN', 'content-image', ['style' => 'min-width: 500px;']); ?>
+                    <?php echo picture_webp('img/cilios.png', 'CÍLIOS E DESIGN', 'content-image', ['style' => 'min-width: 500px;', 'width' => '500', 'height' => '400'], true); ?>
                     <div class="content-details fadeIn-top">
                         <h3>CÍLIOS E DESIGN</h3>
                         <a class="btn btnSeeMore" href="cilios/">PROCEDIMENTOS</a>
@@ -596,7 +605,7 @@ if ($_POST) {
             <div class="sessoes container">
                 <div class="content">
                     <div class="content-overlay"></div>
-                    <?php echo picture_webp('img/micro.png', 'MICROPIGMENTAÇÃO', 'content-image', ['style' => 'min-width:600px;']); ?>
+                    <?php echo picture_webp('img/micro.png', 'MICROPIGMENTAÇÃO', 'content-image', ['style' => 'min-width:600px;', 'width' => '600', 'height' => '400'], true); ?>
                     <div class="content-details fadeIn-top">
                         <h3>MICROPIGMENTAÇÃO </h3>
                         <a class="btn btnSeeMore" href="micropigmentacao/">PROCEDIMENTOS</a>
@@ -942,7 +951,7 @@ if ($_POST) {
                                                 
                                                 if (!empty($photoUrl)) {
                                                     // Usar URL completa da foto do Google
-                                                    echo '<div class="testimonial-avatar"><img src="' . htmlspecialchars($photoUrl) . '" alt="' . htmlspecialchars($review['author']) . '" loading="lazy" onerror="this.style.display=\'none\'; this.parentElement.classList.add(\'testimonial-avatar-placeholder\'); this.parentElement.textContent=\'' . htmlspecialchars(mb_substr(mb_strtoupper($review['author']), 0, 1)) . '\';"></div>';
+                                                    echo '<div class="testimonial-avatar"><img src="' . htmlspecialchars($photoUrl) . '" alt="Foto de ' . htmlspecialchars($review['author']) . '" loading="lazy" width="80" height="80" onerror="this.style.display=\'none\'; this.parentElement.classList.add(\'testimonial-avatar-placeholder\'); this.parentElement.textContent=\'' . htmlspecialchars(mb_substr(mb_strtoupper($review['author']), 0, 1)) . '\';"></div>';
                                                 } else {
                                                     // Placeholder com inicial do nome
                                                     $initial = mb_substr(mb_strtoupper($review['author']), 0, 1);
@@ -979,12 +988,12 @@ if ($_POST) {
                                     <?php endforeach; ?>
                             </div>
                             <!-- Carousel controls -->
-                                <a class="carousel-control-prev testimonials-control" href="#testimonialsCarousel" role="button" data-slide="prev">
-                                    <span style="color: #3a505a; font-size: 28px; font-weight: bold;">‹</span>
+                                <a class="carousel-control-prev testimonials-control" href="#testimonialsCarousel" role="button" data-slide="prev" aria-label="Anterior depoimento">
+                                    <span style="color: #3a505a; font-size: 28px; font-weight: bold;" aria-hidden="true">‹</span>
                                     <span class="sr-only">Anterior</span>
                                 </a>
-                                <a class="carousel-control-next testimonials-control" href="#testimonialsCarousel" role="button" data-slide="next">
-                                    <span style="color: #3a505a; font-size: 28px; font-weight: bold;">›</span>
+                                <a class="carousel-control-next testimonials-control" href="#testimonialsCarousel" role="button" data-slide="next" aria-label="Próximo depoimento">
+                                    <span style="color: #3a505a; font-size: 28px; font-weight: bold;" aria-hidden="true">›</span>
                                     <span class="sr-only">Próximo</span>
                             </a>
                         </div>
@@ -1141,14 +1150,15 @@ if ($_POST) {
     <!-- Bootstrap core JavaScript
 ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+    <!-- jQuery - Load with defer for better performance -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous" defer></script>
     <script>window.jQuery || document.write('<script src="bootstrap/jquery/dist/jquery.slim.min.js"><\/script>')</script>
     <script src="bootstrap/popper.js/dist/popper.min.js" defer></script>
     <script src="bootstrap/bootstrap/dist/js/bootstrap.min.js" defer></script>
     <?php echo js_tag('form/main.js', ['defer' => true]); ?>
-    <?php echo js_tag('js/bc-swipe.js', ['defer' => true]); ?>
+    <?php echo js_tag('js/bc-swipe.js'); ?>
     <?php echo js_tag('main.js', ['defer' => true]); ?>
     <?php echo js_tag('js/dark-mode.js', ['defer' => false]); ?>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.18/jquery.touchSwipe.min.js" defer></script>
@@ -1215,7 +1225,7 @@ if ($_POST) {
     </script>
     <!-- End Piwik Code -->
 
-    <script src="https://code.tidio.co/ylbfxpiqcmi2on8duid7rpjgqydlrqne.js" defer></script>
+    <!-- Tidio chat removido - script retorna 404 -->
 
     <!-- Fix footer nav vertical -->
     <script>
@@ -1267,6 +1277,8 @@ if ($_POST) {
             });
         }
     </script>
+    
+    </main>
 
 </body>
 

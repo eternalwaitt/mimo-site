@@ -2,7 +2,7 @@
 
 Documento com roadmap de melhorias, otimizações e inovações para o site MIMO.
 
-**Última atualização**: 2025-01-19 (v2.2.4)
+**Última atualização**: 2025-01-21 (v2.3.4)
 
 ---
 

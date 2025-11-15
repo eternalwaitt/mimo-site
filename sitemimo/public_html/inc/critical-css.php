@@ -70,6 +70,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    /* Prevent layout shift */
+    aspect-ratio: 16/9;
 }
 
 /* Hero Content */
@@ -130,6 +132,16 @@ img {
     max-width: 100%;
     height: auto;
     display: block;
+}
+
+/* Aspect ratio containers for images to prevent layout shift */
+picture {
+    display: block;
+}
+
+picture img {
+    width: 100%;
+    height: auto;
 }
 
 /* Mobile optimizations */

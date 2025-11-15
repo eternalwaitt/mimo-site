@@ -1,11 +1,23 @@
 # Próximos Passos - Site Mimo
 
 **Última Atualização**: 2025-01-21  
-**Versão Atual**: 2.3.3
+**Versão Atual**: 2.3.4
 
 ---
 
 ## ✅ Mudanças Recentes
+
+### v2.3.4 (2025-01-21) - Correções de Layout e Performance
+- ✅ Correção de CSP para Font Awesome (cdnjs.cloudflare.com adicionado)
+- ✅ Remoção de script Tidio quebrado (404 errors)
+- ✅ Correção de carregamento de fonte Akrobat (removido loadCSS incorreto)
+- ✅ Correção de links HTTP para HTTPS na página FAQ
+- ✅ Correção de erro bcSwipe não encontrado (verificação de disponibilidade)
+- ✅ Correção de caminho do manifest.json em todas as páginas
+- ✅ Correção de layout do header (dark mode toggle não quebra mais o navbar)
+- ✅ Correção de logo distorcido no navbar (proporções mantidas)
+- ✅ Correção de seção hero para ocupar largura total (removido padding)
+- ✅ Correção de imagem da página principal (mimo5.png) para ocupar espaço completo da coluna
 
 ### v2.3.3 (2025-01-21) - Dark Mode Profissional
 - ✅ Dark Mode implementado seguindo boas práticas de design

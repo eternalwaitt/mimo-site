@@ -29,10 +29,10 @@ if($_GET['teste']) {
 ?>
 <nav class="navbar navbar-expand-sm fixed-top navbar-light">
     <div class="container">
-        <a class="navbar-brand" href="/"><img class="logonav"
-                src="/img/logobranco1.png" alt="logo-mimo" /></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar2">
-            <span class="navbar-toggler-icon"></span>
+        <a class="navbar-brand" href="/" aria-label="Mimo - Página inicial"><img class="logonav"
+                src="/img/logobranco1.png" alt="Logo Mimo" style="height: 40px; width: auto; max-width: 120px; object-fit: contain;" /></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar2" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navbar2">
+            <span class="navbar-toggler-icon" aria-hidden="true"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbar2">
             <ul class="navbar-nav ml-auto  ">

@@ -61,7 +61,7 @@ http_response_code(404);
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700i" rel="stylesheet">
-    <link href="Akrobat-Regular.woff" rel="stylesheet">
+    <!-- Akrobat font loaded via CSS @font-face in product.css -->
     
     <!-- Bootstrap -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -423,7 +423,7 @@ http_response_code(404);
     <?php echo js_tag('js/bc-swipe.js'); ?>
     
     <!-- Main JS (navbar scroll behavior) -->
-    <?php echo js_tag('main.js'); ?>
+    <?php echo js_tag('main.js', ['defer' => true]); ?>
     <?php echo js_tag('js/dark-mode.js', ['defer' => false]); ?>
     
     <!-- Botão Voltar ao Topo -->

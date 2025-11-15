@@ -304,7 +304,7 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png?20211226">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png?20211226">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png?20211226">
-    <link rel="manifest" href="favicon/site.webmanifest">
+    <link rel="manifest" href="/manifest.json">
 
 </head>
 
