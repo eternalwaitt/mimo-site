@@ -463,9 +463,12 @@ section {
 /* Testimonials section - prevent layout shift */
 .testimonials-carousel {
     min-height: 500px;
-    contain: layout;
+    contain: layout style;
     /* Reserve space for carousel content */
     padding-bottom: 80px; /* Space for indicators and button */
+    /* Force layout stability */
+    position: relative;
+    overflow: hidden;
 }
 
 /* Testimonial cards - prevent layout shift */
@@ -475,6 +478,8 @@ section {
     /* Reserve space for content */
     padding: 20px;
     margin-bottom: 20px;
+    /* Force layout stability */
+    position: relative;
 }
 
 /* Testimonial avatar - prevent layout shift */
@@ -489,6 +494,27 @@ section {
     margin: 0 auto;
     /* Reserve space even if image fails to load */
     background-color: #f0f0f0;
+    /* Force layout stability */
+    contain: layout style;
+    flex-shrink: 0;
+}
+
+/* Carousel indicators - prevent layout shift */
+.carousel-indicators {
+    contain: layout;
+    min-height: 30px;
+    position: absolute;
+    bottom: 20px;
+}
+
+/* Carousel controls - prevent layout shift */
+.carousel-control-prev,
+.carousel-control-next {
+    contain: layout;
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    min-height: 50px;
 }
 
 /* Category images - prevent layout shift */
@@ -565,6 +591,9 @@ section {
     transition: all 0.3s ease;
     border: none;
     cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
 }
 
 .btn-primary {
@@ -577,9 +606,110 @@ section {
     transform: translateY(-2px);
 }
 
+/* btnSeeMore - Critical above the fold */
+.btnSeeMore {
+    background-color: rgba(58, 80, 90, 0.8);
+    color: #fff;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: 400;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    border: 2px solid #fff;
+    cursor: pointer;
+}
+
+.btnSeeMore:hover {
+    background-color: rgba(58, 80, 90, 1);
+    transform: translateY(-2px);
+}
+
+/* Content details overlay - above the fold */
+.content-details {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+    z-index: 2;
+}
+
+.content-details h2 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.content-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+    transition: background 0.3s ease;
+}
+
+/* Mobile category items - above the fold */
+.mobile-category-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.mobile-category-label {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
+}
+
+.mobile-vagas-button {
+    width: 100%;
+    text-decoration: none;
+    display: block;
+}
+
+.mobile-vagas-card {
+    background: linear-gradient(135deg, var(--color-pink, #ccb7bc) 0%, var(--color-pink-dark, #b895a0) 100%);
+    color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mobile-vagas-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.mobile-vagas-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 10px 0 5px;
+}
+
+.mobile-vagas-subtitle {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
 /* Text utilities */
 .textPink {
-    color: #ccb7bc;
+    color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
 }
 
 /* Row/Column layout - prevent shift */

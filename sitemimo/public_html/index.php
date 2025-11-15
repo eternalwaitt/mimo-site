@@ -289,8 +289,8 @@ if ($_POST) {
         echo '<link rel="preload" href="img/bgheader.jpg" as="image" fetchpriority="high" media="(min-width: 751px)">';
     }
     
-    // Preconnect para domínio de imagens (se usar CDN)
-    // echo '<link rel="preconnect" href="https://minhamimo.com.br" crossorigin>';
+    // Preconnect para domínio próprio (imagens e fontes) - melhora LCP discovery
+    echo '<link rel="preconnect" href="https://minhamimo.com.br" crossorigin>';
     
     // Preload hero image (mimo5.png) - above the fold, não lazy
     if (file_exists(__DIR__ . '/img/mimo5.avif')) {
@@ -321,13 +321,15 @@ if ($_POST) {
     <script>loadCSS("<?php echo get_css_asset('css/modules/accessibility-fixes.css'); ?>");</script>
     <noscript><link rel="stylesheet" href="<?php echo get_css_asset('css/modules/accessibility-fixes.css'); ?>"></noscript>
 
-    <!-- Fonts with font-display: swap - Defer using loadCSS (melhor que media="print") -->
+    <!-- Fonts - Defer using loadCSS (melhor que media="print") -->
     <!-- Preconnect já configurado acima -->
+    <!-- Nunito: fonte principal, usa swap para garantir legibilidade -->
     <script>loadCSS("https://fonts.googleapis.com/css?family=Nunito:200,300,400&display=swap");</script>
     <noscript><link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400&display=swap" rel="stylesheet"></noscript>
-    <script>loadCSS("https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700i&display=swap");</script>
-    <noscript><link href="https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700i&display=swap" rel="stylesheet"></noscript>
-    <!-- Akrobat font loaded via CSS @font-face in product.css with font-display: swap -->
+    <!-- EB Garamond: fonte decorativa, usa optional para melhor performance -->
+    <script>loadCSS("https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700i&display=optional");</script>
+    <noscript><link href="https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700i&display=optional" rel="stylesheet"></noscript>
+    <!-- Akrobat font loaded via CSS @font-face in product.css with font-display: optional -->
     
     <!-- Font Awesome - Defer using loadCSS (melhor que media="print") -->
     <script>loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css");</script>

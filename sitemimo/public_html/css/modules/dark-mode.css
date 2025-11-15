@@ -191,14 +191,14 @@
 
 /* Link de reviews do Google - sempre com bom contraste */
 [data-theme="dark"] .google-reviews-link {
-    background: #3a505a !important;
-    border-color: #3a505a !important;
+    background: var(--color-dark-grey, #7a9aab) !important; /* Cinza da marca adaptado para dark mode */
+    border-color: var(--color-dark-grey, #7a9aab) !important;
     color: #fff !important;
 }
 
 [data-theme="dark"] .google-reviews-link:hover {
-    background: #2a3a42 !important;
-    border-color: #2a3a42 !important;
+    background: var(--color-button-secondary, #8a9aa2) !important; /* Botão secundário dark mode */
+    border-color: var(--color-button-secondary, #8a9aa2) !important;
 }
 
 [data-theme="dark"] .google-reviews-link span {

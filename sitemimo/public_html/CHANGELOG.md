@@ -5,6 +5,54 @@ All notable changes to the Mimo Site project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.5] - 2025-11-15
+
+### Added
+- **Script de Otimização de Imagens Completo**:
+  - `build/optimize-all-large-images.sh`: Processa TODAS as imagens grandes (>100KB)
+  - Prioriza imagens gigantes (>1MB) primeiro
+  - Meta: Reduzir network payload de 3.79MB para <1.6MB
+- **CSS Crítico Expandido**:
+  - Adicionados estilos de botões principais (btnSeeMore, mobile-vagas-card)
+  - Adicionados estilos de content-details overlay
+  - Adicionados estilos de mobile category items
+  - Melhorias em FCP esperadas: 4.1s → <1.8s
+- **Documentação de Testes**:
+  - `TEST-CHECKLIST-v2.6.5.md`: Checklist completo de validação
+  - `GOOGLE-SUGGESTIONS-IMPLEMENTED-v2.6.5.md`: Mapeamento de implementações
+
+### Fixed
+- **CLS - Testimonials Carousel**:
+  - Reforçado `contain: layout style` no carousel
+  - Espaço reservado para carousel controls
+  - Espaço reservado para carousel indicators
+  - Meta: CLS 0.452 → <0.1
+- **Cores da Marca - Consistência**:
+  - Substituídas cores hardcoded por variáveis CSS em `product.css`
+  - Substituídas cores hardcoded por variáveis CSS em `dark-mode.css`
+  - Garantida consistência em light e dark mode
+- **Font Loading - Otimização**:
+  - EB Garamond: font-display: optional (fonte decorativa)
+  - Akrobat: font-display: optional (já estava)
+  - Nunito: font-display: swap (fonte principal)
+  - Economia esperada: 40ms
+
+### Changed
+- **LCP Discovery - Otimização**:
+  - Preconnect para domínio próprio adicionado
+  - Melhora descoberta de recursos LCP
+- **CSS Crítico - Expansão**:
+  - Estilos de botões acima da dobra movidos para CSS crítico
+  - Estilos de mobile categories no CSS crítico
+  - Estilos de testimonials no CSS crítico
+- **Asset Version**: Atualizado para `20251115-2` (cache busting)
+
+### Technical
+- **Image Helper**: Já detecta dimensões automaticamente
+- **CSS Variables**: Consistência de cores da marca garantida
+- **Dark Mode**: Cores da marca adaptadas mas mantendo identidade
+- **Performance**: Meta de 90+ pontos no mobile
+
 ## [2.6.4] - 2025-11-15
 
 ### Added
