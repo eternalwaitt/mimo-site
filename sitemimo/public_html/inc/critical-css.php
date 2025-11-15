@@ -86,7 +86,18 @@ body {
 
 /* Hero Section - Above the fold */
 .bg-header {
-    background-image: url(/img/bgheader.jpg);
+    /* Desktop: usar AVIF/WebP com fallback JPG */
+    background-image: url(/img/bgheader.avif);
+    background-image: -webkit-image-set(
+        url(/img/bgheader.avif) type("image/avif"),
+        url(/img/bgheader.webp) type("image/webp"),
+        url(/img/bgheader.jpg) type("image/jpeg")
+    );
+    background-image: image-set(
+        url(/img/bgheader.avif) type("image/avif"),
+        url(/img/bgheader.webp) type("image/webp"),
+        url(/img/bgheader.jpg) type("image/jpeg")
+    );
     background-size: cover;
     background-repeat: no-repeat;
     height: 50vh;
@@ -177,11 +188,24 @@ picture img {
 /* Mobile optimizations */
 @media only screen and (max-width: 750px) {
     .bg-header {
-        background-image: url(/img/header_dezembro_mobile.png);
+        /* Usar AVIF/WebP com fallback PNG para melhor performance (LCP element mobile) */
+        background-image: url(/img/header_dezembro_mobile.avif);
+        background-image: -webkit-image-set(
+            url(/img/header_dezembro_mobile.avif) type("image/avif"),
+            url(/img/header_dezembro_mobile.webp) type("image/webp"),
+            url(/img/header_dezembro_mobile.png) type("image/png")
+        );
+        background-image: image-set(
+            url(/img/header_dezembro_mobile.avif) type("image/avif"),
+            url(/img/header_dezembro_mobile.webp) type("image/webp"),
+            url(/img/header_dezembro_mobile.png) type("image/png")
+        );
         background-position: center;
         height: 40vh;
         min-height: 250px;
         max-height: 350px;
+        background-size: cover;
+        background-repeat: no-repeat;
     }
     
     .navbar {

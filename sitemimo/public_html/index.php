@@ -266,7 +266,7 @@ if ($_POST) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Preload critical images with fetchpriority - prefer WebP/AVIF -->
     <?php
-    // Preload hero background (prefer WebP, fallback to JPG)
+    // Preload hero background (prefer WebP, fallback to JPG) - Desktop LCP
     if (file_exists(__DIR__ . '/img/bgheader.webp')) {
         echo '<link rel="preload" href="img/bgheader.webp" as="image" type="image/webp" fetchpriority="high">';
     } elseif (file_exists(__DIR__ . '/img/bgheader.avif')) {
@@ -275,8 +275,14 @@ if ($_POST) {
         echo '<link rel="preload" href="img/bgheader.jpg" as="image" fetchpriority="high">';
     }
     
-    // Preload main image removed - not LCP element, will lazy load
-    // Only preload LCP element (bgheader) for optimal performance
+    // Preload mobile header (LCP element no mobile) - prefer AVIF/WebP
+    if (file_exists(__DIR__ . '/img/header_dezembro_mobile.avif')) {
+        echo '<link rel="preload" href="img/header_dezembro_mobile.avif" as="image" type="image/avif" fetchpriority="high" media="(max-width: 750px)">';
+    } elseif (file_exists(__DIR__ . '/img/header_dezembro_mobile.webp')) {
+        echo '<link rel="preload" href="img/header_dezembro_mobile.webp" as="image" type="image/webp" fetchpriority="high" media="(max-width: 750px)">';
+    } elseif (file_exists(__DIR__ . '/img/header_dezembro_mobile.png')) {
+        echo '<link rel="preload" href="img/header_dezembro_mobile.png" as="image" fetchpriority="high" media="(max-width: 750px)">';
+    }
     ?>
     <link rel="preload" href="product.css?<?php echo defined('ASSET_VERSION') ? ASSET_VERSION : '20211226'; ?>" as="style">
 
