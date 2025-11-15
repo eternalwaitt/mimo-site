@@ -74,25 +74,18 @@ button.navbar-toggler {
 
 
 @font-face {
-
 	font-family: 'Akrobat Regular';
-
 	font-style: normal;
-
 	font-weight: 400;
-
 	src: local('Akrobat Regular'), url(/Akrobat-Regular.woff) format('woff');
-
-	font-display: swap
-
+	font-display: swap; /* Prevenir layout shift - usa fallback até fonte carregar */
 }
 
 
 
 .Akrobat {
-
-	font-family: 'Akrobat Regular', sans-serif
-
+	font-family: 'Akrobat Regular', 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	/* Fallback para prevenir layout shift quando fonte carrega */
 }
 
 

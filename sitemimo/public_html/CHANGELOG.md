@@ -13,24 +13,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Auto Image Dimensions**: `picture_webp()` agora detecta automaticamente width/height das imagens (previne CLS)
 - **PurgeCSS Integration**: Script executado, economizando ~21KB de CSS não utilizado
 - **AVIF Cache Headers**: Formato AVIF incluído nos headers de cache do `.htaccess`
+- **Font Fallback Optimization**: Fallback de fonte Akrobat adicionado no critical CSS para prevenir layout shift
+- **Animation GPU Optimization**: `will-change` adicionado nas animações para otimizar composição GPU
 
 ### Changed
-- **Performance Score**: Melhorou de 61 para 88 (+27 pontos) no desktop
-- **FCP**: Melhorou de 4.8s para 0.9s (-81%)
+- **Performance Score**: Melhorou de 61 para 80 (+19 pontos) no desktop (relatório mais recente)
+- **FCP**: Melhorou de 4.8s para 0.7s (-85%)
 - **LCP**: Melhorou de 18.2s para 1.6s (-91%)
-- **Render Blocking**: Reduzido de 4,060ms (mobile) / 1,400ms (desktop) para próximo de zero
+- **Render Blocking**: Reduzido de 1,400ms para 860ms (-39%) no desktop
+- **Image Delivery**: Melhorou de 443 KiB para 225 KiB (-49%)
 - **CSS Purgado**: `product.css` (-3.7KB), `dark-mode.css` (-15KB), `animations.css` (-2KB)
 - **Service Template**: Atualizado para usar CSS defer (mesmas otimizações do index.php)
 
 ### Fixed
 - **Image Layout Shift**: Todas as imagens agora têm width/height explícitos (auto-detectado ou manual)
 - **Cache Headers**: AVIF agora incluído nos headers de cache estático
+- **CLS (Cumulative Layout Shift)**: Font fallback adicionado, hero section com background-color reservado, animações otimizadas
+- **Font Loading**: `font-display: swap` corrigido e fallback melhorado para prevenir layout shift
+- **Non-composited Animations**: Adicionado `will-change` para otimizar composição GPU (142 elementos → otimizados)
 
 ### Performance
-- **Mobile**: Render blocking reduzido de 4,060ms para ~0ms
-- **Desktop**: Render blocking reduzido de 1,400ms para ~0ms
+- **Mobile**: Render blocking reduzido de 4,060ms para ~0ms (esperado após deploy)
+- **Desktop**: Render blocking reduzido de 1,400ms para 860ms (-39%)
 - **CSS Total**: Reduzido em ~21KB via PurgeCSS
 - **Accessibility**: Melhorou de 76 para 94 (+18 pontos)
+- **CLS**: Correções aplicadas (font fallback, hero section, animações) - aguardando novo teste
 
 ## [2.3.9] - 2025-01-25
 

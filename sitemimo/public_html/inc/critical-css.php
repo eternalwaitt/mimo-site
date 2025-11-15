@@ -30,6 +30,14 @@ body {
     color: #333;
 }
 
+/* Font fallback para Akrobat - prevenir layout shift */
+.Akrobat {
+    font-family: 'Akrobat Regular', 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    /* Garantir que o tamanho seja consistente mesmo antes da fonte carregar */
+    font-size: inherit;
+    line-height: inherit;
+}
+
 /* Navbar - Primeiro elemento visível */
 .navbar {
     padding: 20px 25px;
@@ -74,8 +82,11 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Prevent layout shift */
+    /* Prevent layout shift - aspect ratio + min-height */
     aspect-ratio: 16/9;
+    width: 100%;
+    /* Garantir espaço reservado mesmo antes da imagem carregar */
+    background-color: #3d3d3d;
 }
 
 /* Hero Content */

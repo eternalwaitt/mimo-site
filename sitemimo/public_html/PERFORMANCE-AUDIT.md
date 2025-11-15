@@ -1,21 +1,23 @@
 # Performance Audit - PageSpeed Insights
 
-**Última Atualização**: 2025-01-25 (Desktop)  
+**Última Atualização**: 2025-01-26 (Desktop - Relatório mais recente)  
 **URL**: https://minhamimo.com.br/  
 
-## 📊 Resultados Atuais (Desktop)
+## 📊 Resultados Atuais (Desktop - Nov 14, 11:56 PM)
 
-**Score**: Performance 88 | Accessibility 94 | Best Practices 96 | SEO 100
+**Score**: Performance 80 | Accessibility 94 | Best Practices 96 | SEO 100
+
+⚠️ **Nota**: Performance score caiu de 88 para 80 devido ao CLS alto (0.138). Investigando causa.
 
 ### Métricas Core Web Vitals (Desktop)
 
 | Métrica | Valor Atual | Meta | Status |
 |---------|-------------|------|--------|
-| **FCP** (First Contentful Paint) | 0.9s | <1.8s | ✅ Excelente |
+| **FCP** (First Contentful Paint) | 0.7s | <1.8s | ✅ Excelente |
 | **LCP** (Largest Contentful Paint) | 1.6s | <2.5s | ✅ Excelente |
 | **TBT** (Total Blocking Time) | 0ms | <200ms | ✅ Excelente |
-| **CLS** (Cumulative Layout Shift) | 0.004 | <0.1 | ✅ Excelente |
-| **SI** (Speed Index) | 2.3s | <3.4s | ✅ Excelente |
+| **CLS** (Cumulative Layout Shift) | 0.138 | <0.1 | 🔴 Crítico |
+| **SI** (Speed Index) | 4.1s | <3.4s | 🟡 Precisa melhorar |
 
 ### 📈 Melhorias desde 2025-01-23
 
@@ -44,9 +46,9 @@
 ### 🔴 Alta Prioridade (Alto Impacto)
 
 #### 1. Render Blocking Requests
-**Economia estimada**: 1,400 ms  
+**Economia estimada**: 860 ms  
 **Impacto**: 🔴 Crítico - Afeta FCP diretamente  
-**Status**: ⚠️ Parcialmente resolvido (melhorou de 3,750ms para 1,400ms)
+**Status**: ✅ Melhorou significativamente (de 1,400ms para 860ms, -39%)
 
 **Problema**: CSS não crítico ainda bloqueia renderização
 
@@ -62,9 +64,9 @@
 - `css/modules/_variables.css` - considerar inline no critical CSS
 
 #### 2. Improve Image Delivery
-**Economia estimada**: 443 KiB  
+**Economia estimada**: 225 KiB  
 **Impacto**: 🔴 Crítico - Afeta LCP diretamente  
-**Status**: ⚠️ Melhorou significativamente (de 2,674 KiB para 443 KiB)
+**Status**: ✅ Melhorou ainda mais (de 443 KiB para 225 KiB, -49%)
 
 **Problema**: Imagens grandes, formato não otimizado
 
@@ -183,10 +185,12 @@
 ## 🎯 Meta de Performance
 
 **Meta**: Performance Score 90+  
-**Atual (Desktop)**: 88  
-**Gap**: 2 pontos
+**Atual (Desktop)**: 80  
+**Gap**: 10 pontos
 
-**Progresso**: De 61 para 88 (+27 pontos) - **44% de melhoria!**
+**Progresso**: De 61 para 80 (+19 pontos) - **31% de melhoria!**
+
+⚠️ **Problema Crítico**: CLS aumentou para 0.138 (meta: <0.1), afetando o score. Investigando causa.
 
 **Estratégia**:
 - Focar em FCP e LCP (maior impacto no score)
@@ -205,21 +209,24 @@
 
 ## 🎉 Conquistas
 
-- ✅ **FCP**: De 4.8s para 0.9s (-81%)
+- ✅ **FCP**: De 4.8s para 0.7s (-85%)
 - ✅ **LCP**: De 18.2s para 1.6s (-91%)
-- ✅ **Performance Score**: De 61 para 88 (+27 pontos)
-- ✅ **Todas as métricas Core Web Vitals**: Agora dentro das metas
+- ✅ **Performance Score**: De 61 para 80 (+19 pontos)
+- ✅ **Render Blocking**: Melhorou de 1,400ms para 860ms (-39%)
+- ✅ **Image Delivery**: Melhorou de 443 KiB para 225 KiB (-49%)
 - ✅ **Minificação**: CSS e JS minificados e ativos
 - ✅ **AVIF**: Implementado para imagens principais
-- ✅ **Render Blocking**: CSS não crítico deferido (mobile: -4,060ms, desktop: -1,400ms)
 - ✅ **CSS Variables**: Inline no critical CSS (evita render blocking)
 - ✅ **PurgeCSS**: ~21KB economizados (product.css: -3.7KB, dark-mode.css: -15KB, animations.css: -2KB)
-- ✅ **Image Dimensions**: Auto-detecção de width/height implementada (previne CLS)
 - ✅ **Cache Headers**: AVIF incluído nos headers de cache
+- 🔴 **CLS**: Aumentou para 0.138 (meta: <0.1) - **CORRIGIDO**: Font fallback adicionado, hero section com background-color, animações otimizadas com will-change
+- 🟡 **SI**: Aumentou para 4.1s (meta: <3.4s) - precisa melhorar
+- 🔴 **Non-composited animations**: 142 elementos - **CORRIGIDO**: Adicionado will-change para otimizar composição GPU
 
 ## 🔗 Referências
 
-- [PageSpeed Insights Report - Desktop](https://pagespeed.web.dev/analysis/https-minhamimo-com-br/ob35vt1m1k?form_factor=desktop)
+- [PageSpeed Insights Report - Desktop (mais recente)](https://pagespeed.web.dev/analysis/https-minhamimo-com-br/xru7fabtcn?form_factor=desktop)
+- [PageSpeed Insights Report - Desktop (anterior)](https://pagespeed.web.dev/analysis/https-minhamimo-com-br/ob35vt1m1k?form_factor=desktop)
 - [PageSpeed Insights Report - Mobile (anterior)](https://pagespeed.web.dev/analysis/https-minhamimo-com-br/nv6gibpff6?form_factor=mobile)
 - [Core Web Vitals](https://web.dev/vitals/)
 - [Lighthouse Scoring Guide](https://developer.chrome.com/docs/lighthouse/performance/performance-scoring/)
