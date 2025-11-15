@@ -50,7 +50,7 @@
 - ✅ Testes básicos implementados
 - ✅ Documentação atualizada
 - ✅ Sistema de reviews otimizado
-- ✅ Sprint 1: Performance & Core Web Vitals (75% - falta apenas CDN)
+- ✅ Sprint 1: Performance & Core Web Vitals (em progresso)
 
 ---
 
@@ -88,14 +88,6 @@
 - [ ] Background sync para formulários
 
 **Benefícios**: App-like experience, melhor engajamento mobile
-
-#### 1.4 CDN Integration
-**Impacto**: Alto | **Esforço**: 1 dia | **ROI**: ⭐⭐⭐⭐
-
-- [ ] Configurar Cloudflare ou similar
-- [ ] Mover assets estáticos para CDN
-- [ ] Auto WebP conversion no CDN
-- [ ] Cache purging automático no deploy
 
 ---
 
@@ -216,7 +208,7 @@
 1. Otimização de imagens (srcset, AVIF)
 2. Critical CSS expandido
 3. Service Worker & PWA básico
-4. CDN Integration
+4. Lazy loading nativo para imagens
 
 **Impacto esperado**: +30% performance, melhor mobile
 

@@ -144,6 +144,14 @@ Before releasing a new version:
 See `CHANGELOG.md` for detailed version history.
 
 Quick reference:
+- **2.3.5** (2025-01-22): Dark mode para páginas de contato e outras, ícones SVG no footer, estilos dark mode para componentes genéricos
+- **2.3.4** (2025-01-21): Fixed CSP issues, removed broken Tidio chat, fixed font loading, header layout fixes
+- **2.3.1** (2025-01-15): Sprint 1 - Performance & Core Web Vitals, image optimization, critical CSS, Service Worker
+- **2.3.0** (2025-01-15): Google Reviews system enhancement, smart photo detection, review filtering
+- **2.2.9** (2025-01-14): Code documentation, code audit document, contact form improvements
+- **2.2.8** (2025-11-14): Footer redesign, social media icons with inline SVG
+- **2.2.7** (2025-01-20): Carousel optimization, layout shift fixes
+- **2.2.6** (2025-01-19): 404 page improvements, blog post page, branding consistency
 - **2.2.5** (2025-01-19): Performance optimizations (font-display, defer scripts), accessibility improvements, removed booking system references
 - **2.2.4** (2025-01-19): Added vagas page (job listings) with full integration
 - **2.2.3** (2025-01-19): Fixed form submission (removed WhatsApp redirect, now sends to email, AJAX, validation)

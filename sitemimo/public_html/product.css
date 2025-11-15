@@ -3,7 +3,7 @@
  * Estilos globais, layout, navegação, tipografia
  * 
  * Desenvolvido por: Victor Penter
- * Versão: 2.3.3
+ * Versão: 2.3.5
  * 
  * ESTRUTURA DO ARQUIVO:
  * 1. Reset e Base (linhas 9-200)
@@ -1711,22 +1711,65 @@ textarea {
 
 }
 
-/* Breadcrumbs */
-.breadcrumb-nav {
-	margin: 0;
-	padding: 0;
-	position: absolute;
-	top: 80px;
-	left: 20px;
-	z-index: 10000;
+/* Breadcrumbs - Hidden visually but kept for SEO and accessibility */
+/* IMPORTANTE: Este CSS deve vir DEPOIS do Bootstrap para sobrescrever */
+/* Máxima especificidade para garantir que seja aplicado */
+nav.breadcrumb-nav,
+.breadcrumb-nav,
+nav[aria-label="breadcrumb"],
+nav[aria-label="breadcrumb"].breadcrumb-nav,
+body nav.breadcrumb-nav,
+body .breadcrumb-nav {
+	/* Completamente escondido visualmente mas mantido no DOM para SEO */
+	display: none !important;
+	position: absolute !important;
+	width: 1px !important;
+	height: 1px !important;
+	padding: 0 !important;
+	margin: -1px !important;
+	overflow: hidden !important;
+	clip: rect(0, 0, 0, 0) !important;
+	clip-path: inset(50%) !important;
+	white-space: nowrap !important;
+	border: 0 !important;
+	opacity: 0 !important;
+	visibility: hidden !important;
+	pointer-events: none !important;
 }
 
-.breadcrumb {
+/* Esconder todos os elementos filhos do breadcrumb - máxima especificidade */
+nav.breadcrumb-nav .breadcrumb,
+nav.breadcrumb-nav ol,
+nav.breadcrumb-nav .breadcrumb-item,
+nav.breadcrumb-nav li,
+.breadcrumb-nav .breadcrumb,
+.breadcrumb-nav ol,
+.breadcrumb-nav .breadcrumb-item,
+.breadcrumb-nav li,
+body nav.breadcrumb-nav .breadcrumb,
+body nav.breadcrumb-nav ol {
+	display: none !important;
+	opacity: 0 !important;
+	visibility: hidden !important;
+	pointer-events: none !important;
+}
+
+/* Breadcrumb geral (apenas se não estiver dentro de .breadcrumb-nav) */
+.breadcrumb:not(.breadcrumb-nav .breadcrumb) {
 	background-color: transparent;
 	padding: 0;
 	margin: 0;
 	font-size: 14px;
 	color: #fff;
+	display: flex;
+	flex-wrap: wrap;
+	list-style: none;
+	align-items: center;
+}
+
+.breadcrumb-item {
+	display: flex;
+	align-items: center;
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
@@ -1734,6 +1777,8 @@ textarea {
 	color: #fff;
 	padding: 0 8px;
 	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+	display: inline-block;
+	font-weight: normal;
 }
 
 .breadcrumb-item a {
@@ -1755,12 +1800,17 @@ textarea {
 
 @media (max-width: 768px) {
 	.breadcrumb-nav {
-		margin: 15px 0;
-		padding: 0 10px;
-	}
-	
-	.breadcrumb {
-		font-size: 12px;
+		/* Keep hidden on mobile too */
+		position: absolute !important;
+		width: 1px !important;
+		height: 1px !important;
+		margin: -1px !important;
+		padding: 0 !important;
+		overflow: hidden !important;
+		clip: rect(0, 0, 0, 0) !important;
+		clip-path: inset(50%) !important;
+		opacity: 0 !important;
+		visibility: hidden !important;
 	}
 }
 
@@ -2340,13 +2390,75 @@ nav.footer-nav-vertical .footer-link,
 	margin-bottom: 0;
 }
 
-.footer-contact-item i {
+.footer-contact-item i,
+.footer-contact-item ion-icon {
 	color: #b895a0 !important; /* Rosa mais escuro para melhor visibilidade */
-	font-size: 1rem;
-	margin-top: 3px;
+	font-size: 18px !important; /* Tamanho fixo maior para todos os ícones */
+	margin-top: 2px;
 	flex-shrink: 0;
-	width: 20px;
+	width: 18px !important; /* Largura fixa para alinhamento */
+	min-width: 18px !important;
+	max-width: 18px !important;
+	height: 18px !important;
 	text-align: center;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	line-height: 1 !important;
+	vertical-align: middle !important;
+}
+
+/* SVG Icons - tamanho consistente e moderno */
+.footer-contact-item .footer-icon {
+	width: 20px !important;
+	height: 20px !important;
+	min-width: 20px !important;
+	max-width: 20px !important;
+	color: #b895a0 !important;
+	fill: #b895a0 !important;
+	stroke: #b895a0 !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	flex-shrink: 0 !important;
+	margin-top: 2px;
+}
+
+/* Garantir que ícones Font Awesome (solid e brands) tenham EXATAMENTE o mesmo tamanho */
+.footer-contact-item i.fas,
+.footer-contact-item i.fab,
+.footer-contact-item i.fa-phone,
+.footer-contact-item i.fa-whatsapp,
+.footer-contact-item i.fa-map-marker-alt {
+	font-size: 18px !important;
+	font-weight: 400 !important; /* Forçar mesmo font-weight (fas padrão é 900, fab é 400) */
+	width: 22px !important;
+	min-width: 22px !important;
+	max-width: 22px !important;
+	height: 18px !important;
+	line-height: 1 !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	box-sizing: border-box !important;
+	-webkit-font-smoothing: antialiased !important;
+	-moz-osx-font-smoothing: grayscale !important;
+}
+
+/* Específico para ícone WhatsApp (fab) - reduzir visualmente para compensar design que parece maior */
+.footer-contact-item i.fa-whatsapp {
+	font-weight: 400 !important;
+	font-size: 18px !important;
+	transform: scale(0.85) !important; /* Reduzir visualmente 15% para compensar design maior */
+	width: 22px !important;
+	height: 18px !important;
+}
+
+/* Específico para ícone de telefone (fas) - manter tamanho normal */
+.footer-contact-item i.fa-phone {
+	font-weight: 400 !important;
+	font-size: 18px !important;
+	transform: scale(1) !important; /* Sem escala adicional */
 }
 
 .footer-contact-item span {

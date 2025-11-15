@@ -180,5 +180,214 @@ picture img {
 * {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+/* Section containers - prevent layout shift */
+section {
+    padding: 60px 0;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: #3a505a;
+}
+
+/* Cards básicos - above the fold */
+.card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+/* Category images - prevent layout shift */
+.img-cat {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Content overlay effects - initial state */
+.content {
+    position: relative;
+    overflow: hidden;
+}
+
+.content-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+/* Footer - prevent layout shift */
+.site-footer {
+    background-color: #3d3d3d;
+    color: #fff;
+    padding: 40px 0 20px;
+    margin-top: 60px;
+}
+
+/* Button styles - above the fold */
+.btn {
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: 400;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #ccb7bc;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #b8a3a8;
+    transform: translateY(-2px);
+}
+
+/* Text utilities */
+.textPink {
+    color: #ccb7bc;
+}
+
+/* Row/Column layout - prevent shift */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.col-md-5, .col-md-7 {
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+@media (min-width: 768px) {
+    .col-md-5 {
+        flex: 0 0 41.666667%;
+        max-width: 41.666667%;
+    }
+    
+    .col-md-7 {
+        flex: 0 0 58.333333%;
+        max-width: 58.333333%;
+    }
+}
+
+/* Prevent FOUC for dynamic content */
+.testimonial-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.testimonial-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Breadcrumbs - Hidden visually but kept for SEO and accessibility */
+/* Sobrescrever Bootstrap e qualquer outro CSS */
+.breadcrumb-nav,
+nav.breadcrumb-nav,
+nav[aria-label="breadcrumb"],
+nav[aria-label="breadcrumb"].breadcrumb-nav {
+    /* Completamente escondido visualmente mas mantido no DOM para SEO */
+    display: none !important;
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* Esconder todos os elementos filhos do breadcrumb */
+.breadcrumb-nav .breadcrumb,
+.breadcrumb-nav ol,
+.breadcrumb-nav .breadcrumb-item,
+.breadcrumb-nav li {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+.breadcrumb {
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    color: #fff;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    align-items: center;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: "›";
+    color: #fff;
+    padding: 0 8px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    display: inline-block;
+    font-weight: normal;
+}
+
+.breadcrumb-item a {
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.breadcrumb-item.active {
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+    .breadcrumb-nav {
+        /* Keep hidden on mobile too */
+        position: absolute !important;
+        width: 1px !important;
+        height: 1px !important;
+        margin: -1px !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        clip: rect(0, 0, 0, 0) !important;
+        clip-path: inset(50%) !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
+}
 </style>
 

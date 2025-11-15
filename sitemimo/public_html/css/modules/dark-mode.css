@@ -261,3 +261,342 @@
     color: var(--color-text-primary);
 }
 
+/* ============================================
+   DARK MODE - Página de Contato e outras páginas
+   ============================================ */
+
+/* Hero Section */
+[data-theme="dark"] .page-hero {
+    background-color: var(--color-bg-secondary) !important;
+    color: var(--color-text-primary) !important;
+}
+
+[data-theme="dark"] .page-hero h1,
+[data-theme="dark"] .page-hero h2,
+[data-theme="dark"] .page-hero h3 {
+    color: var(--color-text-primary) !important;
+}
+
+[data-theme="dark"] .page-hero p {
+    color: var(--color-text-secondary) !important;
+}
+
+/* Page Section */
+[data-theme="dark"] .page-section {
+    background-color: var(--color-bg-primary) !important;
+    color: var(--color-text-primary) !important;
+}
+
+/* Info Cards */
+[data-theme="dark"] .info-card {
+    background-color: var(--color-bg-secondary) !important;
+    color: var(--color-text-primary) !important;
+    border-color: var(--color-border-light) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .info-card:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4) !important;
+    border-color: var(--color-pink) !important;
+}
+
+[data-theme="dark"] .info-card h3 {
+    color: var(--color-text-primary) !important;
+}
+
+[data-theme="dark"] .info-card h3 i {
+    color: var(--color-pink) !important;
+}
+
+[data-theme="dark"] .info-card p {
+    color: var(--color-text-secondary) !important;
+}
+
+[data-theme="dark"] .info-card p strong {
+    color: var(--color-text-primary) !important;
+}
+
+/* Alerts dentro de info-card */
+[data-theme="dark"] .info-card .alert-success {
+    background-color: rgba(76, 175, 80, 0.15) !important;
+    border-color: rgba(76, 175, 80, 0.4) !important;
+    color: #81c784 !important;
+}
+
+[data-theme="dark"] .info-card .alert-success strong {
+    color: #a5d6a7 !important;
+}
+
+[data-theme="dark"] .info-card .alert-danger {
+    background-color: rgba(244, 67, 54, 0.15) !important;
+    border-color: rgba(244, 67, 54, 0.4) !important;
+    color: #e57373 !important;
+}
+
+[data-theme="dark"] .info-card .alert-danger strong {
+    color: #ef9a9a !important;
+}
+
+[data-theme="dark"] .info-card .alert-warning {
+    background-color: rgba(255, 152, 0, 0.15) !important;
+    border-color: rgba(255, 152, 0, 0.4) !important;
+    color: #ffb74d !important;
+}
+
+[data-theme="dark"] .info-card .alert-warning strong {
+    color: #ffcc80 !important;
+}
+
+/* Action Buttons */
+[data-theme="dark"] .action-btn {
+    background-color: transparent !important;
+    border-color: var(--color-pink) !important;
+    color: var(--color-pink) !important;
+}
+
+[data-theme="dark"] .action-btn:hover {
+    background-color: var(--color-pink) !important;
+    color: var(--color-bg-primary) !important;
+}
+
+[data-theme="dark"] .action-btn i,
+[data-theme="dark"] .action-btn svg {
+    color: inherit !important;
+}
+
+[data-theme="dark"] .action-btn-primary {
+    background-color: var(--color-pink) !important;
+    color: var(--color-bg-primary) !important;
+}
+
+[data-theme="dark"] .action-btn-primary:hover {
+    background-color: var(--color-pink-light) !important;
+    color: var(--color-bg-primary) !important;
+}
+
+[data-theme="dark"] .action-btn-secondary {
+    background-color: transparent !important;
+    border-color: var(--color-border-medium) !important;
+    color: var(--color-text-primary) !important;
+}
+
+[data-theme="dark"] .action-btn-secondary:hover {
+    background-color: var(--color-bg-tertiary) !important;
+    border-color: var(--color-pink) !important;
+    color: var(--color-pink) !important;
+}
+
+/* Horário Status */
+[data-theme="dark"] .horario-status {
+    color: var(--color-text-secondary) !important;
+}
+
+[data-theme="dark"] .horario-status i {
+    color: var(--color-text-muted) !important;
+}
+
+[data-theme="dark"] .horario-status.aberto {
+    color: #81c784 !important;
+}
+
+[data-theme="dark"] .horario-status.aberto i {
+    color: #81c784 !important;
+}
+
+[data-theme="dark"] .horario-status.fechado {
+    color: #e57373 !important;
+}
+
+[data-theme="dark"] .horario-status.fechado i {
+    color: #e57373 !important;
+}
+
+/* Map Container */
+[data-theme="dark"] .map-container {
+    background-color: var(--color-bg-secondary) !important;
+    border-color: var(--color-border-light) !important;
+}
+
+[data-theme="dark"] .map-container iframe {
+    filter: brightness(0.8) contrast(1.1) !important;
+}
+
+/* Formulário de contato - inputs customizados */
+[data-theme="dark"] .input100,
+[data-theme="dark"] .wrap-input100 input,
+[data-theme="dark"] .wrap-input100 textarea,
+[data-theme="dark"] .wrap-input100 select {
+    background-color: var(--color-bg-secondary) !important;
+    color: var(--color-text-primary) !important;
+    border-color: var(--color-border-medium) !important;
+}
+
+[data-theme="dark"] .input100:focus,
+[data-theme="dark"] .wrap-input100 input:focus,
+[data-theme="dark"] .wrap-input100 textarea:focus,
+[data-theme="dark"] .wrap-input100 select:focus {
+    border-color: var(--color-pink) !important;
+    box-shadow: 0 0 0 0.2rem rgba(212, 165, 176, 0.25) !important;
+}
+
+[data-theme="dark"] .wrap-input100 label {
+    color: var(--color-text-secondary) !important;
+}
+
+[data-theme="dark"] .contact100-form-btn {
+    background-color: var(--color-pink) !important;
+    color: var(--color-bg-primary) !important;
+}
+
+[data-theme="dark"] .contact100-form-btn:hover {
+    background-color: var(--color-pink-light) !important;
+}
+
+/* Outras páginas - seções genéricas */
+[data-theme="dark"] .section-title,
+[data-theme="dark"] .section-subtitle {
+    color: var(--color-text-primary) !important;
+}
+
+[data-theme="dark"] .container-fluid,
+[data-theme="dark"] .container {
+    color: var(--color-text-primary);
+}
+
+/* Vaga Cards (página de vagas) */
+[data-theme="dark"] .vaga-card {
+    background-color: var(--color-bg-secondary) !important;
+    color: var(--color-text-primary) !important;
+    border-color: var(--color-border-light) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .vaga-card:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4) !important;
+    border-color: var(--color-pink) !important;
+}
+
+[data-theme="dark"] .vaga-card h3,
+[data-theme="dark"] .vaga-card h4 {
+    color: var(--color-text-primary) !important;
+}
+
+[data-theme="dark"] .vaga-card p {
+    color: var(--color-text-secondary) !important;
+}
+
+[data-theme="dark"] .vaga-card strong {
+    color: var(--color-text-primary) !important;
+}
+
+[data-theme="dark"] .vaga-card i {
+    color: var(--color-pink) !important;
+}
+
+[data-theme="dark"] .vaga-card.vaga-candidatar {
+    background-color: var(--color-bg-tertiary) !important;
+    border-color: var(--color-pink) !important;
+}
+
+[data-theme="dark"] .vaga-card.vaga-candidatar h3 {
+    color: var(--color-pink) !important;
+}
+
+[data-theme="dark"] .vaga-card.vaga-candidatar p {
+    color: var(--color-text-primary) !important;
+}
+
+[data-theme="dark"] .vaga-card.vaga-candidatar i {
+    color: var(--color-pink) !important;
+}
+
+[data-theme="dark"] .vaga-card.vaga-candidatar strong {
+    color: var(--color-text-primary) !important;
+}
+
+/* FAQ Items */
+[data-theme="dark"] .faq-item,
+[data-theme="dark"] .faq-question,
+[data-theme="dark"] .faq-answer {
+    background-color: var(--color-bg-secondary) !important;
+    color: var(--color-text-primary) !important;
+    border-color: var(--color-border-light) !important;
+}
+
+[data-theme="dark"] .faq-question {
+    color: var(--color-text-primary) !important;
+}
+
+[data-theme="dark"] .faq-answer {
+    color: var(--color-text-secondary) !important;
+}
+
+/* Accordion (Bootstrap) */
+[data-theme="dark"] .accordion-item {
+    background-color: var(--color-bg-secondary) !important;
+    border-color: var(--color-border-light) !important;
+}
+
+[data-theme="dark"] .accordion-button {
+    background-color: var(--color-bg-secondary) !important;
+    color: var(--color-text-primary) !important;
+}
+
+[data-theme="dark"] .accordion-button:not(.collapsed) {
+    background-color: var(--color-bg-tertiary) !important;
+    color: var(--color-pink) !important;
+}
+
+[data-theme="dark"] .accordion-button:focus {
+    border-color: var(--color-pink) !important;
+    box-shadow: 0 0 0 0.25rem rgba(212, 165, 176, 0.25) !important;
+}
+
+[data-theme="dark"] .accordion-body {
+    background-color: var(--color-bg-secondary) !important;
+    color: var(--color-text-primary) !important;
+}
+
+/* List Groups */
+[data-theme="dark"] .list-group-item {
+    background-color: var(--color-bg-secondary) !important;
+    color: var(--color-text-primary) !important;
+    border-color: var(--color-border-light) !important;
+}
+
+[data-theme="dark"] .list-group-item:hover {
+    background-color: var(--color-bg-tertiary) !important;
+}
+
+/* Badges */
+[data-theme="dark"] .badge {
+    background-color: var(--color-pink) !important;
+    color: var(--color-bg-primary) !important;
+}
+
+/* Tables */
+[data-theme="dark"] table,
+[data-theme="dark"] .table {
+    color: var(--color-text-primary) !important;
+}
+
+[data-theme="dark"] .table thead th {
+    background-color: var(--color-bg-tertiary) !important;
+    color: var(--color-text-primary) !important;
+    border-color: var(--color-border-medium) !important;
+}
+
+[data-theme="dark"] .table tbody tr {
+    background-color: var(--color-bg-secondary) !important;
+}
+
+[data-theme="dark"] .table tbody tr:hover {
+    background-color: var(--color-bg-tertiary) !important;
+}
+
+[data-theme="dark"] .table td,
+[data-theme="dark"] .table th {
+    border-color: var(--color-border-light) !important;
+    color: var(--color-text-primary) !important;
+}
+

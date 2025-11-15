@@ -76,9 +76,6 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
     
     <!-- Fix para ícones Font Awesome no footer -->
     <style>
-    /* Garantir que o Font Awesome carregue */
-    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
-    
     .site-footer .footer-social-link {
         display: flex !important;
         align-items: center !important;

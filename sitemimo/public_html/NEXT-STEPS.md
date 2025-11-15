@@ -37,12 +37,12 @@ Documento com roadmap de melhorias, otimizações e inovações para o site MIMO
 
 **Estimativa**: 3-4 dias | **ROI**: ⭐⭐⭐⭐
 
-### 4. **CDN Integration** 🌐
-**Impacto**: Alto - Performance global
-- [ ] Configurar Cloudflare ou similar
-- [ ] Mover assets estáticos para CDN
-- [ ] Auto WebP conversion no CDN
-- [ ] Cache purging automático no deploy
+### 4. **Lazy Loading Nativo** ⚡
+**Impacto**: Alto - Redução de carga inicial
+- [ ] Implementar `loading="lazy"` em todas as imagens abaixo do fold
+- [ ] Lazy loading para iframes (Google Maps, etc)
+- [ ] Intersection Observer para conteúdo dinâmico
+- [ ] Placeholder blur-up para melhor UX
 
 **Estimativa**: 1 dia | **ROI**: ⭐⭐⭐⭐
 
@@ -270,12 +270,12 @@ Documento com roadmap de melhorias, otimizações e inovações para o site MIMO
 ## 📊 Priorização Recomendada
 
 ### Sprint 1 (Próximas 2 semanas) 🎯
-1. ✅ Otimização de imagens (srcset, AVIF)
-2. ✅ Critical CSS expandido
-3. ✅ Dark Mode
-4. ✅ Animações básicas
+1. Otimização de imagens (srcset, AVIF)
+2. Critical CSS expandido
+3. Lazy loading nativo
+4. Service Worker & PWA básico
 
-**Impacto esperado**: +30% performance, +15% engajamento
+**Impacto esperado**: +30% performance, melhor mobile
 
 ### Sprint 2 (2-4 semanas) 🎯
 1. ✅ Service Worker & PWA

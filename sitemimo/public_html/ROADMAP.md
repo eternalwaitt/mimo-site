@@ -85,14 +85,14 @@ Este documento apresenta um roadmap completo de melhorias, otimizações e novas
 
 **Benefícios**: App-like experience, melhor engajamento mobile
 
-### 1.4 CDN Integration
-**Impacto**: Alto - Performance global melhorada  
+### 1.4 Lazy Loading Nativo
+**Impacto**: Alto - Redução de carga inicial  
 **Estimativa**: 1 dia
 
-- [ ] Configurar Cloudflare ou similar
-- [ ] Mover assets estáticos para CDN
-- [ ] Auto WebP conversion no CDN
-- [ ] Cache purging automático no deploy
+- [ ] Implementar `loading="lazy"` em todas as imagens abaixo do fold
+- [ ] Lazy loading para iframes (Google Maps, etc)
+- [ ] Intersection Observer para conteúdo dinâmico
+- [ ] Placeholder blur-up para melhor UX
 
 **ROI**: ⭐⭐⭐⭐
 
@@ -296,12 +296,12 @@ Este documento apresenta um roadmap completo de melhorias, otimizações e novas
 ## 📊 Priorização Recomendada
 
 ### Sprint 1 (Próximas 2 semanas) 🎯
-1. Limpeza de arquivos WordPress e backups
-2. Página dedicada de contato (`contato.php`)
-3. Otimização de imagens (srcset, AVIF)
-4. Critical CSS expandido
+1. Otimização de imagens (srcset, AVIF)
+2. Critical CSS expandido
+3. Lazy loading nativo
+4. Service Worker & PWA básico
 
-**Impacto esperado**: +30% performance, melhor acessibilidade de contato
+**Impacto esperado**: +30% performance, melhor mobile
 
 ### Sprint 2 (2-4 semanas) 🎯
 1. Service Worker & PWA

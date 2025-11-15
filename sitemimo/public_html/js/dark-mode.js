@@ -9,7 +9,7 @@
  * - Transições suaves
  * 
  * Desenvolvido por: Victor Penter
- * Versão: 2.3.3
+ * Versão: 2.3.5
  */
 
 (function() {

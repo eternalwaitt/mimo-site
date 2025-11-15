@@ -5,6 +5,53 @@ All notable changes to the Mimo Site project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.5] - 2025-01-22
+
+### Added
+- **Dark Mode - Página de Contato**: Estilos dark mode completos para página de contato
+  - Hero section (`.page-hero`) com fundo escuro adaptado
+  - Info cards (`.info-card`) com cores consistentes e hover effects
+  - Map container com filtro de brilho para melhor visualização no dark mode
+  - Action buttons (`.action-btn-primary`, `.action-btn-secondary`) com cores da marca
+  - Horário status (`.horario-status`) com cores semânticas (verde para aberto, vermelho para fechado)
+  - Alerts do Bootstrap (success, danger, warning) com cores adaptadas para dark mode
+  - Formulário de contato com inputs customizados (`.input100`, `.wrap-input100`) estilizados
+- **Dark Mode - Página de Vagas**: Estilos dark mode para cards de vagas
+  - `.vaga-card` com fundo escuro e bordas sutis
+  - `.vaga-card.vaga-candidatar` com destaque especial usando rosa da marca
+  - Hover effects consistentes com o resto do site
+- **Dark Mode - Componentes Genéricos**: Estilos dark mode para componentes Bootstrap
+  - Accordion (`.accordion-item`, `.accordion-button`, `.accordion-body`)
+  - List groups (`.list-group-item`)
+  - Badges (`.badge`)
+  - Tables (`.table`, `.table thead`, `.table tbody`)
+  - FAQ items (`.faq-item`, `.faq-question`, `.faq-answer`)
+- **Ícones SVG no Footer**: Substituição de Font Awesome/Ionicons por SVGs inline
+  - Ícones de localização, telefone e WhatsApp agora são SVGs inline
+  - Resolve problemas de CSP (Content Security Policy) bloqueando scripts externos
+  - Tamanho consistente (20px × 20px) para todos os ícones
+  - Aplicado em todas as páginas: `index.php`, `contato.php`, `404.php`, `inc/service-template.php`
+  - Removidos scripts do Ionicons que não eram necessários
+
+### Changed
+- **Dark Mode CSS**: Arquivo `css/modules/dark-mode.css` expandido significativamente
+  - Adicionados ~200 linhas de estilos específicos para páginas de contato, vagas e componentes genéricos
+  - Cores mantêm identidade da marca (rosa `#d4a5b0` adaptado para dark mode)
+  - Fundos usando Material Design dark (`#121212`, `#1e1e1e`, `#2a2a2a`)
+- **Footer Icons**: Migração completa de Font Awesome/Ionicons para SVGs inline
+  - Ícones agora renderizam instantaneamente sem dependência de JavaScript externo
+  - Melhor compatibilidade com CSP
+  - Tamanho visual consistente entre todos os ícones
+
+### Fixed
+- **CSP Issues**: Resolvido bloqueio de scripts do Ionicons pelo Content Security Policy
+  - SVGs inline não requerem scripts externos
+  - Ícones funcionam mesmo com CSP restritivo
+- **Icon Sizing**: Resolvido problema de ícones desproporcionais no footer
+  - Todos os ícones agora têm tamanho fixo de 20px × 20px
+  - Alinhamento vertical consistente
+  - Cores uniformes usando variáveis CSS
+
 ## [2.3.4] - 2025-01-21
 
 ### Fixed

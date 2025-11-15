@@ -75,15 +75,15 @@ define('GOOGLE_PLACE_ID', getenv('GOOGLE_PLACE_ID') ?: 'ChIJkVYWuB1XzpQRjbjBjyb4
 // MAJOR: Breaking changes
 // MINOR: New features, backwards compatible
 // PATCH: Bug fixes, backwards compatible
-define('APP_VERSION', '2.3.4');
+define('APP_VERSION', '2.3.5');
 define('APP_VERSION_MAJOR', 2);
 define('APP_VERSION_MINOR', 3);
-define('APP_VERSION_PATCH', 4);
+define('APP_VERSION_PATCH', 5);
 
 // Asset version for cache busting (update this when deploying changes)
 // Format: YYYYMMDD (date-based for easy tracking)
 // IMPORTANTE: Atualizar sempre que houver mudanças em CSS/JS para forçar reload do cache
-define('ASSET_VERSION', '20250121');
+define('ASSET_VERSION', '20250122');
 
 // Use minified assets in production
 // IMPORTANTE: Ative apenas DEPOIS de rodar os scripts de build:
