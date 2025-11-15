@@ -78,7 +78,7 @@ define('GOOGLE_PLACE_ID', getenv('GOOGLE_PLACE_ID') ?: 'ChIJkVYWuB1XzpQRjbjBjyb4
 define('APP_VERSION', '2.3.6');
 define('APP_VERSION_MAJOR', 2);
 define('APP_VERSION_MINOR', 3);
-define('APP_VERSION_PATCH', 6);
+define('APP_VERSION_PATCH', 7);
 
 // Asset version for cache busting (update this when deploying changes)
 // Format: YYYYMMDD (date-based for easy tracking)

@@ -5,6 +5,31 @@ All notable changes to the Mimo Site project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.7] - 2025-01-23
+
+### Added
+- **Performance Audit**: Documento completo `PERFORMANCE-AUDIT.md` com análise do PageSpeed Insights
+  - Métricas Core Web Vitals documentadas (FCP: 4.8s, LCP: 18.2s, TBT: 0ms, CLS: 0.001)
+  - Plano de ação prioritário com estimativas de economia
+  - Identificação de oportunidades de otimização (render blocking, image delivery, unused CSS/JS)
+- **Build Scripts**: Scripts de otimização automatizados
+  - `build/minify-assets.sh`: Minifica CSS e JavaScript usando terser e csso
+  - `build/purge-css.sh`: Remove CSS não utilizado usando PurgeCSS
+  - `build/README.md`: Documentação completa dos scripts de build
+- **Render Blocking Optimization**: CSS não crítico agora é deferido
+  - `dark-mode.css` e `animations.css` carregados via `loadCSS()` (não bloqueiam renderização)
+  - Melhora FCP significativamente (economia estimada: 3.75s)
+
+### Changed
+- **Service Worker**: Atualizado para v2.3.7
+- **Version**: Atualizado para 2.3.7 em todos os arquivos
+
+### Performance Improvements
+- **Render Blocking**: CSS não crítico deferido (dark-mode, animations)
+- **Image Dimensions**: Todas as imagens principais já têm width/height explícitos
+- **Minification Ready**: Scripts criados para minificar CSS (13KB economia) e JS (5KB economia)
+- **PurgeCSS Ready**: Script criado para remover CSS não utilizado (76KB economia potencial)
+
 ## [2.3.6] - 2025-01-23
 
 ### Added
