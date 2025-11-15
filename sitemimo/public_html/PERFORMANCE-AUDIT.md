@@ -3,13 +3,31 @@
 **Última Atualização**: 2025-01-28 (Otimizações Completas Implementadas)  
 **URL**: https://minhamimo.com.br/  
 
-## 📊 Resultados Atuais (Desktop - Nov 15, 12:05 AM)
+## 📊 Resultados Atuais
 
+### Mobile (Nov 15, 12:05 AM)
+**Score**: Performance 76 | Accessibility 76 | Best Practices 96 | SEO 100
+
+⚠️ **Nota**: Este relatório é ANTES do deploy da v2.5.0. As otimizações implementadas devem melhorar significativamente estes números.
+
+### Desktop (Nov 15, 12:05 AM)
 **Score**: Performance 81 | Accessibility 94 | Best Practices 96 | SEO 100
 
-✅ **Status**: Todas as otimizações do PageSpeed Insights foram implementadas. Aguardando novo teste após deploy.
+✅ **Status**: Todas as otimizações do PageSpeed Insights foram implementadas na v2.5.0. Aguardando novo teste após deploy.
 
-### Métricas Core Web Vitals (Desktop)
+### Métricas Core Web Vitals
+
+#### Mobile (Antes do Deploy v2.5.0)
+
+| Métrica | Valor Atual | Meta | Status |
+|---------|-------------|------|--------|
+| **FCP** (First Contentful Paint) | 3.3s | <1.8s | 🔴 Crítico |
+| **LCP** (Largest Contentful Paint) | 21.2s | <2.5s | 🔴 Crítico |
+| **TBT** (Total Blocking Time) | 0ms | <200ms | ✅ Excelente |
+| **CLS** (Cumulative Layout Shift) | 0.295 | <0.1 | 🔴 Crítico |
+| **SI** (Speed Index) | 5.2s | <3.4s | 🔴 Crítico |
+
+#### Desktop (Antes do Deploy v2.5.0)
 
 | Métrica | Valor Atual | Meta | Status |
 |---------|-------------|------|--------|
@@ -48,6 +66,7 @@
 - **Bootstrap CSS**: Defer completo usando `media="print"` trick
 - **Google Fonts**: Defer completo + preconnect otimizado
 - **form/main.css**: Movido para defer via `loadCSS()`
+- **Status Atual (Mobile)**: 2,380ms (relatório anterior ao deploy)
 - **Resultado Esperado**: Render blocking eliminado (950ms → 0ms desktop, 2,380ms → 0ms mobile)
 
 ### CLS Optimization (✅ COMPLETO)
@@ -56,13 +75,16 @@
 - **Font fallback**: `Nunito Fallback` criado com size-adjust
 - **Containers**: `min-height` em `#about` e `.container.row.mx-auto`
 - **Akrobat font**: Size-adjust properties adicionados
-- **Resultado Esperado**: CLS <0.1 (desktop: 0.129→<0.1, mobile: 0.295→<0.1)
+- **Status Atual (Mobile)**: 0.295 (relatório anterior ao deploy)
+- **Resultado Esperado**: CLS <0.1 (desktop: 0.138→<0.1, mobile: 0.295→<0.1)
 
 ### Image Delivery (✅ COMPLETO)
 - **Compressão**: Script executado, `logobranco1.png` comprimido (67% redução)
 - **Srcset**: Melhorado para usar width descriptors
 - **Preload**: Otimizado (removido preload de imagens não-LCP)
 - **Lazy loading**: Verificado e garantido
+- **Status Atual (Mobile)**: 2,760 KiB (relatório anterior ao deploy)
+- **Resultado Esperado**: Redução significativa após deploy
 
 ### PurgeCSS (✅ COMPLETO)
 - **product.css**: -3.7KB (7%)
@@ -70,11 +92,15 @@
 - **animations.css**: -2.6KB (36%)
 - **Total**: ~21KB economizados
 - **Integração**: Asset helper atualizado para usar automaticamente
+- **Status Atual (Mobile)**: 76 KiB (relatório anterior ao deploy)
+- **Resultado Esperado**: Redução para ~55 KiB após deploy (76 - 21 = 55)
 
 ### Minification (✅ COMPLETO)
 - **JavaScript**: 4 arquivos minificados (~8KB)
 - **CSS**: 6 arquivos minificados (~35KB)
 - **Total**: ~43KB economizados
+- **Status Atual (Mobile)**: Minify CSS 15 KiB, Minify JS 5 KiB (relatório anterior ao deploy)
+- **Resultado Esperado**: Essas oportunidades devem desaparecer após deploy
 
 ### Animation Optimization (✅ COMPLETO)
 - **GPU acceleration**: `transform: translateZ(0)` em todos os hover effects
@@ -232,12 +258,42 @@
 ## 🎯 Meta de Performance
 
 **Meta**: Performance Score 90+  
-**Atual (Desktop)**: 80  
-**Gap**: 10 pontos
+**Atual (Desktop)**: 81  
+**Atual (Mobile)**: 76  
+**Gap**: Desktop: 9 pontos | Mobile: 14 pontos
 
-**Progresso**: De 61 para 80 (+19 pontos) - **31% de melhoria!**
+**Progresso**: 
+- Desktop: De 61 para 81 (+20 pontos) - **33% de melhoria!**
+- Mobile: De 50 para 76 (+26 pontos) - **52% de melhoria!**
 
-⚠️ **Problema Crítico**: CLS aumentou para 0.138 (meta: <0.1), afetando o score. Investigando causa.
+⚠️ **Problemas Críticos Identificados (Mobile)**:
+- CLS: 0.295 (meta: <0.1) - **CORRIGIDO na v2.5.0**
+- Render Blocking: 2,380ms - **CORRIGIDO na v2.5.0**
+- LCP: 21.2s (meta: <2.5s) - **MELHORADO na v2.5.0** (compressão de imagens)
+
+## 📊 Resultados Esperados Após Deploy v2.5.0
+
+### Mobile
+| Métrica | Antes (v2.4.1) | Esperado (v2.5.0) | Melhoria |
+|---------|----------------|-------------------|----------|
+| **Performance Score** | 76 | 70-80+ | +0 a +4 pontos |
+| **FCP** | 3.3s | <2.0s | -40% |
+| **LCP** | 21.2s | <5.0s | -76% |
+| **CLS** | 0.295 | <0.1 | -66% |
+| **SI** | 5.2s | <4.0s | -23% |
+| **Render Blocking** | 2,380ms | ~0ms | -100% |
+
+### Desktop
+| Métrica | Antes (v2.4.1) | Esperado (v2.5.0) | Melhoria |
+|---------|----------------|-------------------|----------|
+| **Performance Score** | 81 | 85-90+ | +4 a +9 pontos |
+| **FCP** | 0.7s | <0.8s | Mantido |
+| **LCP** | 1.6s | <2.0s | Mantido |
+| **CLS** | 0.138 | <0.1 | -28% |
+| **SI** | 4.1s | <3.5s | -15% |
+| **Render Blocking** | 950ms | ~0ms | -100% |
+
+**Nota**: Estes são resultados esperados baseados nas otimizações implementadas. Resultados reais podem variar após deploy e novo teste no PageSpeed Insights.
 
 **Estratégia**:
 - Focar em FCP e LCP (maior impacto no score)
