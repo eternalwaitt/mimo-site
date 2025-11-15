@@ -1297,7 +1297,7 @@ if ($_POST) {
             navigator.serviceWorker.register('/sw.js', {
                 scope: '/'
             })
-            .then(function(registration) {
+                    .then(function(registration) {
                 // Check for updates
                 registration.addEventListener('updatefound', function() {
                     const newWorker = registration.installing;
@@ -1308,8 +1308,8 @@ if ($_POST) {
                         }
                     });
                 });
-            })
-            .catch(function(error) {
+                    })
+                    .catch(function(error) {
                 console.warn('Service Worker registration failed:', error);
             });
         }

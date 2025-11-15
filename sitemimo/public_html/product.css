@@ -1961,9 +1961,9 @@ body nav.breadcrumb-nav ol {
 	right: 0;
 	top: 0;
 	box-sizing: border-box; /* Inclui padding no cálculo da altura */
-	opacity: 0;
-	visibility: hidden; /* Esconder completamente para evitar sobreposição */
-	pointer-events: none;
+	opacity: 0 !important;
+	visibility: hidden !important; /* Esconder completamente para evitar sobreposição */
+	pointer-events: none !important;
 	will-change: opacity;
 	backface-visibility: hidden;
 	-webkit-backface-visibility: hidden;
@@ -1974,11 +1974,11 @@ body nav.breadcrumb-nav ol {
 }
 
 .testimonial-card.active {
-	position: absolute; /* MANTÉM absolute - não muda para relative */
-	opacity: 1;
-	visibility: visible; /* Tornar visível quando ativo */
-	pointer-events: auto;
-	z-index: 1; /* Apenas z-index muda */
+	position: absolute !important; /* MANTÉM absolute - não muda para relative */
+	opacity: 1 !important;
+	visibility: visible !important; /* Tornar visível quando ativo */
+	pointer-events: auto !important;
+	z-index: 1 !important; /* Apenas z-index muda */
 }
 
 .testimonial-content {
