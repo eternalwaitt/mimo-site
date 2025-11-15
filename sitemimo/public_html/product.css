@@ -2781,14 +2781,35 @@ nav.footer-nav-vertical .footer-link,
 	font-weight: 600;
 }
 
+.vaga-info {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	margin-bottom: 20px;
+}
+
 .vaga-info-item {
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	margin-bottom: 10px;
+	gap: 10px;
+	flex-wrap: wrap;
 }
 
 .vaga-info-item i {
-	margin-right: 12px;
+	margin-right: 0;
+	flex-shrink: 0;
+	width: 20px;
+	text-align: center;
+	color: #ccb7bc;
+	font-size: 1.1rem;
+	margin-top: 2px;
+}
+
+.vaga-info-item strong {
+	color: #3a505a;
+	font-weight: 600;
+	margin-right: 5px;
 }
 
 /* Botões Padrão */
@@ -2937,6 +2958,35 @@ nav.footer-nav-vertical .footer-link,
 	font-size: 1.1rem;
 	font-weight: 600;
 	margin-bottom: 12px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.vaga-requirements h4 i {
+	color: #ccb7bc;
+	font-size: 1.2rem;
+	width: 24px;
+	text-align: center;
+	flex-shrink: 0;
+}
+
+.vaga-description h4 {
+	color: #3a505a;
+	font-size: 1.1rem;
+	font-weight: 600;
+	margin-bottom: 12px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.vaga-description h4 i {
+	color: #ccb7bc;
+	font-size: 1.2rem;
+	width: 24px;
+	text-align: center;
+	flex-shrink: 0;
 }
 
 .vaga-requirements ul {
@@ -3077,8 +3127,80 @@ nav.footer-nav-vertical .footer-link,
 
 	.info-card,
 	.vaga-card {
-		padding: 20px;
+		padding: 20px 15px;
 		margin-bottom: 20px;
+		border-radius: 12px;
+	}
+
+	.vaga-title {
+		font-size: 1.3rem;
+		margin-bottom: 15px;
+		padding-bottom: 10px;
+	}
+
+	.vaga-info {
+		gap: 10px;
+		margin-bottom: 20px;
+	}
+
+	.vaga-info-item {
+		font-size: 0.9rem;
+		line-height: 1.6;
+		margin-bottom: 8px;
+		gap: 8px;
+	}
+
+	.vaga-info-item i {
+		width: 18px;
+		font-size: 1rem;
+		color: #ccb7bc;
+		flex-shrink: 0;
+		margin-top: 3px;
+	}
+
+	.vaga-info-item strong {
+		color: #3a505a;
+		font-weight: 600;
+		margin-right: 4px;
+	}
+
+	.vaga-description,
+	.vaga-requirements {
+		margin-bottom: 20px;
+		padding: 15px;
+		border-radius: 8px;
+	}
+
+	.vaga-requirements h4 {
+		font-size: 1rem;
+		margin-bottom: 10px;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.vaga-requirements h4 i {
+		color: #ccb7bc;
+		font-size: 1.1rem;
+		width: 20px;
+		text-align: center;
+		flex-shrink: 0;
+	}
+
+	.vaga-requirements ul {
+		padding-left: 28px;
+	}
+
+	.vaga-requirements li {
+		font-size: 0.9rem;
+		line-height: 1.7;
+		margin-bottom: 10px;
+		color: #555;
+	}
+
+	.vaga-description h4,
+	.vaga-requirements h4 {
+		color: #3a505a;
 	}
 
 	.action-buttons {
@@ -3089,6 +3211,8 @@ nav.footer-nav-vertical .footer-link,
 	.btn-candidatar {
 		width: 100%;
 		justify-content: center;
+		padding: 14px 20px;
+		font-size: 15px;
 	}
 
 	.map-container iframe {
@@ -3098,6 +3222,39 @@ nav.footer-nav-vertical .footer-link,
 	.page-section,
 	.page-section-white {
 		padding: 40px 0;
+	}
+
+	/* Melhorias de cores mobile - Vagas */
+	.vaga-card {
+		background: #ffffff;
+		border: 1px solid rgba(204, 183, 188, 0.2);
+	}
+
+	.vaga-title {
+		color: #3a505a !important;
+	}
+
+	.vaga-info-item {
+		color: #555 !important;
+	}
+
+	.vaga-info-item strong {
+		color: #3a505a !important;
+	}
+
+	.vaga-description p,
+	.vaga-requirements p {
+		color: #555 !important;
+		line-height: 1.7;
+	}
+
+	.vaga-requirements {
+		background: #f8f9fa;
+		border-left-color: #ccb7bc;
+	}
+
+	.vaga-requirements li {
+		color: #666 !important;
 	}
 }
 

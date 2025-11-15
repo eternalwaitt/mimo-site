@@ -511,7 +511,36 @@
 }
 
 [data-theme="dark"] .vaga-card.vaga-candidatar strong {
-    color: var(--color-text-primary) !important;
+	color: var(--color-text-primary) !important;
+}
+
+/* Mobile - Vagas Page - Melhorias de Layout */
+@media (max-width: 768px) {
+	[data-theme="dark"] .vaga-info-item {
+		color: var(--color-text-secondary) !important;
+	}
+
+	[data-theme="dark"] .vaga-info-item strong {
+		color: var(--color-text-primary) !important;
+	}
+
+	[data-theme="dark"] .vaga-info-item i {
+		color: var(--color-pink) !important;
+	}
+
+	[data-theme="dark"] .vaga-requirements h4,
+	[data-theme="dark"] .vaga-description h4 {
+		color: var(--color-text-primary) !important;
+	}
+
+	[data-theme="dark"] .vaga-requirements h4 i,
+	[data-theme="dark"] .vaga-description h4 i {
+		color: var(--color-pink) !important;
+	}
+
+	[data-theme="dark"] .vaga-requirements li {
+		color: var(--color-text-secondary) !important;
+	}
 }
 
 /* FAQ Items */
