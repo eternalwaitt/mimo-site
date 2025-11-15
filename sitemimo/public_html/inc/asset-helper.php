@@ -99,13 +99,8 @@ function get_css_asset($filePath, $addVersion = true) {
             $basePath = $prefix . $filePath;
         }
     } else {
-        // Sem minificação, tentar purged se existir
-        $purgedPath = __DIR__ . '/../css/purged/' . basename($filePath);
-        if (file_exists($purgedPath)) {
-            $basePath = $prefix . 'css/purged/' . basename($filePath);
-        } else {
-            $basePath = $prefix . $filePath;
-        }
+        // Sem minificação, usar arquivo original (ignorar purged)
+        $basePath = $prefix . $filePath;
     }
     
     return $basePath . $version;
