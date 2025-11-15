@@ -5,6 +5,37 @@ All notable changes to the Mimo Site project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.6] - 2025-01-23
+
+### Added
+- **Animações on Scroll**: Sistema completo de animações baseado em Intersection Observer
+  - CSS module `css/modules/animations.css` com animações fade-in, scale-in, hover effects
+  - JavaScript `js/animations.js` para ativar animações quando elementos entram no viewport
+  - Classes aplicadas: `.fade-in-up`, `.fade-in-left`, `.fade-in-right`, `.scale-in`, `.img-hover`, `.card-hover`
+  - Animações aplicadas na homepage: hero section, categorias mobile, cards de serviços desktop
+  - Suporte a `prefers-reduced-motion` para acessibilidade
+  - Fallback para browsers sem Intersection Observer
+- **AVIF Support**: Suporte completo para formato AVIF nas imagens principais
+  - Script `build/generate-avif-main-images.sh` para gerar versões AVIF
+  - 13 imagens principais convertidas para AVIF (bgheader, mimo5, categorias, serviços)
+  - Função `picture_webp()` já suportava AVIF automaticamente
+  - AVIF é ~30% menor que WebP, melhorando performance significativamente
+- **Lazy Loading Nativo**: Verificação e otimização do lazy loading
+  - Todas as imagens abaixo do fold já usam `loading="lazy"` via `picture_webp()`
+  - Imagens above-the-fold (mimo5.png) corretamente sem lazy loading
+  - 22 imagens com lazy loading, 2 sem (above-the-fold)
+
+### Changed
+- **Font Path Fix**: Corrigido caminho da fonte Akrobat no CSS
+  - `product.css`: caminho atualizado de `url(Akrobat-Regular.woff)` para `url(/Akrobat-Regular.woff)`
+  - `minified/product.min.css`: caminho corrigido para absoluto
+  - Resolve erro 404 quando CSS minificado é carregado de subdiretórios
+
+### Fixed
+- **Font Loading Error**: Resolvido erro 404 ao carregar `minified/Akrobat-Regular.woff`
+  - Caminho relativo causava erro quando CSS minificado era carregado
+  - Caminho absoluto garante que fonte seja encontrada independente do contexto
+
 ## [2.3.5] - 2025-01-22
 
 ### Added

@@ -3,7 +3,7 @@
  * Estilos globais, layout, navegação, tipografia
  * 
  * Desenvolvido por: Victor Penter
- * Versão: 2.3.5
+ * Versão: 2.3.6
  * 
  * ESTRUTURA DO ARQUIVO:
  * 1. Reset e Base (linhas 9-200)
@@ -81,7 +81,7 @@ button.navbar-toggler {
 
 	font-weight: 400;
 
-	src: local('Akrobat Regular'), url(Akrobat-Regular.woff) format('woff');
+	src: local('Akrobat Regular'), url(/Akrobat-Regular.woff) format('woff');
 
 	font-display: swap
 

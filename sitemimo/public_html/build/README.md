@@ -1,3 +1,22 @@
+# Build Scripts
+
+## Quick Start - Gerar AVIF das Imagens Principais
+
+Para gerar versões AVIF das imagens principais (hero, categorias, about):
+
+```bash
+cd build
+./generate-avif-main-images.sh
+```
+
+Este script converte as imagens mais importantes para AVIF, que é ~30% menor que WebP.
+A função `picture_webp()` automaticamente usará AVIF se disponível.
+
+**Requisitos:**
+- `libavif` instalado: `brew install libavif` (macOS) ou `sudo apt-get install libavif-bin` (Linux)
+
+---
+
 # Build Scripts for Performance Optimization
 
 This directory contains build scripts for optimizing CSS, JavaScript, and images for production.

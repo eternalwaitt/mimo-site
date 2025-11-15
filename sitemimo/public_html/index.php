@@ -315,6 +315,9 @@ if ($_POST) {
     
     <!-- Dark Mode Styles - Load normally -->
     <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/dark-mode.css'); ?>">
+    
+    <!-- Animations - Load normally -->
+    <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/animations.css'); ?>">
 
     <!-- Fix para ícones Font Awesome no footer -->
     <style>
@@ -468,14 +471,14 @@ if ($_POST) {
     <div class="row position-relative overflow-hidden pt-3 text-center backgroundGrey" id="about">
         <!--<div class=" container mt-3" >&nbsp;</div>-->
         <div class="container row mx-auto" style="display: flex; flex-wrap: wrap;">
-            <div class="col-md-5 mt-lg-5 p-0" id="florzinha" style="display: flex; align-items: center; justify-content: center;">
-                <?php echo picture_webp('img/mimo5.png', 'foto-flores', 'img-fluid', ['width' => '500', 'height' => '500', 'style' => 'width: 100%; height: auto; max-width: 100%;'], false); ?>
+            <div class="col-md-5 mt-lg-5 p-0 fade-in-left" id="florzinha" style="display: flex; align-items: center; justify-content: center;">
+                <?php echo picture_webp('img/mimo5.png', 'foto-flores', 'img-fluid img-hover', ['width' => '500', 'height' => '500', 'style' => 'width: 100%; height: auto; max-width: 100%;'], false); ?>
             </div>
             <div class="col-md-7 mx-auto my-5 overflow-hidden">
-                <h1 class="display-4 font-weight-normal text-align-right text-uppercase"
+                <h1 class="display-4 font-weight-normal text-align-right text-uppercase fade-in-right"
                     style="font-size: 43px;color:#fff">
                     BELEZA SEM PADRÃO</h1>
-                <p class="lead font-weight-normal textDarkGrey Akrobat text-justify" style="margin-bottom:0">
+                <p class="lead font-weight-normal textDarkGrey Akrobat text-justify fade-in-up" style="margin-bottom:0">
                     Acreditamos na quebra de padrões que vem se estendendo ao decorrer dos anos, e por isso trabalhamos
                     de maneira única com cada cliente, preservando suas características naturais; Oferecemos atendimento
                     e prestação de serviços de qualidade, com profissionais capacitados e que acreditam no propósito de
@@ -507,36 +510,36 @@ if ($_POST) {
         <div class="d-block d-sm-none text-center my-3" style="font-weight: 600; font-size: 12px;">
             <div class="row col-xs-12" style="display: inline-flex; margin-top:30px">
                 <a href="esteticafacial/">
-                    <div class="col-xs-6" style="margin-right: 50px;">
-                        <?php echo picture_webp('img/categoria_facial.png', 'ESTÉTICA FACIAL', 'img-cat', ['width' => '150', 'height' => '150'], true); ?>
+                    <div class="col-xs-6 fade-in-up" style="margin-right: 50px;">
+                        <?php echo picture_webp('img/categoria_facial.png', 'ESTÉTICA FACIAL', 'img-cat img-hover', ['width' => '150', 'height' => '150'], true); ?>
                         <p class="textPink" style="margin-top: 15px;">ESTÉTICA <br /> FACIAL</p>
                     </div>
                 </a>
                 <a href="estetica/">
-                    <div class="col-xs-6">
-                        <?php echo picture_webp('img/menu_estetica_corporal.png', 'ESTÉTICA CORPORAL', 'img-cat', ['width' => '150', 'height' => '150'], true); ?>
+                    <div class="col-xs-6 fade-in-up">
+                        <?php echo picture_webp('img/menu_estetica_corporal.png', 'ESTÉTICA CORPORAL', 'img-cat img-hover', ['width' => '150', 'height' => '150'], true); ?>
                         <p class="textPink" style="margin-top: 15px;">ESTÉTICA</p>
                     </div>
                 </a>
             </div>
             <div class="row col-xs-12" style="display: inline-flex; margin-top:30px">
                 <a href="esmalteria/">
-                    <div class="col-xs-6" style="margin-right: 50px;">
-                        <?php echo picture_webp('img/MENU-ESMALTERIA.png', 'ESMALTERIA', 'img-cat', ['width' => '150', 'height' => '150'], true); ?>
+                    <div class="col-xs-6 fade-in-up" style="margin-right: 50px;">
+                        <?php echo picture_webp('img/MENU-ESMALTERIA.png', 'ESMALTERIA', 'img-cat img-hover', ['width' => '150', 'height' => '150'], true); ?>
                         <p class="textPink" style="margin-top: 15px;">ESMALTERIA</p>
                     </div>
                 </a>
                 <a href="salao/">
-                    <div class="col-xs-6">
-                        <?php echo picture_webp('img/menu_salao.png', 'SALÃO', 'img-cat', ['width' => '150', 'height' => '150'], true); ?>
+                    <div class="col-xs-6 fade-in-up">
+                        <?php echo picture_webp('img/menu_salao.png', 'SALÃO', 'img-cat img-hover', ['width' => '150', 'height' => '150'], true); ?>
                         <p class="textPink" style="margin-top: 15px;">SALÃO</p>
                     </div>
                 </a>
             </div>
             <div class="row col-xs-12" style="display: inline-flex; margin-top:30px">
                 <a href="vagas.php">
-                    <div class="col-xs-6" style="margin-right: 50px;">
-                        <div style="background: linear-gradient(135deg, rgba(204, 183, 188, 0.8), rgba(58, 80, 90, 0.8)); border-radius: 15px; padding: 40px; text-align: center; height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <div class="col-xs-6 fade-in-up" style="margin-right: 50px;">
+                        <div class="card-hover" style="background: linear-gradient(135deg, rgba(204, 183, 188, 0.8), rgba(58, 80, 90, 0.8)); border-radius: 15px; padding: 40px; text-align: center; height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
                             <i class="fas fa-briefcase" style="font-size: 3rem; color: white; margin-bottom: 15px;"></i>
                             <p class="text-white" style="font-size: 1.2rem; font-weight: 600; margin: 0;">VAGAS</p>
                             <p class="text-white" style="font-size: 0.9rem; margin-top: 5px; opacity: 0.9;">Trabalhe Conosco</p>
@@ -544,15 +547,15 @@ if ($_POST) {
                     </div>
                 </a>
                 <a href="micropigmentacao/">
-                    <div class="col-xs-6"
+                    <div class="col-xs-6 fade-in-up"
                         style="margin-right: 50px;width: 100px;height: 100px;overflow: hidden;border-radius: 50%;">
-                        <?php echo picture_webp('img/micro.png', 'MICROPIGMENTAÇÃO', 'img-cat', ['width' => '150', 'height' => '150'], true); ?>
+                        <?php echo picture_webp('img/micro.png', 'MICROPIGMENTAÇÃO', 'img-cat img-hover', ['width' => '150', 'height' => '150'], true); ?>
                     </div>
                     <p class="textPink" style="margin-top: 15px; font-size:10px;width: 100px">MICROPIGMENTAÇÃO</p>
                 </a>
                 <a href="cilios/">
-                    <div class="col-xs-6">
-                        <?php echo picture_webp('img/categoria_cilios.png', 'CÍLIOS E DESIGN', 'img-cat', ['width' => '150', 'height' => '150'], true); ?>
+                    <div class="col-xs-6 fade-in-up">
+                        <?php echo picture_webp('img/categoria_cilios.png', 'CÍLIOS E DESIGN', 'img-cat img-hover', ['width' => '150', 'height' => '150'], true); ?>
                         <p class="textPink" style="margin-top: 15px;">CÍLIOS E <br />DESIGN</p>
                     </div>
                 </a>
@@ -561,7 +564,7 @@ if ($_POST) {
 
         <!-- Desktop -->
         <div class="d-none d-sm-block">
-            <div class="sessoes container">
+            <div class="sessoes container fade-in-up">
                 <div class="content">
                     <div class="content-overlay"></div>
                     <?php echo picture_webp('img/esmalteria.png', 'ESMALTERIA', 'content-image', ['style' => 'min-width: 500px;', 'width' => '500', 'height' => '400'], true); ?>
@@ -572,7 +575,7 @@ if ($_POST) {
                 </div>
             </div>
 
-            <div class="sessoes container">
+            <div class="sessoes container fade-in-up">
                 <div class="content">
                     <div class="content-overlay"></div>
                     <?php echo picture_webp('img/corporal.png', 'ESTÉTICA', 'content-image', ['style' => 'min-width: 500px;', 'width' => '500', 'height' => '400'], true); ?>
@@ -583,7 +586,7 @@ if ($_POST) {
                 </div>
             </div>
 
-            <div class="sessoes container">
+            <div class="sessoes container fade-in-up">
                 <div class="content">
                     <div class="content-overlay"></div>
                     <?php echo picture_webp('img/salao.png', 'SALÃO', 'content-image', ['style' => 'min-width:600px;', 'width' => '600', 'height' => '400'], true); ?>
@@ -594,7 +597,7 @@ if ($_POST) {
                 </div>
             </div>
 
-            <div class="sessoes container">
+            <div class="sessoes container fade-in-up">
                 <div class="content">
                     <div class="content-overlay"></div>
                     <?php echo picture_webp('img/facial.png', 'ESTÉTICA FACIAL', 'content-image', ['style' => 'min-width: 500px;', 'width' => '500', 'height' => '400'], true); ?>
@@ -605,7 +608,7 @@ if ($_POST) {
                 </div>
             </div>
 
-            <div class="sessoes container">
+            <div class="sessoes container fade-in-up">
                 <div class="content">
                     <div class="content-overlay"></div>
                     <?php echo picture_webp('img/cilios.png', 'CÍLIOS E DESIGN', 'content-image', ['style' => 'min-width: 500px;', 'width' => '500', 'height' => '400'], true); ?>
@@ -616,7 +619,7 @@ if ($_POST) {
                 </div>
             </div>
 
-            <div class="sessoes container">
+            <div class="sessoes container fade-in-up">
                 <div class="content">
                     <div class="content-overlay"></div>
                     <?php echo picture_webp('img/micro.png', 'MICROPIGMENTAÇÃO', 'content-image', ['style' => 'min-width:600px;', 'width' => '600', 'height' => '400'], true); ?>
@@ -1182,6 +1185,7 @@ if ($_POST) {
     <?php echo js_tag('js/bc-swipe.js'); ?>
     <?php echo js_tag('main.js', ['defer' => true]); ?>
     <?php echo js_tag('js/dark-mode.js', ['defer' => false]); ?>
+    <?php echo js_tag('js/animations.js', ['defer' => true]); ?>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.18/jquery.touchSwipe.min.js" defer></script>
     <script>
         // Wait for DOM and jQuery to be ready (defer ensures scripts load after DOM)
