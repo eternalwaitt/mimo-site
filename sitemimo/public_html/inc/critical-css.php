@@ -113,6 +113,12 @@ body {
     width: 100%;
     /* Garantir espaço reservado mesmo antes da imagem carregar */
     background-color: #3d3d3d;
+    /* Forçar aceleração de hardware para renderização mais rápida */
+    will-change: background-image;
+    transform: translateZ(0);
+    /* Otimizar renderização */
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
 /* Hero Content */
