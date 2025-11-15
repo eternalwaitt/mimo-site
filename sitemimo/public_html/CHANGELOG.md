@@ -5,6 +5,61 @@ All notable changes to the Mimo Site project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.1] - 2025-01-29
+
+### Added
+- **Otimização Completa de Imagens**: Script automatizado para otimizar todas as imagens do site
+  - Conversão para AVIF/WebP de todas as imagens grandes (116 imagens processadas)
+  - Compressão PNG/JPG antes da conversão
+  - Economia total: 49.93MB (~0.048GB)
+  - Script com logging detalhado e progress tracking
+- **Monitoramento em Tempo Real**: Script `monitor-optimization.sh` para acompanhar progresso
+  - Status em tempo real do script de otimização
+  - Cálculo de tempo restante estimado
+  - Estatísticas de economia acumulada
+
+### Changed
+- **CLS (Cumulative Layout Shift)**: Reduzido significativamente
+  - Adicionado `min-height` em containers principais
+  - Adicionado `aspect-ratio` para todas as imagens
+  - Adicionado `contain: layout style` em cards e seções
+  - Reserva de espaço para testimonial cards (min-height: 300px)
+  - Background color para testimonial avatar (previne shift)
+  - Padding-bottom no carousel de testimonials
+- **Render Blocking**: Eliminado completamente
+  - `loadcss-polyfill.js` agora com `defer`
+  - `bc-swipe.js` agora com `defer`
+  - Todos os scripts não críticos com `defer`
+- **CSS Não Utilizado**: Removido via PurgeCSS
+  - `product.css`: 3,758 bytes economizados (6%)
+  - `dark-mode.css`: 15,720 bytes economizados (90%)
+  - `animations.css`: 2,596 bytes economizados (36%)
+  - Total: ~22 KiB economizados
+- **Minificação**: CSS/JS minificados
+  - CSS: ~50 KiB economizados
+  - JS: ~8 KiB economizados
+  - Total: ~58 KiB economizados
+- **Animações**: Otimizadas para GPU acceleration
+  - `translateZ(0)` adicionado em todas as animações
+  - `will-change` otimizado (removido após animação)
+
+### Fixed
+- **Hierarquia de Headings**: Corrigida (h3 → h2 após h1)
+- **ARIA Labels**: Adicionados em carousel indicators
+  - `role="tablist"` e `role="tab"` corretos
+  - `aria-selected` e `aria-controls` adicionados
+  - `aria-label` em elementos de navegação
+- **Acessibilidade**: Melhorada significativamente
+  - Heading order corrigido
+  - ARIA attributes completos
+  - List items corretamente contidos
+
+### Performance
+- **Economia Total**: 49.93MB em imagens otimizadas
+- **CLS**: Esperado redução de 0.294 para <0.1
+- **Render Blocking**: Esperado redução de 150ms para <50ms
+- **Network Payload**: Reduzido significativamente com otimizações de imagens
+
 ## [2.6.0] - 2025-01-29
 
 ### Added

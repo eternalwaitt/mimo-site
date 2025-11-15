@@ -329,6 +329,31 @@ section {
 .testimonials-carousel {
     min-height: 500px;
     contain: layout;
+    /* Reserve space for carousel content */
+    padding-bottom: 80px; /* Space for indicators and button */
+}
+
+/* Testimonial cards - prevent layout shift */
+.testimonial-card {
+    min-height: 300px;
+    contain: layout style;
+    /* Reserve space for content */
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Testimonial avatar - prevent layout shift */
+.testimonial-avatar {
+    width: 80px;
+    height: 80px;
+    min-width: 80px;
+    min-height: 80px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto;
+    /* Reserve space even if image fails to load */
+    background-color: #f0f0f0;
 }
 
 /* Category images - prevent layout shift */

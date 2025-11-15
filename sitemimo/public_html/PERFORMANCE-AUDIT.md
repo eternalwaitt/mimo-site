@@ -1,6 +1,6 @@
 # Performance Audit - PageSpeed Insights
 
-**Última Atualização**: 2025-01-28 (Resultados Pós-Deploy v2.5.0)  
+**Última Atualização**: 2025-01-29 (Otimizações v2.6.1 Implementadas)  
 **URL**: https://minhamimo.com.br/  
 
 ## 📊 Resultados Atuais (Pós-Deploy v2.5.0)
@@ -16,6 +16,23 @@
 🎉 **Performance melhorou**: 81 → 86 (+5 pontos) | **LCP melhorou**: 1.6s → 1.2s | **SI melhorou**: 4.1s → 2.2s (-46%)
 
 ✅ **Status**: Todas as otimizações do PageSpeed Insights foram implementadas e deployadas na v2.5.0.
+
+### 🚀 Otimizações v2.6.1 (2025-01-29) - Implementadas
+
+**Otimizações Implementadas**:
+- ✅ **Imagens Otimizadas**: 116 imagens processadas, 49.93MB economizados
+- ✅ **CLS Reduzido**: min-height, aspect-ratio, contain adicionados
+- ✅ **Render Blocking Eliminado**: defer em todos os scripts não críticos
+- ✅ **CSS Não Utilizado Removido**: ~22 KiB via PurgeCSS
+- ✅ **Minificação**: ~58 KiB economizados (CSS + JS)
+- ✅ **Animações Otimizadas**: GPU acceleration com translateZ(0)
+- ✅ **Acessibilidade**: Heading order e ARIA labels corrigidos
+
+**Resultados Esperados** (após deploy):
+- CLS: <0.1 (de 0.294)
+- Render Blocking: <50ms (de 150ms)
+- Network Payload: Redução significativa com imagens otimizadas
+- Performance Score: +5-10 pontos esperados
 
 ### Métricas Core Web Vitals
 

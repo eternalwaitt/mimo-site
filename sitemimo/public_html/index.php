@@ -297,7 +297,7 @@ if ($_POST) {
     <?php include 'inc/critical-css.php'; ?>
 
     <!-- Script loader for deferred CSS - Must come before deferred resources -->
-    <script src="<?php echo get_js_asset('js/loadcss-polyfill.js'); ?>"></script>
+    <script src="<?php echo get_js_asset('js/loadcss-polyfill.js'); ?>" defer></script>
 
     <!-- Fonts with font-display: swap - Defer using media="print" trick -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -517,13 +517,13 @@ if ($_POST) {
     </div>
     <div id="services">
         <!-- Mobile -->
-        <ul class="container nav nav-pills mt-5 mb-5   d-sm-none" id="pills-tab" role="tablist">
-            <li class="nav-item" style="margin: auto">
+        <div class="container nav nav-pills mt-5 mb-5 d-sm-none" id="pills-tab" role="tablist" aria-label="Categorias de serviços">
+            <div class="nav-item" style="margin: auto">
                 <a class="nav-link active" data-toggle="pill" role="tab" aria-controls="pills-alongamentos"
-                    aria-selected="true">
+                    aria-selected="true" id="tab-categorias">
                     CATEGORIAS</a>
-            </li>
-        </ul>
+            </div>
+        </div>
         <div class="d-block d-sm-none text-center my-3 mobile-categories-container">
             <!-- Grid de categorias mobile (2 colunas) -->
             <div class="mobile-categories-grid">
@@ -569,7 +569,7 @@ if ($_POST) {
                     <div class="content-overlay"></div>
                     <?php echo picture_webp('img/esmalteria.png', 'ESMALTERIA', 'content-image', ['style' => 'min-width: 500px;', 'width' => '500', 'height' => '400'], true); ?>
                     <div class="content-details fadeIn-top">
-                        <h3>ESMALTERIA</h3>
+                        <h2>ESMALTERIA</h2>
                         <a class="btn btnSeeMore" href="esmalteria/" aria-label="Ver procedimentos de esmalteria">PROCEDIMENTOS</a>
                     </div>
                 </div>
@@ -580,7 +580,7 @@ if ($_POST) {
                     <div class="content-overlay"></div>
                     <?php echo picture_webp('img/corporal.png', 'ESTÉTICA', 'content-image', ['style' => 'min-width: 500px;', 'width' => '500', 'height' => '400'], true); ?>
                     <div class="content-details fadeIn-top">
-                        <h3>ESTÉTICA</h3>
+                        <h2>ESTÉTICA</h2>
                         <a class="btn btnSeeMore" href="estetica/">PROCEDIMENTOS</a>
                     </div>
                 </div>
@@ -591,7 +591,7 @@ if ($_POST) {
                     <div class="content-overlay"></div>
                     <?php echo picture_webp('img/salao.png', 'SALÃO', 'content-image', ['style' => 'min-width:600px;', 'width' => '600', 'height' => '400'], true); ?>
                     <div class="content-details fadeIn-top">
-                        <h3>SALÃO</h3>
+                        <h2>SALÃO</h2>
                         <a class="btn btnSeeMore" href="salao/">PROCEDIMENTOS</a>
                     </div>
                 </div>
@@ -602,7 +602,7 @@ if ($_POST) {
                     <div class="content-overlay"></div>
                     <?php echo picture_webp('img/facial.png', 'ESTÉTICA FACIAL', 'content-image', ['style' => 'min-width: 500px;', 'width' => '500', 'height' => '400'], true); ?>
                     <div class="content-details fadeIn-top">
-                        <h3>ESTÉTICA FACIAL</h3>
+                        <h2>ESTÉTICA FACIAL</h2>
                         <a class="btn btnSeeMore" href="esteticafacial/">PROCEDIMENTOS</a>
                     </div>
                 </div>
@@ -613,7 +613,7 @@ if ($_POST) {
                     <div class="content-overlay"></div>
                     <?php echo picture_webp('img/cilios.png', 'CÍLIOS E DESIGN', 'content-image', ['style' => 'min-width: 500px;', 'width' => '500', 'height' => '400'], true); ?>
                     <div class="content-details fadeIn-top">
-                        <h3>CÍLIOS E DESIGN</h3>
+                        <h2>CÍLIOS E DESIGN</h2>
                         <a class="btn btnSeeMore" href="cilios/">PROCEDIMENTOS</a>
                     </div>
                 </div>
@@ -624,7 +624,7 @@ if ($_POST) {
                     <div class="content-overlay"></div>
                     <?php echo picture_webp('img/micro.png', 'MICROPIGMENTAÇÃO', 'content-image', ['style' => 'min-width:600px;', 'width' => '600', 'height' => '400'], true); ?>
                     <div class="content-details fadeIn-top">
-                        <h3>MICROPIGMENTAÇÃO </h3>
+                        <h2>MICROPIGMENTAÇÃO</h2>
                         <a class="btn btnSeeMore" href="micropigmentacao/">PROCEDIMENTOS</a>
                     </div>
                 </div>
@@ -638,7 +638,7 @@ if ($_POST) {
             <div class="container">
                 <div class="row">
                     <div class="col-md-10 col-center m-auto">
-                        <h3 style="color:#fff; margin-bottom: 30px;">O QUE NOSSAS CLIENTES DIZEM</h3>
+                        <h2 style="color:#fff; margin-bottom: 30px;">O QUE NOSSAS CLIENTES DIZEM</h2>
                         <?php
                         // Buscar reviews do Google (4 e 5 estrelas, ordenados por qualidade)
                         $googleReviews = [];
@@ -946,9 +946,9 @@ if ($_POST) {
                             ?>
                             <div id="testimonialsCarousel" class="testimonials-carousel carousel slide carousel-fade" data-ride="carousel" data-interval="7000">
                             <!-- Carousel indicators -->
-                                <ol class="carousel-indicators testimonials-indicators">
+                                <ol class="carousel-indicators testimonials-indicators" role="tablist" aria-label="Indicadores de depoimentos">
                                     <?php for ($i = 0; $i < $reviewCount; $i++): ?>
-                                        <li data-target="#testimonialsCarousel" data-slide-to="<?php echo $i; ?>" <?php echo $i === 0 ? 'class="active"' : ''; ?>></li>
+                                        <li data-target="#testimonialsCarousel" data-slide-to="<?php echo $i; ?>" <?php echo $i === 0 ? 'class="active"' : ''; ?> role="tab" aria-controls="testimonial-<?php echo $i; ?>" aria-selected="<?php echo $i === 0 ? 'true' : 'false'; ?>"></li>
                                     <?php endfor; ?>
                             </ol>
                             <!-- Wrapper for carousel items -->
@@ -1183,7 +1183,7 @@ if ($_POST) {
     <script src="bootstrap/popper.js/dist/popper.min.js" defer></script>
     <script src="bootstrap/bootstrap/dist/js/bootstrap.min.js" defer></script>
     <?php echo js_tag('form/main.js', ['defer' => true]); ?>
-    <?php echo js_tag('js/bc-swipe.js'); ?>
+    <?php echo js_tag('js/bc-swipe.js', ['defer' => true]); ?>
     <?php echo js_tag('main.js', ['defer' => true]); ?>
     <?php echo js_tag('js/dark-mode.js', ['defer' => false]); ?>
     <?php echo js_tag('js/animations.js', ['defer' => true]); ?>
