@@ -320,21 +320,20 @@ if ($_POST) {
     <script>loadCSS("<?php echo get_css_asset('css/modules/accessibility-fixes.css'); ?>");</script>
     <noscript><link rel="stylesheet" href="<?php echo get_css_asset('css/modules/accessibility-fixes.css'); ?>"></noscript>
 
-    <!-- Fonts with font-display: swap - Defer using media="print" trick -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
+    <!-- Fonts with font-display: swap - Defer using loadCSS (melhor que media="print") -->
+    <!-- Preconnect já configurado acima -->
+    <script>loadCSS("https://fonts.googleapis.com/css?family=Nunito:200,300,400&display=swap");</script>
     <noscript><link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400&display=swap" rel="stylesheet"></noscript>
-    <link href="https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700i&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
+    <script>loadCSS("https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700i&display=swap");</script>
     <noscript><link href="https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700i&display=swap" rel="stylesheet"></noscript>
-    <!-- Akrobat font loaded via CSS @font-face in product.css -->
+    <!-- Akrobat font loaded via CSS @font-face in product.css with font-display: swap -->
     
-    <!-- Font Awesome - Defer using media="print" trick for complete defer -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'; this.onload=null;" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <!-- Font Awesome - Defer using loadCSS (melhor que media="print") -->
+    <script>loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css");</script>
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer"></noscript>
 
-    <!-- Bootstrap core CSS - Defer using media="print" trick for complete defer -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" media="print" onload="this.media='all'; this.onload=null;">
+    <!-- Bootstrap core CSS - Defer using loadCSS (melhor que media="print") -->
+    <script>loadCSS("https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css");</script>
     <noscript><link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"></noscript>
 
     <!-- CSS Variables agora inline no critical CSS (evita render blocking) -->

@@ -31,6 +31,7 @@ body {
 }
 
 /* Google Fonts size-adjust para prevenir layout shift */
+/* Otimizado: font-display: optional elimina FOIT completamente */
 @font-face {
     font-family: 'Nunito Fallback';
     src: local('Arial');
@@ -38,6 +39,7 @@ body {
     ascent-override: 90%;
     descent-override: 22%;
     line-gap-override: 0%;
+    font-display: optional; /* Usa fallback se fonte não carregar em 100ms */
 }
 
 /* Aplicar fallback com size-adjust ao body */
