@@ -15,11 +15,13 @@
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    will-change: opacity, transform; /* Otimizar para composição GPU */
 }
 
 .fade-in-up.visible {
     opacity: 1;
     transform: translateY(0);
+    will-change: auto; /* Remover will-change após animação */
 }
 
 /* Fade in from left */
@@ -27,11 +29,13 @@
     opacity: 0;
     transform: translateX(-30px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    will-change: opacity, transform;
 }
 
 .fade-in-left.visible {
     opacity: 1;
     transform: translateX(0);
+    will-change: auto;
 }
 
 /* Fade in from right */
@@ -39,11 +43,13 @@
     opacity: 0;
     transform: translateX(30px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    will-change: opacity, transform;
 }
 
 .fade-in-right.visible {
     opacity: 1;
     transform: translateX(0);
+    will-change: auto;
 }
 
 /* Scale in */
@@ -62,29 +68,76 @@
    HOVER EFFECTS
    ============================================ */
 
-/* Card hover effect */
+/* Card hover effect - GPU accelerated */
 .card-hover {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform;
+    transform: translateZ(0); /* Force GPU acceleration */
 }
 
 .card-hover:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px) translateZ(0);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
 }
 
-/* Button hover effect */
+.card-hover:not(:hover) {
+    will-change: auto; /* Remove will-change when not hovering */
+}
 
-/* Image hover effect */
+/* Button hover effect - GPU accelerated */
+
+/* Image hover effect - GPU accelerated */
 .img-hover {
     transition: transform 0.3s ease, filter 0.3s ease;
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 .img-hover:hover {
-    transform: scale(1.05);
+    transform: scale(1.05) translateZ(0);
     filter: brightness(1.1);
 }
 
-/* Link hover effect */
+.img-hover:not(:hover) {
+    will-change: auto;
+}
+
+/* Link hover effect - GPU accelerated */
+
+/* Reduce animations on mobile for better performance */
+@media (max-width: 768px) {
+    .fade-in-up,
+    .fade-in-left,
+    .fade-in-right {
+        transition-duration: 0.4s; /* Faster on mobile */
+    }
+    
+    .card-hover:hover {
+        transform: translateY(-3px) translateZ(0); /* Smaller movement on mobile */
+    }
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    .fade-in-up,
+    .fade-in-left,
+    .fade-in-right,
+    .fade-in {
+        transition: none;
+        opacity: 1;
+        transform: none;
+    }
+    
+    .card-hover,
+    .img-hover {
+        transition: none;
+    }
+    
+    .card-hover:hover,
+    .img-hover:hover {
+        transform: none;
+    }
+}
 
 /* ============================================
    LOADING SKELETONS

@@ -3,7 +3,7 @@
  * Site Mimo - Página Inicial
  * 
  * Desenvolvido por: Victor Penter
- * Versão: 2.3.9
+ * Versão: 2.5.0
  * 
  * Este arquivo contém a página principal do site com formulário de contato
  * e seções de serviços, depoimentos e informações de contato.
@@ -275,14 +275,8 @@ if ($_POST) {
         echo '<link rel="preload" href="img/bgheader.jpg" as="image" fetchpriority="high">';
     }
     
-    // Preload main image (prefer WebP, fallback to PNG)
-    if (file_exists(__DIR__ . '/img/mimo5.webp')) {
-        echo '<link rel="preload" href="img/mimo5.webp" as="image" type="image/webp" fetchpriority="high">';
-    } elseif (file_exists(__DIR__ . '/img/mimo5.avif')) {
-        echo '<link rel="preload" href="img/mimo5.avif" as="image" type="image/avif" fetchpriority="high">';
-    } else {
-        echo '<link rel="preload" href="img/mimo5.png" as="image" fetchpriority="high">';
-    }
+    // Preload main image removed - not LCP element, will lazy load
+    // Only preload LCP element (bgheader) for optimal performance
     ?>
     <link rel="preload" href="product.css?<?php echo defined('ASSET_VERSION') ? ASSET_VERSION : '20211226'; ?>" as="style">
 
@@ -292,19 +286,21 @@ if ($_POST) {
     <!-- Script loader for deferred CSS - Must come before deferred resources -->
     <script src="<?php echo get_js_asset('js/loadcss-polyfill.js'); ?>"></script>
 
-    <!-- Fonts with font-display: swap for better performance - Defer loading -->
-    <script>loadCSS("https://fonts.googleapis.com/css?family=Nunito:200,300,400&display=swap");</script>
+    <!-- Fonts with font-display: swap - Defer using media="print" trick -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
     <noscript><link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400&display=swap" rel="stylesheet"></noscript>
-    <script>loadCSS("https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700i&display=swap");</script>
+    <link href="https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700i&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
     <noscript><link href="https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700i&display=swap" rel="stylesheet"></noscript>
     <!-- Akrobat font loaded via CSS @font-face in product.css -->
     
-    <!-- Font Awesome - Defer loading -->
-    <script>loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css");</script>
+    <!-- Font Awesome - Defer using media="print" trick for complete defer -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'; this.onload=null;" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer"></noscript>
 
-    <!-- Bootstrap core CSS - Defer non-critical -->
-    <script>loadCSS("https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css");</script>
+    <!-- Bootstrap core CSS - Defer using media="print" trick for complete defer -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" media="print" onload="this.media='all'; this.onload=null;">
     <noscript><link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"></noscript>
 
     <!-- CSS Variables agora inline no critical CSS (evita render blocking) -->
@@ -451,7 +447,9 @@ if ($_POST) {
         display: inline-block !important;
     }
     </style>
-    <?php echo css_tag('form/main.css', ['id' => 'form-css']); ?>
+    <!-- Form CSS - Defer (not critical for FCP) -->
+    <script>loadCSS("<?php echo get_css_asset('form/main.css'); ?>");</script>
+    <noscript><?php echo css_tag('form/main.css', ['id' => 'form-css']); ?></noscript>
 
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png?20211226">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png?20211226">

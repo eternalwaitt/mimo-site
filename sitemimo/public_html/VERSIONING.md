@@ -144,6 +144,7 @@ Before releasing a new version:
 See `CHANGELOG.md` for detailed version history.
 
 Quick reference:
+- **2.5.0** (2025-01-28): Otimizações completas de PageSpeed - render blocking eliminado, CLS fixes, PurgeCSS, minificação, compressão de imagens
 - **2.4.0** (2025-01-26): Otimizações completas de performance (render blocking, PurgeCSS, image dimensions)
 - **2.3.9** (2025-01-25): Ajuste de layout dos testimonials, indicadores mais próximos, espaçamento do botão Google
 - **2.3.8** (2025-01-24): Correção de sobreposição de texto nos testimonials

@@ -53,33 +53,57 @@ function get_css_asset($filePath, $addVersion = true) {
     $isSubdir = ($scriptDir !== '/' && $scriptDir !== '\\' && $scriptDir !== '.' && $scriptDir !== '' && $scriptDir !== '/index.php');
     $prefix = $isSubdir ? '../' : '';
     
-    // Se minificação está ativa, tentar usar versão minificada
+    // Prioridade: 1) Purged + Minified, 2) Minified, 3) Purged, 4) Original
     if (defined('USE_MINIFIED') && USE_MINIFIED) {
         $minPath = str_replace('.css', '.min.css', $filePath);
         $minFileName = basename($minPath);
+        $purgedPath = __DIR__ . '/../css/purged/' . basename($filePath);
+        $purgedMinPath = __DIR__ . '/../css/purged/' . $minFileName;
         $minFullPath = __DIR__ . '/../minified/' . $minFileName;
         
-        // Se arquivo minificado existe, usar ele
-        if (file_exists($minFullPath)) {
-            // Para arquivos em subdiretórios, o script de build cria form-main.min.css
+        // Para arquivos em subdiretórios
+        if (strpos($filePath, '/') !== false) {
+            $dir = dirname($filePath);
+            $name = basename($filePath, '.css');
+            $minName = str_replace('/', '-', $dir) . '-' . $name . '.min.css';
+            $minFullPath = __DIR__ . '/../minified/' . $minName;
+        }
+        
+        // 1. Tentar purged + minified (melhor)
+        if (file_exists($purgedMinPath)) {
+            $basePath = $prefix . 'css/purged/' . $minFileName;
+        }
+        // 2. Tentar apenas minified
+        elseif (file_exists($minFullPath)) {
             if (strpos($filePath, '/') !== false) {
                 $dir = dirname($filePath);
                 $name = basename($filePath, '.css');
                 $minName = str_replace('/', '-', $dir) . '-' . $name . '.min.css';
-                $minFullPath = __DIR__ . '/../minified/' . $minName;
-                if (file_exists($minFullPath)) {
+                if (file_exists(__DIR__ . '/../minified/' . $minName)) {
                     $basePath = $prefix . 'minified/' . $minName;
+                } else {
+                    $basePath = $prefix . $filePath;
                 }
             } else {
                 $basePath = $prefix . 'minified/' . $minFileName;
             }
-        } else {
-            // Se não encontrou minificado, usar original com prefixo se necessário
+        }
+        // 3. Tentar apenas purged
+        elseif (file_exists($purgedPath)) {
+            $basePath = $prefix . 'css/purged/' . basename($filePath);
+        }
+        // 4. Fallback para original
+        else {
             $basePath = $prefix . $filePath;
         }
     } else {
-        // Sem minificação, usar original com prefixo se necessário
-        $basePath = $prefix . $filePath;
+        // Sem minificação, tentar purged se existir
+        $purgedPath = __DIR__ . '/../css/purged/' . basename($filePath);
+        if (file_exists($purgedPath)) {
+            $basePath = $prefix . 'css/purged/' . basename($filePath);
+        } else {
+            $basePath = $prefix . $filePath;
+        }
     }
     
     return $basePath . $version;

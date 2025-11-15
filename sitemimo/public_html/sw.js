@@ -2,10 +2,10 @@
  * Service Worker para Site Mimo
  * Cache offline e melhor performance
  * 
- * Versão: 2.3.9
+ * Versão: 2.5.0
  */
  
-const CACHE_NAME = 'mimo-site-v2.3.9';
+const CACHE_NAME = 'mimo-site-v2.5.0';
 const RUNTIME_CACHE = 'mimo-runtime-v2';
 
 // Assets para cache estático (imagens, CSS, JS críticos)

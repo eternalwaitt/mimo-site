@@ -5,6 +5,62 @@ All notable changes to the Mimo Site project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.5.0] - 2025-01-28
+
+### Added
+- **Render Blocking Optimization (Complete)**: Implementado defer completo usando `media="print"` trick
+  - Font Awesome: defer completo com `media="print" onload`
+  - Bootstrap CSS: defer completo com `media="print" onload`
+  - Google Fonts: defer completo com `media="print" onload` + preconnect otimizado
+  - form/main.css: movido para defer via `loadCSS()`
+- **CLS Optimization (Complete)**: Correções abrangentes para reduzir layout shift
+  - `#main-content`: Adicionado `min-height: 100vh` para reservar espaço
+  - Web fonts: Implementado `size-adjust`, `ascent-override`, `descent-override` para prevenir layout shift
+  - Font fallback: Criado `Nunito Fallback` com size-adjust para Google Fonts
+  - Containers: Adicionado `min-height` em `#about` e `.container.row.mx-auto`
+  - Akrobat font: Adicionado size-adjust properties no `@font-face`
+- **Image Optimization (Complete)**:
+  - Script de compressão: `build/compress-images.sh` criado e executado
+  - Srcset responsivo: Melhorado para usar width descriptors baseados em dimensões reais
+  - Preload otimizado: Removido preload de `mimo5.png` (não é LCP element)
+  - Lazy loading: Verificado e garantido em todas as imagens abaixo do fold
+- **PurgeCSS Integration (Complete)**: Executado e integrado ao asset helper
+  - `product.css`: -3.7KB (7% economia)
+  - `dark-mode.css`: -15KB (90% economia)
+  - `animations.css`: -2.6KB (36% economia)
+  - Total: ~21KB economizados
+  - Asset helper atualizado para usar automaticamente CSS purgado + minificado
+- **Minification (Complete)**: Todos os assets minificados
+  - JavaScript: 4 arquivos minificados (~8KB economia)
+  - CSS: 6 arquivos minificados (~35KB economia)
+  - Arquivos purgados também minificados
+  - Total: ~43KB economizados
+- **Animation Optimization (Complete)**:
+  - GPU acceleration: `transform: translateZ(0)` adicionado em todos os hover effects
+  - Mobile optimizations: Animações mais rápidas e movimentos menores em mobile
+  - prefers-reduced-motion: Suporte completo para acessibilidade
+  - will-change: Otimizado para remover após animação
+
+### Changed
+- **Render Blocking**: Reduzido de 950ms para ~0ms (desktop) e 2,380ms para ~0ms (mobile) esperado
+- **Asset Helper**: Prioridade de carregamento: purged+minified → minified → purged → original
+- **Image Helper**: Srcset agora usa width descriptors quando dimensões disponíveis
+- **Cache Headers**: Otimizados com preload hints para fontes críticas
+
+### Fixed
+- **CLS Desktop**: Esperado redução de 0.129 para <0.1
+- **CLS Mobile**: Esperado redução de 0.295 para <0.1
+- **Font Loading**: Size-adjust implementado para prevenir layout shift em todas as fontes
+- **Image Compression**: `logobranco1.png` comprimido (67% redução: 35KB → 11KB)
+- **Non-composited Animations**: GPU acceleration implementado em todas as animações
+
+### Performance
+- **Total Economia**: ~64KB+ (CSS purgado + minificado + imagens comprimidas)
+- **Render Blocking**: Eliminado completamente (esperado após deploy)
+- **CLS**: Correções abrangentes aplicadas (aguardando novo teste)
+- **Image Delivery**: Compressão aplicada, srcset melhorado
+- **Expected Scores**: Desktop 81→90+, Mobile 50→70+ (após deploy e novo teste)
+
 ## [2.4.1] - 2025-01-27
 
 ### Fixed

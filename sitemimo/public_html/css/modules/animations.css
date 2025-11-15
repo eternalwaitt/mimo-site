@@ -79,48 +79,120 @@
    HOVER EFFECTS
    ============================================ */
 
-/* Card hover effect */
+/* Card hover effect - GPU accelerated */
 .card-hover {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform;
+    transform: translateZ(0); /* Force GPU acceleration */
 }
 
 .card-hover:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px) translateZ(0);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
 }
 
-/* Button hover effect */
+.card-hover:not(:hover) {
+    will-change: auto; /* Remove will-change when not hovering */
+}
+
+/* Button hover effect - GPU accelerated */
 .btn-hover {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 .btn-hover:hover {
-    transform: translateY(-2px);
+    transform: translateY(-2px) translateZ(0);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-hover:not(:hover) {
+    will-change: auto;
 }
 
 .btn-hover:active {
     transform: translateY(0);
 }
 
-/* Image hover effect */
+/* Image hover effect - GPU accelerated */
 .img-hover {
     transition: transform 0.3s ease, filter 0.3s ease;
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 .img-hover:hover {
-    transform: scale(1.05);
+    transform: scale(1.05) translateZ(0);
     filter: brightness(1.1);
 }
 
-/* Link hover effect */
+.img-hover:not(:hover) {
+    will-change: auto;
+}
+
+/* Link hover effect - GPU accelerated */
 .link-hover {
     transition: color 0.2s ease, transform 0.2s ease;
     display: inline-block;
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 .link-hover:hover {
-    transform: translateX(5px);
+    transform: translateX(5px) translateZ(0);
+}
+
+.link-hover:not(:hover) {
+    will-change: auto;
+}
+
+/* Reduce animations on mobile for better performance */
+@media (max-width: 768px) {
+    .fade-in-up,
+    .fade-in-left,
+    .fade-in-right,
+    .scale-in {
+        transition-duration: 0.4s; /* Faster on mobile */
+    }
+    
+    .card-hover:hover,
+    .btn-hover:hover {
+        transform: translateY(-3px) translateZ(0); /* Smaller movement on mobile */
+    }
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    .fade-in-up,
+    .fade-in-left,
+    .fade-in-right,
+    .scale-in,
+    .fade-in {
+        transition: none;
+        opacity: 1;
+        transform: none;
+    }
+    
+    .card-hover,
+    .btn-hover,
+    .img-hover,
+    .link-hover {
+        transition: none;
+    }
+    
+    .card-hover:hover,
+    .btn-hover:hover,
+    .img-hover:hover,
+    .link-hover:hover {
+        transform: none;
+    }
+    
+    @keyframes skeleton-loading {
+        from, to {
+            background-position: 0 0;
+        }
+    }
 }
 
 /* ============================================

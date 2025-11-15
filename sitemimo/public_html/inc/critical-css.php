@@ -30,9 +30,24 @@ body {
     color: #333;
 }
 
+/* Google Fonts size-adjust para prevenir layout shift */
+@font-face {
+    font-family: 'Nunito Fallback';
+    src: local('Arial');
+    size-adjust: 100%;
+    ascent-override: 90%;
+    descent-override: 22%;
+    line-gap-override: 0%;
+}
+
+/* Aplicar fallback com size-adjust ao body */
+body {
+    font-family: 'Nunito', 'Nunito Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
 /* Font fallback para Akrobat - prevenir layout shift */
 .Akrobat {
-    font-family: 'Akrobat Regular', 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Akrobat Regular', 'Nunito', 'Nunito Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     /* Garantir que o tamanho seja consistente mesmo antes da fonte carregar */
     font-size: inherit;
     line-height: inherit;
@@ -260,6 +275,12 @@ section {
     max-width: 120px;
     aspect-ratio: 1961 / 360; /* Logo aspect ratio */
     object-fit: contain;
+}
+
+/* Main content - prevent layout shift */
+#main-content {
+    min-height: 100vh; /* Reserve space to prevent layout shift */
+    position: relative;
 }
 
 /* Footer - prevent layout shift */

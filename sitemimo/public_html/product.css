@@ -79,6 +79,11 @@ button.navbar-toggler {
 	font-weight: 400;
 	src: local('Akrobat Regular'), url(/Akrobat-Regular.woff) format('woff');
 	font-display: swap; /* Prevenir layout shift - usa fallback até fonte carregar */
+	/* Size-adjust para prevenir layout shift */
+	size-adjust: 100%;
+	ascent-override: 90%;
+	descent-override: 22%;
+	line-gap-override: 0%;
 }
 
 

@@ -83,6 +83,16 @@ function picture_webp($src, $alt = '', $class = '', $attributes = [], $lazy = tr
     $srcsetOriginal = [];
     
     if ($generateSrcset) {
+        // Get image dimensions for responsive srcset
+        $imagePath = $rootPath . '/' . ltrim($src, '/');
+        $imageWidth = null;
+        if (file_exists($imagePath) && function_exists('getimagesize')) {
+            $imageInfo = @getimagesize($imagePath);
+            if ($imageInfo !== false) {
+                $imageWidth = $imageInfo[0];
+            }
+        }
+        
         // Try to find multiple sizes (1x, 2x, 3x)
         // Pattern: filename-1x.ext, filename-2x.ext, filename-3x.ext
         $basePath = preg_replace('/\.(jpg|jpeg|png)$/i', '', $src);
@@ -95,7 +105,12 @@ function picture_webp($src, $alt = '', $class = '', $attributes = [], $lazy = tr
             
             // Check if this size exists
             if (image_file_exists($sizePath, $rootPath)) {
-                $descriptor = $multiplier . 'x';
+                // Use width descriptor if we have image dimensions, otherwise use density descriptor
+                if ($imageWidth && $multiplier > 1) {
+                    $descriptor = ($imageWidth * $multiplier) . 'w';
+                } else {
+                    $descriptor = $multiplier . 'x';
+                }
                 $srcsetOriginal[] = $sizePath . ' ' . $descriptor;
                 
                 if (image_file_exists($sizeWebp, $rootPath)) {
@@ -108,14 +123,19 @@ function picture_webp($src, $alt = '', $class = '', $attributes = [], $lazy = tr
             }
         }
         
-        // If no multiple sizes found, use original with 1x descriptor
+        // If no multiple sizes found, use original with 1x descriptor or width if available
         if (empty($srcsetOriginal)) {
-            $srcsetOriginal[] = $src . ' 1x';
+            if ($imageWidth) {
+                $descriptor = $imageWidth . 'w';
+            } else {
+                $descriptor = '1x';
+            }
+            $srcsetOriginal[] = $src . ' ' . $descriptor;
             if ($webpExists) {
-                $srcsetWebp[] = $webpSrc . ' 1x';
+                $srcsetWebp[] = $webpSrc . ' ' . $descriptor;
             }
             if ($avifExists) {
-                $srcsetAvif[] = $avifSrc . ' 1x';
+                $srcsetAvif[] = $avifSrc . ' ' . $descriptor;
             }
         }
     }
