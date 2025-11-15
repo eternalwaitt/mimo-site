@@ -185,10 +185,11 @@ picture img {
     height: auto;
 }
 
-/* Mobile optimizations */
+/* Mobile optimizations - CRITICAL for LCP */
 @media only screen and (max-width: 750px) {
     .bg-header {
         /* Usar AVIF/WebP com fallback PNG para melhor performance (LCP element mobile) */
+        /* Preload já configurado no <head> - garantir que CSS crítico tenha estilos */
         background-image: url(/img/header_dezembro_mobile.avif);
         background-image: -webkit-image-set(
             url(/img/header_dezembro_mobile.avif) type("image/avif"),
@@ -206,6 +207,12 @@ picture img {
         max-height: 350px;
         background-size: cover;
         background-repeat: no-repeat;
+        /* Garantir espaço reservado para prevenir layout shift */
+        aspect-ratio: 16/9;
+        background-color: #3d3d3d;
+        /* Forçar aceleração de hardware para renderização mais rápida */
+        will-change: background-image;
+        transform: translateZ(0);
     }
     
     .navbar {

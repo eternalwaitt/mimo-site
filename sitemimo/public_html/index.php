@@ -279,6 +279,7 @@ if ($_POST) {
     }
     
     // Preload mobile header (LCP element no mobile) - prefer AVIF/WebP
+    // CRITICAL: Esta é a imagem LCP no mobile, precisa ser carregada o mais rápido possível
     if (file_exists(__DIR__ . '/img/header_dezembro_mobile.avif')) {
         echo '<link rel="preload" href="img/header_dezembro_mobile.avif" as="image" type="image/avif" fetchpriority="high" media="(max-width: 750px)">';
     } elseif (file_exists(__DIR__ . '/img/header_dezembro_mobile.webp')) {
@@ -286,6 +287,9 @@ if ($_POST) {
     } elseif (file_exists(__DIR__ . '/img/header_dezembro_mobile.png')) {
         echo '<link rel="preload" href="img/header_dezembro_mobile.png" as="image" fetchpriority="high" media="(max-width: 750px)">';
     }
+    
+    // Preconnect para domínio de imagens (se usar CDN)
+    // echo '<link rel="preconnect" href="https://minhamimo.com.br" crossorigin>';
     
     // Preload hero image (mimo5.png) - above the fold, não lazy
     if (file_exists(__DIR__ . '/img/mimo5.avif')) {
@@ -299,14 +303,18 @@ if ($_POST) {
     <!-- Preload fontes críticas -->
     <link rel="preload" href="/Akrobat-Regular.woff" as="font" type="font/woff" crossorigin>
     
-    <!-- Preload CSS crítico (já inline, mas manter para compatibilidade) -->
-    <link rel="preload" href="product.css?<?php echo defined('ASSET_VERSION') ? ASSET_VERSION : '20211226'; ?>" as="style">
+    <!-- Preconnect para domínio próprio (imagens e fontes) -->
+    <link rel="preconnect" href="https://minhamimo.com.br" crossorigin>
 
     <!-- Critical CSS (Above the fold) -->
     <?php include 'inc/critical-css.php'; ?>
 
     <!-- Script loader for deferred CSS - Must come before deferred resources -->
-    <script src="<?php echo get_js_asset('js/loadcss-polyfill.js'); ?>" defer></script>
+    <!-- CRITICAL: loadCSS deve ser inline e síncrono para funcionar antes do CSS defer -->
+    <script>
+    /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+    (function(w){"use strict";if(!w.loadCSS){w.loadCSS=function(href,media,rel){var ss=w.document.createElement("link");var ref;if(rel){ref=w.document.getElementsByTagName(rel)[0];}else{var refs=w.document.getElementsByTagName("script");ref=refs[refs.length-1];}ss.rel="stylesheet";ss.href=href;ss.media="only x";function onloadcssdefined(cb){for(var i=0;i<w.document.styleSheets.length;i++){if(w.document.styleSheets[i].href===ss.href){return cb();}}setTimeout(function(){onloadcssdefined(cb);});}onloadcssdefined(function(){ss.media=media||"all";});if(ref){ref.parentNode.insertBefore(ss,ref.nextSibling);}else{w.document.head.appendChild(ss);}return ss;};}})(this);
+    </script>
     
     <!-- Accessibility fixes CSS - Defer (not critical for FCP) -->
     <script>loadCSS("<?php echo get_css_asset('css/modules/accessibility-fixes.css'); ?>");</script>
