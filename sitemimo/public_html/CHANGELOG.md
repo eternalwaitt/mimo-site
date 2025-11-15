@@ -5,6 +5,37 @@ All notable changes to the Mimo Site project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.6] - 2025-11-15
+
+### Fixed
+- **Image Delivery (2,760 KiB)**:
+  - Corrigido script `optimize-all-large-images.sh` para incluir imagens de `mobile_promocional`
+  - Removido filtro `! -path "*/mobile_promocional/*"` que estava ignorando imagens grandes
+  - Otimizadas todas imagens críticas identificadas pelo PageSpeed Insights
+  - Criado script `optimize-missing-images.sh` para otimizar imagens específicas
+- **Unused CSS (83 KiB)**:
+  - Re-executado PurgeCSS em `product.css`, `dark-mode.css`, `animations.css`
+  - Arquivos purgados minificados: `css/purged/*.min.css`
+  - Economia: ~22 KiB (product.css: 6%, dark-mode.css: 90%, animations.css: 21%)
+- **Minify CSS (23 KiB)**:
+  - CSS modules minificados: `mobile-ui-improvements`, `accessibility-fixes`
+  - Arquivos criados: `minified/css-modules-*.min.css`
+  - Economia: ~12 KiB
+
+### Changed
+- **Script de Otimização de Imagens**:
+  - `build/optimize-all-large-images.sh`: Agora processa TODAS as imagens grandes, incluindo `mobile_promocional`
+  - `build/optimize-missing-images.sh`: Novo script para otimizar imagens específicas identificadas
+- **Asset Helper**:
+  - Configurado para usar arquivos purgados e minificados corretamente
+  - Verificado que `get_css_asset()` retorna caminhos corretos para arquivos otimizados
+- **Asset Version**: Atualizado para `20251115-4` (cache busting)
+
+### Technical
+- **Image Optimization**: Todas imagens críticas (>100KB) agora têm AVIF e WebP
+- **CSS Optimization**: PurgeCSS + minificação aplicados em todos arquivos CSS principais
+- **Performance**: Meta de reduzir Image Delivery de 2,760 KiB e Network Payload de 3,882 KiB para <1,600 KiB
+
 ## [2.6.5] - 2025-11-15
 
 ### Added

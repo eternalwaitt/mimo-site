@@ -39,6 +39,21 @@ if [ -f "form/main.css" ]; then
     }
 fi
 
+# Minify CSS modules
+if [ -f "css/modules/mobile-ui-improvements.css" ]; then
+    echo "Minifying css/modules/mobile-ui-improvements.css..."
+    npx --yes csso-cli css/modules/mobile-ui-improvements.css --output minified/mobile-ui-improvements.min.css || {
+        echo "Warning: Failed to minify mobile-ui-improvements.css, continuing..."
+    }
+fi
+
+if [ -f "css/modules/accessibility-fixes.css" ]; then
+    echo "Minifying css/modules/accessibility-fixes.css..."
+    npx --yes csso-cli css/modules/accessibility-fixes.css --output minified/accessibility-fixes.min.css || {
+        echo "Warning: Failed to minify accessibility-fixes.css, continuing..."
+    }
+fi
+
 echo "CSS minification complete! Files saved in minified/ directory."
 echo "Remember to update your PHP files to use .min.css files in production."
 

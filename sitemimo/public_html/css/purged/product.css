@@ -147,7 +147,7 @@ iframe {
 
 .backgroundPink {
 
-	background-color: #3a505a;
+	background-color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
 
 }
 
@@ -163,7 +163,7 @@ iframe {
 
 .backgroundGrey {
 
-	background-color: #ccb7bc; /* Mantém cor original do background */
+	background-color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
 
 }
 
@@ -197,7 +197,7 @@ li p {
 
 	color: #fff;
 
-	background-color: #ccb7bc
+	background-color: var(--color-pink, #ccb7bc) /* Rosa da marca via variável CSS */
 
 }
 
@@ -275,7 +275,7 @@ li p {
 
 	background-color: var(--color-bg-secondary); /* Usa variável CSS */
 
-	color: rgb(58, 80, 90);
+	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
 
 }
 
@@ -285,7 +285,7 @@ li p {
 
 	color: #fff;
 
-	background-color: #3a505a;
+	background-color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
 
 	border-radius: 2px;
 
@@ -299,7 +299,7 @@ li p {
 
 .btn-rosa:hover {
 
-	background-color: #ccb7bc;
+	background-color: var(--color-pink, #ccb7bc) /* Rosa da marca via variável CSS */;
 
 	color: #fff
 
@@ -1148,8 +1148,8 @@ nav.footer-nav-vertical {
 
 /* Sobrescrever estilo ativo genérico para testimonials-carousel */
 .testimonials-carousel .carousel-indicators li.active {
-	background: #3a505a !important;
-	border-color: #3a505a !important;
+	background: var(--color-dark-grey, #3a505a) !important; /* Cinza da marca via variável CSS */
+	border-color: var(--color-dark-grey, #3a505a) !important;
 	width: 32px !important;
 	height: 12px !important;
 	border-radius: 6px !important;
@@ -1353,7 +1353,7 @@ textarea {
 
 		color: #fff;
 
-		background-color: #3a505a;
+		background-color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
 
 		border-radius: 2px;
 
@@ -1768,7 +1768,7 @@ body nav.breadcrumb-nav ol {
 	border-radius: 50%;
 	overflow: hidden;
 	margin-bottom: 10px; /* Reduzido de 15px */
-	border: 3px solid #ccb7bc; /* Reduzido de 4px */
+	border: 3px solid var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
 	box-shadow: 0 4px 15px rgba(204, 183, 188, 0.3);
 	flex-shrink: 0;
 	min-width: 80px; /* Garante largura mínima */
@@ -1834,7 +1834,7 @@ body nav.breadcrumb-nav ol {
 .testimonial-text {
 	font-size: 1rem; /* Reduzido de 1.1rem */
 	line-height: 1.7; /* Reduzido de 1.8 */
-	color: #3a505a;
+	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
 	margin: 0;
 	padding: 0 10px;
 	border: none;
@@ -1885,7 +1885,7 @@ body nav.breadcrumb-nav ol {
 }
 
 .testimonial-author strong {
-	color: #3a505a;
+	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
 	font-size: 1rem; /* Reduzido de 1.1rem */
 	font-weight: 600;
 	letter-spacing: 0.5px;
@@ -1947,7 +1947,7 @@ body nav.breadcrumb-nav ol {
 }
 
 .testimonials-control i {
-	color: #ccb7bc;
+	color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
 	font-size: 24px;
 	position: relative;
 	display: block;
@@ -2020,8 +2020,8 @@ body nav.breadcrumb-nav ol {
 .testimonials-carousel .carousel-indicators.testimonials-indicators li.active,
 .testimonials-carousel .testimonials-indicators li.active,
 .testimonials-carousel.carousel .carousel-indicators.testimonials-indicators li.active {
-	background: #3a505a !important;
-	border-color: #3a505a !important;
+	background: var(--color-dark-grey, #3a505a) !important; /* Cinza da marca via variável CSS */
+	border-color: var(--color-dark-grey, #3a505a) !important;
 	width: 32px !important;
 	height: 12px !important;
 	border-radius: 6px !important;
@@ -2479,7 +2479,7 @@ nav.footer-nav-vertical .footer-link,
 
 .info-card h3 i,
 .vaga-title i {
-	color: #ccb7bc;
+	color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
 	margin-right: 10px;
 	font-size: 1.3rem;
 	width: 28px;
@@ -2525,13 +2525,13 @@ nav.footer-nav-vertical .footer-link,
 	flex-shrink: 0;
 	width: 20px;
 	text-align: center;
-	color: #ccb7bc;
+	color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
 	font-size: 1.1rem;
 	margin-top: 2px;
 }
 
 .vaga-info-item strong {
-	color: #3a505a;
+	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
 	font-weight: 600;
 	margin-right: 5px;
 }
@@ -2638,22 +2638,22 @@ nav.footer-nav-vertical .footer-link,
 
 .horario-status.aberto {
 	background: rgba(204, 183, 188, 0.15);
-	color: #3a505a;
+	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
 	border: 1px solid rgba(204, 183, 188, 0.3);
 }
 
 .horario-status.aberto i {
-	color: #ccb7bc;
+	color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
 }
 
 .horario-status.fechado {
 	background: rgba(58, 80, 90, 0.1);
-	color: #3a505a;
+	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
 	border: 1px solid rgba(58, 80, 90, 0.2);
 }
 
 .horario-status.fechado i {
-	color: #3a505a;
+	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
 }
 
 /* Seção de Conteúdo Padrão */
@@ -2673,7 +2673,7 @@ nav.footer-nav-vertical .footer-link,
 }
 
 .vaga-requirements h4 {
-	color: #3a505a;
+	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
 	font-size: 1.1rem;
 	font-weight: 600;
 	margin-bottom: 12px;
@@ -2683,7 +2683,7 @@ nav.footer-nav-vertical .footer-link,
 }
 
 .vaga-requirements h4 i {
-	color: #ccb7bc;
+	color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
 	font-size: 1.2rem;
 	width: 24px;
 	text-align: center;
@@ -2691,7 +2691,7 @@ nav.footer-nav-vertical .footer-link,
 }
 
 .vaga-description h4 {
-	color: #3a505a;
+	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
 	font-size: 1.1rem;
 	font-weight: 600;
 	margin-bottom: 12px;
@@ -2701,7 +2701,7 @@ nav.footer-nav-vertical .footer-link,
 }
 
 .vaga-description h4 i {
-	color: #ccb7bc;
+	color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
 	font-size: 1.2rem;
 	width: 24px;
 	text-align: center;
@@ -2727,19 +2727,19 @@ nav.footer-nav-vertical .footer-link,
 }
 
 .vaga-description h4 {
-	color: #3a505a;
+	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
 	margin-bottom: 15px;
 	font-weight: 600;
 	font-size: 1.1rem;
 }
 
 .vaga-description h4 i {
-	color: #ccb7bc;
+	color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
 	margin-right: 8px;
 }
 
 .vaga-requirements h4 i {
-	color: #ccb7bc;
+	color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
 	margin-right: 8px;
 }
 
@@ -2800,7 +2800,7 @@ nav.footer-nav-vertical .footer-link,
 
 /* Título de Seção Padrão */
 .page-section h2 {
-	color: #3a505a;
+	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
 	font-weight: 700;
 	font-size: 2rem;
 }
@@ -2814,13 +2814,13 @@ nav.footer-nav-vertical .footer-link,
 
 .no-vagas i {
 	font-size: 4rem;
-	color: #ccb7bc;
+	color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
 	margin-bottom: 20px;
 	display: block;
 }
 
 .no-vagas h3 {
-	color: #3a505a;
+	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
 	margin-bottom: 15px;
 	font-weight: 600;
 }
@@ -2869,13 +2869,13 @@ nav.footer-nav-vertical .footer-link,
 	.vaga-info-item i {
 		width: 18px;
 		font-size: 1rem;
-		color: #ccb7bc;
+		color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
 		flex-shrink: 0;
 		margin-top: 3px;
 	}
 
 	.vaga-info-item strong {
-		color: #3a505a;
+		color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
 		font-weight: 600;
 		margin-right: 4px;
 	}
@@ -2896,7 +2896,7 @@ nav.footer-nav-vertical .footer-link,
 	}
 
 	.vaga-requirements h4 i {
-		color: #ccb7bc;
+		color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
 		font-size: 1.1rem;
 		width: 20px;
 		text-align: center;
@@ -2916,7 +2916,7 @@ nav.footer-nav-vertical .footer-link,
 
 	.vaga-description h4,
 	.vaga-requirements h4 {
-		color: #3a505a;
+		color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
 	}
 
 	.action-buttons {
@@ -3085,8 +3085,8 @@ nav.footer-nav-vertical .footer-link,
 }
 
 #testimonialsCarousel .carousel-indicators.testimonials-indicators li.active {
-	background: #3a505a !important;
-	border-color: #3a505a !important;
+	background: var(--color-dark-grey, #3a505a) !important; /* Cinza da marca via variável CSS */
+	border-color: var(--color-dark-grey, #3a505a) !important;
 	width: 32px !important;
 	height: 12px !important;
 	border-radius: 6px !important;
