@@ -2,6 +2,7 @@
 
 **Última Atualização**: 2025-01-29 (Otimizações v2.6.1 Implementadas)  
 **URL**: https://minhamimo.com.br/  
+**Última Análise PageSpeed**: Nov 15, 2025, 12:39 AM (ANTES das otimizações v2.6.1)  
 
 ## 📊 Resultados Atuais (Pós-Deploy v2.5.0)
 
@@ -29,10 +30,36 @@
 - ✅ **Acessibilidade**: Heading order e ARIA labels corrigidos
 
 **Resultados Esperados** (após deploy):
-- CLS: <0.1 (de 0.294)
-- Render Blocking: <50ms (de 150ms)
-- Network Payload: Redução significativa com imagens otimizadas
-- Performance Score: +5-10 pontos esperados
+- CLS: <0.1 (de 0.294) - **-66% esperado**
+- Render Blocking: <50ms (de 150ms) - **-67% esperado**
+- Network Payload: Redução significativa com imagens otimizadas (49.93MB)
+- Performance Score: 60+ (de 51) - **+9 pontos esperados**
+- LCP: <4.0s (de 5.8s) - **-31% esperado**
+- FCP: <3.3s (de 4.1s) - **-20% esperado**
+
+### 📋 Análise Detalhada (Nov 15, 12:39 AM - Mobile)
+
+**Problemas Identificados e Status**:
+
+#### ✅ Corrigidos na v2.6.1
+1. **Improve image delivery** (2,748 KiB) → ✅ 49.93MB otimizados
+2. **Render blocking requests** (150ms) → ✅ Defer implementado
+3. **Reduce unused CSS** (57 KiB) → ✅ PurgeCSS executado (~22 KiB)
+4. **Minify CSS** (7 KiB) → ✅ Minificação executada (~50 KiB)
+5. **Minify JavaScript** (5 KiB) → ✅ Minificação executada (~8 KiB)
+6. **Avoid non-composited animations** (115 elementos) → ✅ translateZ(0) adicionado
+7. **Layout shift culprits** (CLS 0.294) → ✅ min-height, aspect-ratio, contain
+8. **Heading order** → ✅ h3 → h2 corrigido
+
+#### ⏳ Pendentes
+1. **Reduce unused JavaScript** (83 KiB) - Análise mais profunda necessária
+2. **Font display** (30ms) - Verificar se todas as fontes têm swap
+3. **Network payload** (4,249 KiB) - Deve melhorar com imagens otimizadas
+4. **Acessibilidade**:
+   - ARIA issues (role requirements)
+   - Contrast issues
+   - List items not in ul/ol
+   - Image alt attributes redundantes
 
 ### Métricas Core Web Vitals
 
