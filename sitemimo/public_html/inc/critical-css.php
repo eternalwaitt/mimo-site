@@ -235,6 +235,28 @@ picture img {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* ============================================
+   CONTRASTE CRÍTICO - Above the fold
+   ============================================ */
+
+/* Garantir contraste mínimo acima da dobra */
+body {
+    color: #1a1a1a;
+    background-color: #ffffff;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #1a1a1a;
+}
+
+p, span, li {
+    color: #2a2a2a;
+}
+
+a:not(.btn):not(.action-btn) {
+    color: #3a505a;
+}
+
 /* Section containers - prevent layout shift */
 section {
     padding: 60px 0;

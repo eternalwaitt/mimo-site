@@ -286,6 +286,15 @@ if ($_POST) {
     } elseif (file_exists(__DIR__ . '/img/header_dezembro_mobile.png')) {
         echo '<link rel="preload" href="img/header_dezembro_mobile.png" as="image" fetchpriority="high" media="(max-width: 750px)">';
     }
+    
+    // Preload hero image (mimo5.png) - above the fold, não lazy
+    if (file_exists(__DIR__ . '/img/mimo5.avif')) {
+        echo '<link rel="preload" href="img/mimo5.avif" as="image" type="image/avif" fetchpriority="high">';
+    } elseif (file_exists(__DIR__ . '/img/mimo5.webp')) {
+        echo '<link rel="preload" href="img/mimo5.webp" as="image" type="image/webp" fetchpriority="high">';
+    } elseif (file_exists(__DIR__ . '/img/mimo5.png')) {
+        echo '<link rel="preload" href="img/mimo5.png" as="image" fetchpriority="high">';
+    }
     ?>
     <!-- Preload fontes críticas -->
     <link rel="preload" href="/Akrobat-Regular.woff" as="font" type="font/woff" crossorigin>
@@ -489,7 +498,7 @@ if ($_POST) {
         <!--<div class=" container mt-3" >&nbsp;</div>-->
         <div class="container row mx-auto" style="display: flex; flex-wrap: wrap;">
             <div class="col-md-5 mt-lg-5 p-0 fade-in-left" id="florzinha" style="display: flex; align-items: center; justify-content: center;">
-                <?php echo picture_webp('img/mimo5.png', 'foto-flores', 'img-fluid img-hover', ['width' => '500', 'height' => '500', 'style' => 'width: 100%; height: auto; max-width: 100%; aspect-ratio: 1 / 1;'], false); ?>
+                <?php echo picture_webp('img/mimo5.png', 'Mimo - Beleza sem padrão', 'img-fluid img-hover', ['width' => '500', 'height' => '500', 'style' => 'width: 100%; height: auto; max-width: 100%; aspect-ratio: 1 / 1;'], false); ?>
             </div>
             <div class="col-md-7 mx-auto my-5 overflow-hidden">
                 <h1 class="display-4 font-weight-normal text-align-right text-uppercase fade-in-right"
@@ -517,13 +526,13 @@ if ($_POST) {
     </div>
     <div id="services">
         <!-- Mobile -->
-        <div class="container nav nav-pills mt-5 mb-5 d-sm-none" id="pills-tab" role="tablist" aria-label="Categorias de serviços">
+        <nav class="container nav nav-pills mt-5 mb-5 d-sm-none" id="pills-tab" role="tablist" aria-label="Categorias de serviços">
             <div class="nav-item" style="margin: auto">
                 <a class="nav-link active" data-toggle="pill" role="tab" aria-controls="pills-alongamentos"
-                    aria-selected="true" id="tab-categorias">
+                    aria-selected="true" id="tab-categorias" aria-label="Categorias de serviços">
                     CATEGORIAS</a>
             </div>
-        </div>
+        </nav>
         <div class="d-block d-sm-none text-center my-3 mobile-categories-container">
             <!-- Grid de categorias mobile (2 colunas) -->
             <div class="mobile-categories-grid">
@@ -581,7 +590,7 @@ if ($_POST) {
                     <?php echo picture_webp('img/corporal.png', 'ESTÉTICA', 'content-image', ['style' => 'min-width: 500px;', 'width' => '500', 'height' => '400'], true); ?>
                     <div class="content-details fadeIn-top">
                         <h2>ESTÉTICA</h2>
-                        <a class="btn btnSeeMore" href="estetica/">PROCEDIMENTOS</a>
+                        <a class="btn btnSeeMore" href="estetica/" aria-label="Ver procedimentos de estética corporal">PROCEDIMENTOS</a>
                     </div>
                 </div>
             </div>
@@ -592,7 +601,7 @@ if ($_POST) {
                     <?php echo picture_webp('img/salao.png', 'SALÃO', 'content-image', ['style' => 'min-width:600px;', 'width' => '600', 'height' => '400'], true); ?>
                     <div class="content-details fadeIn-top">
                         <h2>SALÃO</h2>
-                        <a class="btn btnSeeMore" href="salao/">PROCEDIMENTOS</a>
+                        <a class="btn btnSeeMore" href="salao/" aria-label="Ver procedimentos de salão">PROCEDIMENTOS</a>
                     </div>
                 </div>
             </div>
@@ -603,7 +612,7 @@ if ($_POST) {
                     <?php echo picture_webp('img/facial.png', 'ESTÉTICA FACIAL', 'content-image', ['style' => 'min-width: 500px;', 'width' => '500', 'height' => '400'], true); ?>
                     <div class="content-details fadeIn-top">
                         <h2>ESTÉTICA FACIAL</h2>
-                        <a class="btn btnSeeMore" href="esteticafacial/">PROCEDIMENTOS</a>
+                        <a class="btn btnSeeMore" href="esteticafacial/" aria-label="Ver procedimentos de estética facial">PROCEDIMENTOS</a>
                     </div>
                 </div>
             </div>
@@ -614,7 +623,7 @@ if ($_POST) {
                     <?php echo picture_webp('img/cilios.png', 'CÍLIOS E DESIGN', 'content-image', ['style' => 'min-width: 500px;', 'width' => '500', 'height' => '400'], true); ?>
                     <div class="content-details fadeIn-top">
                         <h2>CÍLIOS E DESIGN</h2>
-                        <a class="btn btnSeeMore" href="cilios/">PROCEDIMENTOS</a>
+                        <a class="btn btnSeeMore" href="cilios/" aria-label="Ver procedimentos de cílios e design">PROCEDIMENTOS</a>
                     </div>
                 </div>
             </div>
@@ -625,7 +634,7 @@ if ($_POST) {
                     <?php echo picture_webp('img/micro.png', 'MICROPIGMENTAÇÃO', 'content-image', ['style' => 'min-width:600px;', 'width' => '600', 'height' => '400'], true); ?>
                     <div class="content-details fadeIn-top">
                         <h2>MICROPIGMENTAÇÃO</h2>
-                        <a class="btn btnSeeMore" href="micropigmentacao/">PROCEDIMENTOS</a>
+                        <a class="btn btnSeeMore" href="micropigmentacao/" aria-label="Ver procedimentos de micropigmentação">PROCEDIMENTOS</a>
                     </div>
                 </div>
             </div>
