@@ -2339,7 +2339,9 @@ body nav.breadcrumb-nav ol {
 	border-top: 1px solid rgba(204, 183, 188, 0.1);
 }
 
-.footer-title {
+/* Footer titles - corrigido para h2 (heading order) */
+.footer-title,
+h2.footer-title {
 	color: #b895a0 !important; /* Rosa mais escuro para melhor legibilidade */
 	font-size: 1.1rem;
 	font-weight: 600;

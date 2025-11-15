@@ -307,6 +307,10 @@ if ($_POST) {
 
     <!-- Script loader for deferred CSS - Must come before deferred resources -->
     <script src="<?php echo get_js_asset('js/loadcss-polyfill.js'); ?>" defer></script>
+    
+    <!-- Accessibility fixes CSS - Defer (not critical for FCP) -->
+    <script>loadCSS("<?php echo get_css_asset('css/modules/accessibility-fixes.css'); ?>");</script>
+    <noscript><link rel="stylesheet" href="<?php echo get_css_asset('css/modules/accessibility-fixes.css'); ?>"></noscript>
 
     <!-- Fonts with font-display: swap - Defer using media="print" trick -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -953,9 +957,9 @@ if ($_POST) {
                         if (!empty($googleReviews)) {
                             $reviewCount = count($googleReviews);
                             ?>
-                            <div id="testimonialsCarousel" class="testimonials-carousel carousel slide carousel-fade" data-ride="carousel" data-interval="7000">
+                            <div id="testimonialsCarousel" class="testimonials-carousel carousel slide carousel-fade" data-ride="carousel" data-interval="7000" role="region" aria-label="Depoimentos de clientes">
                             <!-- Carousel indicators -->
-                                <ol class="carousel-indicators testimonials-indicators" role="tablist" aria-label="Indicadores de depoimentos">
+                                <ol class="carousel-indicators testimonials-indicators" role="tablist" aria-label="Indicadores de depoimentos" aria-live="polite">
                                     <?php for ($i = 0; $i < $reviewCount; $i++): ?>
                                         <li data-target="#testimonialsCarousel" data-slide-to="<?php echo $i; ?>" <?php echo $i === 0 ? 'class="active"' : ''; ?> role="tab" aria-controls="testimonial-<?php echo $i; ?>" aria-selected="<?php echo $i === 0 ? 'true' : 'false'; ?>"></li>
                                     <?php endfor; ?>
@@ -1014,14 +1018,14 @@ if ($_POST) {
                                     <?php endforeach; ?>
                             </div>
                             <!-- Carousel controls -->
-                                <a class="carousel-control-prev testimonials-control" href="#testimonialsCarousel" role="button" data-slide="prev" aria-label="Anterior depoimento">
+                                <button type="button" class="carousel-control-prev testimonials-control" data-target="#testimonialsCarousel" data-slide="prev" aria-label="Anterior depoimento" aria-controls="testimonialsCarousel">
                                     <span style="color: #3a505a; font-size: 28px; font-weight: bold;" aria-hidden="true">‹</span>
                                     <span class="sr-only">Anterior</span>
-                                </a>
-                                <a class="carousel-control-next testimonials-control" href="#testimonialsCarousel" role="button" data-slide="next" aria-label="Próximo depoimento">
+                                </button>
+                                <button type="button" class="carousel-control-next testimonials-control" data-target="#testimonialsCarousel" data-slide="next" aria-label="Próximo depoimento" aria-controls="testimonialsCarousel">
                                     <span style="color: #3a505a; font-size: 28px; font-weight: bold;" aria-hidden="true">›</span>
                                     <span class="sr-only">Próximo</span>
-                            </a>
+                                </button>
                         </div>
                             <?php
                             // Link para reviews do Google (se tiver Place ID configurado)
