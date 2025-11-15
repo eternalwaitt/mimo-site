@@ -5,10 +5,14 @@
  * Este CSS é inline no <head> para melhorar o First Contentful Paint (FCP)
  * 
  * Desenvolvido por: Victor Penter
- * Versão: 2.3.0
+ * Versão: 2.3.9
  */
 ?>
 <style>
+<?php
+// Inline CSS Variables para evitar render blocking
+readfile(__DIR__ . '/../css/modules/_variables.css');
+?>
 /* ============================================
    CRITICAL CSS - Above the Fold Content
    Otimizado para First Contentful Paint (FCP)

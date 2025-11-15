@@ -1521,7 +1521,7 @@ body nav.breadcrumb-nav ol {
 
 .testimonials-carousel {
 	margin: 50px auto 0;
-	padding: 0 60px;
+	padding: 0 60px 20px 60px; /* Reduzido padding-bottom para 20px já que botão está fora */
 	position: relative;
 }
 
@@ -1550,22 +1550,24 @@ body nav.breadcrumb-nav ol {
 	right: 0;
 	top: 0;
 	box-sizing: border-box; /* Inclui padding no cálculo da altura */
-	opacity: 0;
-	pointer-events: none;
+	opacity: 0 !important;
+	visibility: hidden !important; /* Esconder completamente para evitar sobreposição */
+	pointer-events: none !important;
 	will-change: opacity;
 	backface-visibility: hidden;
 	-webkit-backface-visibility: hidden;
 	transform: translateZ(0);
 	-webkit-transform: translateZ(0);
-	transition: opacity 0.6s ease-in-out;
+	transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
 	z-index: 0; /* Base z-index */
 }
 
 .testimonial-card.active {
-	position: absolute; /* MANTÉM absolute - não muda para relative */
-	opacity: 1;
-	pointer-events: auto;
-	z-index: 1; /* Apenas z-index muda */
+	position: absolute !important; /* MANTÉM absolute - não muda para relative */
+	opacity: 1 !important;
+	visibility: visible !important; /* Tornar visível quando ativo */
+	pointer-events: auto !important;
+	z-index: 1 !important; /* Apenas z-index muda */
 }
 
 .testimonial-content {
@@ -1731,10 +1733,13 @@ body nav.breadcrumb-nav ol {
 	background: #3a505a !important;
 	border: 2px solid #3a505a !important;
 	border-radius: 25px !important;
-	margin-bottom: 0 !important;
+	margin-top: 20px !important; /* Reduzido para 20px já que está fora do container */
+	margin-bottom: 40px !important; /* Adicionado espaçamento antes do footer */
 	text-decoration: none !important;
 	transition: all 0.3s ease !important;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+	position: relative !important;
+	z-index: 10 !important; /* Garantir que fique acima dos indicadores */
 }
 
 .google-reviews-link:hover {
@@ -1816,7 +1821,7 @@ body nav.breadcrumb-nav ol {
 .testimonials-carousel .carousel-indicators.testimonials-indicators,
 .testimonials-carousel .testimonials-indicators,
 .testimonials-carousel.carousel .carousel-indicators.testimonials-indicators {
-	bottom: -50px !important;
+	bottom: -10px !important; /* Ajustado para -10px para ficar bem próximo do bloco de depoimentos */
 	margin: 0 !important;
 	padding: 0 !important;
 }
@@ -1861,17 +1866,19 @@ body nav.breadcrumb-nav ol {
 
 /* Carousel fade transition optimization */
 .carousel-fade .testimonial-card {
-	transition: opacity 0.6s ease-in-out;
+	transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
 	transform: none !important;
 }
 
 .carousel-fade .testimonial-card:not(.active) {
 	opacity: 0;
+	visibility: hidden !important; /* Esconder completamente para evitar sobreposição */
 	transform: none !important;
 }
 
 .carousel-fade .testimonial-card.active {
 	opacity: 1;
+	visibility: visible !important; /* Tornar visível quando ativo */
 	transform: none !important;
 }
 

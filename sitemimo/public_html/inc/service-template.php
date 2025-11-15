@@ -129,14 +129,15 @@ if (!isset($includeGTM)) {
     <script>loadCSS("https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css");</script>
     <noscript><link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"></noscript>
     
-    <!-- CSS Variables (deve vir antes de product.css) -->
-    <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/_variables.css'); ?>">
+    <!-- CSS Variables agora inline no critical CSS (evita render blocking) -->
     
-    <!-- Custom styles -->
-    <?php echo css_tag('product.css'); ?>
+    <!-- Custom styles - Defer para melhorar FCP -->
+    <script>loadCSS("<?php echo get_css_asset('product.css'); ?>");</script>
+    <noscript><?php echo css_tag('product.css'); ?></noscript>
     
-    <!-- Dark Mode Styles -->
-    <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/dark-mode.css'); ?>">
+    <!-- Dark Mode Styles - Defer (não crítico para FCP) -->
+    <script>loadCSS("<?php echo get_css_asset('css/modules/dark-mode.css'); ?>");</script>
+    <noscript><link rel="stylesheet" href="<?php echo get_css_asset('css/modules/dark-mode.css'); ?>"></noscript>
     
     <!-- Fix para ícones Font Awesome no footer -->
     <style>

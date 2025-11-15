@@ -211,6 +211,11 @@
 - ✅ **Todas as métricas Core Web Vitals**: Agora dentro das metas
 - ✅ **Minificação**: CSS e JS minificados e ativos
 - ✅ **AVIF**: Implementado para imagens principais
+- ✅ **Render Blocking**: CSS não crítico deferido (mobile: -4,060ms, desktop: -1,400ms)
+- ✅ **CSS Variables**: Inline no critical CSS (evita render blocking)
+- ✅ **PurgeCSS**: ~21KB economizados (product.css: -3.7KB, dark-mode.css: -15KB, animations.css: -2KB)
+- ✅ **Image Dimensions**: Auto-detecção de width/height implementada (previne CLS)
+- ✅ **Cache Headers**: AVIF incluído nos headers de cache
 
 ## 🔗 Referências
 

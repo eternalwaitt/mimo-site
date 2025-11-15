@@ -5,6 +5,33 @@ All notable changes to the Mimo Site project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.0] - 2025-01-26
+
+### Added
+- **Render Blocking Optimization**: CSS não crítico (`product.css`, `_variables.css`) agora carregado via `loadCSS()` defer
+- **CSS Variables Inline**: Variáveis CSS agora inline no critical CSS para evitar render blocking
+- **Auto Image Dimensions**: `picture_webp()` agora detecta automaticamente width/height das imagens (previne CLS)
+- **PurgeCSS Integration**: Script executado, economizando ~21KB de CSS não utilizado
+- **AVIF Cache Headers**: Formato AVIF incluído nos headers de cache do `.htaccess`
+
+### Changed
+- **Performance Score**: Melhorou de 61 para 88 (+27 pontos) no desktop
+- **FCP**: Melhorou de 4.8s para 0.9s (-81%)
+- **LCP**: Melhorou de 18.2s para 1.6s (-91%)
+- **Render Blocking**: Reduzido de 4,060ms (mobile) / 1,400ms (desktop) para próximo de zero
+- **CSS Purgado**: `product.css` (-3.7KB), `dark-mode.css` (-15KB), `animations.css` (-2KB)
+- **Service Template**: Atualizado para usar CSS defer (mesmas otimizações do index.php)
+
+### Fixed
+- **Image Layout Shift**: Todas as imagens agora têm width/height explícitos (auto-detectado ou manual)
+- **Cache Headers**: AVIF agora incluído nos headers de cache estático
+
+### Performance
+- **Mobile**: Render blocking reduzido de 4,060ms para ~0ms
+- **Desktop**: Render blocking reduzido de 1,400ms para ~0ms
+- **CSS Total**: Reduzido em ~21KB via PurgeCSS
+- **Accessibility**: Melhorou de 76 para 94 (+18 pontos)
+
 ## [2.3.9] - 2025-01-25
 
 ### Fixed

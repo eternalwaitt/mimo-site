@@ -18,8 +18,8 @@ ErrorDocument 404 /404.php
     </If>
 </FilesMatch>
 
-# Imagens - cache longo (1 ano)
-<FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|ico)$">
+# Imagens - cache longo (1 ano) - inclui AVIF
+<FilesMatch "\.(jpg|jpeg|png|gif|webp|avif|svg|ico)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
     Header set Expires "Thu, 31 Dec 2025 23:59:59 GMT"
 </FilesMatch>

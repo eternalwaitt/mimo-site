@@ -61,6 +61,22 @@ function picture_webp($src, $alt = '', $class = '', $attributes = [], $lazy = tr
     $webpExists = image_file_exists($webpSrc, $rootPath);
     $avifExists = image_file_exists($avifSrc, $rootPath);
     
+    // Auto-detect image dimensions if not provided (prevents layout shift)
+    if (!isset($attributes['width']) || !isset($attributes['height'])) {
+        $imagePath = $rootPath . '/' . ltrim($src, '/');
+        if (file_exists($imagePath) && function_exists('getimagesize')) {
+            $imageInfo = @getimagesize($imagePath);
+            if ($imageInfo !== false) {
+                if (!isset($attributes['width'])) {
+                    $attributes['width'] = $imageInfo[0];
+                }
+                if (!isset($attributes['height'])) {
+                    $attributes['height'] = $imageInfo[1];
+                }
+            }
+        }
+    }
+    
     // Generate srcset if requested
     $srcsetAvif = [];
     $srcsetWebp = [];
