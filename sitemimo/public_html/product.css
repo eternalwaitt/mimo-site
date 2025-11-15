@@ -79,11 +79,13 @@ button.navbar-toggler {
 	font-weight: 400;
 	src: local('Akrobat Regular'), url(/Akrobat-Regular.woff) format('woff');
 	font-display: swap; /* Prevenir layout shift - usa fallback até fonte carregar */
-	/* Size-adjust para prevenir layout shift */
+	/* Size-adjust para prevenir layout shift - valores otimizados */
 	size-adjust: 100%;
 	ascent-override: 90%;
 	descent-override: 22%;
 	line-gap-override: 0%;
+	/* Preload hint para melhor performance */
+	unicode-range: U+0020-007F, U+00A0-00FF, U+0100-017F;
 }
 
 

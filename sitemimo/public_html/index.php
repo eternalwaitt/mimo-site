@@ -256,12 +256,15 @@ if ($_POST) {
     <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png">
     
     <!-- Resource Hints for Performance -->
+    <!-- DNS Prefetch para domínios externos -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link rel="dns-prefetch" href="https://stackpath.bootstrapcdn.com">
-    <link rel="dns-prefetch" href="https://use.fontawesome.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     <link rel="dns-prefetch" href="https://www.google-analytics.com">
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    
+    <!-- Preconnect para recursos críticos (mais rápido que dns-prefetch) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Preload critical images with fetchpriority - prefer WebP/AVIF -->
@@ -284,6 +287,10 @@ if ($_POST) {
         echo '<link rel="preload" href="img/header_dezembro_mobile.png" as="image" fetchpriority="high" media="(max-width: 750px)">';
     }
     ?>
+    <!-- Preload fontes críticas -->
+    <link rel="preload" href="/Akrobat-Regular.woff" as="font" type="font/woff" crossorigin>
+    
+    <!-- Preload CSS crítico (já inline, mas manter para compatibilidade) -->
     <link rel="preload" href="product.css?<?php echo defined('ASSET_VERSION') ? ASSET_VERSION : '20211226'; ?>" as="style">
 
     <!-- Critical CSS (Above the fold) -->

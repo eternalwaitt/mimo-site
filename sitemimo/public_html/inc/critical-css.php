@@ -299,12 +299,74 @@ section {
     max-width: 120px;
     aspect-ratio: 1961 / 360; /* Logo aspect ratio */
     object-fit: contain;
+    /* Garantir espaço reservado mesmo antes da imagem carregar */
+    background-color: transparent;
+    display: block;
 }
 
 /* Main content - prevent layout shift */
 #main-content {
     min-height: 100vh; /* Reserve space to prevent layout shift */
     position: relative;
+    /* Garantir que conteúdo não cause shift */
+    contain: layout style;
+}
+
+/* About section container - prevent layout shift */
+#about .container.row.mx-auto {
+    min-height: 600px; /* Reserve space for content */
+    /* Prevenir layout shift durante carregamento */
+    contain: layout;
+}
+
+/* Services section - prevent layout shift */
+#services {
+    min-height: 400px;
+    contain: layout;
+}
+
+/* Testimonials section - prevent layout shift */
+.testimonials-carousel {
+    min-height: 500px;
+    contain: layout;
+}
+
+/* Category images - prevent layout shift */
+.img-cat {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+    object-fit: cover;
+    display: block;
+}
+
+/* Content images - prevent layout shift */
+.content-image {
+    aspect-ratio: 5 / 4;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    object-fit: cover;
+    display: block;
+}
+
+/* Cards e containers - prevent layout shift */
+.card,
+.vaga-card,
+.info-card {
+    contain: layout style;
+    min-height: 200px; /* Reserve space */
+}
+
+/* Images in cards - prevent layout shift */
+.card img,
+.vaga-card img,
+.info-card img {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
 }
 
 /* Footer - prevent layout shift */
@@ -313,6 +375,8 @@ section {
     color: #fff;
     padding: 40px 0 20px;
     margin-top: 60px;
+    min-height: 300px; /* Reserve space */
+    contain: layout;
 }
 
 /* Button styles - above the fold */
