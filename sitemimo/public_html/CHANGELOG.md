@@ -5,6 +5,43 @@ All notable changes to the Mimo Site project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.0] - 2025-01-29
+
+### Added
+- **Mobile UX Revamp Completo**: Implementação abrangente de melhorias de UX mobile
+  - **Grid de Categorias Mobile**: Layout em grid 2 colunas para categorias, removendo sobreposição
+  - **Botão VAGAS Otimizado**: Separado do grid, full-width, sem sobreposição
+  - **Contraste WCAG AA**: Aplicado contraste mínimo 4.5:1 (texto) e 3:1 (texto grande) em todos os elementos
+  - **Footer Mobile Otimizado**: Layout em coluna única, touch targets 44x44px, redes sociais horizontais
+  - **Dark Mode Toggle Mobile**: Estilo otimizado no menu mobile com touch target 48x48px
+  - **Boas Práticas UX Mobile**: Touch targets mínimos, espaçamento adequado, hierarquia visual, feedback em interações
+- **CSS Mobile Improvements**: Novo arquivo `mobile-ui-improvements.css` com todas as otimizações mobile
+  - Contraste de cores (WCAG AA)
+  - Espaçamento e padding mobile
+  - Tipografia mobile otimizada
+  - Grid de categorias mobile
+  - Footer mobile otimizado
+  - Dark mode toggle mobile
+  - Touch targets e feedback visual
+
+### Changed
+- **Layout Mobile Categorias**: Removidos inline styles problemáticos, implementado grid CSS moderno
+- **Botão VAGAS**: Reestruturado para evitar sobreposição, agora full-width separado
+- **Footer Mobile**: Reorganizado em coluna única com melhor espaçamento e touch targets
+- **Navbar Mobile**: Melhorado contraste e espaçamento dos links de navegação
+- **Dark Mode Toggle**: Estilo visual melhorado no menu mobile com separador visual
+
+### Fixed
+- **Sobreposição Botão VAGAS**: Corrigido problema de botão VAGAS sobrepondo outros elementos no mobile
+- **Contraste Insuficiente**: Corrigido contraste de cores em múltiplos elementos mobile
+- **Footer Mobile**: Corrigido layout não otimizado para mobile
+- **Touch Targets**: Corrigidos elementos com touch targets menores que 44x44px
+- **Espaçamento Mobile**: Corrigido espaçamento inadequado entre elementos clicáveis
+
+### Performance
+- **Mobile UX**: Melhorias significativas na experiência do usuário mobile
+- **Acessibilidade**: Melhorado contraste e touch targets para conformidade WCAG
+
 ## [2.5.0] - 2025-01-28
 
 ### Added

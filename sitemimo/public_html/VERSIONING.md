@@ -144,6 +144,7 @@ Before releasing a new version:
 See `CHANGELOG.md` for detailed version history.
 
 Quick reference:
+- **2.6.0** (2025-01-29): Mobile UX revamp completo - grid categorias, contraste WCAG AA, footer otimizado, dark mode toggle, touch targets
 - **2.5.0** (2025-01-28): Otimizações completas de PageSpeed - render blocking eliminado, CLS fixes, PurgeCSS, minificação, compressão de imagens
 - **2.4.0** (2025-01-26): Otimizações completas de performance (render blocking, PurgeCSS, image dimensions)
 - **2.3.9** (2025-01-25): Ajuste de layout dos testimonials, indicadores mais próximos, espaçamento do botão Google

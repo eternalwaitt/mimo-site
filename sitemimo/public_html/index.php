@@ -524,59 +524,42 @@ if ($_POST) {
                     CATEGORIAS</a>
             </li>
         </ul>
-        <div class="d-block d-sm-none text-center my-3" style="font-weight: 600; font-size: 12px;">
-            <div class="row col-xs-12" style="display: inline-flex; margin-top:30px">
-                <a href="esteticafacial/">
-                    <div class="col-xs-6 fade-in-up" style="margin-right: 50px;">
-                        <?php echo picture_webp('img/categoria_facial.png', 'ESTÉTICA FACIAL', 'img-cat img-hover', ['width' => '150', 'height' => '150'], true); ?>
-                        <p class="textPink" style="margin-top: 15px;">ESTÉTICA <br /> FACIAL</p>
-                    </div>
+        <div class="d-block d-sm-none text-center my-3 mobile-categories-container">
+            <!-- Grid de categorias mobile (2 colunas) -->
+            <div class="mobile-categories-grid">
+                <a href="esteticafacial/" class="mobile-category-item fade-in-up">
+                    <?php echo picture_webp('img/categoria_facial.png', 'ESTÉTICA FACIAL', 'img-cat img-hover', ['width' => '150', 'height' => '150'], true); ?>
+                    <p class="textPink mobile-category-label">ESTÉTICA <br /> FACIAL</p>
                 </a>
-                <a href="estetica/">
-                    <div class="col-xs-6 fade-in-up">
-                        <?php echo picture_webp('img/menu_estetica_corporal.png', 'ESTÉTICA CORPORAL', 'img-cat img-hover', ['width' => '150', 'height' => '150'], true); ?>
-                        <p class="textPink" style="margin-top: 15px;">ESTÉTICA</p>
-                    </div>
+                <a href="estetica/" class="mobile-category-item fade-in-up">
+                    <?php echo picture_webp('img/menu_estetica_corporal.png', 'ESTÉTICA CORPORAL', 'img-cat img-hover', ['width' => '150', 'height' => '150'], true); ?>
+                    <p class="textPink mobile-category-label">ESTÉTICA</p>
                 </a>
-            </div>
-            <div class="row col-xs-12" style="display: inline-flex; margin-top:30px">
-                <a href="esmalteria/">
-                    <div class="col-xs-6 fade-in-up" style="margin-right: 50px;">
-                        <?php echo picture_webp('img/MENU-ESMALTERIA.png', 'ESMALTERIA', 'img-cat img-hover', ['width' => '150', 'height' => '150'], true); ?>
-                        <p class="textPink" style="margin-top: 15px;">ESMALTERIA</p>
-                    </div>
+                <a href="esmalteria/" class="mobile-category-item fade-in-up">
+                    <?php echo picture_webp('img/MENU-ESMALTERIA.png', 'ESMALTERIA', 'img-cat img-hover', ['width' => '150', 'height' => '150'], true); ?>
+                    <p class="textPink mobile-category-label">ESMALTERIA</p>
                 </a>
-                <a href="salao/">
-                    <div class="col-xs-6 fade-in-up">
-                        <?php echo picture_webp('img/menu_salao.png', 'SALÃO', 'img-cat img-hover', ['width' => '150', 'height' => '150'], true); ?>
-                        <p class="textPink" style="margin-top: 15px;">SALÃO</p>
-                    </div>
+                <a href="salao/" class="mobile-category-item fade-in-up">
+                    <?php echo picture_webp('img/menu_salao.png', 'SALÃO', 'img-cat img-hover', ['width' => '150', 'height' => '150'], true); ?>
+                    <p class="textPink mobile-category-label">SALÃO</p>
                 </a>
-            </div>
-            <div class="row col-xs-12" style="display: inline-flex; margin-top:30px">
-                <a href="vagas.php">
-                    <div class="col-xs-6 fade-in-up" style="margin-right: 50px;">
-                        <div class="card-hover" style="background: linear-gradient(135deg, rgba(204, 183, 188, 0.8), rgba(58, 80, 90, 0.8)); border-radius: 15px; padding: 40px; text-align: center; height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                            <i class="fas fa-briefcase" style="font-size: 3rem; color: white; margin-bottom: 15px;"></i>
-                            <p class="text-white" style="font-size: 1.2rem; font-weight: 600; margin: 0;">VAGAS</p>
-                            <p class="text-white" style="font-size: 0.9rem; margin-top: 5px; opacity: 0.9;">Trabalhe Conosco</p>
-                        </div>
-                    </div>
+                <a href="micropigmentacao/" class="mobile-category-item fade-in-up">
+                    <?php echo picture_webp('img/micro.png', 'MICROPIGMENTAÇÃO', 'img-cat img-hover', ['width' => '150', 'height' => '150'], true); ?>
+                    <p class="textPink mobile-category-label">MICROPIGMENTAÇÃO</p>
                 </a>
-                <a href="micropigmentacao/">
-                    <div class="col-xs-6 fade-in-up"
-                        style="margin-right: 50px;width: 100px;height: 100px;overflow: hidden;border-radius: 50%;">
-                        <?php echo picture_webp('img/micro.png', 'MICROPIGMENTAÇÃO', 'img-cat img-hover', ['width' => '150', 'height' => '150'], true); ?>
-                    </div>
-                    <p class="textPink" style="margin-top: 15px; font-size:10px;width: 100px">MICROPIGMENTAÇÃO</p>
-                </a>
-                <a href="cilios/">
-                    <div class="col-xs-6 fade-in-up">
-                        <?php echo picture_webp('img/categoria_cilios.png', 'CÍLIOS E DESIGN', 'img-cat img-hover', ['width' => '150', 'height' => '150'], true); ?>
-                        <p class="textPink" style="margin-top: 15px;">CÍLIOS E <br />DESIGN</p>
-                    </div>
+                <a href="cilios/" class="mobile-category-item fade-in-up">
+                    <?php echo picture_webp('img/categoria_cilios.png', 'CÍLIOS E DESIGN', 'img-cat img-hover', ['width' => '150', 'height' => '150'], true); ?>
+                    <p class="textPink mobile-category-label">CÍLIOS E <br />DESIGN</p>
                 </a>
             </div>
+            <!-- Botão VAGAS separado (full-width) -->
+            <a href="vagas.php" class="mobile-vagas-button fade-in-up">
+                <div class="mobile-vagas-card card-hover">
+                    <i class="fas fa-briefcase"></i>
+                    <p class="mobile-vagas-title">VAGAS</p>
+                    <p class="mobile-vagas-subtitle">Trabalhe Conosco</p>
+                </div>
+            </a>
         </div>
 
         <!-- Desktop -->
