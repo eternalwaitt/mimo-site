@@ -307,17 +307,19 @@ if ($_POST) {
     <script>loadCSS("https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css");</script>
     <noscript><link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"></noscript>
 
-    <!-- CSS Variables (deve vir antes de product.css) -->
+    <!-- CSS Variables (deve vir antes de product.css) - Inline no critical CSS -->
     <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/_variables.css'); ?>">
     
     <!-- Custom styles for this template - Load normally (already optimized) -->
     <?php echo css_tag('product.css'); ?>
     
-    <!-- Dark Mode Styles - Load normally -->
-    <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/dark-mode.css'); ?>">
+    <!-- Dark Mode Styles - Defer (não crítico para FCP) -->
+    <script>loadCSS("<?php echo get_css_asset('css/modules/dark-mode.css'); ?>");</script>
+    <noscript><link rel="stylesheet" href="<?php echo get_css_asset('css/modules/dark-mode.css'); ?>"></noscript>
     
-    <!-- Animations - Load normally -->
-    <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/animations.css'); ?>">
+    <!-- Animations - Defer (não crítico para FCP) -->
+    <script>loadCSS("<?php echo get_css_asset('css/modules/animations.css'); ?>");</script>
+    <noscript><link rel="stylesheet" href="<?php echo get_css_asset('css/modules/animations.css'); ?>"></noscript>
 
     <!-- Fix para ícones Font Awesome no footer -->
     <style>
