@@ -474,7 +474,7 @@ if ($_POST) {
         <!--<div class=" container mt-3" >&nbsp;</div>-->
         <div class="container row mx-auto" style="display: flex; flex-wrap: wrap;">
             <div class="col-md-5 mt-lg-5 p-0 fade-in-left" id="florzinha" style="display: flex; align-items: center; justify-content: center;">
-                <?php echo picture_webp('img/mimo5.png', 'foto-flores', 'img-fluid img-hover', ['width' => '500', 'height' => '500', 'style' => 'width: 100%; height: auto; max-width: 100%;'], false); ?>
+                <?php echo picture_webp('img/mimo5.png', 'foto-flores', 'img-fluid img-hover', ['width' => '500', 'height' => '500', 'style' => 'width: 100%; height: auto; max-width: 100%; aspect-ratio: 1 / 1;'], false); ?>
             </div>
             <div class="col-md-7 mx-auto my-5 overflow-hidden">
                 <h1 class="display-4 font-weight-normal text-align-right text-uppercase fade-in-right"

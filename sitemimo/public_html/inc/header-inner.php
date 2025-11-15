@@ -30,7 +30,7 @@
 <nav class="navbar navbar-expand-sm fixed-top navbar-light">
     <div class="container">
         <a class="navbar-brand" href="../"><img class="logonav"
-                src="../img/logobranco1.png" alt="logo-mimo" /></a>
+                src="../img/logobranco1.png" alt="logo-mimo" width="120" height="22" /></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar2">
             <span class="navbar-toggler-icon"></span>
         </button>

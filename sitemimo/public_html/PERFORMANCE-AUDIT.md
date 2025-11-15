@@ -132,11 +132,18 @@
 **Ação**: Minificar todos os JS customizados
 
 #### 7. Image Dimensions
-**Impacto**: 🟡 Médio - Previne CLS
+**Impacto**: 🟡 Médio - Previne CLS  
+**Status**: ✅ **CORRIGIDO** (2025-01-27)
 
 **Problema**: Algumas imagens não têm `width` e `height` explícitos
 
-**Solução**: Adicionar `width` e `height` em todas as imagens via `picture_webp()`
+**Soluções Implementadas**:
+- ✅ Logo (`logobranco1.png`): Adicionado `width="120" height="22"` em `header.php` e `header-inner.php`
+- ✅ Imagem principal (`mimo5.png`): Adicionado `aspect-ratio: 1 / 1` no CSS crítico para reservar espaço
+- ✅ CSS crítico: Adicionado `aspect-ratio` para `#florzinha picture/img` e `.logonav` para prevenir layout shift
+- ✅ Auto-detecção de dimensões: `picture_webp()` já detecta automaticamente se não fornecidas
+
+**Resultado Esperado**: CLS deve reduzir de 0.138 para <0.1 após deploy
 
 #### 8. Font Display
 **Economia estimada**: 30 ms  

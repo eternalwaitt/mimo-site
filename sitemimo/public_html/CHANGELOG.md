@@ -5,6 +5,23 @@ All notable changes to the Mimo Site project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.1] - 2025-01-27
+
+### Fixed
+- **CLS (Cumulative Layout Shift)**: Correções adicionais para reduzir layout shift
+  - Logo (`logobranco1.png`): Adicionado `width="120" height="22"` explícitos em `header.php` e `header-inner.php`
+  - Imagem principal (`mimo5.png`): Adicionado `aspect-ratio: 1 / 1` no CSS crítico para reservar espaço antes do carregamento
+  - CSS crítico: Adicionado `aspect-ratio` para `#florzinha picture/img` e `.logonav` para prevenir layout shift
+  - Espaço reservado: Container da imagem principal agora reserva espaço correto antes da imagem carregar
+
+### Changed
+- **Critical CSS**: Expandido com regras de `aspect-ratio` para prevenir layout shift em imagens principais
+- **PERFORMANCE-AUDIT.md**: Atualizado com status das correções de Image Dimensions
+
+### Performance
+- **CLS**: Esperado redução de 0.138 para <0.1 após deploy (meta alcançada)
+- **Layout Shift Culprits**: Main content (0.092) e container row (0.036) devem ser reduzidos significativamente
+
 ## [2.4.0] - 2025-01-26
 
 ### Added

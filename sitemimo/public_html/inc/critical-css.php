@@ -243,6 +243,25 @@ section {
     transition: transform 0.3s ease;
 }
 
+/* Prevent layout shift for main hero image */
+#florzinha picture,
+#florzinha img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    max-width: 100%;
+    display: block;
+}
+
+/* Reserve space for logo to prevent layout shift */
+.logonav {
+    width: auto;
+    height: 40px;
+    max-width: 120px;
+    aspect-ratio: 1961 / 360; /* Logo aspect ratio */
+    object-fit: contain;
+}
+
 /* Footer - prevent layout shift */
 .site-footer {
     background-color: #3d3d3d;
