@@ -1,0 +1,550 @@
+/**
+ * Mobile UI Improvements
+ * 
+ * Melhorias específicas para UI mobile:
+ * - Contraste de cores (WCAG AA)
+ * - Espaçamento e padding
+ * - Tipografia mobile
+ * - Ícones e alinhamento
+ * - Cards e componentes
+ * 
+ * @version 2.6.0
+ */
+
+/* ============================================
+   CONTRASTE DE CORES - WCAG AA
+   ============================================ */
+
+/* Texto principal - garantir contraste mínimo 4.5:1 */
+@media (max-width: 768px) {
+	/* Texto em fundo claro */
+	body,
+	.container,
+	.page-section,
+	.page-section-white {
+		color: #1a1a1a !important; /* Preto quase puro para máximo contraste */
+	}
+
+	/* Texto secundário - contraste 4.5:1 */
+	p,
+	span,
+	li,
+	.vaga-info-item,
+	.vaga-description p,
+	.vaga-requirements p,
+	.vaga-requirements li {
+		color: #2a2a2a !important; /* Cinza escuro para legibilidade */
+		line-height: 1.7 !important; /* Melhor espaçamento entre linhas */
+	}
+
+	/* Títulos - contraste 3:1 (grande texto) */
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	.vaga-title,
+	.page-hero h1,
+	.page-hero h2 {
+		color: #1a1a1a !important; /* Preto para máximo contraste */
+		font-weight: 600 !important;
+	}
+
+	/* Strong tags - contraste 4.5:1 */
+	strong,
+	.vaga-info-item strong,
+	.vaga-requirements strong,
+	.vaga-description strong {
+		color: #1a1a1a !important;
+		font-weight: 700 !important;
+	}
+
+	/* Links - contraste 4.5:1 */
+	a:not(.btn):not(.action-btn):not(.btn-candidatar) {
+		color: #3a505a !important; /* Cinza escuro da marca */
+		text-decoration: underline;
+	}
+
+	a:not(.btn):not(.action-btn):not(.btn-candidatar):hover {
+		color: #2a3a42 !important; /* Mais escuro no hover */
+	}
+
+	/* Cards - fundo branco para melhor contraste */
+	.vaga-card,
+	.info-card {
+		background: #ffffff !important;
+		border: 1px solid rgba(58, 80, 90, 0.2) !important; /* Borda mais visível */
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+	}
+
+	/* Ícones - cor mais escura para melhor visibilidade */
+	.vaga-info-item i,
+	.vaga-requirements h4 i,
+	.vaga-description h4 i,
+	.info-card h3 i {
+		color: #3a505a !important; /* Cinza escuro ao invés de rosa claro */
+		font-size: 1.1rem !important;
+		width: 22px !important;
+		text-align: center !important;
+		flex-shrink: 0 !important;
+		margin-right: 10px !important;
+	}
+}
+
+/* ============================================
+   ESPAÇAMENTO E PADDING MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+	/* Container principal */
+	.container {
+		padding-left: 20px !important;
+		padding-right: 20px !important;
+	}
+
+	/* Cards - padding aumentado */
+	.vaga-card,
+	.info-card {
+		padding: 24px 20px !important;
+		margin-bottom: 24px !important;
+		border-radius: 12px !important;
+	}
+
+	/* Vaga info items - gap aumentado */
+	.vaga-info {
+		gap: 14px !important;
+		margin-bottom: 24px !important;
+	}
+
+	.vaga-info-item {
+		margin-bottom: 12px !important;
+		gap: 12px !important;
+		padding: 8px 0 !important;
+	}
+
+	/* Títulos - margin bottom aumentado */
+	.vaga-title {
+		margin-bottom: 20px !important;
+		padding-bottom: 12px !important;
+		border-bottom: 2px solid rgba(58, 80, 90, 0.1) !important;
+	}
+
+	/* Seções de descrição/requisitos */
+	.vaga-description,
+	.vaga-requirements {
+		margin-bottom: 24px !important;
+		padding: 20px 16px !important;
+		border-radius: 8px !important;
+		background: #f8f9fa !important; /* Fundo sutil para separação */
+	}
+
+	/* Listas - padding left aumentado */
+	.vaga-requirements ul {
+		padding-left: 32px !important;
+		margin-top: 12px !important;
+	}
+
+	.vaga-requirements li {
+		margin-bottom: 12px !important;
+		padding-left: 4px !important;
+	}
+
+	/* H4 com ícones - gap aumentado */
+	.vaga-requirements h4,
+	.vaga-description h4 {
+		gap: 12px !important;
+		margin-bottom: 16px !important;
+		padding-bottom: 8px !important;
+		border-bottom: 1px solid rgba(58, 80, 90, 0.1) !important;
+	}
+
+	/* Botões - padding aumentado */
+	.action-btn,
+	.btn-candidatar {
+		padding: 16px 24px !important;
+		font-size: 16px !important;
+		margin-top: 20px !important;
+	}
+
+	/* Page sections - padding vertical */
+	.page-section,
+	.page-section-white {
+		padding: 50px 0 !important;
+	}
+
+	/* Page hero */
+	.page-hero {
+		padding: 40px 20px !important;
+	}
+}
+
+/* ============================================
+   TIPOGRAFIA MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+	/* Tamanhos de fonte otimizados */
+	body {
+		font-size: 16px !important; /* Base 16px para melhor legibilidade */
+		line-height: 1.6 !important;
+	}
+
+	h1 {
+		font-size: 2rem !important;
+		line-height: 1.3 !important;
+		margin-bottom: 20px !important;
+	}
+
+	h2 {
+		font-size: 1.75rem !important;
+		line-height: 1.4 !important;
+		margin-bottom: 18px !important;
+	}
+
+	h3 {
+		font-size: 1.5rem !important;
+		line-height: 1.4 !important;
+		margin-bottom: 16px !important;
+	}
+
+	h4 {
+		font-size: 1.25rem !important;
+		line-height: 1.5 !important;
+		margin-bottom: 14px !important;
+	}
+
+	.vaga-title {
+		font-size: 1.4rem !important;
+		line-height: 1.4 !important;
+	}
+
+	p {
+		font-size: 1rem !important;
+		line-height: 1.7 !important;
+		margin-bottom: 16px !important;
+	}
+
+	.vaga-info-item {
+		font-size: 0.95rem !important;
+		line-height: 1.7 !important;
+	}
+
+	.vaga-requirements li,
+	.vaga-description p {
+		font-size: 0.95rem !important;
+		line-height: 1.8 !important;
+	}
+}
+
+/* ============================================
+   ÍCONES E ALINHAMENTO
+   ============================================ */
+
+@media (max-width: 768px) {
+	/* Vaga info items - flexbox melhorado */
+	.vaga-info-item {
+		display: flex !important;
+		align-items: flex-start !important;
+		gap: 12px !important;
+		flex-wrap: nowrap !important; /* Evitar quebra de linha */
+	}
+
+	.vaga-info-item i {
+		margin-top: 4px !important; /* Alinhar com primeira linha do texto */
+		flex-shrink: 0 !important;
+		width: 22px !important;
+		height: 22px !important;
+		display: flex !important;
+		align-items: center !important;
+		justify-content: center !important;
+	}
+
+	/* H4 com ícones */
+	.vaga-requirements h4,
+	.vaga-description h4 {
+		display: flex !important;
+		align-items: center !important;
+		gap: 12px !important;
+		flex-wrap: nowrap !important;
+	}
+
+	.vaga-requirements h4 i,
+	.vaga-description h4 i {
+		margin-top: 0 !important; /* Alinhar com texto */
+		flex-shrink: 0 !important;
+	}
+
+	/* Info cards - ícones */
+	.info-card h3 {
+		display: flex !important;
+		align-items: center !important;
+		gap: 12px !important;
+	}
+
+	.info-card h3 i {
+		flex-shrink: 0 !important;
+		width: 24px !important;
+		text-align: center !important;
+	}
+}
+
+/* ============================================
+   CARDS E COMPONENTES
+   ============================================ */
+
+@media (max-width: 768px) {
+	/* Cards - sombra e borda melhoradas */
+	.vaga-card,
+	.info-card {
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+		transition: box-shadow 0.3s ease !important;
+	}
+
+	.vaga-card:hover,
+	.info-card:hover {
+		box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12) !important;
+	}
+
+	/* Vaga card especial (candidatar) */
+	.vaga-card.vaga-candidatar {
+		background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%) !important;
+		border: 2px solid #3a505a !important;
+	}
+
+	/* Botões - melhor contraste */
+	.action-btn,
+	.btn-candidatar {
+		border-radius: 8px !important;
+		font-weight: 600 !important;
+		letter-spacing: 0.5px !important;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+		transition: all 0.3s ease !important;
+	}
+
+	.action-btn:hover,
+	.btn-candidatar:hover {
+		transform: translateY(-2px) !important;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+	}
+}
+
+/* ============================================
+   FOOTER MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+	/* Footer - melhor contraste */
+	footer {
+		background: #1a1a1a !important;
+		color: #f5f5f5 !important;
+		padding: 40px 20px 30px !important;
+	}
+
+	footer h5 {
+		color: #ffffff !important;
+		font-weight: 600 !important;
+		margin-bottom: 20px !important;
+	}
+
+	footer a {
+		color: #e0e0e0 !important;
+	}
+
+	footer a:hover {
+		color: #ffffff !important;
+	}
+
+	/* Footer contact items */
+	.footer-contact-item {
+		color: #e0e0e0 !important;
+		margin-bottom: 16px !important;
+	}
+
+	.footer-contact-item strong {
+		color: #ffffff !important;
+		font-weight: 600 !important;
+	}
+
+	.footer-icon {
+		color: #ccb7bc !important; /* Rosa da marca no footer */
+	}
+}
+
+/* ============================================
+   NAVBAR MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+	.navbar {
+		background-color: #1a1a1a !important; /* Preto para melhor contraste */
+		padding: 15px 20px !important;
+	}
+
+	.navbar-light .navbar-nav .nav-link {
+		color: #ffffff !important;
+		font-weight: 500 !important;
+		font-size: 16px !important;
+		padding: 12px 0 !important;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+	}
+
+	.navbar-light .navbar-nav .nav-link:hover {
+		color: #ccb7bc !important; /* Rosa da marca no hover */
+		background-color: rgba(204, 183, 188, 0.1) !important;
+	}
+}
+
+/* ============================================
+   FORMULÁRIOS MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+	/* Inputs - melhor contraste */
+	.input100,
+	.wrap-input100 input,
+	.wrap-input100 textarea,
+	.wrap-input100 select {
+		background-color: #ffffff !important;
+		color: #1a1a1a !important;
+		border: 2px solid #d0d0d0 !important;
+		border-radius: 8px !important;
+		padding: 14px 16px !important;
+		font-size: 16px !important; /* Evitar zoom no iOS */
+	}
+
+	.input100:focus,
+	.wrap-input100 input:focus,
+	.wrap-input100 textarea:focus,
+	.wrap-input100 select:focus {
+		border-color: #3a505a !important;
+		box-shadow: 0 0 0 3px rgba(58, 80, 90, 0.1) !important;
+		outline: none !important;
+	}
+
+	.wrap-input100 label {
+		color: #2a2a2a !important;
+		font-weight: 500 !important;
+		margin-bottom: 8px !important;
+	}
+
+	/* Botão de submit */
+	.contact100-form-btn {
+		background-color: #3a505a !important;
+		color: #ffffff !important;
+		border: none !important;
+		border-radius: 8px !important;
+		padding: 16px 32px !important;
+		font-size: 16px !important;
+		font-weight: 600 !important;
+		box-shadow: 0 4px 12px rgba(58, 80, 90, 0.3) !important;
+	}
+
+	.contact100-form-btn:hover {
+		background-color: #2a3a42 !important;
+		box-shadow: 0 6px 16px rgba(58, 80, 90, 0.4) !important;
+	}
+}
+
+/* ============================================
+   HOMEPAGE MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+	/* Hero section */
+	.bg-header {
+		position: relative !important;
+	}
+
+	.hero-content h1 {
+		color: #ffffff !important;
+		text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+		font-size: 2rem !important;
+	}
+
+	.hero-content p {
+		color: #f5f5f5 !important;
+		text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) !important;
+	}
+
+	/* About section */
+	#about {
+		background: #ffffff !important;
+		color: #1a1a1a !important;
+		padding: 50px 20px !important;
+	}
+
+	#about h1,
+	#about h2 {
+		color: #1a1a1a !important;
+	}
+
+	#about p {
+		color: #2a2a2a !important;
+	}
+
+	/* Services section */
+	#services {
+		background: #f8f9fa !important;
+		padding: 50px 20px !important;
+	}
+
+	/* Testimonials */
+	.testimonials-carousel {
+		background: #ffffff !important;
+		padding: 40px 20px !important;
+	}
+
+	.testimonial-card {
+		background: #ffffff !important;
+		color: #1a1a1a !important;
+		padding: 30px 20px !important;
+		border-radius: 12px !important;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+	}
+
+	.testimonial-card strong {
+		color: #1a1a1a !important;
+	}
+
+	.testimonial-card blockquote {
+		color: #2a2a2a !important;
+		line-height: 1.7 !important;
+	}
+
+	/* Google reviews link */
+	.google-reviews-link {
+		background: #ffffff !important;
+		color: #3a505a !important;
+		border: 2px solid #3a505a !important;
+		padding: 14px 24px !important;
+		border-radius: 8px !important;
+		font-weight: 600 !important;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+	}
+
+	.google-reviews-link:hover {
+		background: #3a505a !important;
+		color: #ffffff !important;
+	}
+
+	/* Info cards - melhor contraste */
+	.info-card {
+		background: #ffffff !important;
+		color: #1a1a1a !important;
+		border: 1px solid rgba(58, 80, 90, 0.2) !important;
+	}
+
+	.info-card h3 {
+		color: #1a1a1a !important;
+	}
+
+	.info-card p {
+		color: #2a2a2a !important;
+	}
+
+	.info-card p strong {
+		color: #1a1a1a !important;
+	}
+}
+

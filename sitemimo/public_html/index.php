@@ -322,6 +322,10 @@ if ($_POST) {
     <!-- Animations - Defer (não crítico para FCP) -->
     <script>loadCSS("<?php echo get_css_asset('css/modules/animations.css'); ?>");</script>
     <noscript><link rel="stylesheet" href="<?php echo get_css_asset('css/modules/animations.css'); ?>"></noscript>
+    
+    <!-- Mobile UI Improvements - Defer (não crítico para FCP) -->
+    <script>loadCSS("<?php echo get_css_asset('css/modules/mobile-ui-improvements.css'); ?>");</script>
+    <noscript><link rel="stylesheet" href="<?php echo get_css_asset('css/modules/mobile-ui-improvements.css'); ?>"></noscript>
 
     <!-- Fix para ícones Font Awesome no footer -->
     <style>

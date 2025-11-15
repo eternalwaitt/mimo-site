@@ -74,6 +74,9 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
     <!-- Dark Mode Styles -->
     <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/dark-mode.css'); ?>">
     
+    <!-- Mobile UI Improvements -->
+    <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/mobile-ui-improvements.css'); ?>">
+    
     <!-- Fix para ícones Font Awesome no footer -->
     <style>
     .site-footer .footer-social-link {

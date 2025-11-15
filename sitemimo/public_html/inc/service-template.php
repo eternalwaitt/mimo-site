@@ -139,6 +139,10 @@ if (!isset($includeGTM)) {
     <script>loadCSS("<?php echo get_css_asset('css/modules/dark-mode.css'); ?>");</script>
     <noscript><link rel="stylesheet" href="<?php echo get_css_asset('css/modules/dark-mode.css'); ?>"></noscript>
     
+    <!-- Mobile UI Improvements - Defer (não crítico para FCP) -->
+    <script>loadCSS("<?php echo get_css_asset('css/modules/mobile-ui-improvements.css'); ?>");</script>
+    <noscript><link rel="stylesheet" href="<?php echo get_css_asset('css/modules/mobile-ui-improvements.css'); ?>"></noscript>
+    
     <!-- Fix para ícones Font Awesome no footer -->
     <style>
     .site-footer .footer-social-link {
