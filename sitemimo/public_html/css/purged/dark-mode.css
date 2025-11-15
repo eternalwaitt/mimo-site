@@ -1,0 +1,76 @@
+/**
+ * Dark Mode Styles
+ * Estilos específicos para modo escuro
+ * 
+ * ONDE É USADO: Importado por product.css ou carregado separadamente
+ */
+
+/* Botão Toggle */
+
+/* Ajuste para o nav-item que contém o toggle */
+
+/* Garantir que o toggle não quebre o layout do navbar */
+
+/* Ajustes para garantir que o nav-item com toggle não quebre o layout */
+
+/* Garantir que o toggle tenha tamanho consistente */
+
+/* Responsive: ajustar tamanho em telas menores */
+
+/* ============================================
+   DARK MODE - Ajustes mantendo identidade da marca
+   Baseado em boas práticas: #121212 (não preto puro)
+   ============================================ */
+
+/* Garantir que navbar-nav seja visível no dark mode */
+
+/* Classes de texto mantendo identidade */
+
+/* Backgrounds mantendo identidade */
+
+/* Cards e modais */
+
+/* Botões mantendo identidade da marca */
+
+/* Footer sempre tem fundo escuro, então cores claras sempre */
+
+/* Link de reviews do Google - sempre com bom contraste */
+
+/* Seção de testimonials - garantir legibilidade */
+
+/* Tipografia - garantir legibilidade */
+
+/* ============================================
+   DARK MODE - Página de Contato e outras páginas
+   ============================================ */
+
+/* Hero Section */
+
+/* Page Section */
+
+/* Info Cards */
+
+/* Alerts dentro de info-card */
+
+/* Action Buttons */
+
+/* Horário Status */
+
+/* Map Container */
+
+/* Formulário de contato - inputs customizados */
+
+/* Outras páginas - seções genéricas */
+
+/* Vaga Cards (página de vagas) */
+
+/* FAQ Items */
+
+/* Accordion (Bootstrap) */
+
+/* List Groups */
+
+/* Badges */
+
+/* Tables */
+

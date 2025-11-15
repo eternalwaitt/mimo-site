@@ -105,35 +105,11 @@ button.navbar-toggler {
 
 
 
-.flex-equal>* {
-
-	-ms-flex: 1;
-
-	flex: 1
-
-}
-
-
-
 iframe {
 
 	border: none!important;
 
 	min-height: 600px
-
-}
-
-
-
-@media (min-width:768px) {
-
-	.flex-md-equal>* {
-
-		-ms-flex: 1;
-
-		flex: 1
-
-	}
 
 }
 
@@ -185,22 +161,6 @@ iframe {
 
 
 
-.backgroundDarkGrey {
-
-	background-color: #454545
-
-}
-
-
-
-.textGrey {
-
-	color: var(--color-light-grey); /* Cinza via variável CSS */
-
-}
-
-
-
 .backgroundGrey {
 
 	background-color: #ccb7bc; /* Mantém cor original do background */
@@ -217,37 +177,11 @@ iframe {
 
 
 
-.text-align-left {
-
-	text-align: left
-
-}
-
-
-
-.comSerifa {
-
-	font-family: 'EB Garamond', serif;
-
-	font-style: italic
-
-}
-
-
-
 li p {
 
 	font-size: 14px;
 
 	font-weight: 400
-
-}
-
-
-
-.navCategorias a:hover {
-
-	color: #fff
 
 }
 
@@ -429,22 +363,6 @@ a.nav-link {
 
 
 
-.modal-open {
-
-	padding-right: 0!important
-
-}
-
-
-
-body.modal-open {
-
-	padding-right: 0!important
-
-}
-
-
-
 nav {
 	padding-right: 0!important
 }
@@ -453,14 +371,6 @@ nav {
 nav.footer-nav-vertical {
 	display: flex !important;
 	flex-direction: column !important;
-}
-
-
-
-.modal-backdrop {
-
-	z-index: 100000!important
-
 }
 
 
@@ -563,36 +473,6 @@ nav.footer-nav-vertical {
 .navbar-brand img.logonav {
 	aspect-ratio: auto;
 	transform: none !important;
-}
-
-.site-header {
-
-	background-color: rgba(0, 0, 0, .85);
-
-	-webkit-backdrop-filter: saturate(180%) blur(20px);
-
-	backdrop-filter: saturate(180%) blur(20px)
-
-}
-
-
-
-.site-header a {
-
-	color: #999;
-
-	transition: ease-in-out color .15s
-
-}
-
-
-
-.site-header a:hover {
-
-	color: #fff;
-
-	text-decoration: none
-
 }
 
 
@@ -809,20 +689,6 @@ nav.footer-nav-vertical {
 
 
 
-.main-title {
-
-	color: #2d2d2d;
-
-	text-align: center;
-
-	text-transform: capitalize;
-
-	padding: .7em 0
-
-}
-
-
-
 .sessoes.container {
 
 	height: 300px;
@@ -1031,33 +897,9 @@ nav.footer-nav-vertical {
 
 
 
-.fadeIn-bottom {
-
-	top: 80%
-
-}
-
-
-
 .fadeIn-top {
 
 	top: 20%
-
-}
-
-
-
-.fadeIn-left {
-
-	left: 20%
-
-}
-
-
-
-.fadeIn-right {
-
-	left: 80%
 
 }
 
@@ -1084,96 +926,6 @@ nav.footer-nav-vertical {
 	overflow: hidden;
 
 	min-height: 290px
-
-}
-
-
-
-.carousel .item .img-box {
-
-	width: 135px;
-
-	height: 135px;
-
-	margin: 0 auto;
-
-	padding: 5px;
-
-	border: 1px solid #ddd;
-
-	border-radius: 50%
-
-}
-
-
-
-.carousel .img-box img {
-
-	width: 100%;
-
-	height: 100%;
-
-	display: block;
-
-	border-radius: 50%
-
-}
-
-
-
-.carousel .overview {
-
-	font-style: italic
-
-}
-
-
-
-.carousel .overview b {
-
-	text-transform: uppercase;
-
-	color: #7aa641
-
-}
-
-
-
-.carousel .carousel-control {
-
-	width: 40px;
-
-	height: 40px;
-
-	margin-top: -20px;
-
-	top: 50%;
-
-	background: 0 0
-
-}
-
-
-
-.carousel-control i {
-
-	padding: 3px 18px;
-
-	border-radius: 50px;
-
-	font-size: 39px;
-
-	line-height: 42px;
-
-	position: absolute;
-
-	display: inline-block;
-
-	color: #cc8495;
-
-	background-color: var(--color-bg-secondary); /* Usa variável CSS */
-
-	box-shadow: 0 3px 3px #e6e6e6, 0 0 0 #000
 
 }
 
@@ -1245,126 +997,6 @@ nav.footer-nav-vertical {
 	height: 12px !important;
 	border-radius: 6px !important;
 	box-shadow: 0 3px 10px rgba(58, 80, 90, 0.6) !important;
-}
-
-
-
-.backgroundLogo {
-
-	position: relative;
-
-	width: 100%;
-
-	height: 100%;
-
-	/*background: url(img/opacidadelogo.png);*/
-
-	background: #3a505a;
-
-	/*background-repeat: no-repeat;
-
-	background-position: center*/
-
-}
-
-
-
-.layerCor {
-
-	background-color: #454545;
-
-	width: 100%;
-
-	height: 100%
-
-}
-
-
-
-h5.form-title-pink.font-weight-normal {
-
-	font-size: 17px
-
-}
-
-
-
-.infos-form ul {
-
-	list-style-type: none
-
-}
-
-
-
-.infos-form ul>li p {
-
-	margin: 0!important
-
-}
-
-
-
-.infos-form ul>li h5 {
-
-	margin-top: 10px!important;
-
-	margin-bottom: 0!important
-
-}
-
-
-
-.assunto-form {
-
-	height: 46px;
-
-	padding: 0 35px 0 25px;
-
-	background: 0 0!important;
-
-	color: #fff
-
-}
-
-
-
-.assunto-form option {
-
-	color: #fff;
-
-	line-height: 3!important;
-
-	background-color: #454545
-
-}
-
-
-
-.box-redes-sociais {
-
-	position: absolute;
-
-	bottom: 0;
-
-	margin-left: 60px
-
-}
-
-
-
-.text-redes {
-
-	font-size: 13px;
-
-	letter-spacing: .8px;
-
-	font-weight: 600;
-
-	font-feature-settings: inherit;
-
-	font-stretch: extra-condensed
-
 }
 
 
@@ -1442,14 +1074,6 @@ textarea {
 		text-align: center;
 
 		padding-right: 0!important
-
-	}
-
-	.align-btn>.navitem {
-
-		width: 100%!important;
-
-		padding: 25px!important
 
 	}
 
@@ -1580,38 +1204,6 @@ textarea {
 		margin-top: 15px;
 
 		letter-spacing: 3.8px
-
-	}
-
-	#infos-gerais {
-
-		text-align: left;
-
-		margin: 35px;
-
-		padding: 0!important;
-
-		float: none!important;
-
-		width: 100%
-
-	}
-
-	#form-mobile {
-
-		width: 80%;
-
-		margin: auto
-
-	}
-
-	.box-redes-sociais {
-
-		position: inherit;
-
-		bottom: 0;
-
-		margin: 35px 0
 
 	}
 
@@ -1867,7 +1459,6 @@ body nav.breadcrumb-nav ol {
 	button,
 	.contact100-form-btn,
 	.back-to-top,
-	.carousel-control,
 	.carousel-indicators,
 	.modal,
 	#exampleModalCenterNav,
@@ -1919,9 +1510,7 @@ body nav.breadcrumb-nav ol {
 	}
 	
 	/* Hide decorative elements */
-	.bg-header,
-	.backgroundLogo,
-	.layerCor {
+	.bg-header {
 		display: none !important;
 	}
 }
@@ -1962,21 +1551,19 @@ body nav.breadcrumb-nav ol {
 	top: 0;
 	box-sizing: border-box; /* Inclui padding no cálculo da altura */
 	opacity: 0;
-	visibility: hidden; /* Esconder completamente para evitar sobreposição */
 	pointer-events: none;
 	will-change: opacity;
 	backface-visibility: hidden;
 	-webkit-backface-visibility: hidden;
 	transform: translateZ(0);
 	-webkit-transform: translateZ(0);
-	transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
+	transition: opacity 0.6s ease-in-out;
 	z-index: 0; /* Base z-index */
 }
 
 .testimonial-card.active {
 	position: absolute; /* MANTÉM absolute - não muda para relative */
 	opacity: 1;
-	visibility: visible; /* Tornar visível quando ativo */
 	pointer-events: auto;
 	z-index: 1; /* Apenas z-index muda */
 }
@@ -2136,14 +1723,6 @@ body nav.breadcrumb-nav ol {
 	letter-spacing: 0.5px;
 }
 
-.testimonial-source {
-	display: block;
-	margin-top: 5px;
-	font-size: 0.85rem;
-	color: #999;
-	font-weight: normal;
-}
-
 /* Link para reviews do Google */
 .google-reviews-link {
 	display: inline-flex !important;
@@ -2201,14 +1780,6 @@ body nav.breadcrumb-nav ol {
 	font-size: 24px;
 	position: relative;
 	display: block;
-}
-
-.testimonials-control-prev {
-	left: 10px;
-}
-
-.testimonials-control-next {
-	right: 10px;
 }
 
 /* Garantir que os controles do Bootstrap sejam visíveis */
@@ -2290,19 +1861,17 @@ body nav.breadcrumb-nav ol {
 
 /* Carousel fade transition optimization */
 .carousel-fade .testimonial-card {
-	transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
+	transition: opacity 0.6s ease-in-out;
 	transform: none !important;
 }
 
 .carousel-fade .testimonial-card:not(.active) {
 	opacity: 0;
-	visibility: hidden !important; /* Esconder completamente para evitar sobreposição */
 	transform: none !important;
 }
 
 .carousel-fade .testimonial-card.active {
 	opacity: 1;
-	visibility: visible !important; /* Tornar visível quando ativo */
 	transform: none !important;
 }
 
@@ -2394,8 +1963,7 @@ nav.footer-nav-vertical .footer-link,
 	margin-bottom: 0;
 }
 
-.footer-contact-item i,
-.footer-contact-item ion-icon {
+.footer-contact-item i {
 	color: #b895a0 !important; /* Rosa mais escuro para melhor visibilidade */
 	font-size: 18px !important; /* Tamanho fixo maior para todos os ícones */
 	margin-top: 2px;
@@ -2888,11 +2456,6 @@ nav.footer-nav-vertical .footer-link,
 	background: #f8f8f8;
 }
 
-.page-section-white {
-	padding: 60px 0;
-	background: var(--color-bg-secondary); /* Usa variável CSS */
-}
-
 /* Vaga Requirements */
 .vaga-requirements {
 	background: #f8f9fa;
@@ -3007,23 +2570,20 @@ nav.footer-nav-vertical .footer-link,
 }
 
 /* No Content State */
-.no-vagas,
-.no-content {
+.no-vagas {
 	text-align: center;
 	padding: 60px 20px;
 	color: #666;
 }
 
-.no-vagas i,
-.no-content i {
+.no-vagas i {
 	font-size: 4rem;
 	color: #ccb7bc;
 	margin-bottom: 20px;
 	display: block;
 }
 
-.no-vagas h3,
-.no-content h3 {
+.no-vagas h3 {
 	color: #3a505a;
 	margin-bottom: 15px;
 	font-weight: 600;
@@ -3065,8 +2625,7 @@ nav.footer-nav-vertical .footer-link,
 		height: 300px;
 	}
 
-	.page-section,
-	.page-section-white {
+	.page-section {
 		padding: 40px 0;
 	}
 }
@@ -3125,14 +2684,6 @@ nav.footer-nav-vertical .footer-link,
 	
 	.testimonials-control i {
 		font-size: 20px;
-	}
-	
-	.testimonials-control-prev {
-		left: 5px;
-	}
-	
-	.testimonials-control-next {
-		right: 5px;
 	}
 	
 	/* Garantir visibilidade dos controles no mobile */

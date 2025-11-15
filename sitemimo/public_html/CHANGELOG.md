@@ -5,6 +5,20 @@ All notable changes to the Mimo Site project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.8] - 2025-01-24
+
+### Fixed
+- **Testimonials Text Overlap**: Corrigido problema de texto sobreposto no carousel de depoimentos
+  - Cards inativos agora usam `visibility: hidden` além de `opacity: 0`
+  - Transição suave mantida com `transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out`
+  - Garante que apenas o card ativo seja visível, eliminando sobreposição de texto
+  - Aplicado tanto em `.testimonial-card` quanto em `.carousel-fade .testimonial-card`
+
+### Changed
+- **Service Worker**: Atualizado para v2.3.8
+- **Version**: Atualizado para 2.3.8 em todos os arquivos
+- **Asset Version**: Atualizado para 20250124
+
 ## [2.3.7] - 2025-01-23
 
 ### Added

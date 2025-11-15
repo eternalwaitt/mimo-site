@@ -3,7 +3,7 @@
  * Site Mimo - Página Inicial
  * 
  * Desenvolvido por: Victor Penter
- * Versão: 2.3.7
+ * Versão: 2.3.8
  * 
  * Este arquivo contém a página principal do site com formulário de contato
  * e seções de serviços, depoimentos e informações de contato.

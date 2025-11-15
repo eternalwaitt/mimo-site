@@ -1,0 +1,151 @@
+/**
+ * Animações e Micro-interações
+ * Animações suaves para melhorar UX e percepção de qualidade
+ * 
+ * Desenvolvido por: Victor Penter
+ * Versão: 2.3.6
+ */
+
+/* ============================================
+   SCROLL-TRIGGERED ANIMATIONS
+   ============================================ */
+
+/* Fade in from bottom */
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Fade in from left */
+.fade-in-left {
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Fade in from right */
+.fade-in-right {
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Scale in */
+
+/* Fade in (simple) */
+.fade-in {
+    opacity: 0;
+    transition: opacity 0.6s ease-out;
+}
+
+.fade-in.visible {
+    opacity: 1;
+}
+
+/* ============================================
+   HOVER EFFECTS
+   ============================================ */
+
+/* Card hover effect */
+.card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Button hover effect */
+
+/* Image hover effect */
+.img-hover {
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.img-hover:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+/* Link hover effect */
+
+/* ============================================
+   LOADING SKELETONS
+   ============================================ */
+
+/* ============================================
+   SMOOTH SCROLL BEHAVIOR
+   ============================================ */
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* ============================================
+   PULSE ANIMATION (for CTAs)
+   ============================================ */
+
+/* ============================================
+   STAGGER ANIMATIONS (for lists)
+   ============================================ */
+
+/* Delay for staggered effect */
+
+/* ============================================
+   SERVICE CARDS HOVER
+   ============================================ */
+
+.content-image {
+    transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.content:hover .content-image {
+    transform: scale(1.1);
+    filter: brightness(0.8);
+}
+
+.content-details {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* ============================================
+   RESPONSIVE: Disable animations on mobile for performance
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Reduce animations on mobile for better performance */
+    .fade-in-up,
+    .fade-in-left,
+    .fade-in-right {
+        opacity: 1;
+        transform: none;
+    }
+}
+
