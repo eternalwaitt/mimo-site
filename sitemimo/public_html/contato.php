@@ -209,6 +209,9 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
     <!-- Dark Mode Styles -->
     <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/dark-mode.css'); ?>">
     
+    <!-- Mobile UI Improvements -->
+    <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/mobile-ui-improvements.css'); ?>">
+    
     <!-- Fix para remover barra branca entre conteúdo e footer -->
     <style>
     .page-section {
