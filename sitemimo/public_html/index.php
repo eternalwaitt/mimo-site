@@ -247,6 +247,14 @@ if ($_POST) {
     echo generate_twitter_cards($pageTitle, $pageDescription, 'img/bgheader.jpg');
     ?>
 
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3a505a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Mimo">
+    <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png">
+    
     <!-- Resource Hints for Performance -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -279,6 +287,91 @@ if ($_POST) {
     <style>
     /* Garantir que o Font Awesome carregue */
     @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
+    
+    /* OVERRIDE INDICADORES TESTIMONIALS - Máxima prioridade */
+    #testimonialsCarousel .carousel-indicators.testimonials-indicators li {
+        width: 12px !important;
+        height: 12px !important;
+        border-radius: 50% !important;
+        background: rgba(58, 80, 90, 0.4) !important;
+        border: 2px solid rgba(58, 80, 90, 0.6) !important;
+        margin: 0 6px !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+        text-indent: 0 !important;
+    }
+    
+    #testimonialsCarousel .carousel-indicators.testimonials-indicators li:hover {
+        background: rgba(58, 80, 90, 0.7) !important;
+        border-color: rgba(58, 80, 90, 0.9) !important;
+        transform: scale(1.3) !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    #testimonialsCarousel .carousel-indicators.testimonials-indicators li.active {
+        background: #3a505a !important;
+        border-color: #3a505a !important;
+        width: 32px !important;
+        height: 12px !important;
+        border-radius: 6px !important;
+        box-shadow: 0 3px 10px rgba(58, 80, 90, 0.6) !important;
+    }
+    
+    /* OVERRIDE BOTÃO GOOGLE REVIEWS */
+    .google-reviews-link {
+        background: #3a505a !important;
+        border: 2px solid #3a505a !important;
+        color: #fff !important;
+    }
+    
+    .google-reviews-link:hover {
+        background: #2a3a42 !important;
+        border-color: #2a3a42 !important;
+    }
+    
+    .google-reviews-link span {
+        color: #fff !important;
+        font-weight: 600 !important;
+    }
+    
+    /* GARANTIR QUE IMAGENS FUNCIONEM */
+    #testimonialsCarousel .testimonial-avatar {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: 80px !important;
+        height: 80px !important;
+    }
+    
+    #testimonialsCarousel .testimonial-avatar img {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center !important;
+    }
+    
+    /* Controles simples */
+    #testimonialsCarousel .carousel-control-prev,
+    #testimonialsCarousel .carousel-control-next,
+    #testimonialsCarousel .testimonials-control {
+        width: 50px !important;
+        height: 50px !important;
+        background: white !important;
+        border-radius: 50% !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        opacity: 1 !important;
+    }
+    
+    /* Esconder ícones SVG do Bootstrap */
+    #testimonialsCarousel .carousel-control-prev-icon,
+    #testimonialsCarousel .carousel-control-next-icon {
+        display: none !important;
+    }
     
     .site-footer .footer-social-link {
         display: flex !important;
@@ -519,8 +612,23 @@ if ($_POST) {
                         $googleReviews = [];
                         if (defined('GOOGLE_PLACES_API_KEY') && !empty(GOOGLE_PLACES_API_KEY) && 
                             defined('GOOGLE_PLACE_ID') && !empty(GOOGLE_PLACE_ID)) {
-                            $googleReviews = get_google_reviews(GOOGLE_PLACE_ID, GOOGLE_PLACES_API_KEY, 4, 10);
+                            // Buscar mais reviews para ter opções de randomização (top 50 melhores)
+                            // Depois randomizamos e pegamos 10 aleatórios para variar a cada carregamento
+                            $googleReviews = get_google_reviews(GOOGLE_PLACE_ID, GOOGLE_PLACES_API_KEY, 4, 50);
                         }
+                        
+                        // Normalizar campos de foto nos reviews do Google (scraper usa profile_picture)
+                        foreach ($googleReviews as &$review) {
+                            // Mapear profile_picture para profile_photo se não existir
+                            if (isset($review['profile_picture']) && !isset($review['profile_photo'])) {
+                                $review['profile_photo'] = $review['profile_picture'];
+                            }
+                            // Garantir que has_photo está definido
+                            if (!isset($review['has_photo'])) {
+                                $review['has_photo'] = !empty($review['profile_photo']) || !empty($review['profile_picture']);
+                            }
+                        }
+                        unset($review); // Limpar referência
                         
                         // Se tiver menos de 10 reviews do Google, complementar com reviews manuais
                         if (count($googleReviews) < 10) {
@@ -530,8 +638,16 @@ if ($_POST) {
                                 if (isset($review['date'])) {
                                     $review['time'] = strtotime($review['date']);
                                 }
+                                // Normalizar campos de foto (scraper usa profile_picture)
+                                if (isset($review['profile_picture']) && !isset($review['profile_photo'])) {
+                                    $review['profile_photo'] = $review['profile_picture'];
+                                }
                                 if (!isset($review['profile_photo'])) {
                                     $review['profile_photo'] = null;
+                                }
+                                // Garantir que has_photo está definido
+                                if (!isset($review['has_photo'])) {
+                                    $review['has_photo'] = !empty($review['profile_photo']) || !empty($review['profile_picture']);
                                 }
                             }
                             
@@ -553,36 +669,85 @@ if ($_POST) {
                                 }
                             }
                             
+                            // Filtrar reviews indesejados
+                            $googleReviews = array_filter($googleReviews, function($review) {
+                                // Remover reviews excluídos (conflito de interesse)
+                                if (review_should_be_excluded($review)) {
+                                    return false;
+                                }
+                                // Remover reviews que mencionam COVID
+                                if (review_mentions_covid($review)) {
+                                    return false;
+                                }
+                                return true;
+                            });
+                            
                             // Reordenar todos os reviews combinados com a mesma lógica de prioridade
-                            // 1. Reviews com foto
-                            // 2. Rating (5 estrelas antes de 4)
-                            // 3. Comprimento do texto (mais longos primeiro)
-                            // 4. Mais antigos primeiro (para ter variedade temporal)
+                            // 1. Reviews com foto de perfil (foto dá credibilidade) - MAIS IMPORTANTE
+                            // 2. Tamanho médio de texto (100-500 chars - nem muito curto, nem muito longo)
+                            // 3. Rating (5 estrelas antes de 4)
+                            // 4. Reviews dos últimos 2 anos primeiro (mas não limitar apenas a isso)
+                            // 5. Mais recentes primeiro
                             usort($googleReviews, function($a, $b) {
-                                $aHasPhoto = isset($a['has_photo']) ? $a['has_photo'] : !empty($a['profile_photo']);
-                                $bHasPhoto = isset($b['has_photo']) ? $b['has_photo'] : !empty($b['profile_photo']);
-                                
-                                // Prioridade 1: Reviews com foto
-                                if ($aHasPhoto != $bHasPhoto) {
-                                    return $bHasPhoto ? 1 : -1;
+                                // Prioridade 1: Reviews com foto REAL de perfil (foto dá credibilidade) - MAIS IMPORTANTE
+                                // Não priorizar placeholders (apenas inicial do nome)
+                                $aHasRealPhoto = review_has_real_photo($a);
+                                $bHasRealPhoto = review_has_real_photo($b);
+                                if ($aHasRealPhoto != $bHasRealPhoto) {
+                                    return $bHasRealPhoto ? 1 : -1; // Com foto REAL primeiro
                                 }
                                 
-                                // Prioridade 2: Rating (5 estrelas antes de 4)
+                                // Prioridade 2: Tamanho médio de texto (100-500 chars é ideal - credibilidade)
+                                $aLength = isset($a['text_length']) ? $a['text_length'] : mb_strlen(get_review_text($a));
+                                $bLength = isset($b['text_length']) ? $b['text_length'] : mb_strlen(get_review_text($b));
+                                
+                                // Função para calcular score de tamanho (tamanho médio = melhor)
+                                $getSizeScore = function($length) {
+                                    if ($length >= 100 && $length <= 500) {
+                                        return 3; // Tamanho médio ideal - melhor score
+                                    } elseif ($length >= 50 && $length < 100) {
+                                        return 2; // Curto mas aceitável
+                                    } elseif ($length > 500 && $length <= 1000) {
+                                        return 2; // Longo mas ainda bom
+                                    } elseif ($length > 1000) {
+                                        return 1; // Muito longo
+                                    } else {
+                                        return 0; // Muito curto
+                                    }
+                                };
+                                
+                                $aSizeScore = $getSizeScore($aLength);
+                                $bSizeScore = $getSizeScore($bLength);
+                                if ($aSizeScore != $bSizeScore) {
+                                    return $bSizeScore - $aSizeScore; // Melhor score primeiro
+                                }
+                                
+                                // Se mesmo score de tamanho, preferir tamanho médio dentro do range
+                                if ($aSizeScore == 3 && $bSizeScore == 3) {
+                                    // Dentro do range ideal, preferir mais próximo de 300 chars (meio do range)
+                                    $aDistance = abs($aLength - 300);
+                                    $bDistance = abs($bLength - 300);
+                                    if ($aDistance != $bDistance) {
+                                        return $aDistance - $bDistance; // Mais próximo de 300 primeiro
+                                    }
+                                }
+                                
+                                // Prioridade 3: Rating (5 estrelas antes de 4)
                                 if ($a['rating'] != $b['rating']) {
                                     return $b['rating'] - $a['rating'];
                                 }
                                 
-                                // Prioridade 3: Comprimento do texto (mais longos primeiro)
-                                $aLength = isset($a['text_length']) ? $a['text_length'] : mb_strlen($a['text'] ?? '');
-                                $bLength = isset($b['text_length']) ? $b['text_length'] : mb_strlen($b['text'] ?? '');
-                                if ($aLength != $bLength) {
-                                    return $bLength - $aLength;
+                                // Prioridade 4: Reviews dos últimos 2 anos primeiro (mas não limitar)
+                                $aRecent = review_is_recent($a);
+                                $bRecent = review_is_recent($b);
+                                if ($aRecent != $bRecent) {
+                                    return $bRecent ? 1 : -1; // Recentes primeiro
                                 }
                                 
-                                // Prioridade 4: Mais antigos primeiro (para ter variedade temporal)
+                                // Prioridade 5: Mais recentes primeiro
                                 $aTime = isset($a['time']) ? $a['time'] : 0;
                                 $bTime = isset($b['time']) ? $b['time'] : 0;
-                                return $aTime - $bTime;
+                                return $bTime - $aTime;
                             });
                         }
                         
@@ -594,26 +759,120 @@ if ($_POST) {
                                 if (isset($review['date'])) {
                                     $review['time'] = strtotime($review['date']);
                                 }
+                                // Normalizar campos de foto (scraper usa profile_picture)
+                                if (isset($review['profile_picture']) && !isset($review['profile_photo'])) {
+                                    $review['profile_photo'] = $review['profile_picture'];
+                                }
                                 if (!isset($review['profile_photo'])) {
                                     $review['profile_photo'] = null;
                                 }
+                                // Garantir que has_photo está definido
+                                if (!isset($review['has_photo'])) {
+                                    $review['has_photo'] = !empty($review['profile_photo']) || !empty($review['profile_picture']);
+                                }
                                 if (!isset($review['text_length'])) {
-                                    $review['text_length'] = mb_strlen($review['text'] ?? '');
+                                    $review['text_length'] = mb_strlen(get_review_text($review));
                                 }
                                 if (!isset($review['has_photo'])) {
                                     $review['has_photo'] = false;
                                 }
                             }
                             
+                            // Filtrar reviews indesejados
+                            $googleReviews = array_filter($googleReviews, function($review) {
+                                // Remover reviews excluídos (conflito de interesse)
+                                if (review_should_be_excluded($review)) {
+                                    return false;
+                                }
+                                // Remover reviews que mencionam COVID
+                                if (review_mentions_covid($review)) {
+                                    return false;
+                                }
+                                return true;
+                            });
+                            
                             // Ordenar reviews manuais também
                             usort($googleReviews, function($a, $b) {
-                                $aHasPhoto = isset($a['has_photo']) ? $a['has_photo'] : !empty($a['profile_photo']);
-                                $bHasPhoto = isset($b['has_photo']) ? $b['has_photo'] : !empty($b['profile_photo']);
+                                // Prioridade 1: Reviews dos últimos 2 anos primeiro (mas não limitar)
+                                $aRecent = review_is_recent($a);
+                                $bRecent = review_is_recent($b);
+                                if ($aRecent != $bRecent) {
+                                    return $bRecent ? 1 : -1; // Recentes primeiro
+                                }
+                                
+                                // Prioridade 2: Rating (5 estrelas antes de 4)
+                                if ($a['rating'] != $b['rating']) {
+                                    return $b['rating'] - $a['rating'];
+                                }
+                                
+                                // Prioridade 3: Reviews com foto
+                                $aHasPhoto = isset($a['has_photo']) ? $a['has_photo'] : (!empty($a['profile_photo']) || !empty($a['profile_picture']));
+                                $bHasPhoto = isset($b['has_photo']) ? $b['has_photo'] : (!empty($b['profile_photo']) || !empty($b['profile_picture']));
                                 if ($aHasPhoto != $bHasPhoto) {
                                     return $bHasPhoto ? 1 : -1;
                                 }
+                                
+                                // Prioridade 4: Comprimento do texto (mais longos primeiro)
+                                $aLength = isset($a['text_length']) ? $a['text_length'] : mb_strlen(get_review_text($a));
+                                $bLength = isset($b['text_length']) ? $b['text_length'] : mb_strlen(get_review_text($b));
+                                if ($aLength != $bLength) {
+                                    return $bLength - $aLength;
+                                }
+                                
+                                // Prioridade 5: Mais recentes primeiro
+                                $aTime = isset($a['time']) ? $a['time'] : 0;
+                                $bTime = isset($b['time']) ? $b['time'] : 0;
+                                return $bTime - $aTime;
+                            });
+                        }
+                        
+                        // Limitar a 10 reviews para exibição
+                        $googleReviews = array_slice($googleReviews, 0, 10);
+                        
+                        // Se ainda não tiver reviews suficientes, usar apenas manuais
+                        if (count($googleReviews) < 5) {
+                            $manualOnly = get_manual_reviews(4, 10);
+                            foreach ($manualOnly as &$review) {
+                                if (isset($review['date'])) {
+                                    $review['time'] = strtotime($review['date']);
+                                }
+                                // Normalizar campos de foto (scraper usa profile_picture)
+                                if (isset($review['profile_picture']) && !isset($review['profile_photo'])) {
+                                    $review['profile_photo'] = $review['profile_picture'];
+                                }
+                                if (!isset($review['profile_photo'])) {
+                                    $review['profile_photo'] = null;
+                                }
+                                // Garantir que has_photo está definido
+                                if (!isset($review['has_photo'])) {
+                                    $review['has_photo'] = !empty($review['profile_photo']) || !empty($review['profile_picture']);
+                                }
+                                if (!isset($review['text_length'])) {
+                                    $review['text_length'] = mb_strlen(get_review_text($review));
+                                }
+                                if (!isset($review['has_photo'])) {
+                                    $review['has_photo'] = false;
+                                }
+                            }
+                            
+                            // Filtrar e ordenar reviews manuais
+                            $manualOnly = array_filter($manualOnly, function($review) {
+                                return !review_mentions_covid($review);
+                            });
+                            
+                            usort($manualOnly, function($a, $b) {
+                                $aRecent = review_is_recent($a);
+                                $bRecent = review_is_recent($b);
+                                if ($aRecent != $bRecent) {
+                                    return $bRecent ? 1 : -1;
+                                }
                                 if ($a['rating'] != $b['rating']) {
                                     return $b['rating'] - $a['rating'];
+                                }
+                                $aHasPhoto = isset($a['has_photo']) ? $a['has_photo'] : (!empty($a['profile_photo']) || !empty($a['profile_picture']));
+                                $bHasPhoto = isset($b['has_photo']) ? $b['has_photo'] : (!empty($b['profile_photo']) || !empty($b['profile_picture']));
+                                if ($aHasPhoto != $bHasPhoto) {
+                                    return $bHasPhoto ? 1 : -1;
                                 }
                                 $aLength = isset($a['text_length']) ? $a['text_length'] : 0;
                                 $bLength = isset($b['text_length']) ? $b['text_length'] : 0;
@@ -626,8 +885,29 @@ if ($_POST) {
                             });
                         }
                         
-                        // Limitar a 10 reviews no máximo (já ordenados)
-                        $googleReviews = array_slice($googleReviews, 0, 10);
+                        // Pegar mais reviews para ter opções de randomização (top 30-50 melhores)
+                        // Depois randomizar e pegar 10 aleatórios para variar a cada carregamento
+                        $topReviews = array_slice($googleReviews, 0, min(50, count($googleReviews)));
+                        
+                        // Randomizar entre os melhores para variar a cada carregamento da página
+                        // Isso mantém qualidade (sempre entre os melhores) mas adiciona variedade
+                        shuffle($topReviews);
+                        
+                        // Limitar a 10 reviews aleatórios (mas sempre entre os melhores)
+                        $googleReviews = array_slice($topReviews, 0, 10);
+                        
+                        // Garantir normalização final dos campos de foto antes de exibir
+                        foreach ($googleReviews as &$review) {
+                            // Mapear profile_picture para profile_photo se não existir
+                            if (isset($review['profile_picture']) && !isset($review['profile_photo'])) {
+                                $review['profile_photo'] = $review['profile_picture'];
+                            }
+                            // Garantir que has_photo está definido
+                            if (!isset($review['has_photo'])) {
+                                $review['has_photo'] = !empty($review['profile_photo']) || !empty($review['profile_picture']);
+                            }
+                        }
+                        unset($review); // Limpar referência
                         
                         if (!empty($googleReviews)) {
                             $reviewCount = count($googleReviews);
@@ -646,8 +926,17 @@ if ($_POST) {
                                             <div class="testimonial-content">
                                                 <?php
                                                 // Foto do perfil (se disponível) ou placeholder
-                                                if (!empty($review['profile_photo'])) {
-                                                    echo '<div class="testimonial-avatar"><img src="' . htmlspecialchars($review['profile_photo']) . '" alt="' . htmlspecialchars($review['author']) . '" loading="lazy"></div>';
+                                                // Garantir normalização uma última vez antes de exibir
+                                                if (isset($review['profile_picture']) && empty($review['profile_photo'])) {
+                                                    $review['profile_photo'] = $review['profile_picture'];
+                                                }
+                                                
+                                                // Verificar tanto profile_photo quanto profile_picture (formato do scraper)
+                                                $photoUrl = !empty($review['profile_photo']) ? $review['profile_photo'] : (!empty($review['profile_picture']) ? $review['profile_picture'] : null);
+                                                
+                                                if (!empty($photoUrl)) {
+                                                    // Usar URL completa da foto do Google
+                                                    echo '<div class="testimonial-avatar"><img src="' . htmlspecialchars($photoUrl) . '" alt="' . htmlspecialchars($review['author']) . '" loading="lazy" onerror="this.style.display=\'none\'; this.parentElement.classList.add(\'testimonial-avatar-placeholder\'); this.parentElement.textContent=\'' . htmlspecialchars(mb_substr(mb_strtoupper($review['author']), 0, 1)) . '\';"></div>';
                                                 } else {
                                                     // Placeholder com inicial do nome
                                                     $initial = mb_substr(mb_strtoupper($review['author']), 0, 1);
@@ -658,18 +947,26 @@ if ($_POST) {
                                                     <strong><?php echo htmlspecialchars($review['author']); ?></strong>
                                 </div>
                                                 <div class="testimonial-rating">
-                                                    <?php if (isset($review['rating'])): ?>
-                                                        <?php for ($i = 1; $i <= 5; $i++): ?>
-                                                            <?php if ($i <= $review['rating']): ?>
-                                                                <i class="fas fa-star"></i>
-                                                            <?php else: ?>
-                                                                <i class="far fa-star"></i>
-                                                            <?php endif; ?>
-                                                        <?php endfor; ?>
-                                                    <?php endif; ?>
+                                                    <?php 
+                                                    $rating = isset($review['rating']) ? (int)$review['rating'] : 0;
+                                                    if ($rating > 0): 
+                                                        // Usar estrelas Unicode para garantir que sempre apareçam
+                                                        for ($i = 1; $i <= 5; $i++): 
+                                                            if ($i <= $rating): 
+                                                                echo '<span class="star-filled" style="color: #ffc107; font-size: 1.2rem;">★</span>';
+                                                            else: 
+                                                                echo '<span class="star-empty" style="color: #e0e0e0; font-size: 1.2rem;">☆</span>';
+                                                            endif;
+                                                        endfor;
+                                                    endif; 
+                                                    ?>
                                 </div>
                                                 <blockquote class="testimonial-text">
-                                                    <?php echo nl2br(htmlspecialchars($review['text'])); ?>
+                                                    <?php 
+                                                    // Usar função que suporta múltiplos formatos (text, comment, description)
+                                                    $reviewText = get_review_text($review);
+                                                    echo nl2br(htmlspecialchars($reviewText)); 
+                                                    ?>
                                                 </blockquote>
                                 </div>
                                 </div>
@@ -677,11 +974,11 @@ if ($_POST) {
                             </div>
                             <!-- Carousel controls -->
                                 <a class="carousel-control-prev testimonials-control" href="#testimonialsCarousel" role="button" data-slide="prev">
-                                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                                    <span style="color: #3a505a; font-size: 28px; font-weight: bold;">‹</span>
                                     <span class="sr-only">Anterior</span>
                                 </a>
                                 <a class="carousel-control-next testimonials-control" href="#testimonialsCarousel" role="button" data-slide="next">
-                                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    <span style="color: #3a505a; font-size: 28px; font-weight: bold;">›</span>
                                     <span class="sr-only">Próximo</span>
                             </a>
                         </div>
@@ -718,12 +1015,12 @@ if ($_POST) {
                 <!-- Links de Navegação -->
                 <div class="col-12 col-md-4 mb-4 mb-md-0">
                     <h5 class="footer-title">Navegação</h5>
-                    <nav class="footer-nav-vertical">
-                        <a href="/#about" class="footer-link">Sobre</a>
-                        <a href="/#services" class="footer-link">Serviços</a>
-                        <a href="/contato.php" class="footer-link">Contato</a>
-                        <a href="/faq/" class="footer-link">FAQ</a>
-                        <a href="/vagas.php" class="footer-link">Trabalhe Conosco</a>
+                    <nav class="footer-nav-vertical" style="display: flex !important; flex-direction: column !important;">
+                        <a href="/#about" class="footer-link" style="display: block !important;">Sobre</a>
+                        <a href="/#services" class="footer-link" style="display: block !important;">Serviços</a>
+                        <a href="/contato.php" class="footer-link" style="display: block !important;">Contato</a>
+                        <a href="/faq/" class="footer-link" style="display: block !important;">FAQ</a>
+                        <a href="/vagas.php" class="footer-link" style="display: block !important;">Trabalhe Conosco</a>
                     </nav>
                 </div>
 
@@ -747,7 +1044,7 @@ if ($_POST) {
                                         </div>
 
                 <!-- Redes Sociais -->
-                <div class="col-12 col-md-4">
+                <div class="col-12 col-md-4 footer-social-col">
                     <h5 class="footer-title">Redes Sociais</h5>
                         <div class="footer-social">
                         <a href="https://www.instagram.com/minhamimo/" target="_blank" class="footer-social-link" aria-label="Instagram">
@@ -765,7 +1062,7 @@ if ($_POST) {
                                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
                             </svg>
                         </a>
-                        </div>
+                                    </div>
                                     </div>
                                     </div>
 
@@ -845,6 +1142,7 @@ if ($_POST) {
     <script src="bootstrap/popper.js/dist/popper.min.js" defer></script>
     <script src="bootstrap/bootstrap/dist/js/bootstrap.min.js" defer></script>
     <?php echo js_tag('form/main.js', ['defer' => true]); ?>
+    <?php echo js_tag('js/bc-swipe.js', ['defer' => true]); ?>
     <?php echo js_tag('main.js', ['defer' => true]); ?>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.18/jquery.touchSwipe.min.js" defer></script>
     <script>
@@ -912,8 +1210,56 @@ if ($_POST) {
 
     <script src="https://code.tidio.co/ylbfxpiqcmi2on8duid7rpjgqydlrqne.js" defer></script>
 
+    <!-- Fix footer nav vertical -->
+    <script>
+        (function() {
+            function fixFooterNav() {
+                const nav = document.querySelector('.footer-nav-vertical');
+                if (nav) {
+                    nav.style.display = 'flex';
+                    nav.style.flexDirection = 'column';
+                    Array.from(nav.children).forEach(link => {
+                        link.style.display = 'block';
+                    });
+                }
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', fixFooterNav);
+            } else {
+                fixFooterNav();
+            }
+            // Re-apply after a short delay to override any late-loading CSS
+            setTimeout(fixFooterNav, 100);
+        })();
+    </script>
+    
+    <!-- Fix footer social icons centering -->
+    <style>
+        .footer-social-col {
+            text-align: center !important;
+        }
+        .footer-social-col .footer-title {
+            text-align: center !important;
+        }
+    </style>
+
     <!-- Botão Voltar ao Topo -->
     <?php include 'inc/back-to-top.php'; ?>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                        console.log('Service Worker registered:', registration.scope);
+                    })
+                    .catch(function(error) {
+                        console.log('Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
 
 </body>
 

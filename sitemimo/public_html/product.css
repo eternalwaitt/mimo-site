@@ -3,7 +3,23 @@
  * Estilos globais, layout, navegação, tipografia
  * 
  * Desenvolvido por: Victor Penter
- * Versão: 2.0.0
+ * Versão: 2.2.9
+ * 
+ * ESTRUTURA DO ARQUIVO:
+ * 1. Reset e Base (linhas 9-200)
+ * 2. Tipografia e Fontes (linhas 55-200)
+ * 3. Navegação e Header (linhas 200-600)
+ * 4. Layout e Grid (linhas 600-900)
+ * 5. Componentes (linhas 900-1500)
+ * 6. Páginas Internas (linhas 1500-2000)
+ * 7. Footer (linhas 2000-2300)
+ * 8. Responsive (linhas 2300-2885)
+ * 
+ * ONDE É USADO:
+ * - Todas as páginas do site (index.php, contato.php, vagas.php, 404.php)
+ * - Páginas de serviços via service-template.php
+ * - Carregado via inc/asset-helper.php com suporte a minificação
+ * - Cache busting via ASSET_VERSION em config.php
  */
 
 html {
@@ -425,9 +441,13 @@ body.modal-open {
 
 
 nav {
-
 	padding-right: 0!important
+}
 
+/* Override para footer nav vertical */
+nav.footer-nav-vertical {
+	display: flex !important;
+	flex-direction: column !important;
 }
 
 
@@ -1158,6 +1178,14 @@ nav {
 
 }
 
+/* Sobrescrever tamanho genérico para testimonials-carousel */
+.testimonials-carousel .carousel-indicators li {
+	width: 12px !important;
+	height: 12px !important;
+	margin: 0 6px !important;
+	border-radius: 50% !important;
+}
+
 
 
 .carousel-indicators li {
@@ -1170,7 +1198,13 @@ nav {
 
 }
 
-
+/* Sobrescrever estilos genéricos para testimonials-carousel */
+.testimonials-carousel .carousel-indicators li {
+	background: rgba(58, 80, 90, 0.4) !important;
+	border: 2px solid rgba(58, 80, 90, 0.6) !important;
+	border-color: rgba(58, 80, 90, 0.6) !important;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+}
 
 .carousel-indicators li.active {
 
@@ -1178,6 +1212,16 @@ nav {
 
 	box-shadow: inset 0 2px 1px rgba(0, 0, 0, .2)
 
+}
+
+/* Sobrescrever estilo ativo genérico para testimonials-carousel */
+.testimonials-carousel .carousel-indicators li.active {
+	background: #3a505a !important;
+	border-color: #3a505a !important;
+	width: 32px !important;
+	height: 12px !important;
+	border-radius: 6px !important;
+	box-shadow: 0 3px 10px rgba(58, 80, 90, 0.6) !important;
 }
 
 
@@ -1922,6 +1966,22 @@ textarea {
 	color: #e0e0e0;
 }
 
+/* Estrelas Unicode (fallback quando Font Awesome não carrega) */
+.testimonial-rating .star-filled {
+	color: #ffc107 !important;
+	font-size: 1.2rem;
+	text-shadow: 0 1px 2px rgba(255, 193, 7, 0.3);
+	display: inline-block;
+	margin: 0 2px;
+}
+
+.testimonial-rating .star-empty {
+	color: #e0e0e0 !important;
+	font-size: 1.2rem;
+	display: inline-block;
+	margin: 0 2px;
+}
+
 /* Texto do depoimento */
 .testimonial-text {
 	font-size: 1rem; /* Reduzido de 1.1rem */
@@ -1993,30 +2053,34 @@ textarea {
 
 /* Link para reviews do Google */
 .google-reviews-link {
-	display: inline-flex;
-	align-items: center;
-	padding: 10px 20px;
-	background: rgba(255, 255, 255, 0.1);
-	border-radius: 25px;
-	margin-bottom: 0;
-	text-decoration: none;
-	transition: all 0.3s ease;
-	border: 1px solid rgba(255, 255, 255, 0.2);
+	display: inline-flex !important;
+	align-items: center !important;
+	padding: 10px 20px !important;
+	background: #3a505a !important;
+	border: 2px solid #3a505a !important;
+	border-radius: 25px !important;
+	margin-bottom: 0 !important;
+	text-decoration: none !important;
+	transition: all 0.3s ease !important;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
 }
 
 .google-reviews-link:hover {
-	background: rgba(255, 255, 255, 0.2);
-	border-color: rgba(255, 255, 255, 0.3);
-	transform: translateY(-2px);
-	text-decoration: none;
+	background: #2a3a42 !important;
+	border-color: #2a3a42 !important;
+	transform: translateY(-2px) !important;
+	text-decoration: none !important;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
 }
 
 .google-reviews-link span {
-	color: #fff;
+	color: #fff !important;
+	font-weight: 600 !important;
 }
 
 /* Controles do carousel */
 .testimonials-control {
+	position: absolute;
 	width: 50px;
 	height: 50px;
 	background: white;
@@ -2026,6 +2090,11 @@ textarea {
 	transition: all 0.3s ease;
 	top: 50%;
 	transform: translateY(-50%);
+	z-index: 10;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
 }
 
 .testimonials-control:hover {
@@ -2037,10 +2106,8 @@ textarea {
 .testimonials-control i {
 	color: #ccb7bc;
 	font-size: 24px;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+	position: relative;
+	display: block;
 }
 
 .testimonials-control-prev {
@@ -2051,34 +2118,81 @@ textarea {
 	right: 10px;
 }
 
-/* Indicadores */
-.testimonials-indicators {
-	bottom: -50px;
-	margin: 0;
-	padding: 0;
+/* Garantir que os controles do Bootstrap sejam visíveis */
+.testimonials-carousel .carousel-control-prev,
+.testimonials-carousel .carousel-control-next {
+	display: flex !important;
+	opacity: 1 !important;
+	width: 50px !important;
+	height: 50px !important;
+	background: white !important;
+	border-radius: 50% !important;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important;
+	z-index: 10 !important;
 }
 
-.testimonials-indicators li {
-	width: 12px;
-	height: 12px;
-	border-radius: 50%;
-	background: #d0d0d0;
-	border: none;
-	margin: 0 6px;
-	transition: all 0.3s ease;
-	cursor: pointer;
+.testimonials-carousel .carousel-control-prev {
+	left: 10px !important;
 }
 
-.testimonials-indicators li:hover {
-	background: #ccb7bc;
-	transform: scale(1.2);
+.testimonials-carousel .carousel-control-next {
+	right: 10px !important;
 }
 
-.testimonials-indicators li.active {
-	background: #ccb7bc;
-	width: 30px;
-	border-radius: 6px;
-	transform: scale(1);
+/* Estilizar ícones dentro dos controles */
+.testimonials-carousel .carousel-control-prev i,
+.testimonials-carousel .carousel-control-next i {
+	color: #ccb7bc !important;
+	font-size: 24px !important;
+	position: relative !important;
+	display: block !important;
+}
+
+/* Indicadores - Especificidade máxima para sobrescrever Bootstrap */
+.testimonials-carousel .carousel-indicators.testimonials-indicators,
+.testimonials-carousel .testimonials-indicators,
+.testimonials-carousel.carousel .carousel-indicators.testimonials-indicators {
+	bottom: -50px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.testimonials-carousel .carousel-indicators.testimonials-indicators li,
+.testimonials-carousel .testimonials-indicators li,
+.testimonials-carousel.carousel .carousel-indicators.testimonials-indicators li {
+	width: 12px !important;
+	height: 12px !important;
+	border-radius: 50% !important;
+	background: rgba(58, 80, 90, 0.4) !important;
+	border: 2px solid rgba(58, 80, 90, 0.6) !important;
+	border-color: rgba(58, 80, 90, 0.6) !important;
+	margin: 0 6px !important;
+	transition: all 0.3s ease !important;
+	cursor: pointer !important;
+	opacity: 1 !important;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+}
+
+.testimonials-carousel .carousel-indicators.testimonials-indicators li:hover,
+.testimonials-carousel .testimonials-indicators li:hover,
+.testimonials-carousel.carousel .carousel-indicators.testimonials-indicators li:hover {
+	background: rgba(58, 80, 90, 0.7) !important;
+	border-color: rgba(58, 80, 90, 0.9) !important;
+	transform: scale(1.3) !important;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+}
+
+.testimonials-carousel .carousel-indicators.testimonials-indicators li.active,
+.testimonials-carousel .testimonials-indicators li.active,
+.testimonials-carousel.carousel .carousel-indicators.testimonials-indicators li.active {
+	background: #3a505a !important;
+	border-color: #3a505a !important;
+	width: 32px !important;
+	height: 12px !important;
+	border-radius: 6px !important;
+	transform: scale(1) !important;
+	opacity: 1 !important;
+	box-shadow: 0 3px 10px rgba(58, 80, 90, 0.6) !important;
 }
 
 /* Carousel fade transition optimization */
@@ -2105,7 +2219,7 @@ textarea {
 	background: linear-gradient(135deg, #252527 0%, #1a1a1c 100%);
 	color: #fff;
 	padding: 60px 0 25px;
-	margin-top: 0;
+	margin-top: 0 !important;
 	border-top: 1px solid rgba(204, 183, 188, 0.1);
 }
 
@@ -2118,24 +2232,48 @@ textarea {
 	text-transform: uppercase;
 }
 
-.footer-nav-vertical {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-	list-style: none;
-	padding: 0;
-	margin: 0;
+/* Centralizar título e ícones da seção de redes sociais */
+.site-footer .footer-social-col,
+footer .footer-social-col,
+.footer-social-col {
+	text-align: center !important;
 }
 
-.footer-link {
-	color: rgba(255, 255, 255, 0.75);
-	font-size: 14px;
-	font-weight: 400;
-	letter-spacing: 0.3px;
-	transition: all 0.3s ease;
+.site-footer .footer-social-col .footer-title,
+footer .footer-social-col .footer-title,
+.footer-social-col .footer-title {
+	text-align: center !important;
+}
+
+.footer-nav-vertical,
+nav.footer-nav-vertical,
+.site-footer nav.footer-nav-vertical,
+.site-footer .footer-nav-vertical {
+	display: flex !important;
+	flex-direction: column !important;
+	flex-wrap: nowrap !important;
+	gap: 4px !important;
+	list-style: none !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	align-items: flex-start !important;
+}
+
+.footer-link,
+.footer-nav-vertical .footer-link,
+nav.footer-nav-vertical .footer-link,
+.site-footer nav.footer-nav-vertical .footer-link,
+.site-footer .footer-nav-vertical .footer-link {
+	color: rgba(255, 255, 255, 0.75) !important;
+	font-size: 14px !important;
+	font-weight: 400 !important;
+	letter-spacing: 0.3px !important;
+	transition: all 0.3s ease !important;
 	text-decoration: none !important;
-	display: block;
-	padding: 4px 0;
+	display: block !important;
+	padding: 4px 0 !important;
+	width: auto !important;
+	white-space: nowrap !important;
 }
 
 .footer-link:hover {
@@ -2183,21 +2321,22 @@ textarea {
 .footer-social {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 12px;
-	margin-top: 10px;
+	gap: 15px;
+	margin-top: 15px;
 	align-items: center;
+	justify-content: center;
 }
 
 .footer-social-link {
-	width: 42px;
-	height: 42px;
+	width: 44px;
+	height: 44px;
 	display: flex !important;
 	align-items: center !important;
 	justify-content: center !important;
-	background: rgba(255, 255, 255, 0.08);
-	border: 1px solid rgba(204, 183, 188, 0.25);
+	background: rgba(255, 255, 255, 0.1);
+	border: 1px solid rgba(204, 183, 188, 0.3);
 	border-radius: 50%;
-	color: rgba(255, 255, 255, 0.9) !important;
+	color: rgba(255, 255, 255, 0.95) !important;
 	font-size: 20px !important;
 	transition: all 0.3s ease;
 	text-decoration: none !important;
@@ -2208,10 +2347,11 @@ textarea {
 }
 
 .footer-social-link svg {
-	width: 20px !important;
-	height: 20px !important;
+	width: 22px !important;
+	height: 22px !important;
 	fill: currentColor;
 	display: block;
+	flex-shrink: 0;
 }
 
 
@@ -2320,7 +2460,7 @@ textarea {
 	}
 
 	.footer-nav-vertical {
-		gap: 10px;
+		gap: 4px;
 	}
 
 	.footer-link {
@@ -2336,19 +2476,24 @@ textarea {
 	}
 
 	.footer-social {
-		justify-content: flex-start;
-		gap: 12px;
-		margin-top: 5px;
+		justify-content: center;
+		gap: 15px;
+		margin-top: 15px;
 	}
 
 	.footer-social-link {
-		width: 40px;
-		height: 40px;
-		font-size: 18px;
+		width: 44px;
+		height: 44px;
+		font-size: 20px;
+	}
+
+	.footer-social-link svg {
+		width: 22px !important;
+		height: 22px !important;
 	}
 
 	.footer-social-link i {
-		font-size: 18px !important;
+		font-size: 20px !important;
 	}
 
 	.footer-copyright {
@@ -2397,12 +2542,12 @@ textarea {
 /* Cards Padrão (Info Cards, Vaga Cards, etc) */
 .info-card,
 .vaga-card {
-	background: white;
+	background: #ffffff;
 	border-radius: 15px;
 	padding: 30px;
 	margin-bottom: 30px;
-	box-shadow: 0 4px 20px rgba(58, 80, 90, 0.1);
-	border: 1px solid rgba(204, 183, 188, 0.2);
+	box-shadow: 0 4px 20px rgba(58, 80, 90, 0.15);
+	border: 1px solid rgba(204, 183, 188, 0.3);
 	transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -2415,7 +2560,7 @@ textarea {
 
 .info-card h3,
 .vaga-title {
-	color: #3a505a;
+	color: #1a252a !important;
 	font-size: 1.5rem;
 	font-weight: 600;
 	margin-bottom: 15px;
@@ -2438,14 +2583,14 @@ textarea {
 
 .info-card p,
 .vaga-info-item {
-	color: #3a505a;
+	color: #2a3a42 !important;
 	margin-bottom: 12px;
 	font-size: 1rem;
 	line-height: 1.7;
 }
 
 .info-card p strong {
-	color: #3a505a;
+	color: #1a252a !important;
 	font-weight: 600;
 }
 
@@ -2501,7 +2646,7 @@ textarea {
 
 .action-btn-secondary {
 	background: white;
-	color: #3a505a;
+	color: #2a3a42;
 	border: 2px solid #ccb7bc;
 }
 
@@ -2512,6 +2657,12 @@ textarea {
 	text-decoration: none;
 	transform: translateY(-2px);
 	box-shadow: 0 4px 15px rgba(204, 183, 188, 0.3);
+}
+
+.action-btn svg {
+	flex-shrink: 0;
+	width: 18px;
+	height: 18px;
 }
 
 .action-buttons {
@@ -2575,8 +2726,9 @@ textarea {
 
 /* Seção de Conteúdo Padrão */
 .page-section {
-	padding: 60px 0;
-	background: #f5f5f5;
+	padding: 60px 0 0 0 !important;
+	margin-bottom: 0 !important;
+	background: #f8f8f8;
 }
 
 .page-section-white {
@@ -2825,6 +2977,23 @@ textarea {
 	.testimonials-control-next {
 		right: 5px;
 	}
+	
+	/* Garantir visibilidade dos controles no mobile */
+	.testimonials-carousel .carousel-control-prev,
+	.testimonials-carousel .carousel-control-next {
+		display: flex !important;
+		opacity: 1 !important;
+		width: 40px !important;
+		height: 40px !important;
+	}
+	
+	.testimonials-carousel .carousel-control-prev {
+		left: 5px !important;
+	}
+	
+	.testimonials-carousel .carousel-control-next {
+		right: 5px !important;
+	}
 }
 
 @media (max-width: 576px) {
@@ -2840,4 +3009,35 @@ textarea {
 		font-size: 0.95rem;
 		line-height: 1.6;
 	}
+}
+
+/* ========================================
+   OVERRIDE FINAL - INDICADORES TESTIMONIALS
+   Máxima especificidade para garantir que sobrescreva Bootstrap
+   ======================================== */
+#testimonialsCarousel .carousel-indicators.testimonials-indicators li {
+	width: 12px !important;
+	height: 12px !important;
+	border-radius: 50% !important;
+	background: rgba(58, 80, 90, 0.4) !important;
+	border: 2px solid rgba(58, 80, 90, 0.6) !important;
+	margin: 0 6px !important;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+	text-indent: 0 !important;
+}
+
+#testimonialsCarousel .carousel-indicators.testimonials-indicators li:hover {
+	background: rgba(58, 80, 90, 0.7) !important;
+	border-color: rgba(58, 80, 90, 0.9) !important;
+	transform: scale(1.3) !important;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+}
+
+#testimonialsCarousel .carousel-indicators.testimonials-indicators li.active {
+	background: #3a505a !important;
+	border-color: #3a505a !important;
+	width: 32px !important;
+	height: 12px !important;
+	border-radius: 6px !important;
+	box-shadow: 0 3px 10px rgba(58, 80, 90, 0.6) !important;
 }

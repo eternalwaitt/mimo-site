@@ -26,7 +26,7 @@ $csp = "default-src 'self'; " .
        "font-src 'self' data: https://fonts.gstatic.com https://use.fontawesome.com; " .
        "img-src 'self' data: https:; " .
        "connect-src 'self' https://api.whatsapp.com https://www.google-analytics.com; " .
-       "frame-src 'self' https://www.googletagmanager.com; " .
+       "frame-src 'self' https://www.googletagmanager.com https://www.google.com; " .
        "object-src 'none'; " .
        "base-uri 'self'; " .
        "form-action 'self';";

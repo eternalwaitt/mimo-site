@@ -5,6 +5,109 @@ All notable changes to the Mimo Site project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.1] - 2025-01-15
+
+### Added
+- **Sprint 1 - Performance & Core Web Vitals**: Major performance optimizations
+  - Image optimization pipeline: Scripts for generating responsive sizes (1x, 2x, 3x), AVIF conversion, and complete optimization
+  - Enhanced image helper: `picture_webp()` now supports AVIF → WebP → fallback with responsive srcset
+  - Critical CSS expanded: More comprehensive above-the-fold CSS for faster FCP
+  - Service Worker & PWA: Offline support, cache management, Web App Manifest
+  - Offline page: User-friendly offline experience
+- **Build Scripts**: New image optimization scripts
+  - `build/generate-responsive-images.sh`: Generates 1x, 2x, 3x image sizes
+  - `build/convert-avif.sh`: Converts images to AVIF format (30% smaller than WebP)
+  - `build/optimize-all-images.sh`: Complete optimization pipeline
+
+### Changed
+- **Image Helper**: Enhanced `picture_webp()` function
+  - Now supports AVIF format (highest priority)
+  - Automatic srcset generation for responsive images
+  - Better path resolution for subdirectories
+- **Critical CSS**: Expanded to include navbar, hero, container, and mobile optimizations
+- **Service Worker**: Implemented cache-first strategy for static assets, network-first for pages
+- **PWA Support**: Added manifest.json, service worker registration, offline page
+
+### Fixed
+- **Review Display**: Fixed "Undefined array key 'text'" warning by using `get_review_text()` consistently
+- **Star Ratings**: Replaced Font Awesome stars with Unicode stars (★/☆) for guaranteed visibility
+  - Stars now always appear, even if Font Awesome doesn't load
+  - Added CSS styling for Unicode stars with proper colors
+
+## [2.3.0] - 2025-01-15
+
+### Added
+- **Google Reviews System Enhancement**: Major improvements to review display and filtering
+  - Smart photo detection: Distinguishes real photos from placeholder initials
+  - Review randomization: Randomizes top 50 reviews on each page load for variety
+  - Advanced filtering: Removes COVID-related reviews, excluded authors, low ratings
+  - Photo prioritization: Reviews with real photos prioritized over placeholders
+  - Text length optimization: Prioritizes medium-length reviews (100-500 chars) for credibility
+  - Recent reviews priority: Prioritizes reviews from last 2 years while maintaining quality
+- **Review Management Scripts**: New PHP scripts for review management
+  - `scripts/limpar-reviews.php`: Clean reviews database (removes COVID, low ratings, excluded authors)
+  - `scripts/FREQUENCIA-ATUALIZACAO.md`: Documentation on review update frequency
+- **Scraper Documentation**: Comprehensive scraper usage guides
+  - `scripts/COMO-USAR-SCRAPER.md`: Complete scraper usage instructions
+  - `scripts/TROUBLESHOOTING-SCRAPER.md`: Troubleshooting guide for scraper issues
+  - `scripts/COMO-LIMPAR-REVIEWS.md`: Guide for cleaning review database
+  - `scripts/temp-scraper/config-mimo.yaml`: Pre-configured scraper settings for Mimo
+
+### Changed
+- **Review Display Logic**: Enhanced review selection and ordering
+  - Increased review pool from 20 to 50 for better randomization
+  - New sorting algorithm: Photo real > Medium text > Rating > Recency > Newest
+  - Randomization applied after quality sorting (always shows best reviews, but varies selection)
+- **Review Filtering**: Improved filtering system
+  - Excludes reviews mentioning COVID-related keywords
+  - Excludes reviews from specific authors (conflict of interest)
+  - Filters out reviews with rating < 4 stars
+  - Removes reviews with no text or very short text (< 10 chars)
+- **Photo Detection**: Smart photo vs placeholder detection
+  - Analyzes URL patterns to identify real photos vs placeholder initials
+  - ALV-Uj format: Requires 50+ char identifier for real photos
+  - ACg8oc format: Requires 49+ char identifier (placeholders usually 48 chars)
+  - Only prioritizes reviews with confirmed real photos
+
+### Fixed
+- **Review Text Extraction**: Unified text extraction across different review formats
+  - New `get_review_text()` function handles multiple formats (text, comment, description)
+  - Supports multi-language description arrays from scraper
+  - Consistent text length calculation for sorting
+- **Photo URL Mapping**: Fixed photo display issues
+  - Maps `profile_picture` (scraper format) to `profile_photo` (display format)
+  - Handles both field names consistently across codebase
+  - Added fallback for missing photos with proper placeholder display
+
+## [2.2.9] - 2025-01-14
+
+### Added
+- **Code Documentation**: Comprehensive code comments added throughout the codebase
+  - CSS files now include usage comments explaining where styles are applied
+  - PHP helpers include detailed PHPDoc comments
+  - JavaScript functions include inline documentation
+  - Asset helper functions documented with usage examples
+- **Code Audit Document**: New `CODE-AUDIT.md` file with comprehensive code quality analysis
+  - Identified code quality issues and recommendations
+  - Metrics and best practices documentation
+  - Improvement roadmap
+
+### Changed
+- **Contact Form**: Improved form field labels and select dropdown styling
+  - Added descriptive labels above all form fields
+  - Centered "Selecione o assunto" placeholder text
+  - Improved form layout and spacing
+- **Contact Page Buttons**: Enhanced phone and WhatsApp action buttons
+  - WhatsApp button now uses inline SVG icon for better reliability
+  - Both buttons are properly clickable with correct href attributes
+  - Improved visual consistency
+
+### Fixed
+- **Form Layout**: Fixed form field alignment issues
+  - Labels now properly positioned outside input containers
+  - Input fields maintain consistent styling
+  - Improved spacing between form elements
+
 ## [2.2.8] - 2025-11-14
 
 ### Changed

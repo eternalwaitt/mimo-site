@@ -338,7 +338,7 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
                 </div>
                 
                 <!-- Redes Sociais -->
-                <div class="col-12 col-md-4">
+                <div class="col-12 col-md-4 footer-social-col">
                     <h5 class="footer-title">Redes Sociais</h5>
                     <div class="footer-social">
                         <a href="https://www.instagram.com/minhamimo/" target="_blank" class="footer-social-link" aria-label="Instagram">
@@ -375,6 +375,7 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <?php echo js_tag('js/bc-swipe.js'); ?>
     <?php echo js_tag('main.js'); ?>
 
     <?php include 'inc/gtm-body.php'; ?>
@@ -384,14 +385,90 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
 
     <script>
         // Forçar navbar com fundo desde o início em páginas internas
-        $(document).ready(function() {
-            if ($('.page-hero').length > 0) {
-                $('.navbar').addClass('compressed');
-                $('.navbar-nav').addClass('changecolormenu');
-                $('.navbar-brand').addClass('changecolorlogo');
+        (function() {
+            const pageHero = document.querySelector('.page-hero');
+            if (!pageHero) return;
+            
+            function forceNavbarBackground() {
+                const navbar = document.querySelector('.navbar');
+                const navbarNav = document.querySelector('.navbar-nav');
+                const navbarBrand = document.querySelector('.navbar-brand');
+                
+                if (navbar) {
+                    navbar.classList.add('compressed');
+                    if (navbarNav) navbarNav.classList.add('changecolormenu');
+                    if (navbarBrand) navbarBrand.classList.add('changecolorlogo');
+                }
             }
-        });
+            
+            // Executar imediatamente
+            forceNavbarBackground();
+            
+            // Executar quando DOM estiver pronto
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', forceNavbarBackground);
+            } else {
+                forceNavbarBackground();
+            }
+            
+            // Executar após um pequeno delay para garantir
+            setTimeout(forceNavbarBackground, 100);
+            
+            // Interceptar o evento de scroll para manter a classe SEMPRE
+            if (typeof jQuery !== 'undefined') {
+                $(window).on('scroll', function() {
+                    // Sempre forçar o fundo escuro em páginas internas, independente da posição do scroll
+                    forceNavbarBackground();
+                });
+            }
+            
+            // Também garantir após qualquer mudança de scroll
+            window.addEventListener('scroll', forceNavbarBackground, { passive: true });
+        })();
     </script>
+
+    <!-- Fix footer nav vertical -->
+    <script>
+        (function() {
+            function fixFooterNav() {
+                const nav = document.querySelector('.footer-nav-vertical');
+                if (nav) {
+                    nav.style.display = 'flex';
+                    nav.style.flexDirection = 'column';
+                    Array.from(nav.children).forEach(link => {
+                        link.style.display = 'block';
+                    });
+                }
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', fixFooterNav);
+            } else {
+                fixFooterNav();
+            }
+            setTimeout(fixFooterNav, 100);
+        })();
+    </script>
+    
+    <!-- Fix footer social icons centering -->
+    <style>
+        .footer-social-col {
+            text-align: center !important;
+        }
+        .footer-social-col .footer-title {
+            text-align: center !important;
+        }
+    </style>
+    
+    <!-- Fix para remover barra branca entre conteúdo e footer -->
+    <style>
+    .page-section {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }
+    .site-footer {
+        margin-top: 0 !important;
+    }
+    </style>
 </body>
 
 </html>

@@ -7,7 +7,20 @@ This directory contains build scripts for optimizing CSS, JavaScript, and images
 ### For CSS/JS Minification
 - Node.js and npm (scripts use npx, no installation needed)
 
-### For Image Compression
+### For Image Optimization
+**Required:**
+- ImageMagick (for responsive sizes and AVIF conversion)
+  ```bash
+  brew install imagemagick
+  ```
+
+**Optional (for better AVIF conversion):**
+- libavif (faster AVIF encoding)
+  ```bash
+  brew install libavif
+  ```
+
+**For Image Compression:**
 Choose one option:
 - **Option 1 (Recommended)**: Native tools (faster, better compression)
   ```bash
@@ -15,6 +28,11 @@ Choose one option:
   ```
 - **Option 2**: Node.js tools (slower, but works without additional installs)
   - Uses imagemin via npx (no installation needed)
+
+**For WebP Conversion:**
+```bash
+brew install webp
+```
 
 ## Usage
 
@@ -40,6 +58,38 @@ cd "Site Mimo/public_html"
 This will create minified versions in the `minified/` directory:
 - `minified/main.min.js`
 - `minified/form-main.min.js` (if exists)
+
+### Optimize Images (Complete Pipeline)
+
+**All-in-one optimization (recommended):**
+```bash
+cd "Site Mimo/public_html"
+./build/optimize-all-images.sh img/
+```
+
+This will:
+1. Generate responsive sizes (1x, 2x, 3x)
+2. Convert to WebP
+3. Convert to AVIF
+4. Compress original images
+
+**Individual steps:**
+
+**Generate Responsive Sizes:**
+```bash
+./build/generate-responsive-images.sh img/
+```
+Creates: `filename.ext` (1x), `filename-2x.ext` (2x), `filename-3x.ext` (3x)
+
+**Convert to WebP:**
+```bash
+./build/convert-webp.sh 85 img/
+```
+
+**Convert to AVIF:**
+```bash
+./build/convert-avif.sh 80 img/
+```
 
 ### Compress Images
 

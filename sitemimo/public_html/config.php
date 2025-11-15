@@ -72,14 +72,18 @@ define('GOOGLE_PLACES_API_KEY', getenv('GOOGLE_PLACES_API_KEY') ?: 'AIzaSyBHKeuR
 define('GOOGLE_PLACE_ID', getenv('GOOGLE_PLACE_ID') ?: 'ChIJkVYWuB1XzpQRjbjBjyb4H6M');
 
 // Application Version (Semantic Versioning: MAJOR.MINOR.PATCH)
-define('APP_VERSION', '2.2.8');
+// MAJOR: Breaking changes
+// MINOR: New features, backwards compatible
+// PATCH: Bug fixes, backwards compatible
+define('APP_VERSION', '2.3.1');
 define('APP_VERSION_MAJOR', 2);
-define('APP_VERSION_MINOR', 2);
-define('APP_VERSION_PATCH', 8);
+define('APP_VERSION_MINOR', 3);
+define('APP_VERSION_PATCH', 1);
 
 // Asset version for cache busting (update this when deploying changes)
 // Format: YYYYMMDD (date-based for easy tracking)
-define('ASSET_VERSION', '20251114');
+// IMPORTANTE: Atualizar sempre que houver mudanças em CSS/JS para forçar reload do cache
+define('ASSET_VERSION', '20250115');
 
 // Use minified assets in production
 // IMPORTANTE: Ative apenas DEPOIS de rodar os scripts de build:

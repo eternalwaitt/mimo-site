@@ -8,34 +8,99 @@
  */
 
 /**
- * Generate picture element with WebP and fallback
+ * Check if a file exists (tries multiple path resolutions)
+ * 
+ * @param string $filePath File path to check
+ * @param string $rootPath Root path for resolution
+ * @return bool True if file exists
+ */
+function image_file_exists($filePath, $rootPath = null) {
+    if ($rootPath === null) {
+        $rootPath = dirname(__DIR__);
+    }
+    
+    // Try 1: Check relative to calling script (for files in subdirectories like salao/)
+    if (file_exists($filePath)) {
+        return true;
+    }
+    // Try 2: Check relative to public_html root
+    if (file_exists($rootPath . '/' . $filePath)) {
+        return true;
+    }
+    // Try 3: If src starts with ../, resolve it
+    if (strpos($filePath, '../') === 0) {
+        $resolvedPath = realpath($rootPath . '/' . $filePath);
+        if ($resolvedPath && file_exists($resolvedPath)) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+/**
+ * Generate picture element with AVIF, WebP and fallback, with responsive srcset
  * 
  * @param string $src Original image path (jpg/png)
  * @param string $alt Alt text
  * @param string $class CSS classes
  * @param array $attributes Additional HTML attributes
  * @param bool $lazy Use lazy loading (default: true)
+ * @param bool $generateSrcset Generate srcset with 1x, 2x, 3x sizes (default: true)
+ * @param string $sizes Sizes attribute for responsive images (default: '100vw')
  * @return string HTML picture element
  */
-function picture_webp($src, $alt = '', $class = '', $attributes = [], $lazy = true) {
-    $webpSrc = preg_replace('/\.(jpg|jpeg|png)$/i', '.webp', $src);
-    // Check if WebP exists - try multiple path resolutions
+function picture_webp($src, $alt = '', $class = '', $attributes = [], $lazy = true, $generateSrcset = true, $sizes = '100vw') {
     $rootPath = dirname(__DIR__);
-    $webpExists = false;
     
-    // Try 1: Check relative to calling script (for files in subdirectories like salao/)
-    if (file_exists($webpSrc)) {
-        $webpExists = true;
-    }
-    // Try 2: Check relative to public_html root
-    elseif (file_exists($rootPath . '/' . $webpSrc)) {
-        $webpExists = true;
-    }
-    // Try 3: If src starts with ../, resolve it
-    elseif (strpos($src, '../') === 0) {
-        $resolvedPath = realpath($rootPath . '/' . $webpSrc);
-        if ($resolvedPath && file_exists($resolvedPath)) {
-            $webpExists = true;
+    // Generate alternative formats
+    $webpSrc = preg_replace('/\.(jpg|jpeg|png)$/i', '.webp', $src);
+    $avifSrc = preg_replace('/\.(jpg|jpeg|png)$/i', '.avif', $src);
+    
+    // Check which formats exist
+    $webpExists = image_file_exists($webpSrc, $rootPath);
+    $avifExists = image_file_exists($avifSrc, $rootPath);
+    
+    // Generate srcset if requested
+    $srcsetAvif = [];
+    $srcsetWebp = [];
+    $srcsetOriginal = [];
+    
+    if ($generateSrcset) {
+        // Try to find multiple sizes (1x, 2x, 3x)
+        // Pattern: filename-1x.ext, filename-2x.ext, filename-3x.ext
+        $basePath = preg_replace('/\.(jpg|jpeg|png)$/i', '', $src);
+        $ext = preg_replace('/^.*\.(jpg|jpeg|png)$/i', '$1', $src);
+            
+        for ($multiplier = 1; $multiplier <= 3; $multiplier++) {
+            $sizePath = $basePath . ($multiplier > 1 ? '-' . $multiplier . 'x' : '') . '.' . $ext;
+            $sizeWebp = preg_replace('/\.(jpg|jpeg|png)$/i', '.webp', $sizePath);
+            $sizeAvif = preg_replace('/\.(jpg|jpeg|png)$/i', '.avif', $sizePath);
+            
+            // Check if this size exists
+            if (image_file_exists($sizePath, $rootPath)) {
+                $descriptor = $multiplier . 'x';
+                $srcsetOriginal[] = $sizePath . ' ' . $descriptor;
+                
+                if (image_file_exists($sizeWebp, $rootPath)) {
+                    $srcsetWebp[] = $sizeWebp . ' ' . $descriptor;
+                }
+                
+                if (image_file_exists($sizeAvif, $rootPath)) {
+                    $srcsetAvif[] = $sizeAvif . ' ' . $descriptor;
+                }
+            }
+        }
+        
+        // If no multiple sizes found, use original with 1x descriptor
+        if (empty($srcsetOriginal)) {
+            $srcsetOriginal[] = $src . ' 1x';
+            if ($webpExists) {
+                $srcsetWebp[] = $webpSrc . ' 1x';
+            }
+            if ($avifExists) {
+                $srcsetAvif[] = $avifSrc . ' 1x';
+            }
         }
     }
     
@@ -50,11 +115,31 @@ function picture_webp($src, $alt = '', $class = '', $attributes = [], $lazy = tr
     
     $html = '<picture>';
     
-    if ($webpExists) {
+    // AVIF sources (best compression, highest priority)
+    if (!empty($srcsetAvif)) {
+        $html .= '<source srcset="' . htmlspecialchars(implode(', ', $srcsetAvif)) . '" type="image/avif"' . ($sizes ? ' sizes="' . htmlspecialchars($sizes) . '"' : '') . '>';
+    } elseif ($avifExists) {
+        $html .= '<source srcset="' . htmlspecialchars($avifSrc) . '" type="image/avif">';
+    }
+    
+    // WebP sources (fallback for AVIF)
+    if (!empty($srcsetWebp)) {
+        $html .= '<source srcset="' . htmlspecialchars(implode(', ', $srcsetWebp)) . '" type="image/webp"' . ($sizes ? ' sizes="' . htmlspecialchars($sizes) . '"' : '') . '>';
+    } elseif ($webpExists) {
         $html .= '<source srcset="' . htmlspecialchars($webpSrc) . '" type="image/webp">';
     }
     
-    $html .= '<img src="' . htmlspecialchars($src) . '"' . $imgClass . $imgAlt . $imgLoading . $additionalAttrs . '>';
+    // Original format fallback
+    $imgSrc = $src;
+    $imgSrcset = '';
+    if (!empty($srcsetOriginal)) {
+        $imgSrcset = ' srcset="' . htmlspecialchars(implode(', ', $srcsetOriginal)) . '"';
+        if ($sizes) {
+            $imgSrcset .= ' sizes="' . htmlspecialchars($sizes) . '"';
+        }
+    }
+    
+    $html .= '<img src="' . htmlspecialchars($imgSrc) . '"' . $imgSrcset . $imgClass . $imgAlt . $imgLoading . $additionalAttrs . '>';
     $html .= '</picture>';
     
     return $html;

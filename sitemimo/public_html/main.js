@@ -15,12 +15,25 @@
 
 // Mudança de cor da navbar ao rolar
     function navbar(){
-        if ($(window).scrollTop() >= 20) {
+        // Verificar se a página tem .page-hero (páginas internas)
+        const hasPageHero = $('.page-hero').length > 0;
+        
+        // Em páginas internas, SEMPRE manter o fundo escuro (nunca remover)
+        if (hasPageHero) {
             $('.navbar').addClass('compressed');
             $('.navbar-nav').addClass('changecolormenu');
             $('.navbar-brand').addClass('changecolorlogo');
-
+            return; // Sair da função para não executar a lógica da homepage
+        }
+        
+        // Lógica apenas para homepage (sem .page-hero)
+        if ($(window).scrollTop() >= 20) {
+            // Na homepage, só aplicar quando scrollar
+            $('.navbar').addClass('compressed');
+            $('.navbar-nav').addClass('changecolormenu');
+            $('.navbar-brand').addClass('changecolorlogo');
         } else {
+            // Na homepage no topo, remover classes
             $('.navbar').removeClass('compressed');
             $('.navbar-nav').removeClass('changecolormenu');
             $('.navbar-brand').removeClass('changecolorlogo');
@@ -35,19 +48,40 @@
     });
 
 
-    // Swipe functions for Bootstrap Carousel
+    /**
+     * Swipe functions for Bootstrap Carousel
+     * 
+     * Permite swipe em dispositivos touch para navegar o carousel
+     * Plugin bcSwipe carregado de arquivo separado (js/bc-swipe.js)
+     * 
+     * USO: Aplicado automaticamente a todos os elementos com classe .carousel
+     * THRESHOLD: 50px - distância mínima de swipe para ativar
+     * 
+     * NOTA: O plugin bcSwipe é carregado via script tag antes deste arquivo
+     */
 
-    !function(t){t.fn.bcSwipe=function(e){var n={threshold:50};return e&&t.extend(n,e),this.each(function(){function e(t){1==t.touches.length&&(u=t.touches[0].pageX,c=!0,this.addEventListener("touchmove",o,!1))}function o(e){if(c){var o=e.touches[0].pageX,i=u-o;Math.abs(i)>=n.threshold&&(h(),t(this).carousel(i>0?"next":"prev"))}}function h(){this.removeEventListener("touchmove",o),u=null,c=!1}var u,c=!1;"ontouchstart"in document.documentElement&&this.addEventListener("touchstart",e,!1)}),this}}(jQuery);
-
+    // Aplicar swipe a todos os carousels
     $('.carousel').bcSwipe({ threshold: 50 });
 
 
+    /**
+     * Fechar menu mobile ao clicar em link
+     * 
+     * Quando um link do menu mobile é clicado, fecha automaticamente o menu
+     * Melhora UX em dispositivos móveis
+     */
     $('.navbar-collapse a').click(function (e) {
         $('.navbar-collapse').collapse('toggle');
     });
 
 
-    // Fix navbar toggle color on mobile
+    /**
+     * Fix navbar toggle color on mobile
+     * 
+     * Ajusta classes do navbar baseado no tamanho da tela
+     * Em mobile: adiciona classes para menu escuro
+     * Em desktop: remove classes de mobile
+     */
 
     $( document ).ready(function() {
         var isMobile = window.matchMedia("only screen and (max-width: 760px)");
@@ -64,21 +98,40 @@
             $('.navbar').removeClass('navbar-dark');
         }
 
+        /**
+         * Scroll suave para âncoras
+         * 
+         * @param {string} target - Seletor do elemento alvo (ex: '#about')
+         */
         function scrollTo(target){
             var position = $(target).position();
 
+            // Em mobile, fechar menu antes de scrollar
             if (isMobile.matches) {
                 $('#navbar2').removeClass('show');
             }
+            // Scroll com offset de 100px para compensar navbar fixa
             $(window).scrollTop(position.top - 100);
         }
 
+        /**
+         * Handler para links com classe .scroll
+         * 
+         * Links com classe .scroll fazem scroll suave para âncoras
+         * Exemplo: <a href="#about" class="scroll">Sobre</a>
+         */
         $('a.scroll').on('click', function (e) {
             e.preventDefault();
             var target = $(this).attr('href');
             scrollTo(target);
         });
 
+        /**
+         * Scroll automático para hash na URL
+         * 
+         * Se a URL contém hash (ex: /#about), faz scroll automático
+         * Aguarda window.onload para garantir que o DOM está pronto
+         */
         if (window.location.hash) {
             var scrollToTop = function () {
                 $(window).scrollTop(0);
@@ -89,7 +142,14 @@
                 scrollTo(window.location.hash);
             };
         }
-        // Contador de caracteres para mensagem
+        
+        /**
+         * Contador de caracteres para campo de mensagem
+         * 
+         * Atualiza contador em tempo real enquanto usuário digita
+         * Muda cor para vermelho se abaixo do mínimo (10) ou acima do máximo (2000)
+         * Usado em: contato.php, index.php (formulário de contato)
+         */
         var $messageField = $("textarea[name=message]");
         var $messageCounter = $("#message-counter");
         
@@ -115,7 +175,21 @@
             updateCounter();
         }
         
-        // Validação e envio AJAX para formulário de contato
+        /**
+         * Validação e envio AJAX para formulário de contato
+         * 
+         * Intercepta submit do formulário, valida campos client-side,
+         * envia via AJAX e atualiza UI sem recarregar página
+         * 
+         * VALIDAÇÕES:
+         * - Nome: 2-100 caracteres
+         * - Email: formato válido (regex)
+         * - Assunto: deve ser selecionado
+         * - Mensagem: 10-2000 caracteres
+         * 
+         * USO: Aplicado a todos os forms com method="post"
+         * Páginas: contato.php, index.php (seção de contato)
+         */
         $('form[method="post"]').on('submit', function(e) {
             e.preventDefault(); // Sempre prevenir submit padrão
             

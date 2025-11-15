@@ -4,7 +4,28 @@
  * Funções auxiliares para otimização de SEO
  * 
  * Desenvolvido por: Victor Penter
- * Versão: <?php echo APP_VERSION ?? '2.0.0'; ?>
+ * Versão: 1.1.0
+ * 
+ * FUNCIONALIDADES:
+ * - Geração de meta tags Open Graph (Facebook, LinkedIn)
+ * - Geração de meta tags Twitter Cards
+ * - Geração de Schema.org JSON-LD (LocalBusiness, Service, Review, BreadcrumbList)
+ * - Otimização para SEO e redes sociais
+ * 
+ * ONDE É USADO:
+ * - index.php (homepage)
+ * - contato.php (página de contato)
+ * - vagas.php (página de vagas)
+ * - 404.php (página de erro)
+ * - inc/service-template.php (páginas de serviços)
+ * - Incluído via: require_once 'inc/seo-helper.php';
+ * 
+ * EXEMPLO DE USO:
+ * <?php
+ * require_once 'inc/seo-helper.php';
+ * echo generate_open_graph_tags('Título', 'Descrição', '/img/image.jpg');
+ * echo generate_local_business_schema();
+ * ?>
  */
 
 /**

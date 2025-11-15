@@ -26,8 +26,10 @@ O PHP já está configurado para ler o arquivo `cache/google_reviews_scraped.jso
 
 - ✅ Acesso a mais reviews (não limitado a 5)
 - ✅ Reviews reais e variados
-- ✅ Prioriza reviews com foto de perfil
-- ✅ Prioriza 5 estrelas e textos mais longos
+- ✅ Prioriza reviews com foto REAL de perfil (não placeholders)
+- ✅ Prioriza 5 estrelas e textos de tamanho médio (100-500 chars)
+- ✅ Randomização: mostra reviews diferentes a cada carregamento (sempre entre os melhores)
+- ✅ Filtragem inteligente: remove COVID, autores excluídos, notas baixas
 - ✅ Cache local reduz chamadas à API
 - ✅ Controle manual (roda quando você quiser)
 
@@ -39,10 +41,18 @@ O PHP já está configurado para ler o arquivo `cache/google_reviews_scraped.jso
 
 ### Recomendações
 
-- Rode manualmente quando quiser atualizar os reviews
-- Use modo headless (`--headless`)
+- Rode manualmente quando quiser atualizar os reviews (1x por semana recomendado)
+- Use modo headless (`--headless`) para rodar em background
 - Configure delays razoáveis no scraper
 - Monitore se está funcionando
 - Tenha fallback para API oficial (já implementado)
-- O script filtra automaticamente: apenas 4 e 5 estrelas, textos > 20 chars
+- O script filtra automaticamente: apenas 4 e 5 estrelas, textos > 10 chars
+- Use `scripts/limpar-reviews.php` para limpar reviews indesejados da base
+
+### Documentação
+
+- `COMO-USAR-SCRAPER.md` - Guia completo de uso do scraper
+- `TROUBLESHOOTING-SCRAPER.md` - Solução de problemas
+- `COMO-LIMPAR-REVIEWS.md` - Como limpar reviews da base
+- `FREQUENCIA-ATUALIZACAO.md` - Frequência recomendada de atualização
 

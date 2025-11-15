@@ -4,8 +4,8 @@
 
 Esta é a documentação principal para desenvolvimento do site MIMO Estética. Otimizada para uso por IAs e desenvolvedores humanos.
 
-**Última Atualização**: 2025-11-14  
-**Versão Atual**: 2.2.8  
+**Última Atualização**: 2025-01-14  
+**Versão Atual**: 2.2.9  
 **Desenvolvedor**: Victor Penter
 
 ---

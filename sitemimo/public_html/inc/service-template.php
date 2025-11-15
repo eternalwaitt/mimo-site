@@ -312,7 +312,7 @@ if (!isset($includeGTM)) {
                 </div>
                 
                 <!-- Redes Sociais -->
-                <div class="col-12 col-md-4">
+                <div class="col-12 col-md-4 footer-social-col">
                     <h5 class="footer-title">Redes Sociais</h5>
                     <div class="footer-social">
                         <a href="https://www.instagram.com/minhamimo/" target="_blank" class="footer-social-link" aria-label="Instagram">
@@ -377,10 +377,87 @@ if (!isset($includeGTM)) {
     <script src="../bootstrap/popper.js/dist/popper.min.js"></script>
     <script src="../bootstrap/bootstrap/dist/js/bootstrap.min.js"></script>
     <?php echo js_tag('form/main.js'); ?>
+    <?php echo js_tag('js/bc-swipe.js'); ?>
     <?php echo js_tag('main.js'); ?>
     <script src="//code.tidio.co/ylbfxpiqcmi2on8duid7rpjgqydlrqne.js"></script>
     
     <!-- Botão Voltar ao Topo -->
     <?php include '../inc/back-to-top.php'; ?>
+
+    <script>
+        // Forçar navbar com fundo desde o início em páginas internas
+        (function() {
+            const pageHero = document.querySelector('.page-hero');
+            if (!pageHero) return;
+            
+            function forceNavbarBackground() {
+                const navbar = document.querySelector('.navbar');
+                const navbarNav = document.querySelector('.navbar-nav');
+                const navbarBrand = document.querySelector('.navbar-brand');
+                
+                if (navbar) {
+                    navbar.classList.add('compressed');
+                    if (navbarNav) navbarNav.classList.add('changecolormenu');
+                    if (navbarBrand) navbarBrand.classList.add('changecolorlogo');
+                }
+            }
+            
+            // Executar imediatamente
+            forceNavbarBackground();
+            
+            // Executar quando DOM estiver pronto
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', forceNavbarBackground);
+            } else {
+                forceNavbarBackground();
+            }
+            
+            // Executar após um pequeno delay para garantir
+            setTimeout(forceNavbarBackground, 100);
+            
+            // Interceptar o evento de scroll para manter a classe SEMPRE
+            if (typeof jQuery !== 'undefined') {
+                $(window).on('scroll', function() {
+                    // Sempre forçar o fundo escuro em páginas internas, independente da posição do scroll
+                    forceNavbarBackground();
+                });
+            }
+            
+            // Também garantir após qualquer mudança de scroll
+            window.addEventListener('scroll', forceNavbarBackground, { passive: true });
+        })();
+    </script>
+
+    <!-- Fix footer nav vertical -->
+    <script>
+        (function() {
+            function fixFooterNav() {
+                const nav = document.querySelector('.footer-nav-vertical');
+                if (nav) {
+                    nav.style.display = 'flex';
+                    nav.style.flexDirection = 'column';
+                    Array.from(nav.children).forEach(link => {
+                        link.style.display = 'block';
+                    });
+                }
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', fixFooterNav);
+            } else {
+                fixFooterNav();
+            }
+            setTimeout(fixFooterNav, 100);
+        })();
+    </script>
+    
+    <!-- Fix footer social icons centering -->
+    <style>
+        .footer-social-col {
+            text-align: center !important;
+        }
+        .footer-social-col .footer-title {
+            text-align: center !important;
+        }
+    </style>
 </body>
 </html>

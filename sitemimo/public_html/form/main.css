@@ -1,4 +1,30 @@
+/**
+ * CSS do Formulário de Contato
+ * Estilos específicos para o formulário de contato
+ * 
+ * Desenvolvido por: Victor Penter
+ * Versão: 2.2.9
+ * 
+ * ONDE É USADO:
+ * - contato.php (página dedicada de contato)
+ * - index.php (seção de contato na homepage - removida na v2.2.8)
+ * 
+ * ESTRUTURA:
+ * 1. Reset de inputs/textarea/buttons (linhas 1-50)
+ * 2. Container e layout (linhas 50-100)
+ * 3. Inputs e campos (linhas 100-200)
+ * 4. Select dropdown (linhas 117-160)
+ * 5. Labels (linhas 189-204)
+ * 6. Botão de submit (linhas 200-280)
+ * 7. Validação e alerts (linhas 280-350)
+ * 
+ * CARREGAMENTO:
+ * - Carregado via <link> direto (não usa asset-helper)
+ * - Cache busting via ASSET_VERSION em query string
+ */
+
 /*---------------------------------------------*/
+/* RESET: Remove estilos padrão de inputs */
 input {
 	outline: none;
 	border: none;
@@ -24,15 +50,15 @@ textarea:focus, input:focus {
   border-color: transparent !important;
 }
 
-input::-webkit-input-placeholder { color: #bdbdd3;}
-input:-moz-placeholder { color: #bdbdd3;}
-input::-moz-placeholder { color: #bdbdd3;}
-input:-ms-input-placeholder { color: #bdbdd3;}
+input::-webkit-input-placeholder { color: #999;}
+input:-moz-placeholder { color: #999;}
+input::-moz-placeholder { color: #999;}
+input:-ms-input-placeholder { color: #999;}
 
-textarea::-webkit-input-placeholder { color: #bdbdd3;}
-textarea:-moz-placeholder { color: #bdbdd3;}
-textarea::-moz-placeholder { color: #bdbdd3;}
-textarea:-ms-input-placeholder { color: #bdbdd3;}
+textarea::-webkit-input-placeholder { color: #999;}
+textarea:-moz-placeholder { color: #999;}
+textarea::-moz-placeholder { color: #999;}
+textarea:-ms-input-placeholder { color: #999;}
 
 /*---------------------------------------------*/
 button {
@@ -93,10 +119,15 @@ iframe {
 
 .wrap-input100 {
   width: 100%;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.wrap-input100 .input100 {
   background-color: #fff;
   border-radius: 31px;
-  border: 1px solid white;
-  margin-bottom: 16px;
+  border: 1px solid rgba(204, 183, 188, 0.3);
+  box-shadow: 0 2px 8px rgba(58, 80, 90, 0.08);
   position: relative;
   z-index: 1;
 }
@@ -105,11 +136,55 @@ iframe {
   position: relative;
   display: block;
   width: 100%;
-  background-color: #3a505a;
-  border-radius: 31px;
   font-size: 15px;
-  color: white;
+  color: #2a3a42;
   line-height: 1.2;
+  border: none;
+}
+
+/* Estilização específica para select */
+select.input100 {
+  background-color: #ffffff;
+  color: #2a3a42;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%232a3a42' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 20px center;
+  padding-right: 45px;
+  padding-left: 25px;
+  text-align: center;
+  cursor: pointer;
+}
+
+select.input100 option:first-child {
+  text-align: center;
+  color: #999;
+}
+
+select.input100:invalid,
+select.input100 option[value=""][disabled]:checked {
+  color: #999;
+  text-align: center;
+}
+
+select.input100:valid {
+  color: #2a3a42;
+  text-align: left;
+  padding-left: 25px;
+}
+
+select.input100 option {
+  background-color: #ffffff;
+  color: #2a3a42;
+  padding: 10px;
+}
+
+select.input100:focus {
+  outline: none;
+  border-color: rgba(204, 183, 188, 0.6);
+  box-shadow: 0 0 0 3px rgba(204, 183, 188, 0.1);
 }
 
 
@@ -132,13 +207,24 @@ textarea.input100 {
   bottom: 10px;
   right: 20px;
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(42, 58, 66, 0.5);
   pointer-events: none;
   z-index: 10;
 }
 
 .wrap-input100:has(textarea) {
   position: relative;
+}
+
+/* Labels do formulário */
+.form-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2a3a42;
+  margin-bottom: 8px;
+  margin-left: 0;
+  width: 100%;
 }
 
 
@@ -166,12 +252,15 @@ textarea.input100 {
   padding: 0 20px;
   min-width: 150px;
   height: 62px;
-  background-color: transparent;
+  background-color: #2a3a42;
   border-radius: 31px;
   font-size: 16px;
-  color: black;
+  color: #ffffff !important;
   line-height: 1.2;
   text-transform: uppercase;
+  border: 2px solid #2a3a42;
+  font-weight: 600;
+  letter-spacing: 1px;
 
   -webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
@@ -196,7 +285,7 @@ textarea.input100 {
   -o-transform: translateX(-50%);
   transform: translateX(-50%);
   border-radius: 31px;
-  background-color: white;
+  background-color: #2a3a42;
   pointer-events: none;
   
   -webkit-transition: all 0.4s;
@@ -205,8 +294,13 @@ textarea.input100 {
   transition: all 0.4s;
 }
 
+.contact100-form-btn:hover {
+  background-color: #1a252a;
+  border-color: #1a252a;
+}
+
 .contact100-form-btn:hover:before {
-  background-color: #dedede;
+  background-color: #1a252a;
   width: calc(100% + 20px);
 }
 
@@ -230,7 +324,7 @@ textarea.input100 {
   left: 50%;
   margin-left: -10px;
   margin-top: -10px;
-  border: 3px solid #3a505a;
+  border: 3px solid #2a3a42;
   border-top-color: transparent;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
@@ -255,7 +349,7 @@ textarea.input100 {
   z-index: 1000;
   max-width: 70%;
   background-color: #fff;
-  border: 1px solid #EEA7B8;
+  border: 1px solid rgba(204, 183, 188, 0.5);
   border-radius: 14px;
   padding: 4px 25px 4px 10px;
   top: 50%;
@@ -266,10 +360,11 @@ textarea.input100 {
   transform: translateY(-50%);
   right: 10px;
   pointer-events: none;
-  color: #EEA7B8;
+  color: #2a3a42;
   font-size: 13px;
   line-height: 1.4;
   text-align: left;
+  box-shadow: 0 2px 8px rgba(58, 80, 90, 0.15);
 
   visibility: hidden;
   opacity: 0;
@@ -285,7 +380,7 @@ textarea.input100 {
   display: block;
   position: absolute;
   z-index: 1100;
-  color: #EEA7B8;
+  color: #2a3a42;
   font-size: 22px;
   top: 50%;
   -webkit-transform: translateY(-50%);

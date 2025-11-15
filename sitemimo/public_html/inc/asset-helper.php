@@ -4,7 +4,30 @@
  * Funções auxiliares para carregar assets (CSS/JS) com suporte a minificação
  * 
  * Desenvolvido por: Victor Penter
- * Versão: 1.0.0
+ * Versão: 1.1.0
+ * 
+ * FUNCIONALIDADES:
+ * - Carregamento automático de versões minificadas em produção
+ * - Detecção automática de subdiretórios (páginas de serviço)
+ * - Cache busting via ASSET_VERSION
+ * - Suporte a atributos customizados nas tags HTML
+ * 
+ * ONDE É USADO:
+ * - Todas as páginas PHP (index.php, contato.php, vagas.php, 404.php)
+ * - Páginas de serviço via service-template.php
+ * - Incluído via: require_once 'inc/asset-helper.php';
+ * 
+ * EXEMPLO DE USO:
+ * <?php
+ * require_once 'inc/asset-helper.php';
+ * echo css_tag('product.css'); // Gera: <link rel="stylesheet" href="product.css?v=20250114">
+ * echo js_tag('main.js', ['defer' => true]); // Gera: <script src="main.js?v=20250114" defer></script>
+ * ?>
+ * 
+ * CONFIGURAÇÃO:
+ * - USE_MINIFIED: define('USE_MINIFIED', true) em config.php
+ * - ASSET_VERSION: define('ASSET_VERSION', '20250114') em config.php
+ * - Arquivos minificados devem estar em: minified/
  */
 
 /**

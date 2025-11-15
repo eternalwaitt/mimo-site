@@ -1,0 +1,45 @@
+/**
+ * CSS Variables - Design Tokens
+ * 
+ * Cores, espaçamentos e outras variáveis reutilizáveis
+ * 
+ * ONDE É USADO: Importado por product.css
+ */
+
+:root {
+	/* Cores Principais */
+	--color-pink: #ccb7bc;
+	--color-dark-grey: #3a505a;
+	--color-grey: #454545;
+	--color-light-grey: #ededed;
+	--color-text-dark: #1a252a;
+	--color-text-medium: #2a3a42;
+	--color-white: #fff;
+	
+	/* Cores de Botões */
+	--color-button-primary: #eea7b8;
+	--color-button-hover: #cc8495;
+	
+	/* Espaçamentos */
+	--spacing-xs: 5px;
+	--spacing-sm: 10px;
+	--spacing-md: 20px;
+	--spacing-lg: 30px;
+	--spacing-xl: 40px;
+	
+	/* Tipografia */
+	--font-family-base: 'Nunito', sans-serif;
+	--font-family-serif: 'EB Garamond', serif;
+	--font-family-akrobat: 'Akrobat Regular', sans-serif;
+	
+	/* Transições */
+	--transition-fast: 0.2s ease;
+	--transition-base: 0.3s ease;
+	--transition-slow: 0.8s ease;
+	
+	/* Z-index Layers */
+	--z-index-navbar: 9999;
+	--z-index-modal-backdrop: 100000;
+	--z-index-modal: 100001;
+}
+
