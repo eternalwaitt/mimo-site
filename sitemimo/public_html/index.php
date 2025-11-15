@@ -1047,7 +1047,7 @@ if ($_POST) {
             <div class="row">
                 <!-- Links de Navegação -->
                 <div class="col-12 col-md-4 mb-4 mb-md-0">
-                    <h5 class="footer-title">Navegação</h5>
+                    <h2 class="footer-title">Navegação</h2>
                     <nav class="footer-nav-vertical" style="display: flex !important; flex-direction: column !important;">
                         <a href="/#about" class="footer-link" style="display: block !important;">Sobre</a>
                         <a href="/#services" class="footer-link" style="display: block !important;">Serviços</a>
@@ -1059,7 +1059,7 @@ if ($_POST) {
 
                 <!-- Informações de Contato -->
                 <div class="col-12 col-md-4 mb-4 mb-md-0">
-                    <h5 class="footer-title">Contato</h5>
+                    <h2 class="footer-title">Contato</h2>
                     <div class="footer-contact">
                         <p class="footer-contact-item">
                             <svg class="footer-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1085,7 +1085,7 @@ if ($_POST) {
 
                 <!-- Redes Sociais -->
                 <div class="col-12 col-md-4 footer-social-col">
-                    <h5 class="footer-title">Redes Sociais</h5>
+                    <h2 class="footer-title">Redes Sociais</h2>
                         <div class="footer-social">
                         <a href="https://www.instagram.com/minhamimo/" target="_blank" class="footer-social-link" aria-label="Instagram">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -1187,7 +1187,7 @@ if ($_POST) {
     <?php echo js_tag('main.js', ['defer' => true]); ?>
     <?php echo js_tag('js/dark-mode.js', ['defer' => false]); ?>
     <?php echo js_tag('js/animations.js', ['defer' => true]); ?>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.18/jquery.touchSwipe.min.js" defer></script>
+    <!-- jquery.touchswipe removido - bc-swipe.js já fornece funcionalidade de swipe -->
     <script>
         // Wait for DOM and jQuery to be ready (defer ensures scripts load after DOM)
         document.addEventListener('DOMContentLoaded', function() {

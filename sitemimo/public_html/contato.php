@@ -498,7 +498,7 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
             <div class="row">
                 <!-- Links de Navegação -->
                 <div class="col-12 col-md-4 mb-4 mb-md-0">
-                    <h5 class="footer-title">Navegação</h5>
+                    <h2 class="footer-title">Navegação</h2>
                     <nav class="footer-nav-vertical">
                         <a href="/#about" class="footer-link">Sobre</a>
                         <a href="/#services" class="footer-link">Serviços</a>
@@ -510,7 +510,7 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
                 
                 <!-- Informações de Contato -->
                 <div class="col-12 col-md-4 mb-4 mb-md-0">
-                    <h5 class="footer-title">Contato</h5>
+                    <h2 class="footer-title">Contato</h2>
                     <div class="footer-contact">
                         <p class="footer-contact-item">
                             <svg class="footer-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -536,7 +536,7 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
                 
                 <!-- Redes Sociais -->
                 <div class="col-12 col-md-4 footer-social-col">
-                    <h5 class="footer-title">Redes Sociais</h5>
+                    <h2 class="footer-title">Redes Sociais</h2>
                     <div class="footer-social">
                         <a href="https://www.instagram.com/minhamimo/" target="_blank" class="footer-social-link" aria-label="Instagram">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
