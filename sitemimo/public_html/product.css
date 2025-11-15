@@ -1022,6 +1022,25 @@ nav.footer-nav-vertical {
 
 }
 
+/* CRITICAL: CLS Fix - About section col-md-7 (causes 93% of layout shift) */
+#about .col-md-7 {
+	contain: layout style;
+	min-height: 400px; /* Reserve space for text content */
+	font-size: inherit;
+	line-height: inherit;
+}
+
+#about .col-md-7 h1,
+#about .col-md-7 p {
+	min-height: 1.2em; /* Reserve space to prevent shift when fonts load */
+	contain: layout;
+}
+
+#about .container.row.mx-auto {
+	min-height: 600px; /* Reserve space for content */
+	contain: layout;
+}
+
 /* Disable animations on mobile for better performance */
 @media (max-width: 768px) {
 	.sessoes.container:hover .content-details {
@@ -1044,10 +1063,106 @@ nav.footer-nav-vertical {
 		filter: none !important;
 	}
 	
-	/* Disable all transitions on mobile */
-	* {
+	/* Disable ALL transitions and animations globally on mobile */
+	*,
+	*::before,
+	*::after {
 		transition-duration: 0.01ms !important;
+		transition-delay: 0ms !important;
 		animation-duration: 0.01ms !important;
+		animation-delay: 0ms !important;
+		animation-iteration-count: 1 !important;
+		animation-fill-mode: none !important;
+	}
+	
+	/* Force all animated elements to be visible immediately */
+	.fade-in-up,
+	.fade-in-left,
+	.fade-in-right,
+	.scale-in,
+	.fade-in,
+	.stagger-item,
+	.fade-in-up.visible,
+	.fade-in-left.visible,
+	.fade-in-right.visible,
+	.scale-in.visible,
+	.fade-in.visible,
+	.stagger-item.visible {
+		opacity: 1 !important;
+		transform: none !important;
+		transition: none !important;
+		animation: none !important;
+		will-change: auto !important;
+		visibility: visible !important;
+	}
+	
+	/* Disable hover effects on mobile */
+	.card-hover:hover,
+	.btn-hover:hover,
+	.img-hover:hover,
+	.link-hover:hover,
+	.content:hover .content-image,
+	.sessoes.container:hover .content-details,
+	.sessoes.container:hover .content-overlay,
+	.content:hover,
+	.card:hover,
+	.btn:hover,
+	.nav-link:hover,
+	.footer-link:hover,
+	.footer-social-link:hover {
+		transform: none !important;
+		filter: none !important;
+		transition: none !important;
+	}
+	
+	/* Disable all transitions on specific elements */
+	.card-hover,
+	.btn-hover,
+	.img-hover,
+	.link-hover,
+	.content-image,
+	.content-details,
+	.content-overlay,
+	.sessoes.container,
+	.navbar,
+	.breadcrumb-item a,
+	.footer-link,
+	.footer-social-link {
+		transition: none !important;
+		will-change: auto !important;
+	}
+	
+	/* Disable smooth scroll on mobile */
+	html {
+		scroll-behavior: auto !important;
+	}
+	
+	/* CRITICAL: Carousel testimonials - manter funcionalidade mas sem animações suaves */
+	.testimonials-carousel.carousel-fade .carousel-item {
+		transition: opacity 0.01s linear !important; /* Transição instantânea ao invés de fade */
+	}
+	
+	.testimonials-carousel .carousel-item {
+		transition: transform 0.01s linear !important; /* Transição instantânea */
+		opacity: 1 !important;
+	}
+	
+	/* Garantir que indicadores e controles funcionem no mobile */
+	.testimonials-carousel .carousel-indicators li,
+	.testimonials-carousel .carousel-control-prev,
+	.testimonials-carousel .carousel-control-next {
+		pointer-events: auto !important;
+		cursor: pointer !important;
+		touch-action: manipulation !important;
+		-webkit-tap-highlight-color: rgba(58, 80, 90, 0.3) !important;
+		z-index: 15 !important;
+	}
+	
+	/* Garantir que botões sejam clicáveis */
+	.testimonials-carousel .carousel-control-prev,
+	.testimonials-carousel .carousel-control-next {
+		display: flex !important;
+		opacity: 1 !important;
 	}
 }
 

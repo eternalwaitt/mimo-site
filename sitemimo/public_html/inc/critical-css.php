@@ -432,6 +432,9 @@ section {
     /* Prevent font reflow */
     font-size: inherit;
     line-height: inherit;
+    /* Force layout stability */
+    position: relative;
+    overflow: hidden;
 }
 
 /* Prevent layout shift in about section text */
@@ -439,6 +442,15 @@ section {
 #about .col-md-7 p {
     /* Reserve space to prevent shift when fonts load */
     min-height: 1.2em;
+    contain: layout;
+    /* Prevent text reflow */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Additional CLS prevention for about section */
+#about .col-md-7 .lead {
+    min-height: 1.5em;
     contain: layout;
 }
 

@@ -399,6 +399,27 @@ html {
         visibility: visible !important;
     }
     
+    /* CRITICAL: Carousel testimonials - manter funcionalidade mas sem animações */
+    .testimonials-carousel.carousel-fade .carousel-item {
+        transition: opacity 0.01s linear !important;
+    }
+    
+    .testimonials-carousel .carousel-item {
+        transition: transform 0.01s linear !important;
+        opacity: 1 !important;
+    }
+    
+    /* Garantir que indicadores e controles funcionem */
+    .testimonials-carousel .carousel-indicators li,
+    .testimonials-carousel .carousel-control-prev,
+    .testimonials-carousel .carousel-control-next {
+        pointer-events: auto !important;
+        cursor: pointer !important;
+        touch-action: manipulation !important;
+        -webkit-tap-highlight-color: rgba(58, 80, 90, 0.3) !important;
+        z-index: 15 !important;
+    }
+    
     /* Make sure visible class doesn't trigger animations */
     .fade-in-up.visible,
     .fade-in-left.visible,

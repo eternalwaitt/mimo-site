@@ -188,11 +188,15 @@ if (!isset($includeGTM)) {
         display: inline-block !important;
     }
     </style>
-    <?php echo css_tag('servicos.css'); ?>
+    <!-- Servicos CSS - Defer para melhorar FCP -->
+    <script>loadCSS("<?php echo get_css_asset('servicos.css'); ?>");</script>
+    <noscript><?php echo css_tag('servicos.css'); ?></noscript>
     
-    <!-- Form -->
-    <link rel="stylesheet" type="text/css" href="../form/css/font-awesome.min.css">
-    <?php echo css_tag('form/main.css'); ?>
+    <!-- Form CSS - Defer (não crítico para FCP) -->
+    <script>loadCSS("../form/css/font-awesome.min.css");</script>
+    <noscript><link rel="stylesheet" type="text/css" href="../form/css/font-awesome.min.css"></noscript>
+    <script>loadCSS("<?php echo get_css_asset('form/main.css'); ?>");</script>
+    <noscript><?php echo css_tag('form/main.css'); ?></noscript>
     
     <!-- Favicons -->
     <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png?<?php echo defined('ASSET_VERSION') ? ASSET_VERSION : '20211226'; ?>">
@@ -393,14 +397,29 @@ if (!isset($includeGTM)) {
     ?>
     
     <!-- Bootstrap core JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="../bootstrap/jquery/dist/jquery.slim.min.js"><\/script>')</script>
-    <script src="../bootstrap/popper.js/dist/popper.min.js"></script>
-    <script src="../bootstrap/bootstrap/dist/js/bootstrap.min.js"></script>
-    <?php echo js_tag('form/main.js'); ?>
-    <?php echo js_tag('js/bc-swipe.js'); ?>
+    <!-- jQuery - Load async to avoid blocking critical path -->
+    <script>
+    (function() {
+        var script = document.createElement('script');
+        script.src = 'https://code.jquery.com/jquery-3.3.1.slim.min.js';
+        script.integrity = 'sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo';
+        script.crossOrigin = 'anonymous';
+        script.async = true;
+        script.defer = true;
+        script.onerror = function() {
+            // Fallback to local jQuery if CDN fails
+            var fallback = document.createElement('script');
+            fallback.src = '../bootstrap/jquery/dist/jquery.slim.min.js';
+            fallback.defer = true;
+            document.head.appendChild(fallback);
+        };
+        document.head.appendChild(script);
+    })();
+    </script>
+    <script src="../bootstrap/popper.js/dist/popper.min.js" defer></script>
+    <script src="../bootstrap/bootstrap/dist/js/bootstrap.min.js" defer></script>
+    <?php echo js_tag('form/main.js', ['defer' => true]); ?>
+    <?php echo js_tag('js/bc-swipe.js', ['defer' => true]); ?>
     <?php echo js_tag('main.js', ['defer' => true]); ?>
     <?php echo js_tag('js/dark-mode.js', ['defer' => false]); ?>
     <!-- Tidio chat removido - script retorna 404 -->

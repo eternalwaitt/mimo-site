@@ -1,22 +1,22 @@
 # Mimo Site - Codebase Documentation
 
-**Versão Atual**: 2.6.3  
-**Última Atualização**: 2025-01-30  
-**Asset Version**: 20250130-6
+**Versão Atual**: 2.6.4  
+**Última Atualização**: 2025-11-15  
+**Asset Version**: 20251115-1
 
 ## Overview
 
 Mimo Site is a PHP-based website for a beauty and aesthetics center. The site features a homepage with contact form, service pages for different treatment categories, and a responsive design using Bootstrap 4.
 
-### Latest Updates (v2.6.3)
+### Latest Updates (v2.6.4)
 
-- ✅ **Performance Optimizations**: CLS fixes, LCP improvements, animation optimizations
-- ✅ **Accessibility**: ARIA attributes fixed, color contrast improvements (WCAG AA)
-- ✅ **Critical Path**: jQuery async loading, removed render-blocking resources
-- ✅ **Font Loading**: Font Awesome font-display optimization
-- 📊 **Expected Results**: Mobile Performance 50→60+, Accessibility 91→95+
+- ✅ **PageSpeed Insights API**: Testes automatizados em todas as 9 páginas (mobile + desktop)
+- ✅ **CLS Fixes**: Imagens com width/height explícitos, aspect-ratio em background images
+- ✅ **Render Blocking**: jQuery async, CSS defer em todas as páginas
+- ✅ **Otimizações Automáticas**: JS/CSS minificado, CSS purgado (~22 KiB economizados)
+- 📊 **Expected Results**: Mobile Performance 51-67→70-80, CLS 0.4-0.9→<0.1, FCP 4.05s→<2.0s
 
-See [CHANGELOG.md](CHANGELOG.md) and [FIXES-v2.6.3-FINAL.md](FIXES-v2.6.3-FINAL.md) for detailed information.
+See [CHANGELOG.md](CHANGELOG.md) and [CORRECTIONS-APPLIED-v2.6.4.md](CORRECTIONS-APPLIED-v2.6.4.md) for detailed information.
 
 ## Architecture
 

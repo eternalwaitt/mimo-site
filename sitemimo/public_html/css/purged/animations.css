@@ -13,46 +13,88 @@
 /* Fade in from bottom */
 .fade-in-up {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(30px) translateZ(0); /* Force GPU acceleration */
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
     will-change: opacity, transform; /* Otimizar para composição GPU */
 }
 
 .fade-in-up.visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) translateZ(0);
     will-change: auto; /* Remover will-change após animação */
+}
+
+/* Mobile: Force visible immediately (no animation) */
+@media (max-width: 768px) {
+    .fade-in-up {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+        will-change: auto !important;
+    }
 }
 
 /* Fade in from left */
 .fade-in-left {
     opacity: 0;
-    transform: translateX(-30px);
+    transform: translateX(-30px) translateZ(0); /* Force GPU acceleration */
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
     will-change: opacity, transform;
 }
 
+/* Mobile: Force visible immediately (no animation) */
+@media (max-width: 768px) {
+    .fade-in-left {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+        will-change: auto !important;
+    }
+}
+
 .fade-in-left.visible {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateX(0) translateZ(0);
     will-change: auto;
 }
 
 /* Fade in from right */
 .fade-in-right {
     opacity: 0;
-    transform: translateX(30px);
+    transform: translateX(30px) translateZ(0); /* Force GPU acceleration */
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
     will-change: opacity, transform;
 }
 
+/* Mobile: Force visible immediately (no animation) */
+@media (max-width: 768px) {
+    .fade-in-right {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+        will-change: auto !important;
+    }
+}
+
 .fade-in-right.visible {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateX(0) translateZ(0);
     will-change: auto;
 }
 
 /* Scale in */
+.scale-in {
+    opacity: 0;
+    transform: scale(0.9) translateZ(0); /* Force GPU acceleration */
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    will-change: opacity, transform;
+}
+
+.scale-in.visible {
+    opacity: 1;
+    transform: scale(1) translateZ(0);
+    will-change: auto; /* Remover will-change após animação */
+}
 
 /* Fade in (simple) */
 .fade-in {
@@ -108,7 +150,8 @@
 @media (max-width: 768px) {
     .fade-in-up,
     .fade-in-left,
-    .fade-in-right {
+    .fade-in-right,
+    .scale-in {
         transition-duration: 0.4s; /* Faster on mobile */
     }
     
@@ -122,6 +165,7 @@
     .fade-in-up,
     .fade-in-left,
     .fade-in-right,
+    .scale-in,
     .fade-in {
         transition: none;
         opacity: 1;
@@ -143,6 +187,8 @@
    LOADING SKELETONS
    ============================================ */
 
+/* Mobile: Disable skeleton animation */
+
 /* ============================================
    SMOOTH SCROLL BEHAVIOR
    ============================================ */
@@ -151,15 +197,41 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Mobile: Disable smooth scroll for better performance */
+@media (max-width: 768px) {
+    html {
+        scroll-behavior: auto !important;
+    }
+}
+
 /* ============================================
    PULSE ANIMATION (for CTAs)
    ============================================ */
+
+/* Mobile: Disable pulse animation */
 
 /* ============================================
    STAGGER ANIMATIONS (for lists)
    ============================================ */
 
+.stagger-item {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+.stagger-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 /* Delay for staggered effect */
+.stagger-item:nth-child(1) { transition-delay: 0.1s; }
+.stagger-item:nth-child(2) { transition-delay: 0.2s; }
+.stagger-item:nth-child(3) { transition-delay: 0.3s; }
+.stagger-item:nth-child(4) { transition-delay: 0.4s; }
+.stagger-item:nth-child(5) { transition-delay: 0.5s; }
+.stagger-item:nth-child(6) { transition-delay: 0.6s; }
 
 /* ============================================
    SERVICE CARDS HOVER
@@ -193,12 +265,78 @@ html {
 }
 
 @media (max-width: 768px) {
-    /* Reduce animations on mobile for better performance */
+    /* CRITICAL: Disable ALL animations on mobile for better performance (91 → reduce) */
+    /* Force all animated elements to be visible immediately */
     .fade-in-up,
     .fade-in-left,
-    .fade-in-right {
-        opacity: 1;
-        transform: none;
+    .fade-in-right,
+    .scale-in,
+    .fade-in,
+    .stagger-item {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+        animation: none !important;
+        will-change: auto !important;
+        /* Force visibility immediately */
+        visibility: visible !important;
+    }
+    
+    /* CRITICAL: Carousel testimonials - manter funcionalidade mas sem animações */
+    .testimonials-carousel.carousel-fade .carousel-item {
+        transition: opacity 0.01s linear !important;
+    }
+    
+    .testimonials-carousel .carousel-item {
+        transition: transform 0.01s linear !important;
+        opacity: 1 !important;
+    }
+    
+    /* Garantir que indicadores e controles funcionem */
+    .testimonials-carousel .carousel-indicators li,
+    .testimonials-carousel .carousel-control-prev,
+    .testimonials-carousel .carousel-control-next {
+        pointer-events: auto !important;
+        cursor: pointer !important;
+        touch-action: manipulation !important;
+        -webkit-tap-highlight-color: rgba(58, 80, 90, 0.3) !important;
+        z-index: 15 !important;
+    }
+    
+    /* Make sure visible class doesn't trigger animations */
+    .fade-in-up.visible,
+    .fade-in-left.visible,
+    .fade-in-right.visible,
+    .scale-in.visible,
+    .fade-in.visible,
+    .stagger-item.visible {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+    
+    /* Disable hover effects on mobile */
+    .card-hover:hover,
+    .img-hover:hover,
+    .img-hover:hover {
+        transform: none !important;
+        filter: none !important;
+    }
+    
+    /* Disable transitions on mobile */
+    .card-hover,
+    .img-hover {
+        transition: none !important;
+        will-change: auto !important;
+    }
+    
+    /* Disable skeleton animations */
+    
+    /* Disable pulse animations */
+    
+    /* Disable smooth scroll on mobile */
+    html {
+        scroll-behavior: auto !important;
     }
 }
 

@@ -78,7 +78,7 @@ button.navbar-toggler {
 	font-style: normal;
 	font-weight: 400;
 	src: local('Akrobat Regular'), url(/Akrobat-Regular.woff) format('woff');
-	font-display: swap; /* Prevenir layout shift - usa fallback até fonte carregar */
+	font-display: optional; /* Otimizado: usa fallback se fonte não carregar em 100ms - elimina FOIT */
 	/* Size-adjust para prevenir layout shift - valores otimizados */
 	size-adjust: 100%;
 	ascent-override: 90%;
@@ -714,7 +714,10 @@ nav.footer-nav-vertical {
 
 	align-items: center;
 
-	justify-content: center
+	justify-content: center;
+	/* Prevent layout shift */
+	contain: layout;
+	min-height: 300px;
 
 }
 
@@ -776,7 +779,10 @@ nav.footer-nav-vertical {
 
 	height: 100%;
 
-	display: block
+	display: block;
+	/* Prevent layout shift */
+	contain: layout;
+	min-height: 300px;
 
 }
 
@@ -830,7 +836,9 @@ nav.footer-nav-vertical {
 
 	object-fit: cover;
 
-	display: block
+	display: block;
+	/* Prevent layout shift */
+	aspect-ratio: 5 / 4;
 
 }
 
@@ -880,7 +888,145 @@ nav.footer-nav-vertical {
 
 }
 
+/* CRITICAL: CLS Fix - About section col-md-7 (causes 93% of layout shift) */
+#about .col-md-7 {
+	contain: layout style;
+	min-height: 400px; /* Reserve space for text content */
+	font-size: inherit;
+	line-height: inherit;
+}
 
+#about .col-md-7 h1,
+#about .col-md-7 p {
+	min-height: 1.2em; /* Reserve space to prevent shift when fonts load */
+	contain: layout;
+}
+
+#about .container.row.mx-auto {
+	min-height: 600px; /* Reserve space for content */
+	contain: layout;
+}
+
+/* Disable animations on mobile for better performance */
+@media (max-width: 768px) {
+	.sessoes.container:hover .content-details {
+		transform: none !important;
+		transition: none !important;
+		opacity: 1 !important;
+	}
+	
+	.sessoes.container:hover .content-overlay {
+		opacity: 0 !important;
+		transition: none !important;
+	}
+	
+	.content-image {
+		transition: none !important;
+	}
+	
+	.content:hover .content-image {
+		transform: none !important;
+		filter: none !important;
+	}
+	
+	/* Disable ALL transitions and animations globally on mobile */
+	*,
+	*::before,
+	*::after {
+		transition-duration: 0.01ms !important;
+		transition-delay: 0ms !important;
+		animation-duration: 0.01ms !important;
+		animation-delay: 0ms !important;
+		animation-iteration-count: 1 !important;
+		animation-fill-mode: none !important;
+	}
+	
+	/* Force all animated elements to be visible immediately */
+	.fade-in-up,
+	.fade-in-left,
+	.fade-in-right,
+	.scale-in,
+	.fade-in,
+	.stagger-item,
+	.fade-in-up.visible,
+	.fade-in-left.visible,
+	.fade-in-right.visible,
+	.scale-in.visible,
+	.fade-in.visible,
+	.stagger-item.visible {
+		opacity: 1 !important;
+		transform: none !important;
+		transition: none !important;
+		animation: none !important;
+		will-change: auto !important;
+		visibility: visible !important;
+	}
+	
+	/* Disable hover effects on mobile */
+	.card-hover:hover,
+	.img-hover:hover,
+	.content:hover .content-image,
+	.sessoes.container:hover .content-details,
+	.sessoes.container:hover .content-overlay,
+	.content:hover,
+	.card:hover,
+	.btn:hover,
+	.nav-link:hover,
+	.footer-link:hover,
+	.footer-social-link:hover {
+		transform: none !important;
+		filter: none !important;
+		transition: none !important;
+	}
+	
+	/* Disable all transitions on specific elements */
+	.card-hover,
+	.img-hover,
+	.content-image,
+	.content-details,
+	.content-overlay,
+	.sessoes.container,
+	.navbar,
+	.breadcrumb-item a,
+	.footer-link,
+	.footer-social-link {
+		transition: none !important;
+		will-change: auto !important;
+	}
+	
+	/* Disable smooth scroll on mobile */
+	html {
+		scroll-behavior: auto !important;
+	}
+	
+	/* CRITICAL: Carousel testimonials - manter funcionalidade mas sem animações suaves */
+	.testimonials-carousel.carousel-fade .carousel-item {
+		transition: opacity 0.01s linear !important; /* Transição instantânea ao invés de fade */
+	}
+	
+	.testimonials-carousel .carousel-item {
+		transition: transform 0.01s linear !important; /* Transição instantânea */
+		opacity: 1 !important;
+	}
+	
+	/* Garantir que indicadores e controles funcionem no mobile */
+	.testimonials-carousel .carousel-indicators li,
+	.testimonials-carousel .carousel-control-prev,
+	.testimonials-carousel .carousel-control-next {
+		pointer-events: auto !important;
+		cursor: pointer !important;
+		touch-action: manipulation !important;
+		-webkit-tap-highlight-color: rgba(58, 80, 90, 0.3) !important;
+		z-index: 15 !important;
+	}
+	
+	/* Garantir que botões sejam clicáveis */
+	.testimonials-carousel .carousel-control-prev,
+	.testimonials-carousel .carousel-control-next {
+		display: flex !important;
+		opacity: 1 !important;
+	}
+}
 
 .content-details h3 {
 
@@ -1552,6 +1698,8 @@ body nav.breadcrumb-nav ol {
 	box-sizing: border-box; /* Inclui padding no cálculo da altura */
 	overflow: hidden; /* Evita que elementos saiam do container durante transição */
 	will-change: transform;
+	/* Prevent layout shift */
+	contain: layout;
 }
 
 .testimonial-card {
@@ -1912,7 +2060,9 @@ body nav.breadcrumb-nav ol {
 	border-top: 1px solid rgba(204, 183, 188, 0.1);
 }
 
-.footer-title {
+/* Footer titles - corrigido para h2 (heading order) */
+.footer-title,
+h2.footer-title {
 	color: #b895a0 !important; /* Rosa mais escuro para melhor legibilidade */
 	font-size: 1.1rem;
 	font-weight: 600;

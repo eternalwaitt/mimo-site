@@ -7,7 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.6.3] - 2025-01-30
 
+### Added
+- **PageSpeed Insights API - Scripts Automatizados**:
+  - `build/pagespeed-api-test.sh`: Testa todas as páginas usando a API (mobile e desktop)
+  - `build/pagespeed-analyze.sh`: Analisa resultados e gera relatório consolidado
+  - `build/README-PAGESPEED-API.md`: Documentação completa de uso
+  - Testa automaticamente 9 páginas em 2 estratégias (18 testes totais)
+
 ### Fixed
+- **Carousel de Testimonials no Mobile**:
+  - Problema: Menu não funcionava após desabilitar animações
+  - Solução: Transições instantâneas (0.01s) ao invés de desabilitar completamente
+  - CSS: `pointer-events: auto`, `touch-action: manipulation` para garantir cliques
+  - JavaScript: Detecção mobile e handlers específicos para indicadores e controles
+  - JavaScript: Remove classe `carousel-fade` no mobile mas mantém funcionalidade
+  - Resultado: Carousel funciona perfeitamente no mobile sem animações suaves
+- **CLS - Reforço Crítico**:
+  - Adicionado `position: relative` e `overflow: hidden` no `#about .col-md-7`
+  - Adicionado `word-wrap: break-word` e `overflow-wrap: break-word` nos textos
+  - Adicionado `min-height: 1.5em` no `.lead` para prevenir layout shift
+  - Todas as correções CLS aplicadas em `product.css` e `inc/critical-css.php`
+- **Animações Mobile - Reforço Completo**:
+  - Expandido regras para desabilitar `transition-delay` e `animation-delay`
+  - Adicionado `animation-fill-mode: none`
+  - Desabilitado hover effects em TODOS os elementos (card, btn, nav-link, footer-link, etc.)
+  - Desabilitado transições em elementos específicos (navbar, breadcrumb, footer)
+  - Regras aplicadas em `product.css` para máxima cobertura
+- **ARIA - Correção Final**:
+  - Mudado `role="tablist"` para `role="navigation"` no nav mobile (corrige validação ARIA)
+- **Asset Helper - Correção**:
+  - Corrigido para encontrar arquivos minificados em `css/purged/` corretamente
 - **ARIA Attributes - Valores Inválidos**:
   - Removido `aria-controls="pills-alongamentos"` inválido (elemento não existe)
   - Corrigido carousel indicators: adicionado IDs (`testimonial-<?php echo $i; ?>`) e `aria-controls` válidos
@@ -55,11 +84,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **CLS**: Corrigido elemento `.col-md-7` que causava 0.375 de layout shift (93% do total)
 
 ### Technical
-- **Asset Version**: Atualizado para `20250130-5` (cache busting)
-- **CSS Crítico**: Adicionado regras para desabilitar animações no mobile
-- **Product.css**: Adicionado `@media (max-width: 768px)` para desabilitar animações
+- **Asset Version**: Atualizado para `20250130-8` (cache busting)
+- **PageSpeed API**: Scripts para testar todas as páginas automaticamente
+- **Carousel Mobile**: Detecção mobile e handlers específicos para garantir funcionamento
+- **CSS Crítico**: Reforçado correções CLS e regras para desabilitar animações no mobile
+- **Product.css**: Expandido regras mobile para desabilitar TODAS as animações e transições
 - **Animations.js**: Adicionado detecção mobile e desabilita animações completamente
 - **Animations.css**: Adicionado regras mobile diretamente nas classes fade-in
+- **Asset Helper**: Corrigido para encontrar arquivos minificados em `css/purged/`
+- **Documentação**: Criado `GOOGLE-BEST-PRACTICES-AUDIT.md` e `COMPLETE-AUDIT-SUMMARY.md`
 
 ## [2.6.2] - 2025-01-30
 

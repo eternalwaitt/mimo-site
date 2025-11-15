@@ -112,7 +112,7 @@ ob_start();
                             <span aria-hidden="true">&times;</span>
                         </button>
                         <h3 class="textPink text-center my-3">ATENÇÃO!</h3>
-                        <?php echo picture_webp('comprimento.png', '', '', ['style' => 'max-width: 100%;display: block;']); ?>
+                        <?php echo picture_webp('comprimento.png', '', '', ['style' => 'max-width: 100%;display: block;', 'width' => '400', 'height' => '300']); ?>
                         <p>*O orçamento passado pelo profissional é baseado no tamanho e volume do cabelo,
                             tabela ilustrativa.</p>
                     </div>
@@ -141,7 +141,7 @@ ob_start();
 
 <div class="col-md-12 container my-5">
     <div class="col-xs-12" style="float:left;width: 200px; height: 200px; overflow: hidden;">
-        <?php echo picture_webp('Mimo-Summer.png', 'Iluminado Mimo', '', ['style' => 'width: 100%; height: 100%; object-fit: cover;']); ?>
+        <?php echo picture_webp('Mimo-Summer.png', 'Iluminado Mimo', '', ['style' => 'width: 100%; height: 100%; object-fit: cover;', 'width' => '600', 'height' => '400']); ?>
     </div>
     <div class="col-md-8 col-xs-12 service-content">
         <h3 class="textPink font-weight-bold">ILUMINADO MIMO</h3>
@@ -158,7 +158,7 @@ ob_start();
 
 <div class="col-md-12 container my-5">
     <div class="col-xs-12" style="float:left;width: 200px; height: 200px; overflow: hidden;">
-        <?php echo picture_webp('Mimo-AllBlond.png', 'Descoloração Global Mimo', '', ['style' => 'width: 100%; height: 100%; object-fit: cover;']); ?>
+        <?php echo picture_webp('Mimo-AllBlond.png', 'Descoloração Global Mimo', '', ['style' => 'width: 100%; height: 100%; object-fit: cover;', 'width' => '600', 'height' => '400']); ?>
     </div>
     <div class="col-md-8 col-xs-12 service-content">
         <h3 class="textPink font-weight-bold">DESCOLORAÇÃO GLOBAL MIMO</h3>
@@ -175,7 +175,7 @@ ob_start();
 
 <div class="col-md-12 container my-5">
     <div class="col-xs-12" style="float:left;width: 200px; height: 200px; overflow: hidden;">
-        <?php echo picture_webp('fantasy.png', 'Colorido Mimo', '', ['style' => 'width: 100%; height: 100%; object-fit: cover;']); ?>
+        <?php echo picture_webp('fantasy.png', 'Colorido Mimo', '', ['style' => 'width: 100%; height: 100%; object-fit: cover;', 'width' => '600', 'height' => '400']); ?>
     </div>
     <div class="col-md-8 col-xs-12 service-content">
         <h3 class="textPink font-weight-bold">COLORIDO MIMO</h3>
@@ -193,7 +193,7 @@ ob_start();
 
 <div class="col-md-12 container my-5">
     <div class="col-xs-12" style="float:left;width: 200px; height: 200px; overflow: hidden;">
-        <?php echo picture_webp('Ruivo-Mimo.png', 'Coloração Mimo', '', ['style' => 'width: 100%; height: 100%; object-fit: cover;']); ?>
+        <?php echo picture_webp('Ruivo-Mimo.png', 'Coloração Mimo', '', ['style' => 'width: 100%; height: 100%; object-fit: cover;', 'width' => '600', 'height' => '400']); ?>
     </div>
     <div class="col-md-8 col-xs-12 service-content">
         <h3 class="textPink font-weight-bold">COLORAÇÃO MIMO</h3>

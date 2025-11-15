@@ -538,7 +538,7 @@ if ($_POST) {
     </div>
     <div id="services">
         <!-- Mobile -->
-        <nav class="container nav nav-pills mt-5 mb-5 d-sm-none" id="pills-tab" role="tablist" aria-label="Categorias de serviços">
+        <nav class="container nav nav-pills mt-5 mb-5 d-sm-none" id="pills-tab" role="navigation" aria-label="Categorias de serviços">
             <div class="nav-item" style="margin: auto">
                 <a class="nav-link active" data-toggle="pill" role="button" id="pills-alongamentos-tab"
                     aria-label="Categorias de serviços">
@@ -1240,21 +1240,48 @@ if ($_POST) {
                     
                     // Otimizar transições do carousel de reviews
                     if ($carousel.attr('id') === 'testimonialsCarousel') {
-                        // Pre-carregar imagens do próximo item para evitar delay
-                        $carousel.on('slide.bs.carousel', function (e) {
-                            var $nextItem = jQuery(e.relatedTarget);
-                            var $nextImg = $nextItem.find('img[data-src]');
-                            if ($nextImg.length) {
-                                $nextImg.attr('src', $nextImg.attr('data-src'));
-                                $nextImg.removeAttr('data-src');
-                            }
-                        });
+                        // Detectar mobile
+                        var isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
                         
-                        // Forçar repaint para suavizar transição
-                        $carousel.on('slid.bs.carousel', function () {
-                            var $active = jQuery(this).find('.carousel-item.active');
-                            $active.css('transform', 'translateZ(0)');
-                        });
+                        if (isMobile) {
+                            // No mobile: desabilitar animações do carousel mas manter funcionalidade
+                            $carousel.removeClass('carousel-fade');
+                            $carousel.find('.carousel-item').css({
+                                'transition': 'none',
+                                'opacity': '1'
+                            });
+                            
+                            // Garantir que indicadores funcionem
+                            $carousel.find('.carousel-indicators li').on('click', function(e) {
+                                e.preventDefault();
+                                var slideTo = jQuery(this).data('slide-to');
+                                $carousel.carousel(slideTo);
+                            });
+                            
+                            // Garantir que controles funcionem
+                            $carousel.find('.carousel-control-prev, .carousel-control-next').on('click', function(e) {
+                                e.preventDefault();
+                                var direction = jQuery(this).hasClass('carousel-control-prev') ? 'prev' : 'next';
+                                $carousel.carousel(direction);
+                            });
+                        } else {
+                            // Desktop: manter animações normais
+                            // Pre-carregar imagens do próximo item para evitar delay
+                            $carousel.on('slide.bs.carousel', function (e) {
+                                var $nextItem = jQuery(e.relatedTarget);
+                                var $nextImg = $nextItem.find('img[data-src]');
+                                if ($nextImg.length) {
+                                    $nextImg.attr('src', $nextImg.attr('data-src'));
+                                    $nextImg.removeAttr('data-src');
+                                }
+                            });
+                            
+                            // Forçar repaint para suavizar transição
+                            $carousel.on('slid.bs.carousel', function () {
+                                var $active = jQuery(this).find('.carousel-item.active');
+                                $active.css('transform', 'translateZ(0)');
+                            });
+                        }
                     }
                     
                     // Swipe para mobile

@@ -191,26 +191,39 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
     echo generate_twitter_cards($pageTitle, $pageDescription, 'img/bgheader.jpg');
     ?>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="bootstrap/bootstrap/dist/css/bootstrap.min.css?<?php echo ASSET_VERSION; ?>">
+    <!-- Script loader for deferred CSS - Must come before deferred resources -->
+    <script>
+    /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+    (function(w){"use strict";if(!w.loadCSS){w.loadCSS=function(href,media,rel){var ss=w.document.createElement("link");var ref;if(rel){ref=w.document.getElementsByTagName(rel)[0];}else{var refs=w.document.getElementsByTagName("script");ref=refs[refs.length-1];}ss.rel="stylesheet";ss.href=href;ss.media="only x";function onloadcssdefined(cb){for(var i=0;i<w.document.styleSheets.length;i++){if(w.document.styleSheets[i].href===ss.href){return cb();}}setTimeout(function(){onloadcssdefined(cb);});}onloadcssdefined(function(){ss.media=media||"all";});if(ref){ref.parentNode.insertBefore(ss,ref.nextSibling);}else{w.document.head.appendChild(ss);}return ss;};}})(this);
+    </script>
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <!-- Bootstrap CSS - Defer -->
+    <script>loadCSS("bootstrap/bootstrap/dist/css/bootstrap.min.css?<?php echo ASSET_VERSION; ?>");</script>
+    <noscript><link rel="stylesheet" href="bootstrap/bootstrap/dist/css/bootstrap.min.css?<?php echo ASSET_VERSION; ?>"></noscript>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome - Defer -->
+    <script>loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css");</script>
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer"></noscript>
 
-    <!-- CSS Variables (deve vir antes de product.css) -->
-    <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/_variables.css'); ?>">
-    
-    <!-- Custom styles for this template -->
-    <?php echo css_tag('product.css'); ?>
-    
-    <!-- Dark Mode Styles -->
-    <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/dark-mode.css'); ?>">
-    
-    <!-- Mobile UI Improvements -->
-    <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/mobile-ui-improvements.css'); ?>">
+    <!-- Google Fonts - Defer -->
+    <script>loadCSS("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap");</script>
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet"></noscript>
+
+    <!-- CSS Variables - Defer (deve vir antes de product.css mas não bloqueia renderização) -->
+    <script>loadCSS("<?php echo get_css_asset('css/modules/_variables.css'); ?>");</script>
+    <noscript><link rel="stylesheet" href="<?php echo get_css_asset('css/modules/_variables.css'); ?>"></noscript>
+
+    <!-- Custom styles - Defer -->
+    <script>loadCSS("<?php echo get_css_asset('product.css'); ?>");</script>
+    <noscript><?php echo css_tag('product.css'); ?></noscript>
+
+    <!-- Dark Mode Styles - Defer -->
+    <script>loadCSS("<?php echo get_css_asset('css/modules/dark-mode.css'); ?>");</script>
+    <noscript><link rel="stylesheet" href="<?php echo get_css_asset('css/modules/dark-mode.css'); ?>"></noscript>
+
+    <!-- Mobile UI Improvements - Defer -->
+    <script>loadCSS("<?php echo get_css_asset('css/modules/mobile-ui-improvements.css'); ?>");</script>
+    <noscript><link rel="stylesheet" href="<?php echo get_css_asset('css/modules/mobile-ui-improvements.css'); ?>"></noscript>
     
     <!-- Fix para remover barra branca entre conteúdo e footer -->
     <style>
@@ -579,9 +592,27 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
     ?>
 
     <!-- Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <!-- jQuery - Load async to avoid blocking critical path -->
+    <script>
+    (function() {
+        var script = document.createElement('script');
+        script.src = 'https://code.jquery.com/jquery-3.3.1.min.js';
+        script.integrity = 'sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT';
+        script.crossOrigin = 'anonymous';
+        script.async = true;
+        script.defer = true;
+        script.onerror = function() {
+            // Fallback to local jQuery if CDN fails
+            var fallback = document.createElement('script');
+            fallback.src = 'bootstrap/jquery/dist/jquery.min.js';
+            fallback.defer = true;
+            document.head.appendChild(fallback);
+        };
+        document.head.appendChild(script);
+    })();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous" defer></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous" defer></script>
 
     <!-- Form validation script -->
     <script src="form/main.js?<?php echo ASSET_VERSION; ?>" defer></script>
@@ -590,10 +621,10 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
     <?php include 'inc/back-to-top.php'; ?>
 
     <!-- Bootstrap Carousel Swipe Plugin -->
-    <?php echo js_tag('js/bc-swipe.js'); ?>
+    <?php echo js_tag('js/bc-swipe.js', ['defer' => true]); ?>
     
     <!-- Main JS (navbar scroll behavior) -->
-    <?php echo js_tag('main.js'); ?>
+    <?php echo js_tag('main.js', ['defer' => true]); ?>
     <?php echo js_tag('js/dark-mode.js', ['defer' => false]); ?>
 
     <script>

@@ -62,16 +62,31 @@ function picture_webp($src, $alt = '', $class = '', $attributes = [], $lazy = tr
     $avifExists = image_file_exists($avifSrc, $rootPath);
     
     // Auto-detect image dimensions if not provided (prevents layout shift)
+    // CRITICAL: Sempre tentar detectar dimensões para prevenir CLS
     if (!isset($attributes['width']) || !isset($attributes['height'])) {
-        $imagePath = $rootPath . '/' . ltrim($src, '/');
-        if (file_exists($imagePath) && function_exists('getimagesize')) {
-            $imageInfo = @getimagesize($imagePath);
-            if ($imageInfo !== false) {
-                if (!isset($attributes['width'])) {
-                    $attributes['width'] = $imageInfo[0];
-                }
-                if (!isset($attributes['height'])) {
-                    $attributes['height'] = $imageInfo[1];
+        // Tentar múltiplos caminhos para encontrar a imagem
+        $possiblePaths = [
+            $rootPath . '/' . ltrim($src, '/'),
+            __DIR__ . '/../' . ltrim($src, '/'),
+            $src, // Caminho relativo direto
+        ];
+        
+        // Se src começa com ../, tentar resolver
+        if (strpos($src, '../') === 0) {
+            $possiblePaths[] = realpath($rootPath . '/' . $src);
+        }
+        
+        foreach ($possiblePaths as $imagePath) {
+            if ($imagePath && file_exists($imagePath) && function_exists('getimagesize')) {
+                $imageInfo = @getimagesize($imagePath);
+                if ($imageInfo !== false && is_array($imageInfo) && count($imageInfo) >= 2) {
+                    if (!isset($attributes['width'])) {
+                        $attributes['width'] = $imageInfo[0];
+                    }
+                    if (!isset($attributes['height'])) {
+                        $attributes['height'] = $imageInfo[1];
+                    }
+                    break; // Dimensões encontradas, sair do loop
                 }
             }
         }

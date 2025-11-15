@@ -25,6 +25,9 @@
     height: 50vh;
     min-height: 350px;
     max-height: 500px;
+    /* Prevent layout shift */
+    aspect-ratio: 16/9;
+    contain: layout style;
 }
 
 .salao-header{
@@ -52,6 +55,9 @@
     height: 50vh;
     min-height: 350px;
     max-height: 500px;
+    /* Prevent layout shift */
+    aspect-ratio: 16/9;
+    contain: layout style;
 }
 
 .facial-header{
@@ -61,6 +67,9 @@
     height: 50vh;
     min-height: 350px;
     max-height: 500px;
+    /* Prevent layout shift */
+    aspect-ratio: 16/9;
+    contain: layout style;
 }
 
 .faqheader{

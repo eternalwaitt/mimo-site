@@ -60,6 +60,8 @@ function get_css_asset($filePath, $addVersion = true) {
         $purgedPath = __DIR__ . '/../css/purged/' . basename($filePath);
         $purgedMinPath = __DIR__ . '/../css/purged/' . $minFileName;
         $minFullPath = __DIR__ . '/../minified/' . $minFileName;
+        // CSS purged minified está em css/purged/, não em minified/
+        $purgedMinPathAlt = __DIR__ . '/../css/purged/' . str_replace('.css', '.min.css', basename($filePath));
         
         // Para arquivos em subdiretórios
         if (strpos($filePath, '/') !== false) {
@@ -69,8 +71,8 @@ function get_css_asset($filePath, $addVersion = true) {
             $minFullPath = __DIR__ . '/../minified/' . $minName;
         }
         
-        // 1. Tentar purged + minified (melhor)
-        if (file_exists($purgedMinPath)) {
+        // 1. Tentar purged + minified (melhor) - verificar ambos os caminhos
+        if (file_exists($purgedMinPath) || file_exists($purgedMinPathAlt)) {
             $basePath = $prefix . 'css/purged/' . $minFileName;
         }
         // 2. Tentar apenas minified

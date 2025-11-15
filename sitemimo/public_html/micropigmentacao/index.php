@@ -82,7 +82,7 @@ ob_start();
         </div>
         <div class="col-md-12 container my-5">
             <div class="col-md-4" style="float:left;width: 200px; height: 200px; overflow: hidden;">
-                <?php echo picture_webp('MimoGloss.png', 'Mimo Gloss', '', ['style' => 'width: 100%; height: 100%; object-fit: cover;']); ?>
+                <?php echo picture_webp('MimoGloss.png', 'Mimo Gloss', '', ['style' => 'width: 100%; height: 100%; object-fit: cover;', 'width' => '600', 'height' => '400']); ?>
             </div>
             <div class="col-md-8 service-content">
                 <h3 class="textPink font-weight-bold">MIMO GLOSS</h3>

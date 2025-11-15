@@ -29,7 +29,7 @@ ob_start();
             </p>
             <div class="col-md-12 container my-5">
                 <div class="col-md-4" style="float:left;">
-                    <?php echo picture_webp('../img/servicos/cilios/designnovo.jpg', 'Design de Sobrancelha', '', ['style' => 'width: 100%; height: auto;']); ?>
+                    <?php echo picture_webp('../img/servicos/cilios/designnovo.jpg', 'Design de Sobrancelha', '', ['style' => 'width: 100%; height: auto;', 'width' => '400', 'height' => '300']); ?>
                 </div>
                 <div class="col-md-8 service-content">
                     <h3 class="textPink font-weight-bold">DESIGN DE SOBRANCELHA</h3>
