@@ -532,8 +532,8 @@ if ($_POST) {
         <!-- Mobile -->
         <nav class="container nav nav-pills mt-5 mb-5 d-sm-none" id="pills-tab" role="tablist" aria-label="Categorias de serviços">
             <div class="nav-item" style="margin: auto">
-                <a class="nav-link active" data-toggle="pill" role="tab" aria-controls="pills-alongamentos"
-                    aria-selected="true" id="tab-categorias" aria-label="Categorias de serviços">
+                <a class="nav-link active" data-toggle="pill" role="tab" id="pills-alongamentos-tab" aria-controls="pills-alongamentos"
+                    aria-selected="true" aria-label="Categorias de serviços">
                     CATEGORIAS</a>
             </div>
         </nav>
