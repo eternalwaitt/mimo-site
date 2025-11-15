@@ -83,8 +83,13 @@
 - **Srcset**: Melhorado para usar width descriptors
 - **Preload**: Otimizado (removido preload de imagens não-LCP)
 - **Lazy loading**: Verificado e garantido
+- **header_dezembro_mobile.png (LCP mobile)**: 
+  - PNG: 2.2MB → WebP: 146KB (93% redução) → AVIF: 71KB (97% redução)
+  - CSS atualizado para usar AVIF/WebP com fallback PNG via `image-set()`
+  - Preload adicionado com media query para mobile
+- **bgheader.jpg (LCP desktop)**: Atualizado para usar AVIF/WebP também
 - **Status Atual (Mobile)**: 2,760 KiB (relatório anterior ao deploy)
-- **Resultado Esperado**: Redução significativa após deploy
+- **Resultado Esperado**: Redução de ~2.1MB apenas com header mobile (2,760 KiB → ~700 KiB)
 
 ### PurgeCSS (✅ COMPLETO)
 - **product.css**: -3.7KB (7%)
@@ -278,7 +283,7 @@
 |---------|----------------|-------------------|----------|
 | **Performance Score** | 76 | 70-80+ | +0 a +4 pontos |
 | **FCP** | 3.3s | <2.0s | -40% |
-| **LCP** | 21.2s | <5.0s | -76% |
+| **LCP** | 21.2s | <3.0s | -86% |
 | **CLS** | 0.295 | <0.1 | -66% |
 | **SI** | 5.2s | <4.0s | -23% |
 | **Render Blocking** | 2,380ms | ~0ms | -100% |
