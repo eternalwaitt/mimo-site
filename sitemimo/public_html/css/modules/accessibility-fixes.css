@@ -108,10 +108,7 @@ button:not([aria-label]):not([aria-labelledby]) {
    ============================================ */
 
 /* Garantir que imagens sem alt tenham tratamento adequado */
-img:not([alt]) {
-    /* Adicionar alt via JS se necessário */
-    border: 2px dashed #ff0000; /* Debug - remover em produção */
-}
+/* Nota: Alt attributes são adicionados via PHP (picture_webp function) */
 
 /* ============================================
    CONTRASTE DARK MODE
