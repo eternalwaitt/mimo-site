@@ -9,6 +9,22 @@
 (function() {
     'use strict';
 
+    // CRITICAL: Disable animations on mobile for better performance
+    // Check if mobile (max-width: 768px)
+    const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    if (isMobile) {
+        // On mobile, immediately show all elements (no animations)
+        document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right, .scale-in, .fade-in, .stagger-item').forEach(function(el) {
+            el.classList.add('visible');
+            // Force opacity and transform to prevent any animation
+            el.style.opacity = '1';
+            el.style.transform = 'none';
+            el.style.transition = 'none';
+        });
+        return; // Exit early on mobile
+    }
+
     // Check if Intersection Observer is supported
     if (!('IntersectionObserver' in window)) {
         // Fallback: show all elements immediately

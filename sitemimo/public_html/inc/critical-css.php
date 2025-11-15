@@ -89,6 +89,7 @@ body {
 /* Hero Section - Above the fold */
 .bg-header {
     /* Desktop: usar AVIF/WebP com fallback JPG */
+    /* CRITICAL: LCP element - preload já configurado no <head> com fetchpriority="high" */
     background-image: url(/img/bgheader.avif);
     background-image: -webkit-image-set(
         url(/img/bgheader.avif) type("image/avif"),
@@ -121,6 +122,8 @@ body {
     /* Otimizar renderização */
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
+    /* CRITICAL: Não aplicar lazy loading - LCP element deve carregar imediatamente */
+    content-visibility: auto;
 }
 
 /* Hero Content */
@@ -221,6 +224,33 @@ picture img {
         /* Forçar aceleração de hardware para renderização mais rápida */
         will-change: background-image;
         transform: translateZ(0);
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+    }
+    
+    /* Mobile categories grid - prevent layout shift */
+    .mobile-categories-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        contain: layout;
+    }
+    
+    .mobile-category-item {
+        contain: layout style;
+        min-height: 200px; /* Reserve space */
+    }
+    
+    .mobile-category-item .img-cat {
+        aspect-ratio: 1 / 1;
+        width: 100%;
+        max-width: 150px;
+        height: auto;
+    }
+    
+    .mobile-vagas-button {
+        contain: layout;
+        min-height: 160px; /* Reserve space */
     }
     
     .navbar {
@@ -237,6 +267,45 @@ picture img {
     
     .navbar-nav {
         flex-direction: column;
+    }
+    
+    /* CRITICAL: Disable ALL animations on mobile for better performance */
+    /* Force all animated elements to be visible immediately */
+    .fade-in-up,
+    .fade-in-left,
+    .fade-in-right,
+    .scale-in,
+    .fade-in,
+    .stagger-item {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+        animation: none !important;
+        will-change: auto !important;
+        visibility: visible !important;
+    }
+    
+    /* Make sure visible class doesn't trigger animations */
+    .fade-in-up.visible,
+    .fade-in-left.visible,
+    .fade-in-right.visible,
+    .scale-in.visible,
+    .fade-in.visible {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+    
+    /* Disable hover effects on mobile */
+    .img-hover:hover {
+        transform: none !important;
+        filter: none !important;
+    }
+    
+    /* Disable all transitions globally on mobile */
+    * {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
     }
 }
 
@@ -356,6 +425,23 @@ section {
     contain: layout;
 }
 
+/* CRITICAL: col-md-7 causing 93% of CLS (0.375) - prevent layout shift */
+#about .col-md-7 {
+    contain: layout style;
+    min-height: 400px; /* Reserve space for text content */
+    /* Prevent font reflow */
+    font-size: inherit;
+    line-height: inherit;
+}
+
+/* Prevent layout shift in about section text */
+#about .col-md-7 h1,
+#about .col-md-7 p {
+    /* Reserve space to prevent shift when fonts load */
+    min-height: 1.2em;
+    contain: layout;
+}
+
 /* Services section - prevent layout shift */
 #services {
     min-height: 400px;
@@ -411,6 +497,24 @@ section {
     height: auto;
     object-fit: cover;
     display: block;
+}
+
+/* Sessoes container - prevent layout shift */
+.sessoes.container {
+    contain: layout;
+    min-height: 300px; /* Reserve space */
+}
+
+.sessoes.container .content {
+    contain: layout;
+    min-height: 300px; /* Reserve space */
+}
+
+.sessoes.container .content-image {
+    aspect-ratio: 5 / 4;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
 }
 
 /* Cards e containers - prevent layout shift */

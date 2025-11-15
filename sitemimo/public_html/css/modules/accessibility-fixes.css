@@ -151,3 +151,63 @@ button:not([aria-label]):not([aria-labelledby]) {
     color: #e0e0e0;
 }
 
+/* ============================================
+   CONTRASTE FOOTER E BACKGROUNDS
+   ============================================ */
+
+/* Background Pink - garantir contraste suficiente */
+.backgroundPink {
+    background-color: #3a505a; /* Cinza escuro */
+}
+
+.backgroundPink .text-white {
+    color: #ffffff !important; /* Branco puro para máximo contraste */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Sombra para melhor legibilidade */
+}
+
+/* Footer links - melhorar contraste */
+.site-footer .footer-link {
+    color: #ffffff !important; /* Branco puro ao invés de rgba */
+    opacity: 0.95; /* Ligeiramente transparente mas ainda legível */
+}
+
+.site-footer .footer-link:hover {
+    color: #ccb7bc !important; /* Rosa da marca no hover */
+    opacity: 1;
+}
+
+/* Footer contact items - melhorar contraste */
+.site-footer .footer-contact-item,
+.site-footer .footer-contact span,
+.site-footer span:not(.footer-social-link) {
+    color: #ffffff !important; /* Branco puro */
+    opacity: 0.95; /* Ligeiramente transparente mas ainda legível */
+}
+
+.site-footer .footer-contact-item:hover,
+.site-footer .footer-contact span:hover,
+.site-footer span:not(.footer-social-link):hover {
+    opacity: 1;
+    color: #ffffff !important;
+}
+
+/* ============================================
+   FONT DISPLAY - FONT AWESOME
+   ============================================ */
+
+/* Sobrescrever font-display do Font Awesome via CSS */
+@font-face {
+    font-family: 'Font Awesome 6 Free';
+    font-display: swap; /* Usar swap para Font Awesome */
+}
+
+@font-face {
+    font-family: 'Font Awesome 6 Brands';
+    font-display: swap; /* Usar swap para Font Awesome Brands */
+}
+
+@font-face {
+    font-family: 'Font Awesome 6 Solid';
+    font-display: swap; /* Usar swap para Font Awesome Solid */
+}
+

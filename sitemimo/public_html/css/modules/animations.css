@@ -24,12 +24,32 @@
     will-change: auto; /* Remover will-change após animação */
 }
 
+/* Mobile: Force visible immediately (no animation) */
+@media (max-width: 768px) {
+    .fade-in-up {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+        will-change: auto !important;
+    }
+}
+
 /* Fade in from left */
 .fade-in-left {
     opacity: 0;
     transform: translateX(-30px) translateZ(0); /* Force GPU acceleration */
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
     will-change: opacity, transform;
+}
+
+/* Mobile: Force visible immediately (no animation) */
+@media (max-width: 768px) {
+    .fade-in-left {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+        will-change: auto !important;
+    }
 }
 
 .fade-in-left.visible {
@@ -44,6 +64,16 @@
     transform: translateX(30px) translateZ(0); /* Force GPU acceleration */
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
     will-change: opacity, transform;
+}
+
+/* Mobile: Force visible immediately (no animation) */
+@media (max-width: 768px) {
+    .fade-in-right {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+        will-change: auto !important;
+    }
 }
 
 .fade-in-right.visible {
@@ -212,6 +242,15 @@
     border-radius: 4px;
 }
 
+/* Mobile: Disable skeleton animation */
+@media (max-width: 768px) {
+    .skeleton {
+        animation: none !important;
+        background: #f0f0f0 !important;
+        background-size: 100% 100% !important;
+    }
+}
+
 [data-theme="dark"] .skeleton {
     background: linear-gradient(
         90deg,
@@ -256,6 +295,13 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Mobile: Disable smooth scroll for better performance */
+@media (max-width: 768px) {
+    html {
+        scroll-behavior: auto !important;
+    }
+}
+
 /* ============================================
    PULSE ANIMATION (for CTAs)
    ============================================ */
@@ -271,6 +317,14 @@ html {
 
 .pulse {
     animation: pulse 2s ease-in-out infinite;
+}
+
+/* Mobile: Disable pulse animation */
+@media (max-width: 768px) {
+    .pulse {
+        animation: none !important;
+        opacity: 1 !important;
+    }
 }
 
 /* ============================================
@@ -328,13 +382,70 @@ html {
 }
 
 @media (max-width: 768px) {
-    /* Reduce animations on mobile for better performance */
+    /* CRITICAL: Disable ALL animations on mobile for better performance (91 → reduce) */
+    /* Force all animated elements to be visible immediately */
     .fade-in-up,
     .fade-in-left,
     .fade-in-right,
-    .scale-in {
-        opacity: 1;
-        transform: none;
+    .scale-in,
+    .fade-in,
+    .stagger-item {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+        animation: none !important;
+        will-change: auto !important;
+        /* Force visibility immediately */
+        visibility: visible !important;
+    }
+    
+    /* Make sure visible class doesn't trigger animations */
+    .fade-in-up.visible,
+    .fade-in-left.visible,
+    .fade-in-right.visible,
+    .scale-in.visible,
+    .fade-in.visible,
+    .stagger-item.visible {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+    
+    /* Disable hover effects on mobile */
+    .card-hover:hover,
+    .btn-hover:hover,
+    .img-hover:hover,
+    .link-hover:hover,
+    .img-hover:hover {
+        transform: none !important;
+        filter: none !important;
+    }
+    
+    /* Disable transitions on mobile */
+    .card-hover,
+    .btn-hover,
+    .img-hover,
+    .link-hover {
+        transition: none !important;
+        will-change: auto !important;
+    }
+    
+    /* Disable skeleton animations */
+    .skeleton {
+        animation: none !important;
+        background: #f0f0f0 !important;
+        background-size: 100% 100% !important;
+    }
+    
+    /* Disable pulse animations */
+    .pulse {
+        animation: none !important;
+        opacity: 1 !important;
+    }
+    
+    /* Disable smooth scroll on mobile */
+    html {
+        scroll-behavior: auto !important;
     }
 }
 

@@ -5,6 +5,92 @@ All notable changes to the Mimo Site project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.3] - 2025-01-30
+
+### Fixed
+- **ARIA Attributes - Valores Inválidos**:
+  - Removido `aria-controls="pills-alongamentos"` inválido (elemento não existe)
+  - Corrigido carousel indicators: adicionado IDs (`testimonial-<?php echo $i; ?>`) e `aria-controls` válidos
+  - Adicionado `role="tabpanel"` e `aria-labelledby` nos carousel items
+  - Mudado `role="tab"` para `role="button"` no nav-link mobile (não é realmente uma tab)
+- **Contraste de Cores (Acessibilidade)**:
+  - `.backgroundPink .text-white`: Adicionado `text-shadow` para melhor legibilidade
+  - Footer links: Mudado de `rgba(255, 255, 255, 0.85)` para `#ffffff` com `opacity: 0.95`
+  - Footer contact items: Mudado para `#ffffff` com `opacity: 0.95`
+  - Todos os spans no footer: Garantido contraste suficiente
+- **jQuery Blocking Critical Path**:
+  - Removido `document.write` que bloqueava renderização (1,763ms de latência)
+  - Implementado carregamento assíncrono com fallback para jQuery local
+  - Redução esperada: 1,763ms → < 500ms de latência crítica
+- **Font Awesome font-display**:
+  - Adicionado `@font-face` com `font-display: swap` para Font Awesome 6 Free, Brands e Solid
+  - Redução esperada: 20ms de economia
+
+### Changed
+- **CLS Mobile - Otimizações Críticas**:
+  - Mobile categories grid: Adicionado `contain: layout` e `min-height`
+  - Mobile category items: Adicionado `contain: layout style` e `aspect-ratio: 1 / 1`
+  - Mobile vagas button: Adicionado `contain: layout` e `min-height: 160px`
+  - Sessoes container: Adicionado `contain: layout` e `min-height: 300px`
+  - Content images: Adicionado `aspect-ratio: 5 / 4`
+  - Testimonials inner: Adicionado `contain: layout`
+  - CSS crítico: Adicionado regras de `contain` e `aspect-ratio` para prevenir layout shift
+  - **CRITICAL**: Adicionado `contain: layout style` e `min-height: 400px` no `.col-md-7` (causava 93% do CLS - 0.375)
+- **LCP Mobile - Otimizações**:
+  - Reorganizado preload: mobile header (LCP) vem ANTES de desktop header
+  - Adicionado preload separado para desktop header com `media="(min-width: 751px)"`
+  - Adicionado `backface-visibility: hidden` no bg-header mobile
+- **Animações Mobile - Desabilitadas Completamente**:
+  - JavaScript: Desabilitado no mobile (detecta mobile e mostra elementos imediatamente)
+  - CSS: Desabilitadas TODAS as animações no mobile (`@media (max-width: 768px)`)
+  - Desabilitados hover effects (transform, filter)
+  - Desabilitadas transições (transition-duration: 0.01ms)
+  - Desabilitadas animações (animation-duration: 0.01ms)
+  - Desabilitadas skeleton e pulse animations
+  - Desabilitado smooth scroll no mobile
+  - Regras adicionadas diretamente nas classes fade-in (up, left, right) para mobile
+  - Redução esperada: 91 → < 5 elementos animados
+
+### Fixed
+- **CLS**: Corrigido elemento `.col-md-7` que causava 0.375 de layout shift (93% do total)
+
+### Technical
+- **Asset Version**: Atualizado para `20250130-5` (cache busting)
+- **CSS Crítico**: Adicionado regras para desabilitar animações no mobile
+- **Product.css**: Adicionado `@media (max-width: 768px)` para desabilitar animações
+- **Animations.js**: Adicionado detecção mobile e desabilita animações completamente
+- **Animations.css**: Adicionado regras mobile diretamente nas classes fade-in
+
+## [2.6.2] - 2025-01-30
+
+### Changed
+- **Performance Mobile - Otimizações Críticas**:
+  - LCP Mobile: Otimizado com `will-change`, `translateZ(0)`, `backface-visibility` no bg-header
+  - FCP Mobile: loadCSS inline (não defer) para funcionar antes do CSS defer
+  - Preconnect adicionado para domínio próprio (imagens e fontes)
+  - CSS crítico otimizado com variáveis inline
+- **Font Display**: 
+  - Akrobat: `swap` → `optional` (elimina FOIT completamente)
+  - Nunito Fallback: adicionado `font-display: optional`
+  - Economia: 30ms → 0ms
+- **Render Blocking**: 
+  - Fonts: `media="print"` → `loadCSS()` (melhor defer)
+  - Font Awesome: `media="print"` → `loadCSS()`
+  - Bootstrap: `media="print"` → `loadCSS()`
+  - Elimina render blocking requests restantes
+- **Image Delivery**: 
+  - Adicionado `bgheader.png` à lista de prioridade de otimização
+  - Script de otimização atualizado
+
+### Fixed
+- **Mobile UI**: Dark mode toggle no menu mobile com touch target 48x48px
+- **Mobile UI**: Garantido que toggle aparece no menu colapsado com separador visual
+- **Mobile UI**: Z-index do navbar verificado (9999) - sem sobreposições
+
+### Technical
+- **Asset Version**: Atualizado para `20250130-3` (cache busting)
+- **CSS Crítico**: Otimizações de renderização (GPU acceleration)
+
 ## [2.6.1] - 2025-01-29
 
 ### Added

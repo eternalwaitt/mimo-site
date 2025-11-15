@@ -269,23 +269,24 @@ if ($_POST) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Preload critical images with fetchpriority - prefer WebP/AVIF -->
     <?php
-    // Preload hero background (prefer WebP, fallback to JPG) - Desktop LCP
-    if (file_exists(__DIR__ . '/img/bgheader.webp')) {
-        echo '<link rel="preload" href="img/bgheader.webp" as="image" type="image/webp" fetchpriority="high">';
-    } elseif (file_exists(__DIR__ . '/img/bgheader.avif')) {
-        echo '<link rel="preload" href="img/bgheader.avif" as="image" type="image/avif" fetchpriority="high">';
-    } else {
-        echo '<link rel="preload" href="img/bgheader.jpg" as="image" fetchpriority="high">';
-    }
-    
     // Preload mobile header (LCP element no mobile) - prefer AVIF/WebP
     // CRITICAL: Esta é a imagem LCP no mobile, precisa ser carregada o mais rápido possível
+    // IMPORTANTE: Preload deve vir ANTES de qualquer outro recurso para máxima prioridade
     if (file_exists(__DIR__ . '/img/header_dezembro_mobile.avif')) {
         echo '<link rel="preload" href="img/header_dezembro_mobile.avif" as="image" type="image/avif" fetchpriority="high" media="(max-width: 750px)">';
     } elseif (file_exists(__DIR__ . '/img/header_dezembro_mobile.webp')) {
         echo '<link rel="preload" href="img/header_dezembro_mobile.webp" as="image" type="image/webp" fetchpriority="high" media="(max-width: 750px)">';
     } elseif (file_exists(__DIR__ . '/img/header_dezembro_mobile.png')) {
         echo '<link rel="preload" href="img/header_dezembro_mobile.png" as="image" fetchpriority="high" media="(max-width: 750px)">';
+    }
+    
+    // Preload desktop header (LCP element no desktop) - prefer AVIF/WebP
+    if (file_exists(__DIR__ . '/img/bgheader.avif')) {
+        echo '<link rel="preload" href="img/bgheader.avif" as="image" type="image/avif" fetchpriority="high" media="(min-width: 751px)">';
+    } elseif (file_exists(__DIR__ . '/img/bgheader.webp')) {
+        echo '<link rel="preload" href="img/bgheader.webp" as="image" type="image/webp" fetchpriority="high" media="(min-width: 751px)">';
+    } elseif (file_exists(__DIR__ . '/img/bgheader.jpg')) {
+        echo '<link rel="preload" href="img/bgheader.jpg" as="image" fetchpriority="high" media="(min-width: 751px)">';
     }
     
     // Preconnect para domínio de imagens (se usar CDN)
@@ -539,8 +540,8 @@ if ($_POST) {
         <!-- Mobile -->
         <nav class="container nav nav-pills mt-5 mb-5 d-sm-none" id="pills-tab" role="tablist" aria-label="Categorias de serviços">
             <div class="nav-item" style="margin: auto">
-                <a class="nav-link active" data-toggle="pill" role="tab" id="pills-alongamentos-tab" aria-controls="pills-alongamentos"
-                    aria-selected="true" aria-label="Categorias de serviços">
+                <a class="nav-link active" data-toggle="pill" role="button" id="pills-alongamentos-tab"
+                    aria-label="Categorias de serviços">
                     CATEGORIAS</a>
             </div>
         </nav>
@@ -968,13 +969,13 @@ if ($_POST) {
                             <!-- Carousel indicators -->
                                 <ol class="carousel-indicators testimonials-indicators" role="tablist" aria-label="Indicadores de depoimentos" aria-live="polite">
                                     <?php for ($i = 0; $i < $reviewCount; $i++): ?>
-                                        <li data-target="#testimonialsCarousel" data-slide-to="<?php echo $i; ?>" <?php echo $i === 0 ? 'class="active"' : ''; ?> role="tab" aria-controls="testimonial-<?php echo $i; ?>" aria-selected="<?php echo $i === 0 ? 'true' : 'false'; ?>"></li>
+                                        <li data-target="#testimonialsCarousel" data-slide-to="<?php echo $i; ?>" <?php echo $i === 0 ? 'class="active"' : ''; ?> role="tab" id="testimonial-indicator-<?php echo $i; ?>" aria-controls="testimonial-<?php echo $i; ?>" aria-selected="<?php echo $i === 0 ? 'true' : 'false'; ?>" aria-label="Depoimento <?php echo $i + 1; ?>"></li>
                                     <?php endfor; ?>
                             </ol>
                             <!-- Wrapper for carousel items -->
                                 <div class="carousel-inner testimonials-inner">
                                     <?php foreach ($googleReviews as $index => $review): ?>
-                                        <div class="carousel-item testimonial-card <?php echo $index === 0 ? 'active' : ''; ?>">
+                                        <div class="carousel-item testimonial-card <?php echo $index === 0 ? 'active' : ''; ?>" id="testimonial-<?php echo $index; ?>" role="tabpanel" aria-labelledby="testimonial-indicator-<?php echo $index; ?>">
                                             <div class="testimonial-content">
                                                 <?php
                                                 // Foto do perfil (se disponível) ou placeholder
@@ -1196,10 +1197,25 @@ if ($_POST) {
 ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <!-- jQuery - Load with defer for better performance -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous" defer></script>
-    <script>window.jQuery || document.write('<script src="bootstrap/jquery/dist/jquery.slim.min.js"><\/script>')</script>
+    <!-- jQuery - Load async to avoid blocking critical path -->
+    <script>
+    (function() {
+        var script = document.createElement('script');
+        script.src = 'https://code.jquery.com/jquery-3.3.1.slim.min.js';
+        script.integrity = 'sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo';
+        script.crossOrigin = 'anonymous';
+        script.async = true;
+        script.defer = true;
+        script.onerror = function() {
+            // Fallback to local jQuery if CDN fails
+            var fallback = document.createElement('script');
+            fallback.src = 'bootstrap/jquery/dist/jquery.slim.min.js';
+            fallback.defer = true;
+            document.head.appendChild(fallback);
+        };
+        document.head.appendChild(script);
+    })();
+    </script>
     <script src="bootstrap/popper.js/dist/popper.min.js" defer></script>
     <script src="bootstrap/bootstrap/dist/js/bootstrap.min.js" defer></script>
     <?php echo js_tag('form/main.js', ['defer' => true]); ?>

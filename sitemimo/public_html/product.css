@@ -848,7 +848,10 @@ nav.footer-nav-vertical {
 
 	align-items: center;
 
-	justify-content: center
+	justify-content: center;
+	/* Prevent layout shift */
+	contain: layout;
+	min-height: 300px;
 
 }
 
@@ -910,7 +913,10 @@ nav.footer-nav-vertical {
 
 	height: 100%;
 
-	display: block
+	display: block;
+	/* Prevent layout shift */
+	contain: layout;
+	min-height: 300px;
 
 }
 
@@ -964,7 +970,9 @@ nav.footer-nav-vertical {
 
 	object-fit: cover;
 
-	display: block
+	display: block;
+	/* Prevent layout shift */
+	aspect-ratio: 5 / 4;
 
 }
 
@@ -1014,7 +1022,34 @@ nav.footer-nav-vertical {
 
 }
 
-
+/* Disable animations on mobile for better performance */
+@media (max-width: 768px) {
+	.sessoes.container:hover .content-details {
+		transform: none !important;
+		transition: none !important;
+		opacity: 1 !important;
+	}
+	
+	.sessoes.container:hover .content-overlay {
+		opacity: 0 !important;
+		transition: none !important;
+	}
+	
+	.content-image {
+		transition: none !important;
+	}
+	
+	.content:hover .content-image {
+		transform: none !important;
+		filter: none !important;
+	}
+	
+	/* Disable all transitions on mobile */
+	* {
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+	}
+}
 
 .content-details h3 {
 
@@ -1963,6 +1998,8 @@ body nav.breadcrumb-nav ol {
 	box-sizing: border-box; /* Inclui padding no cálculo da altura */
 	overflow: hidden; /* Evita que elementos saiam do container durante transição */
 	will-change: transform;
+	/* Prevent layout shift */
+	contain: layout;
 }
 
 .testimonial-card {
