@@ -512,40 +512,45 @@
 		align-items: center !important;
 		justify-content: center !important;
 		border-radius: 8px !important;
-		background: rgba(58, 80, 90, 0.1) !important;
-		border: 2px solid rgba(58, 80, 90, 0.2) !important;
+		background: rgba(204, 183, 188, 0.15) !important; /* Fundo rosa sutil para contraste */
+		border: 2px solid #ccb7bc !important; /* Borda rosa da marca */
 		margin: 8px 0 !important;
 		padding: 0 !important;
 		transition: all 0.3s ease !important;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
 	}
 
 	.navbar-nav .dark-mode-toggle:hover,
 	.navbar-nav .dark-mode-toggle:focus {
-		background: rgba(58, 80, 90, 0.2) !important;
-		border-color: rgba(58, 80, 90, 0.4) !important;
+		background: rgba(204, 183, 188, 0.3) !important;
+		border-color: #ccb7bc !important;
 		transform: scale(1.05) !important;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
 	}
 
 	.navbar-nav .dark-mode-toggle .dark-mode-icon {
 		width: 24px !important;
 		height: 24px !important;
-		color: #3a505a !important;
+		color: #3a505a !important; /* Cinza escuro da marca */
+		stroke-width: 2.5 !important;
+		filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1)) !important;
 	}
 
 	/* Dark mode ativo no mobile */
 	[data-theme="dark"] .navbar-nav .dark-mode-toggle {
-		background: rgba(204, 183, 188, 0.2) !important;
-		border-color: rgba(204, 183, 188, 0.4) !important;
+		background: rgba(212, 165, 176, 0.25) !important; /* Fundo rosa claro para contraste */
+		border-color: #d4a5b0 !important; /* Rosa claro da marca */
 	}
 
 	[data-theme="dark"] .navbar-nav .dark-mode-toggle .dark-mode-icon {
-		color: #ccb7bc !important;
+		color: #d4a5b0 !important; /* Rosa claro da marca */
+		filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3)) !important;
 	}
 
 	[data-theme="dark"] .navbar-nav .dark-mode-toggle:hover,
 	[data-theme="dark"] .navbar-nav .dark-mode-toggle:focus {
-		background: rgba(204, 183, 188, 0.3) !important;
-		border-color: rgba(204, 183, 188, 0.5) !important;
+		background: rgba(212, 165, 176, 0.4) !important;
+		border-color: #d4a5b0 !important;
 	}
 
 	/* Garantir que o toggle apareça no menu colapsado */

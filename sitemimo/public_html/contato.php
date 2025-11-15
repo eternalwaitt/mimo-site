@@ -612,7 +612,8 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
     })();
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous" defer></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous" defer></script>
+    <!-- Bootstrap JS Custom Build - Apenas Carousel e Tab (economia: 37 KiB) -->
+    <script src="bootstrap/bootstrap-custom.min.js" defer></script>
 
     <!-- Form validation script -->
     <script src="form/main.js?<?php echo ASSET_VERSION; ?>" defer></script>

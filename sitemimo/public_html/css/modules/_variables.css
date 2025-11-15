@@ -8,7 +8,7 @@
  */
 
 :root {
-	/* Cores da Marca - Light Mode */
+	/* Cores da Marca - Light Mode (cores originais do site) */
 	/* Rosa principal da marca: #ccb7bc (original) - mantém identidade */
 	--color-pink: #ccb7bc; /* Rosa original da marca */
 	--color-pink-light: #d4a5b0; /* Rosa claro para hovers */
@@ -24,8 +24,8 @@
 	--color-text-secondary: #4a4a4a; /* Texto secundário */
 	--color-text-muted: #6a6a6a; /* Texto desabilitado/muted */
 	
-	/* Cores de Fundo - Light Mode (off-white, não branco puro) */
-	--color-bg-primary: #fafafa; /* Fundo principal - off-white suave (Material Design) */
+	/* Cores de Fundo - Light Mode (cores originais: off-white) */
+	--color-bg-primary: #fafafa; /* Fundo principal - off-white original do site */
 	--color-bg-secondary: #f5f5f5; /* Fundo secundário - cards, modais */
 	--color-bg-tertiary: #f0f0f0; /* Fundo terciário - hover states */
 	--color-bg-elevated: #ffffff; /* Elementos elevados - apenas quando necessário */
@@ -64,9 +64,9 @@
 	--z-index-modal: 100001;
 }
 
-/* Dark Mode - Mantém cores da marca mas adaptadas para fundo escuro */
+/* Dark Mode - Tons mais escuros mantendo cores da marca */
 [data-theme="dark"] {
-	/* Cores da Marca - Dark Mode (mantém identidade, ajusta luminosidade) */
+	/* Cores da Marca - Dark Mode (mantém identidade, tons mais escuros) */
 	/* Rosa da marca: mais claro para legibilidade mas mantém tom original */
 	--color-pink: #d4a5b0; /* Rosa mais claro (baseado em #ccb7bc) para legibilidade */
 	--color-pink-light: #e8b8c8; /* Rosa muito claro para destaques */
@@ -83,10 +83,10 @@
 	--color-text-secondary: #e0e0e0; /* Texto secundário */
 	--color-text-muted: #b0b0b0; /* Texto desabilitado/muted */
 	
-	/* Cores de Fundo - Dark Mode (cinza escuro, não preto puro) */
-	--color-bg-primary: #121212; /* Fundo principal - Material Design dark (não #000) */
-	--color-bg-secondary: #1e1e1e; /* Fundo secundário - cards, modais */
-	--color-bg-tertiary: #2a2a2a; /* Fundo terciário - hover states */
+	/* Cores de Fundo - Dark Mode (tons mais escuros, não preto puro) */
+	--color-bg-primary: #0d0d0d; /* Fundo principal - mais escuro que #121212 */
+	--color-bg-secondary: #1a1a1a; /* Fundo secundário - cards, modais (mais escuro) */
+	--color-bg-tertiary: #262626; /* Fundo terciário - hover states (mais escuro) */
 	--color-bg-elevated: #2d2d2d; /* Elementos elevados */
 	
 	/* Cores de Bordas - Dark Mode */
@@ -98,7 +98,10 @@
 	--color-button-primary: #d4a5b0; /* Botão primário - rosa claro */
 	--color-button-primary-hover: #e8b8c8; /* Hover mais claro */
 	--color-button-secondary: #8a9aa2; /* Botão secundário - cinza claro */
-	--color-button-text: #121212; /* Texto em botões - fundo escuro */
+	--color-button-text: #0d0d0d; /* Texto em botões - fundo escuro */
+	
+	/* Cores auxiliares */
+	--color-white: #ffffff; /* Branco para contraste */
 }
 
 /* Transições suaves para mudança de tema */

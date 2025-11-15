@@ -5,13 +5,13 @@
  * ONDE É USADO: Importado por product.css ou carregado separadamente
  */
 
-/* Botão Toggle */
+/* Botão Toggle - Fundo que contraste sempre com o ícone */
 .dark-mode-toggle {
-    background: transparent;
-    border: 1px solid var(--color-pink);
+    background: rgba(204, 183, 188, 0.15); /* Fundo rosa sutil para contraste */
+    border: 2px solid var(--color-pink);
     color: var(--color-pink);
     padding: 8px 12px;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
@@ -21,6 +21,7 @@
     min-width: 40px;
     height: auto;
     vertical-align: middle;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Ajuste para o nav-item que contém o toggle */
@@ -58,18 +59,44 @@
 
 .dark-mode-toggle:hover {
     background-color: var(--color-pink);
-    color: var(--color-white);
+    color: var(--color-white, #ffffff);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
 }
 
 .dark-mode-toggle:focus {
     outline: 2px solid var(--color-pink);
     outline-offset: 2px;
+    background: rgba(204, 183, 188, 0.25); /* Fundo mais forte no focus */
+}
+
+.dark-mode-toggle:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .dark-mode-icon {
     width: 20px;
     height: 20px;
     stroke: currentColor;
+    stroke-width: 2.5; /* Ícone mais visível */
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1)); /* Sombra sutil para contraste */
+}
+
+/* Dark mode: fundo mais escuro para contraste */
+[data-theme="dark"] .dark-mode-toggle {
+    background: rgba(212, 165, 176, 0.2); /* Fundo rosa claro para contraste no dark */
+    border-color: var(--color-pink);
+    color: var(--color-pink);
+}
+
+[data-theme="dark"] .dark-mode-toggle:hover {
+    background-color: var(--color-pink);
+    color: #121212; /* Texto escuro no hover */
+}
+
+[data-theme="dark"] .dark-mode-toggle .dark-mode-icon {
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3)); /* Sombra mais forte no dark */
 }
 
 /* ============================================
@@ -83,11 +110,11 @@
 }
 
 [data-theme="dark"] .navbar {
-    background-color: rgba(18, 18, 18, 0.95) !important; /* #121212 com transparência - Material Design */
+    background-color: rgba(13, 13, 13, 0.95) !important; /* #0d0d0d com transparência - mais escuro */
 }
 
 [data-theme="dark"] .navbar.compressed {
-    background-color: rgba(18, 18, 18, 0.98) !important;
+    background-color: rgba(13, 13, 13, 0.98) !important; /* Mais escuro */
 }
 
 /* Garantir que navbar-nav seja visível no dark mode */
@@ -146,7 +173,7 @@
 
 /* Footer sempre tem fundo escuro, então cores claras sempre */
 [data-theme="dark"] .site-footer {
-    background: linear-gradient(135deg, #1a1a1a 0%, #121212 100%) !important; /* Mantém escuro mas não preto puro */
+    background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%) !important; /* Tons mais escuros */
     color: var(--color-text-primary) !important;
 }
 
@@ -193,7 +220,7 @@
 [data-theme="dark"] .google-reviews-link {
     background: var(--color-dark-grey, #7a9aab) !important; /* Cinza da marca adaptado para dark mode */
     border-color: var(--color-dark-grey, #7a9aab) !important;
-    color: #fff !important;
+    color: var(--color-white, #ffffff) !important;
 }
 
 [data-theme="dark"] .google-reviews-link:hover {
@@ -202,7 +229,7 @@
 }
 
 [data-theme="dark"] .google-reviews-link span {
-    color: #fff !important;
+    color: var(--color-white, #ffffff) !important;
 }
 
 /* Seção de testimonials - garantir legibilidade */
@@ -212,15 +239,15 @@
 
 [data-theme="dark"] .testimonial-card {
     background-color: var(--color-bg-secondary) !important;
-    color: var(--color-text-dark) !important;
+    color: var(--color-text-primary) !important;
 }
 
 [data-theme="dark"] .testimonial-text {
-    color: var(--color-text-dark) !important;
+    color: var(--color-text-primary) !important;
 }
 
 [data-theme="dark"] .testimonial-author {
-    color: var(--color-text-dark) !important;
+    color: var(--color-text-primary) !important;
 }
 
 [data-theme="dark"] .testimonial-content {

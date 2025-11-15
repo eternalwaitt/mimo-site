@@ -39,15 +39,51 @@ if [ -f "form/main.css" ]; then
     }
 fi
 
-# Minify CSS modules
-if [ -f "css/modules/mobile-ui-improvements.css" ]; then
+# Minify purged CSS files (prioridade: usar versões purgadas)
+if [ -f "css/purged/product.css" ]; then
+    echo "Minifying css/purged/product.css..."
+    npx --yes csso-cli css/purged/product.css --output css/purged/product.min.css || {
+        echo "Warning: Failed to minify purged product.css, continuing..."
+    }
+fi
+
+if [ -f "css/purged/dark-mode.css" ]; then
+    echo "Minifying css/purged/dark-mode.css..."
+    npx --yes csso-cli css/purged/dark-mode.css --output css/purged/dark-mode.min.css || {
+        echo "Warning: Failed to minify purged dark-mode.css, continuing..."
+    }
+fi
+
+if [ -f "css/purged/animations.css" ]; then
+    echo "Minifying css/purged/animations.css..."
+    npx --yes csso-cli css/purged/animations.css --output css/purged/animations.min.css || {
+        echo "Warning: Failed to minify purged animations.css, continuing..."
+    }
+fi
+
+if [ -f "css/purged/mobile-ui-improvements.css" ]; then
+    echo "Minifying css/purged/mobile-ui-improvements.css..."
+    npx --yes csso-cli css/purged/mobile-ui-improvements.css --output css/purged/mobile-ui-improvements.min.css || {
+        echo "Warning: Failed to minify purged mobile-ui-improvements.css, continuing..."
+    }
+fi
+
+if [ -f "css/purged/accessibility-fixes.css" ]; then
+    echo "Minifying css/purged/accessibility-fixes.css..."
+    npx --yes csso-cli css/purged/accessibility-fixes.css --output css/purged/accessibility-fixes.min.css || {
+        echo "Warning: Failed to minify purged accessibility-fixes.css, continuing..."
+    }
+fi
+
+# Minify CSS modules (fallback se não houver versão purgada)
+if [ -f "css/modules/mobile-ui-improvements.css" ] && [ ! -f "css/purged/mobile-ui-improvements.css" ]; then
     echo "Minifying css/modules/mobile-ui-improvements.css..."
     npx --yes csso-cli css/modules/mobile-ui-improvements.css --output minified/mobile-ui-improvements.min.css || {
         echo "Warning: Failed to minify mobile-ui-improvements.css, continuing..."
     }
 fi
 
-if [ -f "css/modules/accessibility-fixes.css" ]; then
+if [ -f "css/modules/accessibility-fixes.css" ] && [ ! -f "css/purged/accessibility-fixes.css" ]; then
     echo "Minifying css/modules/accessibility-fixes.css..."
     npx --yes csso-cli css/modules/accessibility-fixes.css --output minified/accessibility-fixes.min.css || {
         echo "Warning: Failed to minify accessibility-fixes.css, continuing..."

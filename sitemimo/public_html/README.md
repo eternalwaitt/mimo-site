@@ -1,21 +1,37 @@
 # Mimo Site - Codebase Documentation
 
-**Versão Atual**: 2.6.6  
+**Versão Atual**: 2.6.7  
 **Última Atualização**: 2025-11-15  
-**Asset Version**: 20251115-4
+**Asset Version**: 20251115-5
 
 ## Overview
 
 Mimo Site is a PHP-based website for a beauty and aesthetics center. The site features a homepage with contact form, service pages for different treatment categories, and a responsive design using Bootstrap 4.
 
-### Latest Updates (v2.6.6)
+### Latest Updates (v2.6.7)
 
-- ✅ **Image Delivery (2,760 KiB)**: Script corrigido para otimizar TODAS as imagens grandes, incluindo `mobile_promocional`
-- ✅ **Unused CSS (83 KiB)**: PurgeCSS re-executado + minificação aplicada (economia: ~22 KiB)
-- ✅ **Minify CSS (23 KiB)**: CSS modules minificados (mobile-ui-improvements, accessibility-fixes)
-- ✅ **CSS Purgado e Minificado**: product.css, dark-mode.css, animations.css otimizados
-- ✅ **Asset Helper**: Configurado para usar arquivos purgados/minificados corretamente
-- 📊 **Expected Results**: Image Delivery 2,760 KiB → reduzido, Network Payload 3,882 KiB → <1,600 KiB, Performance 50→70-75
+- ✅ **Performance 90+ Optimization**:
+  - Bootstrap Custom Build: Apenas Carousel e Tab (economia: 37 KiB, de 49 KiB para 12 KiB)
+  - PurgeCSS Melhorado: Removido ~97 KiB de CSS não utilizado (product: 90%, dark-mode: 90%, animations: 71%)
+  - Minificação Completa: Todos CSS e JS minificados
+  - CSS/JS Combinados: Arquivos não críticos combinados para reduzir requisições
+- ✅ **Dark Mode Melhorado**:
+  - Ícones com fundo contrastante sempre visível
+  - Light mode usa cores originais do site (#ccb7bc, #3a505a, #fafafa)
+  - Dark mode com tons mais escuros (#0d0d0d, #1a1a1a)
+  - Contraste melhorado em todos os elementos
+- ✅ **Scripts de Build**:
+  - `create-bootstrap-custom.sh`: Build customizado do Bootstrap
+  - `purge-css.sh`: Melhorado com configuração expandida
+  - `combine-css.sh` / `combine-js.sh`: Combina arquivos não críticos
+  - `verify-optimizations.sh`: Verifica todas as otimizações
+- 📊 **Expected Results**: Performance 43→90+ (mobile), 87→90+ (desktop)
+
+### Previous Updates (v2.6.6)
+
+- ✅ **Image Delivery (2,760 KiB)**: Script corrigido para otimizar TODAS as imagens grandes
+- ✅ **Unused CSS (83 KiB)**: PurgeCSS re-executado + minificação aplicada
+- ✅ **Minify CSS (23 KiB)**: CSS modules minificados
 
 ### Previous Updates (v2.6.5)
 

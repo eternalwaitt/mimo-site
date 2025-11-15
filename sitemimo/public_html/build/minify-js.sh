@@ -29,6 +29,30 @@ if [ -f "form/main.js" ]; then
     }
 fi
 
+# Minify js/dark-mode.js
+if [ -f "js/dark-mode.js" ]; then
+    echo "Minifying js/dark-mode.js..."
+    npx --yes terser js/dark-mode.js --compress --mangle --output minified/dark-mode.min.js || {
+        echo "Warning: Failed to minify js/dark-mode.js, continuing..."
+    }
+fi
+
+# Minify js/animations.js
+if [ -f "js/animations.js" ]; then
+    echo "Minifying js/animations.js..."
+    npx --yes terser js/animations.js --compress --mangle --output minified/animations.min.js || {
+        echo "Warning: Failed to minify js/animations.js, continuing..."
+    }
+fi
+
+# Minify js/bc-swipe.js
+if [ -f "js/bc-swipe.js" ]; then
+    echo "Minifying js/bc-swipe.js..."
+    npx --yes terser js/bc-swipe.js --compress --mangle --output minified/bc-swipe.min.js || {
+        echo "Warning: Failed to minify js/bc-swipe.js, continuing..."
+    }
+fi
+
 echo "JavaScript minification complete! Files saved in minified/ directory."
 echo "Remember to update your PHP files to use .min.js files in production."
 

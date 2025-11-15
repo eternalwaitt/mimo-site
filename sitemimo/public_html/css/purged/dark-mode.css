@@ -5,7 +5,7 @@
  * ONDE É USADO: Importado por product.css ou carregado separadamente
  */
 
-/* Botão Toggle */
+/* Botão Toggle - Fundo que contraste sempre com o ícone */
 
 /* Ajuste para o nav-item que contém o toggle */
 
@@ -16,6 +16,8 @@
 /* Garantir que o toggle tenha tamanho consistente */
 
 /* Responsive: ajustar tamanho em telas menores */
+
+/* Dark mode: fundo mais escuro para contraste */
 
 /* ============================================
    DARK MODE - Ajustes mantendo identidade da marca

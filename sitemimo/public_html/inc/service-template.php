@@ -417,7 +417,8 @@ if (!isset($includeGTM)) {
     })();
     </script>
     <script src="../bootstrap/popper.js/dist/popper.min.js" defer></script>
-    <script src="../bootstrap/bootstrap/dist/js/bootstrap.min.js" defer></script>
+    <!-- Bootstrap JS Custom Build - Apenas Carousel e Tab (economia: 37 KiB) -->
+    <script src="../bootstrap/bootstrap-custom.min.js" defer></script>
     <?php echo js_tag('form/main.js', ['defer' => true]); ?>
     <?php echo js_tag('js/bc-swipe.js', ['defer' => true]); ?>
     <?php echo js_tag('main.js', ['defer' => true]); ?>

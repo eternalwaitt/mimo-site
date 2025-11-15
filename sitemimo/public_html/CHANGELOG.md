@@ -5,6 +5,46 @@ All notable changes to the Mimo Site project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.7] - 2025-11-15
+
+### Added
+- **Bootstrap Custom Build**:
+  - Criado `build/create-bootstrap-custom.sh` para gerar build apenas com Carousel e Tab
+  - Build customizado: `bootstrap/bootstrap-custom.min.js` (12 KiB vs 49 KiB original)
+  - Economia: 37 KiB de JavaScript não utilizado removido
+  - Atualizados: `index.php`, `contato.php`, `vagas.php`, `inc/service-template.php`
+- **Scripts de Otimização**:
+  - `build/optimize-fontawesome.sh`: Identifica ícones Font Awesome usados
+  - `build/combine-css.sh`: Combina CSS não críticos em um único arquivo
+  - `build/combine-js.sh`: Combina JavaScript não críticos em um único arquivo
+  - `build/verify-optimizations.sh`: Verifica se todas as otimizações foram aplicadas
+  - `purgecss.config.js`: Configuração expandida do PurgeCSS com safelist completo
+
+### Changed
+- **PurgeCSS Melhorado**:
+  - Configuração expandida com safelist completo (Bootstrap, Font Awesome, classes dinâmicas)
+  - Re-executado em todos os CSS: product, dark-mode, animations, mobile-ui-improvements, accessibility-fixes
+  - Economia total: ~97 KiB (product: 90%, dark-mode: 90%, animations: 71%, mobile-ui: 82%, accessibility: 58%)
+- **Minificação Completa**:
+  - Todos os CSS purgados foram minificados: `css/purged/*.min.css`
+  - Todos os JavaScript foram minificados: `minified/*.min.js`
+  - CSS combinado: `css/combined-non-critical.min.css`
+  - JS combinado: `js/combined.min.js`
+- **Dark Mode Melhorado**:
+  - Ícones do toggle com fundo contrastante sempre visível (rgba(204, 183, 188, 0.15) no light, rgba(212, 165, 176, 0.2) no dark)
+  - Light mode usa cores originais do site: #ccb7bc (rosa), #3a505a (cinza), #fafafa (fundo)
+  - Dark mode com tons mais escuros: #0d0d0d (fundo principal), #1a1a1a (cards), #262626 (hover)
+  - Contraste melhorado em todos os elementos (ícones com drop-shadow, bordas mais visíveis)
+  - Mobile: Toggle com fundo contrastante e ícone mais visível (stroke-width: 2.5)
+- **Asset Version**: Atualizado para `20251115-5` (cache busting)
+
+### Technical
+- **Performance Optimization**: Meta de performance 90+ em mobile e desktop
+- **Bootstrap Custom**: Apenas Carousel e Tab (removidos: tooltip, modal, dropdown, collapse, scrollspy)
+- **CSS Optimization**: PurgeCSS + minificação + combinação aplicados
+- **JavaScript Optimization**: Minificação + combinação aplicados
+- **Dark Mode**: Contraste WCAG AA+ em todos os elementos
+
 ## [2.6.6] - 2025-11-15
 
 ### Fixed
