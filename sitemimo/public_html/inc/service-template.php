@@ -94,7 +94,7 @@ if (!isset($includeGTM)) {
     ];
     
     $pageDescription = $serviceDescriptions[$serviceNameClean] ?? "Serviços de {$serviceNameClean} em São Paulo. Centro de beleza Mimo com profissionais especializadas e preços acessíveis.";
-    $pageTitle = "{$serviceNameClean} em São Paulo - Mimo | Preços e Agendamento";
+    $pageTitle = "{$serviceNameClean} em São Paulo - Mimo | Preços e Informações";
     $pageKeywords = strtolower($serviceNameClean) . ' são paulo, ' . strtolower($serviceNameClean) . ' vila madalena, mimo estética, centro de beleza são paulo';
     
     echo generate_seo_meta_tags($pageTitle, $pageDescription, $pageKeywords);
@@ -121,8 +121,14 @@ if (!isset($includeGTM)) {
     <!-- Bootstrap core CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     
+    <!-- CSS Variables (deve vir antes de product.css) -->
+    <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/_variables.css'); ?>">
+    
     <!-- Custom styles -->
     <?php echo css_tag('product.css'); ?>
+    
+    <!-- Dark Mode Styles -->
+    <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/dark-mode.css'); ?>">
     
     <!-- Fix para ícones Font Awesome no footer -->
     <style>
@@ -379,6 +385,7 @@ if (!isset($includeGTM)) {
     <?php echo js_tag('form/main.js'); ?>
     <?php echo js_tag('js/bc-swipe.js'); ?>
     <?php echo js_tag('main.js'); ?>
+    <?php echo js_tag('js/dark-mode.js', ['defer' => false]); ?>
     <script src="//code.tidio.co/ylbfxpiqcmi2on8duid7rpjgqydlrqne.js"></script>
     
     <!-- Botão Voltar ao Topo -->

@@ -54,7 +54,8 @@ ob_start();
                     AGENDAR</a>
             </button>
             <button class="d-sm-none">
-                <a class="btn btnAgendamento" href="https://agendamento.salaovip.com.br/?slug=mimoestetica"
+                <a class="btn btnAgendamento"
+                    href="https://api.whatsapp.com/send/?phone=5511994781012&text=Ol%C3%A1,+vim+pelo+site+e+queria+mais+informa%C3%A7%C3%B5es"
                     target="_blank" style="width: 100%">ENTENDI E QUERO AGENDAR</a>
             </button>
         </div>
@@ -72,9 +73,7 @@ ob_start();
                 </button>
             </div>
             <div class="modal-body">
-                <iframe id="agendaWidgetSalaoNav" width="100%" height="520px"
-                    style="border:none; border-radius: 10px;"
-                    src="https://agendamento.salaovip.com.br/?slug=mimoestetica"></iframe>
+                <!-- Modal removido - agendamento via WhatsApp -->
             </div>
         </div>
     </div>

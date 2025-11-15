@@ -47,8 +47,7 @@ ob_start();
                 </button>
             </div>
             <div class="modal-body">
-                <iframe id="modalBlond12" width="100%" height="520px" style="border:none; border-radius: 10px;"
-                    src="https://agendamento.salaovip.com.br/?slug=mimoestetica"></iframe>
+                <!-- Modal removido - agendamento via WhatsApp -->
             </div>
         </div>
     </div>
@@ -65,9 +64,7 @@ ob_start();
                 </button>
             </div>
             <div class="modal-body">
-                <iframe id="agendaWidgetSalaoNav" width="100%" height="520px"
-                    style="border:none; border-radius: 10px;"
-                    src="https://agendamento.salaovip.com.br/?slug=mimoestetica"></iframe>
+                <!-- Modal removido - agendamento via WhatsApp -->
             </div>
         </div>
     </div>
@@ -134,9 +131,7 @@ ob_start();
                         </button>
                     </div>
                     <div class="modal-body">
-                        <iframe id="modalBlond12" width="100%" height="520px"
-                            style="border:none; border-radius: 10px;"
-                            src="https://agendamento.salaovip.com.br/?slug=mimoestetica"></iframe>
+                        <!-- Modal removido - agendamento via WhatsApp -->
                     </div>
                 </div>
             </div>

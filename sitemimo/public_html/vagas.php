@@ -65,8 +65,14 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
 
+    <!-- CSS Variables (deve vir antes de product.css) -->
+    <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/_variables.css'); ?>">
+    
     <!-- Custom styles for this template -->
     <?php echo css_tag('product.css'); ?>
+    
+    <!-- Dark Mode Styles -->
+    <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/dark-mode.css'); ?>">
     
     <!-- Fix para ícones Font Awesome no footer -->
     <style>
@@ -165,7 +171,7 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
                                 'Edição de imagens e posts: criar conteúdos visuais atrativos e coerentes com a identidade visual da Mimo.',
                                 'Publicação de posts e stories: atualizar regularmente as redes sociais, mantendo o diálogo próximo e humano com a comunidade.',
                                 'Comunicação com parceiras via WhatsApp: manter contato direto com parceiras, coordenando agendas, entregas e feedbacks.',
-                                'Agendamento de parcerias: organizar e acompanhar o cronograma de colaborações e produções, assegurando eficiência e harmonia no processo.',
+                                'Organização de parcerias: organizar e acompanhar o cronograma de colaborações e produções, assegurando eficiência e harmonia no processo.',
                                 'Análise de desempenho: monitorar e interpretar métricas de engajamento e crescimento, ajustando estratégias de forma contínua.',
                                 'Criação de artes em geral: desenvolver peças gráficas para uso em campanhas, redes sociais e comunicações internas.',
                                 'Redação e copy de vídeos: elaborar legendas, roteiros e textos que comuniquem com clareza e sensibilidade.'
@@ -377,6 +383,7 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     <?php echo js_tag('js/bc-swipe.js'); ?>
     <?php echo js_tag('main.js'); ?>
+    <?php echo js_tag('js/dark-mode.js', ['defer' => false]); ?>
 
     <?php include 'inc/gtm-body.php'; ?>
 

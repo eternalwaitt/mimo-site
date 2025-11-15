@@ -2,23 +2,44 @@
  * CSS Variables - Design Tokens
  * 
  * Cores, espaçamentos e outras variáveis reutilizáveis
+ * Baseado em boas práticas de light/dark mode mantendo identidade da marca
  * 
  * ONDE É USADO: Importado por product.css
  */
 
 :root {
-	/* Cores Principais */
-	--color-pink: #ccb7bc;
-	--color-dark-grey: #3a505a;
-	--color-grey: #454545;
-	--color-light-grey: #ededed;
-	--color-text-dark: #1a252a;
-	--color-text-medium: #2a3a42;
-	--color-white: #fff;
+	/* Cores da Marca - Light Mode */
+	/* Rosa principal da marca: #ccb7bc (original) - mantém identidade */
+	--color-pink: #ccb7bc; /* Rosa original da marca */
+	--color-pink-light: #d4a5b0; /* Rosa claro para hovers */
+	--color-pink-dark: #b895a0; /* Rosa escuro para elementos pressionados */
 	
-	/* Cores de Botões */
-	--color-button-primary: #eea7b8;
-	--color-button-hover: #cc8495;
+	/* Cinza escuro da marca: #3a505a (original) - mantém identidade */
+	--color-dark-grey: #3a505a; /* Cinza escuro original da marca */
+	--color-grey: #454545;
+	--color-light-grey: #6a6a6a;
+	
+	/* Cores de Texto - Light Mode */
+	--color-text-primary: #1a1a1a; /* Texto principal - quase preto mas não puro */
+	--color-text-secondary: #4a4a4a; /* Texto secundário */
+	--color-text-muted: #6a6a6a; /* Texto desabilitado/muted */
+	
+	/* Cores de Fundo - Light Mode (off-white, não branco puro) */
+	--color-bg-primary: #fafafa; /* Fundo principal - off-white suave (Material Design) */
+	--color-bg-secondary: #f5f5f5; /* Fundo secundário - cards, modais */
+	--color-bg-tertiary: #f0f0f0; /* Fundo terciário - hover states */
+	--color-bg-elevated: #ffffff; /* Elementos elevados - apenas quando necessário */
+	
+	/* Cores de Bordas - Light Mode */
+	--color-border-light: #e8e8e8; /* Bordas sutis */
+	--color-border-medium: #d0d0d0; /* Bordas médias */
+	--color-border-dark: #b0b0b0; /* Bordas fortes */
+	
+	/* Cores de Botões - Light Mode */
+	--color-button-primary: #b895a0; /* Botão primário - rosa da marca */
+	--color-button-primary-hover: #9a7a85; /* Hover mais escuro */
+	--color-button-secondary: #2a3a42; /* Botão secundário - cinza da marca */
+	--color-button-text: #ffffff; /* Texto em botões */
 	
 	/* Espaçamentos */
 	--spacing-xs: 5px;
@@ -43,3 +64,54 @@
 	--z-index-modal: 100001;
 }
 
+/* Dark Mode - Mantém cores da marca mas adaptadas para fundo escuro */
+[data-theme="dark"] {
+	/* Cores da Marca - Dark Mode (mantém identidade, ajusta luminosidade) */
+	/* Rosa da marca: mais claro para legibilidade mas mantém tom original */
+	--color-pink: #d4a5b0; /* Rosa mais claro (baseado em #ccb7bc) para legibilidade */
+	--color-pink-light: #e8b8c8; /* Rosa muito claro para destaques */
+	--color-pink-dark: #c0a0ab; /* Rosa médio para elementos pressionados */
+	
+	/* Cinza escuro da marca adaptado para dark mode */
+	/* Baseado em #3a505a mas mais claro para legibilidade */
+	--color-dark-grey: #7a9aab; /* Cinza claro (baseado em #3a505a) para legibilidade */
+	--color-grey: #6a6a6a;
+	--color-light-grey: #9a9a9a;
+	
+	/* Cores de Texto - Dark Mode */
+	--color-text-primary: #f5f5f5; /* Texto principal - quase branco mas não puro */
+	--color-text-secondary: #e0e0e0; /* Texto secundário */
+	--color-text-muted: #b0b0b0; /* Texto desabilitado/muted */
+	
+	/* Cores de Fundo - Dark Mode (cinza escuro, não preto puro) */
+	--color-bg-primary: #121212; /* Fundo principal - Material Design dark (não #000) */
+	--color-bg-secondary: #1e1e1e; /* Fundo secundário - cards, modais */
+	--color-bg-tertiary: #2a2a2a; /* Fundo terciário - hover states */
+	--color-bg-elevated: #2d2d2d; /* Elementos elevados */
+	
+	/* Cores de Bordas - Dark Mode */
+	--color-border-light: #333333; /* Bordas sutis */
+	--color-border-medium: #444444; /* Bordas médias */
+	--color-border-dark: #555555; /* Bordas fortes */
+	
+	/* Cores de Botões - Dark Mode */
+	--color-button-primary: #d4a5b0; /* Botão primário - rosa claro */
+	--color-button-primary-hover: #e8b8c8; /* Hover mais claro */
+	--color-button-secondary: #8a9aa2; /* Botão secundário - cinza claro */
+	--color-button-text: #121212; /* Texto em botões - fundo escuro */
+}
+
+/* Transições suaves para mudança de tema */
+* {
+	transition: background-color var(--transition-base), 
+	            color var(--transition-base),
+	            border-color var(--transition-base);
+}
+
+/* Evitar transições em elementos que não devem ter (performance) */
+*:before,
+*:after,
+svg,
+img {
+	transition: none;
+}

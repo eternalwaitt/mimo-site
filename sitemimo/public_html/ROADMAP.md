@@ -1,13 +1,25 @@
 # Mimo Site - Roadmap de Melhorias
 
-**Última Atualização**: 2025-01-20  
-**Versão Atual**: 2.2.7
+**Última Atualização**: 2025-01-21  
+**Versão Atual**: 2.3.3
 
 Este documento apresenta um roadmap completo de melhorias, otimizações e novas funcionalidades para o site Mimo, baseado em melhores práticas modernas de desenvolvimento web.
 
 ---
 
 ## 🎯 Status Atual
+
+### Versão 2.3.3 (2025-01-21) - Dark Mode Profissional
+- ✅ Dark Mode implementado seguindo boas práticas
+- ✅ Sistema de variáveis CSS para temas (mantém identidade da marca)
+- ✅ Cores da marca preservadas (#ccb7bc rosa, #3a505a cinza)
+- ✅ Light mode: off-white (#fafafa) em vez de branco puro
+- ✅ Dark mode: Material Design (#121212) em vez de preto puro
+- ✅ Toggle button no navbar com persistência localStorage
+- ✅ Detecção automática de prefers-color-scheme
+- ✅ Transições suaves entre temas
+- ✅ Contraste adequado (WCAG AA) em ambos os modos
+- ✅ Remoção completa de sistema de agendamento (agendamento.salaovip.com.br)
 
 ### Versão 2.2.7 (2025-01-20)
 - ✅ Carousel de reviews otimizado (altura reduzida, layout shift fixado)
@@ -76,15 +88,17 @@ Este documento apresenta um roadmap completo de melhorias, otimizações e novas
 
 ## 🎨 Fase 2: UX & Design Moderno (Média Prioridade)
 
-### 2.1 Dark Mode
+### 2.1 Dark Mode ✅ CONCLUÍDO
 **Impacto**: Médio - Modernização, preferência usuário  
-**Estimativa**: 2 dias
+**Status**: Implementado em v2.3.3
 
-- [ ] CSS Variables para tema
-- [ ] Toggle no header
-- [ ] Persistência com localStorage
-- [ ] Prefers-color-scheme detection
-- [ ] Transições suaves
+- [x] CSS Variables para tema (sistema completo em `_variables.css`)
+- [x] Toggle no header (botão com ícone lua/sol)
+- [x] Persistência com localStorage
+- [x] Prefers-color-scheme detection
+- [x] Transições suaves
+- [x] Cores da marca preservadas em ambos os modos
+- [x] Boas práticas aplicadas (Material Design #121212, off-white #fafafa)
 
 **ROI**: ⭐⭐⭐
 
@@ -170,17 +184,8 @@ Este documento apresenta um roadmap completo de melhorias, otimizações e novas
 
 **ROI**: ⭐⭐⭐
 
-### 3.4 Booking Widget Integrado
-**Impacto**: Alto - Conversão direta  
-**Estimativa**: 1-2 dias
-
-- [ ] Embed do sistema de agendamento
-- [ ] Modal ou seção dedicada
-- [ ] Pre-fill com dados do serviço
-- [ ] Tracking de conversões
-- [ ] Mobile-optimized
-
-**ROI**: ⭐⭐⭐⭐⭐
+### 3.4 ~~Booking Widget Integrado~~ (Removido)
+**Status**: Sistema de agendamento via website removido. Agendamentos são feitos via WhatsApp.
 
 ---
 
@@ -290,7 +295,8 @@ Este documento apresenta um roadmap completo de melhorias, otimizações e novas
 1. Service Worker & PWA
 2. Instagram Feed
 3. Animações básicas
-4. Formulário multi-step
+4. ✅ Dark Mode (CONCLUÍDO v2.3.3)
+5. Formulário multi-step
 
 **Impacto esperado**: +20% conversão, melhor mobile
 
@@ -323,7 +329,7 @@ Este documento apresenta um roadmap completo de melhorias, otimizações e novas
 
 ### Metas de Negócio
 - **Form conversion rate**: +20%
-- **Booking conversion**: +15%
+- **WhatsApp conversion**: +15%
 - **Bounce rate**: -10%
 - **Time on site**: +30%
 - **Pages per session**: +25%

@@ -78,16 +78,16 @@
 .btnAgendamento{
     background-color: transparent;
     /*color: #EEA7B8!important;*/
-    color: #ccb7bc !important;
+    color: #b895a0 !important; /* Rosa mais escuro para melhor legibilidade */
     border: 0;
-    border: 1px solid #ccb7bc;
+    border: 1px solid #b895a0; /* Borda mais escura para melhor visibilidade */
     font-size: 18px;
     letter-spacing: 1.8px;
     border-radius: 0;
 }
 
 .btnAgendamento:hover{
-    color:#eea7b8!important;
+    color:#d495a5!important; /* Rosa mais escuro no hover */
 }
 /*
 .btnAgendamento:hover {

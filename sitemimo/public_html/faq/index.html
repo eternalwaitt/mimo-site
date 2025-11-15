@@ -40,11 +40,15 @@
 
 
 
+    <!-- CSS Variables (deve vir antes de product.css) -->
+    <link rel="stylesheet" href="../css/modules/_variables.css">
+
     <!-- Custom styles for this template -->
-
     <link href="../product.css" rel="stylesheet">
-
     <link href="../servicos.css" rel="stylesheet">
+    
+    <!-- Dark Mode Styles -->
+    <link rel="stylesheet" href="../css/modules/dark-mode.css">
 
 
 
@@ -212,7 +216,7 @@
                     <a class="btn btnAgendamento" href="https://api.whatsapp.com/send?1=pt_BR&phone=5511994781012" target="_blank" data-target="#exampleModalCenterNav2" style="width: 100%">ENTENDI E QUERO AGENDAR</a>
                 </button>
                 <button class="d-sm-none">
-                    <a class="btn btnAgendamento" href="https://agendamento.salaovip.com.br/?slug=mimoestetica" target="_blank" style="width: 100%">ENTENDI E QUERO AGENDAR</a>
+                    <a class="btn btnAgendamento" href="https://api.whatsapp.com/send?1=pt_BR&phone=5511994781012" target="_blank" style="width: 100%">ENTENDI E QUERO AGENDAR</a>
                 </button>
             </div>
 
@@ -241,9 +245,7 @@
                 </div>
 
                 <div class="modal-body">
-
-                    <iframe id="agendaWidgetSalaoNav" width="100%" height="520px" style="border:none; border-radius: 10px;" src="https://agendamento.salaovip.com.br/?slug=mimoestetica"></iframe>
-
+                    <!-- Modal removido - agendamento via WhatsApp -->
                 </div>
 
             </div>
@@ -1009,8 +1011,9 @@
     <script src="../form/main.js"></script>
 
     <script src="../main.js"></script>
-
-
+    
+    <!-- Dark Mode JavaScript -->
+    <script src="../js/dark-mode.js"></script>
 
     <script src="//code.tidio.co/ylbfxpiqcmi2on8duid7rpjgqydlrqne.js"></script>
 

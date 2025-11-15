@@ -69,8 +69,14 @@ http_response_code(404);
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
     
+    <!-- CSS Variables (deve vir antes de product.css) -->
+    <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/_variables.css'); ?>">
+    
     <!-- Custom CSS -->
     <?php echo css_tag('product.css'); ?>
+    
+    <!-- Dark Mode Styles -->
+    <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/dark-mode.css'); ?>">
     
     <!-- Fix para ícones Font Awesome no footer -->
     <style>
@@ -418,6 +424,7 @@ http_response_code(404);
     
     <!-- Main JS (navbar scroll behavior) -->
     <?php echo js_tag('main.js'); ?>
+    <?php echo js_tag('js/dark-mode.js', ['defer' => false]); ?>
     
     <!-- Botão Voltar ao Topo -->
     <?php include 'inc/back-to-top.php'; ?>

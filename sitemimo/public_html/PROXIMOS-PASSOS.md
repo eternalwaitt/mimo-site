@@ -1,11 +1,23 @@
 # Próximos Passos - Site Mimo
 
-**Última Atualização**: 2025-01-15  
-**Versão Atual**: 2.3.0
+**Última Atualização**: 2025-01-21  
+**Versão Atual**: 2.3.3
 
 ---
 
 ## ✅ Mudanças Recentes
+
+### v2.3.3 (2025-01-21) - Dark Mode Profissional
+- ✅ Dark Mode implementado seguindo boas práticas de design
+- ✅ Sistema de variáveis CSS completo (`_variables.css`)
+- ✅ Cores da marca preservadas (#ccb7bc rosa, #3a505a cinza)
+- ✅ Light mode: off-white (#fafafa) - Material Design
+- ✅ Dark mode: #121212 (Material Design) - não preto puro
+- ✅ Toggle button no navbar com persistência
+- ✅ Detecção automática de prefers-color-scheme
+- ✅ Transições suaves entre temas
+- ✅ Contraste adequado (WCAG AA) em ambos os modos
+- ✅ Remoção completa de sistema de agendamento (agendamento.salaovip.com.br)
 
 ### v2.3.1 (2025-01-15) - Sprint 1 Concluído
 - ✅ Otimização de imagens: srcset, AVIF, scripts de build
@@ -77,14 +89,16 @@
 
 ### 2. UX & Design Moderno (Média Prioridade)
 
-#### 2.1 Dark Mode
+#### 2.1 Dark Mode ✅ CONCLUÍDO (v2.3.3)
 **Impacto**: Médio | **Esforço**: 2 dias | **ROI**: ⭐⭐⭐
 
-- [ ] CSS Variables para tema
-- [ ] Toggle no header
-- [ ] Persistência com localStorage
-- [ ] Prefers-color-scheme detection
-- [ ] Transições suaves
+- [x] CSS Variables para tema (sistema completo)
+- [x] Toggle no header (botão lua/sol)
+- [x] Persistência com localStorage
+- [x] Prefers-color-scheme detection
+- [x] Transições suaves
+- [x] Cores da marca preservadas
+- [x] Boas práticas aplicadas (Material Design)
 
 #### 2.2 Animações & Micro-interações
 **Impacto**: Médio | **Esforço**: 2-3 dias | **ROI**: ⭐⭐⭐
@@ -139,14 +153,8 @@
 - [ ] Resultados em tempo real
 - [ ] Highlight de termos
 
-#### 3.3 Booking Widget Integrado
-**Impacto**: Alto | **Esforço**: 1-2 dias | **ROI**: ⭐⭐⭐⭐⭐
-
-- [ ] Embed do sistema de agendamento
-- [ ] Modal ou seção dedicada
-- [ ] Pre-fill com dados do serviço
-- [ ] Tracking de conversões
-- [ ] Mobile-optimized
+#### 3.3 ~~Booking Widget Integrado~~ (Removido)
+**Status**: Sistema de agendamento via website removido. Agendamentos são feitos via WhatsApp.
 
 ---
 
@@ -201,10 +209,10 @@
 **Impacto esperado**: +30% performance, melhor mobile
 
 ### Sprint 2 (2-4 semanas) 🎯
-1. Dark Mode
+1. ✅ Dark Mode (CONCLUÍDO v2.3.3)
 2. Animações básicas
 3. Instagram Feed
-4. Booking Widget integrado
+4. Formulário multi-step
 
 **Impacto esperado**: +20% conversão, melhor UX
 
@@ -237,7 +245,7 @@
 
 ### Metas de Negócio
 - **Form conversion rate**: +20%
-- **Booking conversion**: +15%
+- **WhatsApp conversion**: +15%
 - **Bounce rate**: -10%
 - **Time on site**: +30%
 - **Pages per session**: +25%

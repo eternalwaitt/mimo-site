@@ -280,8 +280,14 @@ if ($_POST) {
     <!-- Bootstrap core CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- CSS Variables (deve vir antes de product.css) -->
+    <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/_variables.css'); ?>">
+    
     <!-- Custom styles for this template -->
     <?php echo css_tag('product.css'); ?>
+    
+    <!-- Dark Mode Styles -->
+    <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/dark-mode.css'); ?>">
 
     <!-- Fix para ícones Font Awesome no footer -->
     <style>
@@ -1144,6 +1150,7 @@ if ($_POST) {
     <?php echo js_tag('form/main.js', ['defer' => true]); ?>
     <?php echo js_tag('js/bc-swipe.js', ['defer' => true]); ?>
     <?php echo js_tag('main.js', ['defer' => true]); ?>
+    <?php echo js_tag('js/dark-mode.js', ['defer' => false]); ?>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.18/jquery.touchSwipe.min.js" defer></script>
     <script>
         // Wait for DOM and jQuery to be ready (defer ensures scripts load after DOM)

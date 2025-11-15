@@ -280,8 +280,8 @@ Documento com roadmap de melhorias, otimizações e inovações para o site MIMO
 ### Sprint 2 (2-4 semanas) 🎯
 1. ✅ Service Worker & PWA
 2. ✅ Instagram Feed
-3. ✅ Booking Widget integrado
-4. ✅ Formulário multi-step
+3. ✅ Formulário multi-step
+4. ✅ Dark Mode
 
 **Impacto esperado**: +20% conversão, melhor mobile
 

@@ -200,8 +200,14 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
 
+    <!-- CSS Variables (deve vir antes de product.css) -->
+    <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/_variables.css'); ?>">
+    
     <!-- Custom styles for this template -->
     <?php echo css_tag('product.css'); ?>
+    
+    <!-- Dark Mode Styles -->
+    <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/dark-mode.css'); ?>">
     
     <!-- Fix para remover barra branca entre conteúdo e footer -->
     <style>
@@ -581,6 +587,7 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
     
     <!-- Main JS (navbar scroll behavior) -->
     <?php echo js_tag('main.js'); ?>
+    <?php echo js_tag('js/dark-mode.js', ['defer' => false]); ?>
 
     <script>
         // Forçar navbar com fundo desde o início em páginas internas (DEPOIS do main.js)

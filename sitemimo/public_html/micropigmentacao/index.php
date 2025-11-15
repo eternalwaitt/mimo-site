@@ -59,7 +59,7 @@ ob_start();
                     A <b>revitalização labial</b> da Mimo buscar oferecer naturalidade através de uma harmonização da colorimetria dos lábios. Esse procedimento de micropigmentação é feito com um aparelho chamado dermógrafo, e pode levar até 2 horas. A durabilidade varia de organismo pra organismo, muitas vezes necessário retoque em até 70 dias após o primeiro procedimento, e dura até 2 anos.
                 </p>
                 <p style="letter-spacing: 0.8px">
-                    <b>Para agendamento:</b>
+                    <b>Para mais informações e agendamento:</b>
                 </p>
                 <ul style="letter-spacing: 0.8px">
                     <li>Necessário hidratar os lábios durante 1 semana antes com nívea de tampa azul.</li>

@@ -3,7 +3,7 @@
  * Estilos globais, layout, navegação, tipografia
  * 
  * Desenvolvido por: Victor Penter
- * Versão: 2.2.9
+ * Versão: 2.3.3
  * 
  * ESTRUTURA DO ARQUIVO:
  * 1. Reset e Base (linhas 9-200)
@@ -20,6 +20,9 @@
  * - Páginas de serviços via service-template.php
  * - Carregado via inc/asset-helper.php com suporte a minificação
  * - Cache busting via ASSET_VERSION em config.php
+ * 
+ * NOTA: Variáveis CSS são definidas em css/modules/_variables.css
+ * e devem ser carregadas antes deste arquivo.
  */
 
 html {
@@ -38,7 +41,9 @@ body {
 
 	font-family: Nunito, sans-serif;
 
-	padding-right: 0!important
+	padding-right: 0!important;
+	
+	background-color: var(--color-bg-primary, #fafafa); /* Usa variável CSS, fallback off-white */
 
 }
 
@@ -158,7 +163,7 @@ iframe {
 
 .textPink {
 
-	color: #ccb7bc
+	color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS, fallback para cor original */
 
 }
 
@@ -174,7 +179,7 @@ iframe {
 
 .textDarkGrey {
 
-	color: #3a505a
+	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS, fallback para cor original */
 
 }
 
@@ -190,7 +195,7 @@ iframe {
 
 .textGrey {
 
-	color: #ededed
+	color: var(--color-light-grey); /* Cinza via variável CSS */
 
 }
 
@@ -198,7 +203,7 @@ iframe {
 
 .backgroundGrey {
 
-	background-color: #ccb7bc
+	background-color: #ccb7bc; /* Mantém cor original do background */
 
 }
 
@@ -326,7 +331,7 @@ li p {
 
 .btnSeeMore a:hover {
 
-	color: #eea7b8
+	color: #d495a5; /* Rosa mais escuro para melhor legibilidade */
 
 }
 
@@ -334,7 +339,7 @@ li p {
 
 .btnSeeMore:hover {
 
-	background-color: #fff;
+	background-color: var(--color-bg-secondary); /* Usa variável CSS */
 
 	color: rgb(58, 80, 90);
 
@@ -380,9 +385,9 @@ li p {
 
 	background-color: transparent;
 
-	color: #eea7b8!important;
+	color: #d495a5!important; /* Rosa mais escuro para melhor legibilidade */
 
-	border: 1px solid #eea7b8;
+	border: 1px solid #d495a5; /* Borda mais escura para melhor visibilidade */
 
 	font-size: 18px;
 
@@ -1148,7 +1153,7 @@ nav.footer-nav-vertical {
 
 	color: #cc8495;
 
-	background-color: #fff;
+	background-color: var(--color-bg-secondary); /* Usa variável CSS */
 
 	box-shadow: 0 3px 3px #e6e6e6, 0 0 0 #000
 
@@ -1729,7 +1734,7 @@ textarea {
 }
 
 .review-item {
-	background: #fff;
+	background: var(--color-bg-secondary); /* Usa variável CSS */
 	border-radius: 8px;
 	padding: 20px;
 	margin-bottom: 20px;
@@ -1786,13 +1791,13 @@ textarea {
 	
 	/* Optimize colors for printing */
 	body {
-		background: white !important;
+		background: var(--color-bg-secondary) !important; /* Usa variável CSS */
 		color: black !important;
 	}
 	
 	/* Remove backgrounds and shadows */
 	* {
-		background: white !important;
+		background: var(--color-bg-secondary) !important; /* Usa variável CSS */
 		box-shadow: none !important;
 		text-shadow: none !important;
 	}
@@ -1889,7 +1894,7 @@ textarea {
 }
 
 .testimonial-content {
-	background: white;
+	background: var(--color-bg-secondary); /* Usa variável CSS */
 	border-radius: 20px;
 	padding: 30px 35px; /* Reduzido de 50px 40px para 30px 35px */
 	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
@@ -2083,7 +2088,7 @@ textarea {
 	position: absolute;
 	width: 50px;
 	height: 50px;
-	background: white;
+	background: var(--color-bg-secondary); /* Usa variável CSS */
 	border-radius: 50%;
 	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 	opacity: 0.9;
@@ -2224,7 +2229,7 @@ textarea {
 }
 
 .footer-title {
-	color: #ccb7bc;
+	color: #b895a0 !important; /* Rosa mais escuro para melhor legibilidade */
 	font-size: 1.1rem;
 	font-weight: 600;
 	margin-bottom: 20px;
@@ -2264,7 +2269,7 @@ nav.footer-nav-vertical,
 nav.footer-nav-vertical .footer-link,
 .site-footer nav.footer-nav-vertical .footer-link,
 .site-footer .footer-nav-vertical .footer-link {
-	color: rgba(255, 255, 255, 0.75) !important;
+	color: rgba(255, 255, 255, 0.85) !important; /* Mais claro para melhor legibilidade */
 	font-size: 14px !important;
 	font-weight: 400 !important;
 	letter-spacing: 0.3px !important;
@@ -2277,7 +2282,7 @@ nav.footer-nav-vertical .footer-link,
 }
 
 .footer-link:hover {
-	color: #ccb7bc;
+	color: #b895a0 !important; /* Rosa mais escuro para melhor contraste */
 	padding-left: 8px;
 	text-decoration: none !important;
 }
@@ -2290,7 +2295,7 @@ nav.footer-nav-vertical .footer-link,
 
 .footer-contact-item {
 	margin: 0;
-	color: rgba(255, 255, 255, 0.75);
+	color: rgba(255, 255, 255, 0.85) !important; /* Mais claro para melhor legibilidade */
 	font-size: 14px;
 	display: flex;
 	align-items: flex-start;
@@ -2300,7 +2305,7 @@ nav.footer-nav-vertical .footer-link,
 }
 
 .footer-contact-item i {
-	color: #ccb7bc;
+	color: #b895a0 !important; /* Rosa mais escuro para melhor visibilidade */
 	font-size: 1rem;
 	margin-top: 3px;
 	flex-shrink: 0;
@@ -2313,7 +2318,7 @@ nav.footer-nav-vertical .footer-link,
 }
 
 .footer-contact-item strong {
-	color: rgba(255, 255, 255, 0.9);
+	color: rgba(255, 255, 255, 0.95) !important; /* Mais claro para melhor legibilidade */
 	font-weight: 600;
 	margin-right: 5px;
 }
@@ -2542,7 +2547,7 @@ nav.footer-nav-vertical .footer-link,
 /* Cards Padrão (Info Cards, Vaga Cards, etc) */
 .info-card,
 .vaga-card {
-	background: #ffffff;
+	background: var(--color-bg-secondary); /* Usa variável CSS */
 	border-radius: 15px;
 	padding: 30px;
 	margin-bottom: 30px;
@@ -2645,7 +2650,7 @@ nav.footer-nav-vertical .footer-link,
 }
 
 .action-btn-secondary {
-	background: white;
+	background: var(--color-bg-secondary); /* Usa variável CSS */
 	color: #2a3a42;
 	border: 2px solid #ccb7bc;
 }
@@ -2733,7 +2738,7 @@ nav.footer-nav-vertical .footer-link,
 
 .page-section-white {
 	padding: 60px 0;
-	background: white;
+	background: var(--color-bg-secondary); /* Usa variável CSS */
 }
 
 /* Vaga Requirements */
