@@ -5,6 +5,48 @@ All notable changes to the Mimo Site project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.4] - 2025-11-15
+
+### Added
+- **PageSpeed Insights API - Testes Automatizados**:
+  - `build/pagespeed-api-test.sh`: Testa todas as páginas usando a API (mobile e desktop)
+  - `build/pagespeed-analyze.sh`: Analisa resultados e gera relatório consolidado
+  - `build/pagespeed-extract-issues.sh`: Extrai todos os problemas identificados
+  - `build/pagespeed-complete-workflow.sh`: Workflow completo de testes e análise
+  - Testa automaticamente 9 páginas em 2 estratégias (18 testes totais)
+  - Documentação: `PAGESPEED-RESULTS-CONSOLIDATED-v2.6.4.md`, `PAGESPEED-ISSUES-CATEGORIZED-v2.6.4.md`
+
+### Fixed
+- **CLS - Imagens sem width/height explícitos**:
+  - Melhorada função `picture_webp()` para detectar automaticamente dimensões em múltiplos caminhos
+  - Adicionado width/height explícitos em imagens de cilios, salao e micropigmentacao
+  - Resultado esperado: Score "unsized-images" 0.5 → 1.0
+- **CLS - Layout Shifts (Background Images)**:
+  - Adicionado `aspect-ratio: 16/9` e `contain: layout style` nos headers de cilios, esmalteria e esteticafacial
+  - Resultado esperado: CLS 0.4-0.9 → <0.1
+- **Render Blocking - jQuery**:
+  - Removido `document.write` que bloqueava renderização
+  - Implementado carregamento assíncrono com fallback para jQuery local
+  - Aplicado em `service-template.php`, `contato.php` e `vagas.php`
+  - Resultado esperado: Render blocking score 0 → 1
+- **Render Blocking - CSS**:
+  - Todos os CSS não críticos usando `loadCSS()` em contato.php e vagas.php
+  - CSS de serviços (servicos.css, form/main.css) usando `loadCSS()` em service-template.php
+  - Resultado esperado: Render blocking score 0 → 1, FCP 4.05s → <2.0s
+
+### Changed
+- **Otimizações Automáticas**:
+  - JavaScript minificado (arquivos criados em `minified/`)
+  - CSS purgado (~22 KiB economizados: product.css, dark-mode.css, animations.css)
+  - CSS minificado (arquivos criados em `minified/`)
+- **Asset Version**: Atualizado para `20251115-1` (cache busting)
+
+### Technical
+- **Image Helper**: Melhorada detecção automática de dimensões de imagens
+- **Service Template**: jQuery async, CSS defer
+- **Contato/Vagas**: Todos CSS defer, jQuery async
+- **Documentação**: Criado `CORRECTIONS-APPLIED-v2.6.4.md`, `PAGESPEED-FIXES-TO-APPLY-v2.6.4.md`
+
 ## [2.6.3] - 2025-01-30
 
 ### Added
