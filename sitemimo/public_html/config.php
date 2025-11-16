@@ -90,6 +90,6 @@ define('ASSET_VERSION', '20251116-3');
 //   - build/minify-css.sh
 //   - build/minify-js.sh
 // Isso garante que os arquivos .min.css e .min.js existam na pasta minified/
-// FIX: Temporarily disabled for local development - re-enable for production
-define('USE_MINIFIED', false);
+// Automatically enabled in production, disabled in development
+define('USE_MINIFIED', APP_ENV === 'production');
 
