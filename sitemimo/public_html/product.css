@@ -72,6 +72,13 @@
 }
 
 /* FIX: Garantir altura mínima para seções principais dentro do main */
+/* FIX: Add padding-top to compensate for fixed navbar - but only on main-content, not body */
+/* Removed body padding-top to prevent white rectangle above navbar */
+
+#main-content {
+	padding-top: 70px; /* Compensate for fixed navbar - add padding to main-content instead of body */
+}
+
 #main-content > .bg-header,
 #main-content > .hero-section {
 	min-height: 250px; /* Mobile */
@@ -80,7 +87,8 @@
 @media (min-width: 751px) {
 	#main-content > .bg-header,
 	#main-content > .hero-section {
-		min-height: 400px; /* Desktop */
+		min-height: 300px; /* Desktop - reduced to match production */
+		max-height: 350px; /* Desktop - reduced to match production */
 	}
 }
 
@@ -106,6 +114,37 @@
 .testimonials-container {
 	min-height: 550px; /* Reserve space for carousel content */
 	contain: layout style paint;
+	position: relative; /* Force layout stability */
+	overflow: hidden; /* Prevent overflow causing shifts */
+}
+
+/* FIX: Google Reviews carousel - prevent layout shift when loading */
+.testimonials-carousel {
+	contain: layout style paint; /* More aggressive containment */
+	min-height: 550px; /* Reserve space for carousel */
+	position: relative; /* Force layout stability */
+}
+
+/* FIX: Carousel inner container - prevent layout shift */
+.testimonials-carousel .carousel-inner {
+	contain: layout style paint;
+	min-height: 500px; /* Reserve space for carousel items */
+	position: relative;
+	background-color: var(--color-bg-secondary, #fafafa); /* Default background */
+}
+
+/* Light mode: transparent background to eliminate white border */
+[data-theme="light"] .testimonials-carousel .carousel-inner,
+:not([data-theme]) .testimonials-carousel .carousel-inner,
+body:not([data-theme="dark"]) .testimonials-carousel .carousel-inner {
+	background-color: transparent !important; /* FIX: Remove background to eliminate white border */
+}
+
+/* FIX: Google Reviews container - prevent layout shift when loading */
+.google-reviews-container {
+	contain: layout style paint;
+	min-height: 50px; /* Reserve space for Google Reviews link */
+	position: relative;
 }
 
 /* FIX: All sections should have containment to prevent CLS */
@@ -136,25 +175,19 @@ section,
 }
 
 html {
-
 	overflow-x: hidden;
-
-	scroll-behavior: smooth
-
+	scroll-behavior: smooth;
+	margin: 0;
+	padding: 0;
 }
 
-
-
 body {
-
 	overflow-x: hidden;
-
 	font-family: Nunito, sans-serif;
-
 	padding-right: 0!important;
-	
+	padding-top: 0 !important; /* FIX: Remove padding-top to prevent white rectangle above navbar */
+	margin: 0; /* FIX: Remove margin to prevent white space */
 	background-color: var(--color-bg-primary, #fafafa); /* Usa variável CSS, fallback off-white */
-
 }
 
 
@@ -531,13 +564,32 @@ li p {
 
 	color: #333;
 
-	transition: all .3s;
-
+	transition: background-color .3s ease, padding .3s ease; /* Only animate GPU-accelerated properties */
 	z-index: 9999;
 	/* FIX: Prevenir layout shift na navbar (causa pequeno CLS ~0.0005) */
-	contain: layout;
+	contain: layout style paint; /* More aggressive containment */
 	min-height: 70px; /* Altura mínima para prevenir shift */
+	position: fixed; /* Fixed navbar - persistent at top */
+	top: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+	overflow: hidden; /* Prevent overflow causing shifts */
+	/* GPU acceleration */
+	will-change: background-color, transform;
+	transform: translateZ(0); /* Force GPU layer */
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
 
+}
+
+/* Light mode: darker navbar background for better text readability */
+[data-theme="light"] .navbar,
+:not([data-theme]) .navbar,
+body:not([data-theme="dark"]) .navbar {
+	background-color: rgba(42, 42, 42, 0.85) !important; /* Dark semi-transparent background in light mode */
+	backdrop-filter: blur(10px); /* Add blur for better contrast */
+	-webkit-backdrop-filter: blur(10px);
 }
 
 
@@ -598,9 +650,9 @@ nav.footer-nav-vertical {
 
 .navbar.compressed {
 
-	padding-top: 20px;
+	padding-top: 10px; /* Reduced padding when compressed */
 
-	padding-bottom: 20px;
+	padding-bottom: 10px;
 
 	/*background: #454545;*/
 
@@ -608,7 +660,12 @@ nav.footer-nav-vertical {
 
 	color: #fff;
 
-	box-shadow: 2px 2px 2px rgba(0, 0, 0, .1)
+	box-shadow: 2px 2px 2px rgba(0, 0, 0, .1);
+	/* Smooth animation for compression */
+	transition: background-color .3s ease, padding .3s ease, box-shadow .3s ease;
+	/* GPU acceleration */
+	will-change: background-color, padding, transform;
+	transform: translateZ(0);
 
 }
 
@@ -636,8 +693,8 @@ nav.footer-nav-vertical {
 
 /* FIX: Hero section agora usa <img> tag em vez de background-image para melhor LCP */
 .hero-section {
-	min-height: 350px;
-	max-height: 500px;
+	min-height: 250px !important; /* Reduced to match production */
+	max-height: 350px !important; /* Reduced to match production */
 	width: 100%;
 	display: block;
 	position: relative;
@@ -647,6 +704,12 @@ nav.footer-nav-vertical {
 	/* FIX: Garantir espaço reservado mesmo antes da imagem carregar */
 	background-color: #3d3d3d;
 	overflow: hidden;
+}
+
+/* Light mode: darker background for better text contrast */
+[data-theme="light"] .hero-section,
+:not([data-theme]) .hero-section {
+	background-color: #2a2a2a; /* Darker background in light mode for readability */
 }
 
 .hero-section picture {
@@ -672,9 +735,16 @@ nav.footer-nav-vertical {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(61, 61, 61, 0.3);
+	background-color: rgba(61, 61, 61, 0.5); /* Increased opacity for better text readability in light mode */
 	z-index: 1;
 	pointer-events: none;
+}
+
+/* Light mode: lighter overlay to prevent washed out look - match production */
+[data-theme="light"] .hero-section .hero-overlay,
+:not([data-theme]) .hero-section .hero-overlay,
+body:not([data-theme="dark"]) .hero-section .hero-overlay {
+	background-color: rgba(61, 61, 61, 0.3) !important; /* FIX: Reduced from 0.7 to 0.3 to prevent washed out look */
 }
 
 /* Mantido para compatibilidade com outras páginas que ainda usam .bg-header */
@@ -750,7 +820,8 @@ nav.footer-nav-vertical {
 
 	color: #999;
 
-	transition: ease-in-out color .15s
+	transition: color .15s ease-in-out; /* Only animate color (GPU-friendly) */
+	will-change: color;
 
 }
 
@@ -786,7 +857,10 @@ nav.footer-nav-vertical {
 
 	height: 500px;
 
-	transition: background-color .8s
+	transition: background-color .8s ease; /* Only animate background-color */
+	will-change: background-color;
+	transform: translateZ(0); /* Force GPU acceleration */
+	backface-visibility: hidden;
 
 }
 
@@ -832,7 +906,10 @@ nav.footer-nav-vertical {
 
 	height: 500px;
 
-	transition: background-color .8s
+	transition: background-color .8s ease; /* Only animate background-color */
+	will-change: background-color;
+	transform: translateZ(0); /* Force GPU acceleration */
+	backface-visibility: hidden;
 
 }
 
@@ -878,7 +955,10 @@ nav.footer-nav-vertical {
 
 	height: 500px;
 
-	transition: background-color .8s
+	transition: background-color .8s ease; /* Only animate background-color */
+	will-change: background-color;
+	transform: translateZ(0); /* Force GPU acceleration */
+	backface-visibility: hidden;
 
 }
 
@@ -924,7 +1004,10 @@ nav.footer-nav-vertical {
 
 	height: 500px;
 
-	transition: background-color .8s
+	transition: background-color .8s ease; /* Only animate background-color */
+	will-change: background-color;
+	transform: translateZ(0); /* Force GPU acceleration */
+	backface-visibility: hidden;
 
 }
 
@@ -1104,11 +1187,16 @@ nav.footer-nav-vertical {
 
 	opacity: 0;
 
-	-webkit-transition: all .4s ease-in-out 0s;
+	-webkit-transition: opacity .4s ease-in-out 0s; /* Only animate opacity for GPU acceleration */
 
-	-moz-transition: all .4s ease-in-out 0s;
+	-moz-transition: opacity .4s ease-in-out 0s;
 
-	transition: all .4s ease-in-out 0s
+	transition: opacity .4s ease-in-out 0s;
+	/* GPU acceleration */
+	will-change: opacity;
+	transform: translateZ(0);
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
 
 }
 
@@ -1156,17 +1244,21 @@ nav.footer-nav-vertical {
 
 	opacity: 0;
 
-	-webkit-transform: translate(-50%, -50%);
+	-webkit-transform: translate(-50%, -50%) translateZ(0); /* Force GPU acceleration */
 
-	-moz-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%) translateZ(0);
 
-	transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%) translateZ(0);
 
-	-webkit-transition: all .3s ease-in-out 0s;
+	-webkit-transition: opacity .3s ease-in-out 0s, transform .3s ease-in-out 0s; /* Only animate GPU-accelerated properties */
 
-	-moz-transition: all .3s ease-in-out 0s;
+	-moz-transition: opacity .3s ease-in-out 0s, transform .3s ease-in-out 0s;
 
-	transition: all .3s ease-in-out 0s
+	transition: opacity .3s ease-in-out 0s, transform .3s ease-in-out 0s;
+	/* GPU acceleration */
+	will-change: opacity, transform;
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
 
 }
 
@@ -1198,13 +1290,23 @@ nav.footer-nav-vertical {
 
 #about .container.row.mx-auto {
 	min-height: 600px; /* Reserve space for content */
-	contain: layout; /* Removido 'style' - pode estar causando reflow */
+	contain: layout style paint; /* More aggressive containment to prevent CLS */
+	position: relative; /* Force layout stability */
+	display: flex; /* Explicit flex container */
+	flex-wrap: wrap; /* Allow wrapping */
+	/* Prevent layout shift during content load */
+	overflow: hidden;
 }
 
 /* CLS Fix: Florzinha container (imagem lado esquerdo) */
 #florzinha {
-	contain: layout; /* Removido 'style' - pode estar causando reflow */
+	contain: layout style paint; /* More aggressive containment */
 	min-height: 400px; /* Reservar espaço para imagem */
+	position: relative; /* Force layout stability */
+	/* Explicit flex properties */
+	display: flex;
+	flex-direction: column;
+	overflow: hidden; /* Prevent overflow causing shifts */
 }
 
 /* CLS Fix: Containers de serviço na homepage */
@@ -1875,17 +1977,20 @@ textarea {
 	}
 
 	.navbar {
-
 		padding: 20px 25px;
-
 		background-color: #3d3d3d;
-
 		margin: 0;
-
-		transition: all .3s;
-
-		z-index: 9999
-
+		position: fixed !important; /* Fixed navbar - persistent at top */
+		top: 0 !important;
+		left: 0 !important;
+		right: 0 !important;
+		width: 100% !important;
+		transition: background-color .3s ease, padding .3s ease; /* Only animate GPU-accelerated properties */
+		will-change: background-color;
+		transform: translateZ(0);
+		backface-visibility: hidden;
+		z-index: 9999;
+		box-sizing: border-box; /* Ensure full width coverage */
 	}
 
 	.navbar-light .navbar-nav .nav-link {
@@ -2027,9 +2132,23 @@ textarea {
 	}
 
 	.navbar {
-
 		z-index: 1000000000 !important;
+		position: fixed !important; /* Fixed navbar on mobile too */
+		top: 0 !important;
+		left: 0 !important;
+		right: 0 !important;
+		width: 100% !important;
+		contain: layout style paint; /* Prevent layout shift on mobile */
+	}
 
+	.navbar .container {
+		contain: layout style paint; /* Prevent layout shift in navbar container */
+		min-height: 70px; /* Reserve space */
+	}
+	
+	/* Compensate for fixed navbar on mobile */
+	body {
+		padding-top: 70px !important;
 	}
 
 	.modal.show .modal-dialog {
@@ -2309,6 +2428,13 @@ body nav.breadcrumb-nav ol {
 	background-color: var(--color-bg-secondary, #fafafa);
 }
 
+/* Light mode: transparent background to eliminate white border */
+[data-theme="light"] .testimonials-inner,
+:not([data-theme]) .testimonials-inner,
+body:not([data-theme="dark"]) .testimonials-inner {
+	background-color: transparent !important; /* FIX: Remove background to eliminate white border */
+}
+
 .testimonial-card {
 	min-height: 550px; /* Altura fixa igual ao container */
 	height: 550px; /* Altura fixa explícita */
@@ -2333,6 +2459,7 @@ body nav.breadcrumb-nav ol {
 	-webkit-transform: translateZ(0);
 	transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
 	z-index: 0; /* Base z-index */
+	border: none !important; /* FIX: Remove any unwanted border */
 	/* CLS Fix: Prevent layout shift */
 	contain: layout; /* Removido 'style' - pode estar causando reflow */
 	/* FIX: Garantir que conteúdo não cause layout shift */
@@ -2368,6 +2495,38 @@ body nav.breadcrumb-nav ol {
 	box-sizing: border-box;
 	min-height: 500px; /* Garante altura mínima */
 	max-height: 500px; /* Garante altura máxima */
+	border: none !important; /* FIX: Remove any unwanted border in light mode */
+}
+
+/* Light mode: reduce padding to match dark mode natural spacing */
+[data-theme="light"] .testimonial-content,
+:not([data-theme]) .testimonial-content,
+body:not([data-theme="dark"]) .testimonial-content {
+	border: none !important; /* FIX: Remove border in light mode to match dark mode styling */
+	padding: 25px 30px !important; /* FIX: Reduce padding to match dark mode natural spacing (was 30px 35px) */
+}
+
+/* Light mode: ensure testimonial text uses proper text color for contrast */
+[data-theme="light"] .testimonial-text,
+:not([data-theme]) .testimonial-text,
+body:not([data-theme="dark"]) .testimonial-text {
+	color: var(--color-text-primary, #1a1a1a) !important; /* FIX: Use text-primary for better contrast */
+}
+
+[data-theme="light"] .testimonial-author strong,
+:not([data-theme]) .testimonial-author strong,
+body:not([data-theme="dark"]) .testimonial-author strong {
+	color: var(--color-text-primary, #1a1a1a) !important; /* FIX: Use text-primary for better contrast */
+}
+
+/* Light mode: remove padding and make testimonial-card completely transparent to show only testimonial-content */
+[data-theme="light"] .testimonial-card,
+:not([data-theme]) .testimonial-card,
+body:not([data-theme="dark"]) .testimonial-card {
+	padding: 0 !important; /* FIX: Remove padding to eliminate white border appearance */
+	border: none !important; /* FIX: Ensure no border */
+	background-color: transparent !important; /* FIX: Ensure transparent background */
+	box-shadow: none !important; /* FIX: Remove any shadow from wrapper */
 }
 
 .testimonial-content:hover {
@@ -2417,6 +2576,7 @@ body nav.breadcrumb-nav ol {
 	flex-shrink: 0;
 	height: 20px; /* Reduzido de 24px */
 	min-height: 20px;
+	color: var(--color-text-primary, #1a1a1a) !important; /* FIX: Use text-primary for consistency */
 }
 
 .testimonial-rating .fas.fa-star {
@@ -2448,7 +2608,7 @@ body nav.breadcrumb-nav ol {
 .testimonial-text {
 	font-size: 1rem; /* Reduzido de 1.1rem */
 	line-height: 1.7; /* Reduzido de 1.8 */
-	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
+	color: var(--color-text-primary, #1a1a1a) !important; /* FIX: Use text-primary for better contrast (was dark-grey) */
 	margin: 0;
 	padding: 0 10px;
 	border: none;
@@ -2499,7 +2659,7 @@ body nav.breadcrumb-nav ol {
 }
 
 .testimonial-author strong {
-	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
+	color: var(--color-text-primary, #1a1a1a) !important; /* FIX: Use text-primary for better contrast (was dark-grey) */
 	font-size: 1rem; /* Reduzido de 1.1rem */
 	font-weight: 600;
 	letter-spacing: 0.5px;
@@ -2524,16 +2684,19 @@ body nav.breadcrumb-nav ol {
 	margin-top: 20px !important; /* Reduzido para 20px já que está fora do container */
 	margin-bottom: 40px !important; /* Adicionado espaçamento antes do footer */
 	text-decoration: none !important;
-	transition: all 0.3s ease !important;
+	transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease !important; /* Only animate GPU-accelerated properties */
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
 	position: relative !important;
 	z-index: 10 !important; /* Garantir que fique acima dos indicadores */
+	will-change: transform, background-color;
+	transform: translateZ(0);
+	backface-visibility: hidden;
 }
 
 .google-reviews-link:hover {
 	background: #2a3a42 !important;
 	border-color: #2a3a42 !important;
-	transform: translateY(-2px) !important;
+	transform: translateY(-2px) translateZ(0) !important;
 	text-decoration: none !important;
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
 }
@@ -2552,9 +2715,11 @@ body nav.breadcrumb-nav ol {
 	border-radius: 50%;
 	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 	opacity: 0.9;
-	transition: all 0.3s ease;
+	transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Only animate GPU-accelerated properties */
 	top: 50%;
-	transform: translateY(-50%);
+	transform: translateY(-50%) translateZ(0); /* Force GPU acceleration */
+	will-change: transform, opacity;
+	backface-visibility: hidden;
 	z-index: 10;
 	display: flex;
 	align-items: center;

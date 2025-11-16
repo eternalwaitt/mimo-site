@@ -83,7 +83,7 @@ define('APP_VERSION_PATCH', 11);
 // Asset version for cache busting (update this when deploying changes)
 // Format: YYYYMMDD (date-based for easy tracking)
 // IMPORTANTE: Atualizar sempre que houver mudanças em CSS/JS para forçar reload do cache
-define('ASSET_VERSION', '20251116-1');
+define('ASSET_VERSION', '20251116-2');
 
 // Use minified assets in production
 // IMPORTANTE: Ative apenas DEPOIS de rodar os scripts de build:

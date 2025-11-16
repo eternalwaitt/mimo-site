@@ -3,17 +3,36 @@
  * Estilos globais, layout, navegação, tipografia
  * 
  * Desenvolvido por: Victor Penter
- * Versão: 2.3.6
+ * Versão: 2.6.9
  * 
  * ESTRUTURA DO ARQUIVO:
- * 1. Reset e Base (linhas 9-200)
- * 2. Tipografia e Fontes (linhas 55-200)
- * 3. Navegação e Header (linhas 200-600)
+ * 1. Reset e Base (linhas 28-200)
+ *    - html, body, container
+ *    - Reset de estilos padrão
+ * 2. Tipografia e Fontes (linhas 76-200)
+ *    - @font-face (Akrobat)
+ *    - Classes de tipografia
+ *    - Font display optimization
+ * 3. Navegação e Header (linhas 514-600)
+ *    - .bg-header (hero image - LCP element)
+ *    - .navbar, .logonav
+ *    - Menu mobile/desktop
  * 4. Layout e Grid (linhas 600-900)
+ *    - .container, .row, .col
+ *    - Flex utilities
  * 5. Componentes (linhas 900-1500)
+ *    - Cards, buttons, modals
+ *    - Carousels, testimonials
+ *    - Form elements
  * 6. Páginas Internas (linhas 1500-2000)
+ *    - Service pages styles
+ *    - Page hero
  * 7. Footer (linhas 2000-2300)
+ *    - Footer styles
+ *    - Social links
  * 8. Responsive (linhas 2300-2885)
+ *    - Media queries
+ *    - Mobile optimizations
  * 
  * ONDE É USADO:
  * - Todas as páginas do site (index.php, contato.php, vagas.php, 404.php)
@@ -21,9 +40,56 @@
  * - Carregado via inc/asset-helper.php com suporte a minificação
  * - Cache busting via ASSET_VERSION em config.php
  * 
+ * DEPENDÊNCIAS:
+ * - Bootstrap 4.5.2 (CDN) - Grid system, utilities
+ * - css/modules/_variables.css - Variáveis CSS (design tokens)
+ * 
+ * PERFORMANCE:
+ * - Critical CSS inline via inc/critical-css.php
+ * - Minificação disponível via USE_MINIFIED
+ * - PurgeCSS remove CSS não utilizado
+ * - contain: layout style em containers críticos (previne CLS)
+ * 
+ * OTIMIZAÇÕES CLS:
+ * - .bg-header: aspect-ratio + contain: layout style
+ * - .testimonials-carousel: min-height fixo + contain
+ * - .sessoes.container: aspect-ratio + contain
+ * - Imagens: width/height explícitos via picture_webp()
+ * - #main-content: contain: layout + min-height (CRÍTICO - 93% do CLS)
+ * 
  * NOTA: Variáveis CSS são definidas em css/modules/_variables.css
  * e devem ser carregadas antes deste arquivo.
  */
+
+/* FIX: Prevenir layout shift no main-content (causa 93% do CLS - 0.358 de 0.383) */
+
+/* FIX: Garantir altura mínima para seções principais dentro do main */
+/* FIX: Add padding-top to compensate for fixed navbar - but only on main-content, not body */
+/* Removed body padding-top to prevent white rectangle above navbar */
+
+/* FIX: Garantir altura mínima para seção about */
+
+/* FIX: Garantir altura mínima para seção services */
+
+/* FIX: Garantir altura mínima para testimonials section */
+
+/* FIX: Testimonials container needs min-height for dynamic content */
+
+/* FIX: Google Reviews carousel - prevent layout shift when loading */
+
+/* FIX: Carousel inner container - prevent layout shift */
+
+/* Light mode: transparent background to eliminate white border */
+
+/* FIX: Google Reviews container - prevent layout shift when loading */
+
+/* FIX: All sections should have containment to prevent CLS */
+
+/* FIX: Testimonials carousel items need min-height */
+
+/* FIX: Service cards need min-height */
+
+/* FIX: Category items need min-height */
 
 
 
@@ -40,9 +106,24 @@
 	line-gap-override: 0%;
 	/* Preload hint para melhor performance */
 	unicode-range: U+0020-007F, U+00A0-00FF, U+0100-017F;
+	/* FIX: Adicionar font-feature-settings para prevenir reflow */
+	font-feature-settings: normal;
+	font-variant: normal;
 }
 
+/* Light mode: darker navbar background for better text readability */
+
 /* Override para footer nav vertical */
+
+
+
+/* FIX: Hero section agora usa <img> tag em vez de background-image para melhor LCP */
+
+/* Light mode: darker background for better text contrast */
+
+/* Light mode: lighter overlay to prevent washed out look - match production */
+
+/* Mantido para compatibilidade com outras páginas que ainda usam .bg-header */
 
 /* Garantir que o logo não seja distorcido */
 
@@ -67,6 +148,10 @@
 }
 
 /* CRITICAL: CLS Fix - About section col-md-7 (causes 93% of layout shift) */
+
+/* CLS Fix: Florzinha container (imagem lado esquerdo) */
+
+/* CLS Fix: Containers de serviço na homepage */
 
 /* Disable animations on mobile for better performance */
 @media (max-width: 768px) {
@@ -142,6 +227,14 @@
 
 }
 
+
+
+@media (max-width: 750px) {
+	
+	/* Compensate for fixed navbar on mobile */
+
+}
+
 /* Breadcrumbs - Hidden visually but kept for SEO and accessibility */
 /* IMPORTANTE: Este CSS deve vir DEPOIS do Bootstrap para sobrescrever */
 /* Máxima especificidade para garantir que seja aplicado */
@@ -179,6 +272,14 @@
 /* ========================================
    TESTIMONIALS CAROUSEL - DESIGN MODERNO 2025
    ======================================== */
+
+/* Light mode: transparent background to eliminate white border */
+
+/* Light mode: reduce padding to match dark mode natural spacing */
+
+/* Light mode: ensure testimonial text uses proper text color for contrast */
+
+/* Light mode: remove padding and make testimonial-card completely transparent to show only testimonial-content */
 
 /* Avatar */
 
