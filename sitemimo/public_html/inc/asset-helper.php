@@ -53,6 +53,19 @@ function get_css_asset($filePath, $addVersion = true) {
     $isSubdir = ($scriptDir !== '/' && $scriptDir !== '\\' && $scriptDir !== '.' && $scriptDir !== '' && $scriptDir !== '/index.php');
     $prefix = $isSubdir ? '../' : '';
     
+    // CRITICAL: Skip purged CSS for animations.css and dark-mode.css
+    // PurgeCSS removes animation rules and dark mode toggle styles
+    // Always use original files to preserve functionality
+    if (strpos($filePath, 'animations.css') !== false || strpos($filePath, 'dark-mode.css') !== false) {
+        return $prefix . $filePath . $version;
+    }
+    
+    // CRITICAL: In development, always use original files (never purged/minified)
+    // This ensures changes are immediately visible without needing to rebuild
+    if (defined('APP_ENV') && APP_ENV !== 'production') {
+        return $prefix . $filePath . $version;
+    }
+    
     // Prioridade: 1) Purged + Minified, 2) Minified, 3) Purged, 4) Original
     if (defined('USE_MINIFIED') && USE_MINIFIED) {
         $minPath = str_replace('.css', '.min.css', $filePath);
@@ -72,9 +85,10 @@ function get_css_asset($filePath, $addVersion = true) {
         }
         
         // 1. Tentar purged + minified (melhor) - verificar ambos os caminhos
-        // FIX: Skip purged files if they're suspiciously small (likely broken)
+        // FIX: Lower threshold to 500 bytes (valid minified files can be small after PurgeCSS)
+        // Previous 5KB threshold was too high - valid minified purged CSS can be 500-1000 bytes
         $purgedMinFile = file_exists($purgedMinPath) ? $purgedMinPath : (file_exists($purgedMinPathAlt) ? $purgedMinPathAlt : null);
-        if ($purgedMinFile && filesize($purgedMinFile) > 5000) { // Only use if > 5KB (sanity check)
+        if ($purgedMinFile && filesize($purgedMinFile) > 500) { // Only use if > 500 bytes (sanity check)
             $basePath = $prefix . 'css/purged/' . $minFileName;
         }
         // 2. Tentar apenas minified
@@ -93,7 +107,8 @@ function get_css_asset($filePath, $addVersion = true) {
             }
         }
         // 3. Tentar apenas purged (skip if too small - likely broken)
-        elseif (file_exists($purgedPath) && filesize($purgedPath) > 5000) {
+        // FIX: Lower threshold to 500 bytes for consistency
+        elseif (file_exists($purgedPath) && filesize($purgedPath) > 500) {
             $basePath = $prefix . 'css/purged/' . basename($filePath);
         }
         // 4. Fallback para original

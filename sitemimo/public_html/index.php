@@ -9,6 +9,10 @@
  * e seções de serviços, depoimentos e informações de contato.
  */
 
+// CRITICAL: Start HTML minification output buffer (Phase 9.1)
+require_once __DIR__ . '/inc/html-minify.php';
+start_html_minify();
+
 // Suprimir avisos de depreciação de bibliotecas de terceiros (compatibilidade PHP 8.4)
 error_reporting(E_ALL & ~E_DEPRECATED);
 
@@ -257,25 +261,11 @@ if ($_POST) {
     
     <!-- Resource Hints for Performance -->
     <!-- DNS Prefetch para domínios externos -->
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link rel="dns-prefetch" href="https://stackpath.bootstrapcdn.com">
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-    <link rel="dns-prefetch" href="https://www.google-analytics.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://lh3.googleusercontent.com">
-    
-    <!-- Preconnect para recursos críticos (mais rápido que dns-prefetch) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- CRITICAL: Desktop optimization - preconnect for Google user images (240ms LCP savings) -->
-    <link rel="preconnect" href="https://lh3.googleusercontent.com" crossorigin>
-    <!-- Preload critical images with fetchpriority - prefer WebP/AVIF -->
+    <!-- CRITICAL: Preload LCP images FIRST (highest priority) - must be before any other resources -->
     <?php
     // Preload mobile header (LCP element no mobile) - prefer AVIF/WebP
     // CRITICAL: Esta é a imagem LCP no mobile, precisa ser carregada o mais rápido possível
     // IMPORTANTE: Preload deve vir ANTES de qualquer outro recurso para máxima prioridade
-    // FIX: Usar caminhos absolutos (/img/...) em vez de relativos (img/...)
     if (file_exists(__DIR__ . '/img/header_dezembro_mobile.avif')) {
         echo '<link rel="preload" href="/img/header_dezembro_mobile.avif" as="image" type="image/avif" fetchpriority="high" media="(max-width: 750px)">';
     } elseif (file_exists(__DIR__ . '/img/header_dezembro_mobile.webp')) {
@@ -302,6 +292,26 @@ if ($_POST) {
         echo '<link rel="preload" href="/img/mimo5.png" as="image" fetchpriority="high">';
     }
     ?>
+    
+    <!-- CRITICAL: Resource hints optimization (Phase 9.4) -->
+    <!-- Preconnect for critical resources (faster than dns-prefetch) - must come first -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- CRITICAL: Desktop optimization - preconnect for Google user images (240ms LCP savings) -->
+    <link rel="preconnect" href="https://lh3.googleusercontent.com" crossorigin>
+    <!-- Preconnect to own domain for faster asset loading -->
+    <link rel="preconnect" href="https://minhamimo.com.br" crossorigin>
+    
+    <!-- DNS prefetch for non-critical third-party resources (fallback for preconnect) -->
+    <link rel="dns-prefetch" href="https://stackpath.bootstrapcdn.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    
+    <!-- Prefetch below-fold resources for faster subsequent page loads -->
+    <link rel="prefetch" href="<?php echo get_css_asset('servicos.css'); ?>" as="style">
+    <link rel="prefetch" href="<?php echo get_js_asset('main.js'); ?>" as="script">
+    
     <!-- Preload fontes críticas -->
     <link rel="preload" href="/Akrobat-Regular.woff" as="font" type="font/woff" crossorigin>
     
@@ -346,9 +356,8 @@ if ($_POST) {
     <script>loadCSS("<?php echo get_css_asset('product.css'); ?>");</script>
     <noscript><?php echo css_tag('product.css'); ?></noscript>
     
-    <!-- Dark Mode Styles - Defer (não crítico para FCP) -->
-    <script>loadCSS("<?php echo get_css_asset('css/modules/dark-mode.css'); ?>");</script>
-    <noscript><link rel="stylesheet" href="<?php echo get_css_asset('css/modules/dark-mode.css'); ?>"></noscript>
+    <!-- Dark Mode Styles - Load synchronously (critical for color matching) -->
+    <?php echo css_tag('css/modules/dark-mode.css'); ?>
     
     <!-- Animations - Defer (não crítico para FCP) -->
     <script>loadCSS("<?php echo get_css_asset('css/modules/animations.css'); ?>");</script>
@@ -388,21 +397,57 @@ if ($_POST) {
         box-shadow: 0 3px 10px rgba(58, 80, 90, 0.6) !important;
     }
     
-    /* OVERRIDE BOTÃO GOOGLE REVIEWS */
+    /* OVERRIDE BOTÃO GOOGLE REVIEWS - minimalista */
     .google-reviews-link {
-        background: #3a505a !important;
-        border: 2px solid #3a505a !important;
-        color: #fff !important;
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
     }
     
     .google-reviews-link:hover {
-        background: #2a3a42 !important;
-        border-color: #2a3a42 !important;
+        background: transparent !important;
+        border: none !important;
+        opacity: 0.8 !important;
+        transform: none !important;
+        box-shadow: none !important;
     }
     
     .google-reviews-link span {
-        color: #fff !important;
-        font-weight: 600 !important;
+        color: #31265b !important; /* Brand dark (blue) text for light mode - direct value */
+        font-weight: 500 !important; /* Slightly bolder for better visibility */
+    }
+    
+    /* Light mode: ensure brand dark (blue) color */
+    html:not([data-theme="dark"]) .google-reviews-link span,
+    [data-theme="light"] .google-reviews-link span {
+        color: #31265b !important; /* Brand dark (blue) - direct value */
+    }
+    
+    /* Light mode: icon also uses brand dark (blue) */
+    html:not([data-theme="dark"]) .google-reviews-link i,
+    html:not([data-theme="dark"]) .google-reviews-link svg,
+    [data-theme="light"] .google-reviews-link i,
+    [data-theme="light"] .google-reviews-link svg {
+        color: #31265b !important; /* Brand dark (blue) - direct value */
+    }
+    
+    /* Dark mode: white text for excellent contrast */
+    [data-theme="dark"] .google-reviews-link span {
+        color: #ffffff !important; /* White text for excellent contrast in dark mode */
+        font-weight: 500 !important; /* Slightly bolder for better visibility */
+    }
+    
+    [data-theme="dark"] .google-reviews-link i,
+    [data-theme="dark"] .google-reviews-link svg {
+        color: #ffffff !important; /* White icons for excellent contrast in dark mode */
+    }
+    
+    /* Light mode hover: darker brand dark (blue) */
+    html:not([data-theme="dark"]) .google-reviews-link:hover span,
+    [data-theme="light"] .google-reviews-link:hover span {
+        color: var(--color-grey, #4a3d6b) !important; /* Darker brand dark (blue) on hover */
     }
     
     /* GARANTIR QUE IMAGENS FUNCIONEM */
@@ -445,15 +490,7 @@ if ($_POST) {
         display: none !important;
     }
     
-    .site-footer .footer-social-link {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        width: 42px !important;
-        height: 42px !important;
-    }
-    
-    /* Footer social links já usam SVG inline - sem necessidade de Font Awesome */
+    /* Footer styles are now centralized in product.css - no need for inline styles here */
     </style>
     <!-- Form CSS - Defer (not critical for FCP) -->
     <script>loadCSS("<?php echo get_css_asset('form/main.css'); ?>");</script>
@@ -497,16 +534,17 @@ if ($_POST) {
     </div>
 
     <!-- FIX: Adicionar content-visibility: auto para melhorar performance (seção abaixo da dobra) -->
-    <div class="row position-relative overflow-hidden pt-3 text-center backgroundGrey" id="about" style="content-visibility: auto; contain-intrinsic-size: 600px;">
+    <div class="position-relative overflow-hidden pt-3 text-center backgroundGrey" id="about" style="content-visibility: auto; contain-intrinsic-size: 600px;">
         <!--<div class=" container mt-3" >&nbsp;</div>-->
-        <div class="container row mx-auto hero-content-wrapper">
-            <div class="col-md-5 mt-lg-5 p-0 fade-in-left hero-image-wrapper" id="florzinha">
-                <?php echo picture_webp('img/mimo5.png', 'Mimo - Beleza sem padrão', 'img-fluid img-hover', ['width' => '500', 'height' => '500', 'style' => 'width: 100%; height: auto; max-width: 100%; aspect-ratio: 1 / 1;'], false); ?>
-            </div>
-            <div class="col-md-7 mx-auto my-5 overflow-hidden">
-                <h1 class="display-4 font-weight-normal text-align-right text-uppercase fade-in-right hero-title">
+        <div class="container">
+            <div class="row mx-auto hero-content-wrapper">
+                <div class="col-md-5 mt-lg-5 p-0 fade-in-left hero-image-wrapper visible" id="florzinha">
+                    <?php echo picture_webp('img/mimo5.png', 'Mimo - Beleza sem padrão', 'img-fluid img-hover', ['width' => '500', 'height' => '500', 'style' => 'width: 100%; height: auto; max-width: 100%; aspect-ratio: 1 / 1;'], false); ?>
+                </div>
+                <div class="col-md-7 mx-auto my-5 overflow-hidden">
+                <h1 class="display-4 font-weight-normal text-align-right text-uppercase fade-in-right hero-title visible">
                     BELEZA SEM PADRÃO</h1>
-                <p class="lead font-weight-normal textDarkGrey Akrobat text-justify fade-in-up hero-subtitle">
+                <p class="lead font-weight-normal textDarkGrey Akrobat text-justify fade-in-up hero-subtitle visible">
                     Acreditamos na quebra de padrões que vem se estendendo ao decorrer dos anos, e por isso trabalhamos
                     de maneira única com cada cliente, preservando suas características naturais; Oferecemos atendimento
                     e prestação de serviços de qualidade, com profissionais capacitados e que acreditam no propósito de
@@ -517,13 +555,14 @@ if ($_POST) {
                 </p>
                 <p class="lead font-weight-normal text-align-right text-uppercase Akrobat hero-tagline">Você
                     merece esse mimo!</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="position-relative overflow-hidden p-3 text-center backgroundPink">
-        <div class="col-md-12 mx-auto my-5">
-            <p class="lead text-white font-weight-normal">TODAS AS ÁREAS DE BELEZA PARA VOCÊ SE SENTIR COMPLETA</p>
+    <div class="position-relative overflow-hidden text-center backgroundPink">
+        <div class="col-md-12 mx-auto py-3">
+            <p class="lead font-weight-normal mb-0">TODAS AS ÁREAS DE BELEZA PARA VOCÊ SE SENTIR COMPLETA</p>
         </div>
     </div>
     <!-- FIX: Adicionar content-visibility: auto para melhorar performance (seção abaixo da dobra) -->
@@ -646,7 +685,7 @@ if ($_POST) {
     </div>
     <!-- Depoimentos -->
     <!-- FIX: Adicionar content-visibility: auto para melhorar performance (seção abaixo da dobra) -->
-    <div class="position-relative overflow-hidden p-3 text-center backgroundGrey testimonials-section" style="content-visibility: auto; contain-intrinsic-size: 600px;">
+    <div class="position-relative overflow-hidden text-center backgroundGrey testimonials-section" style="content-visibility: auto; contain-intrinsic-size: 600px; padding-top: 1rem; padding-left: 1rem; padding-right: 1rem; padding-bottom: 0.5rem;">
         <div class="col-md-12 p-lg-12 mx-auto testimonials-container">
             <div class="container">
                 <div class="row">
@@ -1056,80 +1095,8 @@ if ($_POST) {
         </div>
     </div>
 
-    <footer class="site-footer">
-        <div class="container">
-            <div class="row">
-                <!-- Links de Navegação -->
-                <div class="col-12 col-md-4 mb-4 mb-md-0">
-                    <h2 class="footer-title">Navegação</h2>
-                    <nav class="footer-nav-vertical">
-                        <a href="/#about" class="footer-link">Sobre</a>
-                        <a href="/#services" class="footer-link">Serviços</a>
-                        <a href="/contato.php" class="footer-link">Contato</a>
-                        <a href="/faq/" class="footer-link">FAQ</a>
-                        <a href="/vagas.php" class="footer-link">Trabalhe Conosco</a>
-                    </nav>
-                </div>
-
-                <!-- Informações de Contato -->
-                <div class="col-12 col-md-4 mb-4 mb-md-0">
-                    <h2 class="footer-title">Contato</h2>
-                    <div class="footer-contact">
-                        <p class="footer-contact-item">
-                            <svg class="footer-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                                <circle cx="12" cy="10" r="3"></circle>
-                            </svg>
-                            <span>Rua Heitor Penteado, 626<br>Vila Madalena, São Paulo - SP</span>
-                        </p>
-                        <p class="footer-contact-item">
-                            <svg class="footer-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                            </svg>
-                            <span><strong>Telefone:</strong> (11) 3062-8295</span>
-                        </p>
-                        <p class="footer-contact-item">
-                            <svg class="footer-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.057-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.386 1.262.617 1.694.789.712.28 1.36.24 1.871.146.571-.104 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-                            </svg>
-                            <span><strong>WhatsApp:</strong> (11) 99478-1012</span>
-                        </p>
-                                        </div>
-                                        </div>
-
-                <!-- Redes Sociais -->
-                <div class="col-12 col-md-4 footer-social-col">
-                    <h2 class="footer-title">Redes Sociais</h2>
-                        <div class="footer-social">
-                        <a href="https://www.instagram.com/minhamimo/" target="_blank" class="footer-social-link" aria-label="Instagram">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                            </svg>
-                        </a>
-                        <a href="https://www.facebook.com/mimocuidadoebeleza/" target="_blank" class="footer-social-link" aria-label="Facebook">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                            </svg>
-                        </a>
-                        <a href="https://api.whatsapp.com/send?1=pt_BR&phone=5511994781012" target="_blank" class="footer-social-link" aria-label="WhatsApp">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-                            </svg>
-                        </a>
-                                    </div>
-                                    </div>
-                                    </div>
-
-            <!-- Copyright -->
-        <div class="row">
-                <div class="col-12">
-                    <div class="footer-copyright">
-                        <p>&copy; <?php echo date('Y'); ?> Mimo | 57.659.472/0001-78 | Todos os direitos reservados</p>
-                                    </div>
-                                    </div>
-            </div>
-        </div>
-    </footer>
+    <!-- Footer -->
+    <?php include 'inc/footer.php'; ?>
 
     <?php
     // Schema.org Structured Data - LocalBusiness
@@ -1214,28 +1181,78 @@ if ($_POST) {
     <?php echo js_tag('main.js', ['defer' => true]); ?>
     <?php echo js_tag('js/dark-mode.js', ['defer' => true]); // FIX: Mudado para defer ?>
     <?php echo js_tag('js/animations.js', ['defer' => true]); ?>
-    <!-- jquery.touchswipe removido - bc-swipe.js já fornece funcionalidade de swipe -->
-    
-    <!-- Lucide Icons - Defer para não bloquear render (movido do <head> para melhorar FCP) -->
-    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.1/dist/umd/lucide.js" defer></script>
-    
-    <!-- Inicializar Lucide Icons após carregar -->
+    <!-- Fallback navbar scroll handler - ensures animation works even if main.js fails -->
     <script>
-        // Inicializar Lucide Icons após DOM ready e script carregar
-        function initLucideIcons() {
-            if (typeof lucide !== "undefined") {
-                lucide.createIcons();
-            } else {
-                // Se ainda não carregou, tentar novamente após um delay
-                setTimeout(initLucideIcons, 100);
+    (function() {
+        function handleNavbarScroll() {
+            var navbar = document.querySelector('.navbar');
+            if (!navbar) return;
+            
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+            var shouldBeCompressed = scrollTop >= 20;
+            
+            if (shouldBeCompressed && !navbar.classList.contains('compressed')) {
+                navbar.classList.add('compressed');
+            } else if (!shouldBeCompressed && navbar.classList.contains('compressed')) {
+                navbar.classList.remove('compressed');
             }
         }
         
-        if (document.readyState === "loading") {
-            document.addEventListener("DOMContentLoaded", initLucideIcons);
+        // Run on scroll
+        window.addEventListener('scroll', handleNavbarScroll, { passive: true });
+        
+        // Run on load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', handleNavbarScroll);
         } else {
-            initLucideIcons();
+            handleNavbarScroll();
         }
+        
+        // Polling fallback
+        var lastScroll = -1;
+        setInterval(function() {
+            var currentScroll = window.pageYOffset || document.documentElement.scrollTop || 0;
+            if (Math.abs(currentScroll - lastScroll) > 1) {
+                lastScroll = currentScroll;
+                handleNavbarScroll();
+            }
+        }, 50);
+    })();
+    </script>
+    <!-- jquery.touchswipe removido - bc-swipe.js já fornece funcionalidade de swipe -->
+    
+    <!-- Lucide Icons - Defer para não bloquear render (movido do <head> para melhorar FCP) -->
+    <!-- FIX: Use jsdelivr CDN (already allowed in CSP) with correct path -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js" defer></script>
+    
+    <!-- Inicializar Lucide Icons após carregar -->
+    <script>
+        // FIX: Wait for window load to ensure all scripts have executed
+        (function() {
+            function initLucideIcons() {
+                if (typeof lucide !== "undefined") {
+                    // Clear any incorrectly processed icons first
+                    document.querySelectorAll('[data-lucide]').forEach(function(el) {
+                        // If icon has path/rect but no SVG wrapper, clear it
+                        if (el.querySelector('path, rect') && !el.querySelector('svg')) {
+                            el.innerHTML = '';
+                        }
+                    });
+                    // Now create icons properly
+                    lucide.createIcons();
+                }
+            }
+            
+            // Wait for window load to ensure defer scripts have executed
+            if (document.readyState === "complete") {
+                // Page already loaded
+                setTimeout(initLucideIcons, 100);
+            } else {
+                window.addEventListener('load', function() {
+                    setTimeout(initLucideIcons, 100);
+                });
+            }
+        })();
     </script>
     <script>
         // Wait for DOM and jQuery to be ready (defer ensures scripts load after DOM)
@@ -1360,13 +1377,47 @@ if ($_POST) {
         })();
     </script>
     
-    <!-- Fix footer social icons centering -->
+    <!-- Footer social icons - Force flex display and consistent margin to ensure consistency -->
     <style>
-        .footer-social-col {
-            text-align: center !important;
+        .site-footer .footer-social,
+        footer .footer-social,
+        .footer-social-col .footer-social {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
         }
-        .footer-social-col .footer-title {
-            text-align: center !important;
+        
+        /* Force consistent footer title margin and container width */
+        .site-footer .footer-social-col .footer-title,
+        footer .footer-social-col .footer-title,
+        .footer-social-col .footer-title,
+        .site-footer .footer-social-col h2.footer-title,
+        footer .footer-social-col h2.footer-title,
+        .footer-social-col h2.footer-title {
+            margin-bottom: 20px !important;
+        }
+        
+        /* Force consistent footer social container width */
+        .site-footer .footer-social,
+        footer .footer-social,
+        .footer-social-col .footer-social {
+            width: 100% !important;
+            min-width: 100% !important;
+            max-width: 100% !important;
+            flex-basis: 100% !important;
+            flex-grow: 1 !important;
+            flex-shrink: 0 !important;
+            box-sizing: border-box !important;
+            align-self: stretch !important;
+        }
+        
+        /* Force footer social col to use full width */
+        .site-footer .footer-social-col,
+        footer .footer-social-col,
+        .footer-social-col {
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
         }
     </style>
 
@@ -1403,3 +1454,7 @@ if ($_POST) {
 </body>
 
 </html>
+<?php
+// CRITICAL: End HTML minification output buffer (Phase 9.1)
+end_html_minify();
+?>

@@ -194,6 +194,9 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
     echo generate_twitter_cards($pageTitle, $pageDescription, 'img/bgheader.jpg');
     ?>
 
+    <!-- Critical CSS for header and footer -->
+    <?php include 'inc/critical-css.php'; ?>
+    
     <!-- Script loader for deferred CSS - Must come before deferred resources -->
     <script>
     /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
@@ -205,7 +208,7 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
     <noscript><link rel="stylesheet" href="bootstrap/bootstrap/dist/css/bootstrap.min.css?<?php echo ASSET_VERSION; ?>"></noscript>
 
     <!-- Lucide Icons - Lightweight replacement for Font Awesome -->
-    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.1/dist/umd/lucide.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js" defer></script>
 
     <!-- Google Fonts - Defer -->
     <script>loadCSS("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap");</script>
@@ -215,27 +218,370 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
     <script>loadCSS("<?php echo get_css_asset('css/modules/_variables.css'); ?>");</script>
     <noscript><link rel="stylesheet" href="<?php echo get_css_asset('css/modules/_variables.css'); ?>"></noscript>
 
-    <!-- Custom styles - Defer -->
-    <script>loadCSS("<?php echo get_css_asset('product.css'); ?>");</script>
-    <noscript><?php echo css_tag('product.css'); ?></noscript>
+    <!-- Custom styles - Load synchronously for contact page to ensure styles apply -->
+    <?php echo css_tag('product.css'); ?>
 
-    <!-- Dark Mode Styles - Defer -->
-    <script>loadCSS("<?php echo get_css_asset('css/modules/dark-mode.css'); ?>");</script>
-    <noscript><link rel="stylesheet" href="<?php echo get_css_asset('css/modules/dark-mode.css'); ?>"></noscript>
+    <!-- Dark Mode Styles - Load synchronously -->
+    <?php echo css_tag('css/modules/dark-mode.css'); ?>
 
-    <!-- Mobile UI Improvements - Defer -->
-    <script>loadCSS("<?php echo get_css_asset('css/modules/mobile-ui-improvements.css'); ?>");</script>
-    <noscript><link rel="stylesheet" href="<?php echo get_css_asset('css/modules/mobile-ui-improvements.css'); ?>"></noscript>
+    <!-- Mobile UI Improvements - Load synchronously -->
+    <?php echo css_tag('css/modules/mobile-ui-improvements.css'); ?>
     
     <!-- Fix para remover barra branca entre conteúdo e footer -->
+    <!-- Critical styles for contact page -->
     <style>
-    .page-section {
-        padding-bottom: 0 !important;
-        margin-bottom: 0 !important;
+    /* Page Hero */
+    .page-hero {
+        background: linear-gradient(135deg, rgba(217, 194, 189, 0.9), rgba(49, 38, 91, 0.9)), url('/img/bgheader.jpg');
+        background-size: cover;
+        background-position: center;
+        color: #ffffff;
+        padding: 100px 0 60px;
+        text-align: center;
+        margin-top: 60px;
+        min-height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
+    
+    .page-hero h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        margin-bottom: 1rem;
+        color: #ffffff;
+    }
+    
+    .page-hero p {
+        font-size: 1.2rem;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        margin: 0;
+        color: #ffffff;
+    }
+    
+    /* Info Cards */
+    .info-card {
+        background: var(--color-bg-secondary, #f5f5f5) !important;
+        border-radius: 15px !important;
+        padding: 30px !important;
+        margin-bottom: 30px !important;
+        box-shadow: 0 4px 20px rgba(49, 38, 91, 0.15) !important;
+        border: 1px solid rgba(217, 194, 189, 0.3) !important;
+        min-height: 300px !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    
+    .info-card h3 {
+        color: #1a252a !important;
+        font-size: 1.5rem !important;
+        font-weight: 600 !important;
+        margin-bottom: 15px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+    }
+    
+    .info-card h3 i[data-lucide],
+    .info-card h3 svg {
+        width: 20px !important;
+        height: 20px !important;
+        flex-shrink: 0 !important;
+        color: var(--color-brand-pink, #d9c2bd) !important;
+    }
+    
+    .info-card p {
+        color: #31265b !important;
+        margin-bottom: 10px !important;
+        line-height: 1.6 !important;
+    }
+    
+    .info-card p strong {
+        color: #1a252a !important;
+        font-weight: 600 !important;
+    }
+    
+    /* Alinhar conteúdo dos cards */
+    .info-card > * {
+        width: 100% !important;
+    }
+    
+    /* Page Section */
+    .page-section {
+        padding: 60px 0 0 0 !important;
+        margin-bottom: 0 !important;
+        background: var(--color-bg-primary, #f0e8e6) !important; /* Brand pink background */
+    }
+    
+    .page-section .container {
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+        padding: 0 15px !important;
+        width: 100% !important;
+    }
+    
+    .page-section .row {
+        margin: 0 -15px !important;
+        align-items: flex-start !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+    }
+    
+    .page-section .col-lg-5 {
+        padding: 0 15px !important;
+        flex: 0 0 41.666667% !important;
+        max-width: 41.666667% !important;
+    }
+    
+    .page-section .col-lg-7 {
+        padding: 0 15px !important;
+        flex: 0 0 58.333333% !important;
+        max-width: 58.333333% !important;
+    }
+    
+    @media (max-width: 991px) {
+        .page-section .col-lg-5,
+        .page-section .col-lg-7 {
+            flex: 0 0 100% !important;
+            max-width: 100% !important;
+        }
+    }
+    
     .site-footer {
         margin-top: 0 !important;
     }
+    
+    /* Action Buttons */
+    .action-btn {
+        padding: 12px 25px !important;
+        border-radius: 25px !important;
+        text-decoration: none !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        font-size: 14px !important;
+        letter-spacing: 0.5px !important;
+    }
+    
+    .action-btn-primary {
+        background: linear-gradient(135deg, #d9c2bd, #c4a8a1) !important; /* Brand pink gradient */
+        color: white !important;
+        border: none !important;
+    }
+    
+    .action-btn-primary:hover {
+        background: linear-gradient(135deg, #c4a8a1, #d9c2bd) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 15px rgba(217, 194, 189, 0.4) !important;
+        color: white !important;
+        text-decoration: none !important;
+    }
+    
+    .action-btn-secondary {
+        background: var(--color-bg-secondary, #f5f5f5) !important;
+        color: #31265b !important; /* Brand dark */
+        border: 2px solid #d9c2bd !important; /* Brand pink */
+    }
+    
+    .action-btn-secondary:hover {
+        background: linear-gradient(135deg, #d9c2bd, #c4a8a1) !important;
+        color: white !important;
+        border-color: #d9c2bd !important;
+        text-decoration: none !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 15px rgba(217, 194, 189, 0.3) !important;
+    }
+    
+    .action-buttons {
+        display: flex !important;
+        gap: 15px !important;
+        flex-wrap: wrap !important;
+        margin-top: 20px !important;
+    }
+    
+    /* Map Container */
+    .map-container {
+        border-radius: 15px !important;
+        overflow: hidden !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+        margin-bottom: 30px !important;
+    }
+    
+    .map-container iframe {
+        width: 100% !important;
+        height: 400px !important;
+        border: 0 !important;
+    }
+    
+    /* Horário Status */
+    .horario-status {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        padding: 8px 15px !important;
+        border-radius: 20px !important;
+        font-weight: 600 !important;
+        font-size: 14px !important;
+        margin-top: 10px !important;
+    }
+    
+    .horario-status.aberto {
+        background: rgba(76, 175, 80, 0.1) !important;
+        color: #4caf50 !important;
+    }
+    
+    .horario-status.fechado {
+        background: rgba(244, 67, 54, 0.1) !important;
+        color: #f44336 !important;
+    }
+    
+    /* Form Styles */
+    .contact100-form {
+        margin-top: 20px !important;
+    }
+    
+    .wrap-input100 {
+        margin-bottom: 25px !important;
+    }
+    
+    .wrap-input100 label {
+        display: block !important;
+        margin-bottom: 8px !important;
+        color: #31265b !important; /* Brand dark */
+        font-weight: 600 !important;
+        font-size: 14px !important;
+    }
+    
+    .input100 {
+        width: 100% !important;
+        padding: 12px 15px !important;
+        border: 2px solid rgba(217, 194, 189, 0.3) !important; /* Brand pink border */
+        border-radius: 8px !important;
+        font-size: 15px !important;
+        color: #31265b !important; /* Brand dark */
+        background: #ffffff !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .input100:focus {
+        outline: none !important;
+        border-color: #d9c2bd !important; /* Brand pink */
+        box-shadow: 0 0 0 3px rgba(217, 194, 189, 0.1) !important;
+    }
+    
+    .input100::placeholder {
+        color: #999 !important;
+    }
+    
+    .contact100-form-btn {
+        background: linear-gradient(135deg, #d9c2bd, #c4a8a1) !important; /* Brand pink gradient */
+        color: white !important;
+        border: none !important;
+        padding: 15px 40px !important;
+        border-radius: 25px !important;
+        font-weight: 600 !important;
+        font-size: 16px !important;
+        letter-spacing: 2px !important;
+        cursor: pointer !important;
+        transition: all 0.3s ease !important;
+        width: 100% !important;
+    }
+    
+    .contact100-form-btn:hover {
+        background: linear-gradient(135deg, #c4a8a1, #d9c2bd) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 15px rgba(217, 194, 189, 0.4) !important;
+    }
+    
+    .container-contact100-form-btn {
+        margin-top: 30px !important;
+    }
+    
+    .message-counter {
+        display: block !important;
+        text-align: right !important;
+        margin-top: 5px !important;
+        font-size: 12px !important;
+        color: #999 !important;
+    }
+    
+    /* Alinhar ícones nos títulos */
+    .info-card h3 i[data-lucide],
+    .info-card h3 svg[data-lucide] {
+        display: inline-block !important;
+        vertical-align: middle !important;
+        flex-shrink: 0 !important;
+    }
+    
+    /* Garantir que os cards fiquem alinhados */
+    .page-section .col-lg-5 .info-card:last-child {
+        margin-bottom: 0 !important;
+    }
+    
+    /* Alinhar formulário */
+    .info-card .contact100-form {
+        width: 100% !important;
+    }
+    
+    /* Espaçamento entre seções */
+    .page-section .col-lg-7 {
+        margin-top: 0 !important;
+    }
+    
+    /* Alinhar conteúdo verticalmente */
+    .page-section .col-lg-5 {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    
+    .page-section .col-lg-7 {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    
+    /* Garantir que mapa e formulário fiquem alinhados */
+    .page-section .col-lg-7 .map-container {
+        order: 1 !important;
+    }
+    
+    .page-section .col-lg-7 .info-card {
+        order: 2 !important;
+    }
+    
+    @media (min-width: 992px) {
+        .page-section .col-lg-5 {
+            padding-right: 30px !important;
+        }
+        
+        .page-section .col-lg-7 {
+            padding-left: 30px !important;
+        }
+    }
+    
+    /* Garantir que os ícones SVG sejam visíveis */
+    .info-card h3 svg[data-lucide] {
+        display: inline-block !important;
+        width: 20px !important;
+        height: 20px !important;
+        stroke: currentColor !important;
+        fill: none !important;
+    }
+    
+    /* Alinhar botões de ação */
+    .action-btn {
+        white-space: nowrap !important;
+    }
+    
+    .action-btn svg,
+    .action-btn i[data-lucide] svg {
+        margin-right: 6px !important;
+    }
+    
+    /* Footer styles are now centralized in product.css - no need for inline styles here */
     
     /* Customizar cores dos alerts do Bootstrap para combinar com o design */
     .info-card .alert-success {
@@ -269,8 +615,22 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
     }
     </style>
     
-    <!-- Fix para ícones Font Awesome no footer -->
+    <!-- Fix para ícones Font Awesome no footer e header comprimido -->
     <style>
+    /* Header sempre comprimido em páginas internas */
+    .navbar {
+        background-color: rgba(60, 60, 60, 0.9) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+        box-shadow: rgba(0, 0, 0, 0.1) 2px 2px 2px 0px !important;
+    }
+    .navbar.compressed {
+        background-color: rgba(60, 60, 60, 0.9) !important;
+    }
+    .navbar-nav .nav-link {
+        color: #ffffff !important;
+    }
+    
     .site-footer .footer-social-link {
         display: flex !important;
         align-items: center !important;
@@ -475,80 +835,7 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
     </div>
 
     <!-- Footer -->
-    <footer class="site-footer">
-        <div class="container">
-            <div class="row">
-                <!-- Links de Navegação -->
-                <div class="col-12 col-md-4 mb-4 mb-md-0">
-                    <h2 class="footer-title">Navegação</h2>
-                    <nav class="footer-nav-vertical">
-                        <a href="/#about" class="footer-link">Sobre</a>
-                        <a href="/#services" class="footer-link">Serviços</a>
-                        <a href="/contato.php" class="footer-link">Contato</a>
-                        <a href="/faq/" class="footer-link">FAQ</a>
-                        <a href="/vagas.php" class="footer-link">Trabalhe Conosco</a>
-                    </nav>
-                </div>
-                
-                <!-- Informações de Contato -->
-                <div class="col-12 col-md-4 mb-4 mb-md-0">
-                    <h2 class="footer-title">Contato</h2>
-                    <div class="footer-contact">
-                        <p class="footer-contact-item">
-                            <svg class="footer-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                                <circle cx="12" cy="10" r="3"></circle>
-                            </svg>
-                            <span>Rua Heitor Penteado, 626<br>Vila Madalena, São Paulo - SP</span>
-                        </p>
-                        <p class="footer-contact-item">
-                            <svg class="footer-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                            </svg>
-                            <span><strong>Telefone:</strong> (11) 3062-8295</span>
-                        </p>
-                        <p class="footer-contact-item">
-                            <svg class="footer-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.057-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.386 1.262.617 1.694.789.712.28 1.36.24 1.871.146.571-.104 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-                            </svg>
-                            <span><strong>WhatsApp:</strong> (11) 99478-1012</span>
-                        </p>
-                    </div>
-                </div>
-                
-                <!-- Redes Sociais -->
-                <div class="col-12 col-md-4 footer-social-col">
-                    <h2 class="footer-title">Redes Sociais</h2>
-                    <div class="footer-social">
-                        <a href="https://www.instagram.com/minhamimo/" target="_blank" class="footer-social-link" aria-label="Instagram">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                            </svg>
-                        </a>
-                        <a href="https://www.facebook.com/mimocuidadoebeleza/" target="_blank" class="footer-social-link" aria-label="Facebook">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                            </svg>
-                        </a>
-                        <a href="https://api.whatsapp.com/send?1=pt_BR&phone=5511994781012" target="_blank" class="footer-social-link" aria-label="WhatsApp">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Copyright -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="footer-copyright">
-                        <p>&copy; <?php echo date('Y'); ?> Mimo | 57.659.472/0001-78 | Todos os direitos reservados</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <?php include 'inc/footer.php'; ?>
 
     <?php
     // Schema.org Structured Data - LocalBusiness
@@ -685,18 +972,24 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
 
     <!-- Inicializar Lucide Icons -->
     <script>
-        // Inicializar Lucide Icons após DOM ready
-        if (document.readyState === "loading") {
-            document.addEventListener("DOMContentLoaded", function() {
-                if (typeof lucide !== "undefined") {
-                    lucide.createIcons();
+        // Inicializar Lucide Icons após window.load para garantir que o script defer foi executado
+        window.addEventListener('load', function() {
+            // Limpar ícones incorretamente processados (sem wrapper SVG)
+            document.querySelectorAll('i[data-lucide]').forEach(function(icon) {
+                const hasPathWithoutSvg = Array.from(icon.children).some(child => 
+                    (child.tagName === 'path' || child.tagName === 'rect' || child.tagName === 'circle') && 
+                    !icon.querySelector('svg')
+                );
+                if (hasPathWithoutSvg) {
+                    icon.innerHTML = '';
                 }
             });
-        } else {
+            
+            // Inicializar Lucide Icons
             if (typeof lucide !== "undefined") {
                 lucide.createIcons();
             }
-        }
+        });
     </script>
 
 </body>

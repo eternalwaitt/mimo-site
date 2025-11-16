@@ -7,7 +7,7 @@
 
 /* Botão Toggle - Fundo que contraste sempre com o ícone */
 .dark-mode-toggle {
-    background: rgba(204, 183, 188, 0.15); /* Fundo rosa sutil para contraste */
+    background: rgba(217, 194, 189, 0.15); /* Brand pink - subtle background for contrast */
     border: 2px solid var(--color-pink);
     color: var(--color-pink);
     padding: 8px 12px;
@@ -48,6 +48,8 @@
     height: 38px;
     padding: 6px 10px;
     border: 1px solid var(--color-pink);
+    background: rgba(204, 183, 188, 0.15) !important; /* FIX: Add visible background for better contrast on header */
+    border-radius: 6px;
 }
 
 /* Responsive: ajustar tamanho em telas menores */
@@ -86,9 +88,10 @@
 
 /* Dark mode: fundo mais escuro para contraste */
 [data-theme="dark"] .dark-mode-toggle {
-    background: rgba(212, 165, 176, 0.2); /* Fundo rosa claro para contraste no dark */
+    background: rgba(212, 165, 176, 0.25) !important; /* FIX: Stronger background for better visibility on dark header */
     border-color: var(--color-pink);
     color: var(--color-pink);
+    border-radius: 6px;
 }
 
 [data-theme="dark"] .dark-mode-toggle:hover {
@@ -105,17 +108,25 @@
    Baseado em boas práticas: #121212 (não preto puro)
    ============================================ */
 
-[data-theme="dark"] body {
-    background-color: var(--color-bg-primary) !important;
-    color: var(--color-text-primary) !important;
+/* CRITICAL: Dark mode body - lighter dark tone for better contrast and readability */
+[data-theme="dark"] body,
+body[data-theme="dark"] {
+    background-color: #2a2a2a !important; /* Lighter dark tone - better contrast, not too dark */
+    color: #f5f5f5 !important; /* Light text for readability */
 }
 
 [data-theme="dark"] .navbar {
-    background-color: rgba(13, 13, 13, 0.95) !important; /* #0d0d0d com transparência - mais escuro */
+    background-color: rgba(50, 50, 50, 0.95) !important; /* Always visible dark gray background */
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 4px 0px !important; /* Stronger shadow for depth */
 }
 
 [data-theme="dark"] .navbar.compressed {
-    background-color: rgba(13, 13, 13, 0.98) !important; /* Mais escuro */
+    background-color: rgba(50, 50, 50, 0.95) !important; /* Same dark gray - always visible */
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 4px 0px !important; /* Stronger shadow for depth */
 }
 
 /* Garantir que navbar-nav seja visível no dark mode */
@@ -123,42 +134,79 @@
     color: var(--color-text-primary) !important;
 }
 
-[data-theme="dark"] .navbar-nav .nav-link {
-    color: var(--color-text-primary) !important;
+[data-theme="dark"] .navbar.compressed .navbar-nav .nav-link {
+    color: #ffffff !important; /* White text on dark gray header */
 }
 
-[data-theme="dark"] .navbar-nav .nav-link:hover {
-    color: var(--color-pink) !important; /* Rosa da marca */
+[data-theme="dark"] .navbar.compressed .navbar-nav .nav-link:hover {
+    color: var(--color-brand-pink, #d9c2bd) !important; /* Brand pink on hover */
+}
+
+[data-theme="dark"] .navbar:not(.compressed) .navbar-nav .nav-link {
+    color: var(--color-brand-pink, #d9c2bd) !important; /* Brand pink when transparent */
+}
+
+[data-theme="dark"] .navbar:not(.compressed) .navbar-nav .nav-link:hover {
+    color: var(--color-pink-dark, #c4a8a1) !important; /* Darker brand pink on hover */
+}
+
+/* Hero section - MATCH PRODUCTION */
+[data-theme="dark"] .hero-title,
+[data-theme="dark"] .display-4 {
+    color: #f5f5f5 !important; /* MATCH PRODUCTION: rgb(245, 245, 245) */
 }
 
 /* Classes de texto mantendo identidade */
-[data-theme="dark"] .textDarkGrey {
-    color: var(--color-text-primary) !important;
+[data-theme="dark"] .textDarkGrey,
+[data-theme="dark"] .hero-subtitle {
+    color: #f5f5f5 !important; /* MATCH PRODUCTION: rgb(245, 245, 245) */
 }
 
 [data-theme="dark"] .textPink {
-    color: var(--color-pink) !important; /* Rosa da marca adaptado */
+    color: #e5d1cd !important; /* Lighter brand pink for dark mode readability - direct value to ensure it works */
 }
 
 [data-theme="dark"] .textGrey {
     color: var(--color-text-secondary) !important;
 }
 
-/* Backgrounds mantendo identidade */
+/* Backgrounds mantendo identidade - Different tones for visual separation */
 [data-theme="dark"] .backgroundGrey {
-    background-color: var(--color-bg-secondary) !important;
+    background-color: #333333 !important; /* Lighter dark tone for cards - creates separation */
+    border-top: 1px solid rgba(255, 255, 255, 0.05) !important; /* Subtle border for separation */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
 }
 
 [data-theme="dark"] .backgroundPink {
-    background-color: var(--color-bg-tertiary) !important;
+    background-color: rgba(217, 194, 189, 0.25) !important; /* Stronger brand pink tint for better visibility */
+    border-top: 2px solid rgba(217, 194, 189, 0.5) !important; /* Stronger border with brand pink */
+    border-bottom: 2px solid rgba(217, 194, 189, 0.5) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) inset !important; /* Inset shadow for depth */
+    color: #ffffff !important; /* White text for excellent contrast */
+}
+
+/* Ensure text inside .backgroundPink in dark mode uses white for best contrast */
+[data-theme="dark"] .backgroundPink p,
+[data-theme="dark"] .backgroundPink .lead,
+[data-theme="dark"] .backgroundPink *,
+[data-theme="dark"] div.backgroundPink p,
+[data-theme="dark"] div.backgroundPink .lead,
+[data-theme="dark"] div.backgroundPink *,
+[data-theme="dark"] .position-relative.backgroundPink p,
+[data-theme="dark"] .position-relative.backgroundPink .lead,
+[data-theme="dark"] .position-relative.backgroundPink * {
+    color: #ffffff !important; /* White text for excellent contrast on pink background in dark mode */
+    font-weight: 600 !important; /* Slightly bolder for better readability */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important; /* Stronger shadow for depth in dark mode */
 }
 
 /* Cards e modais */
 [data-theme="dark"] .card,
 [data-theme="dark"] .modal-content {
-    background-color: var(--color-bg-secondary) !important;
+    background-color: #353535 !important; /* Lighter dark tone for cards - creates separation */
     color: var(--color-text-primary) !important;
-    border-color: var(--color-border-light) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important; /* Subtle border for definition */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important; /* Shadow for depth */
 }
 
 /* Botões mantendo identidade da marca */
@@ -173,64 +221,74 @@
 }
 
 /* Footer sempre tem fundo escuro, então cores claras sempre */
-[data-theme="dark"] .site-footer {
-    background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%) !important; /* Tons mais escuros */
-    color: var(--color-text-primary) !important;
+[data-theme="dark"] .site-footer,
+[data-theme="dark"] footer.site-footer,
+[data-theme="dark"] body .site-footer {
+    background: linear-gradient(135deg, rgb(37, 37, 39) 0%, rgb(26, 26, 28) 100%) !important; /* Match production: dark gray gradient */
+    background-color: rgb(37, 37, 39) !important; /* Fallback solid color */
+    color: #ffffff !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 [data-theme="dark"] .site-footer .footer-link {
-    color: var(--color-text-primary) !important;
-    opacity: 0.9;
+    color: #ffffff !important; /* White text */
 }
 
 [data-theme="dark"] .site-footer .footer-link:hover {
-    color: var(--color-pink) !important; /* Rosa da marca */
-    opacity: 1;
+    color: rgb(184, 149, 160) !important; /* Match production: darker pink/beige on hover */
 }
 
 [data-theme="dark"] .footer-title {
-    color: var(--color-pink) !important; /* Rosa da marca para títulos */
+    color: rgb(184, 149, 160) !important; /* Match production: darker pink/beige */
 }
 
 [data-theme="dark"] .footer-contact-item {
-    color: var(--color-text-primary) !important;
-    opacity: 0.9;
+    color: #ffffff !important; /* White text */
 }
 
 [data-theme="dark"] .footer-contact-item i {
-    color: var(--color-pink) !important; /* Ícones rosa da marca */
+    color: var(--color-brand-pink, #d9c2bd) !important; /* Brand pink icons */
 }
 
 [data-theme="dark"] .footer-contact-item strong {
-    color: var(--color-text-primary) !important;
-    opacity: 1;
+    color: #ffffff !important; /* White text */
 }
 
 [data-theme="dark"] .footer-social-link {
-    background: rgba(212, 165, 176, 0.1) !important; /* Fundo rosa sutil */
-    border-color: var(--color-pink) !important; /* Borda rosa da marca */
-    color: var(--color-text-primary) !important;
+    background: rgba(255, 255, 255, 0.1) !important; /* Subtle white background */
+    border-color: rgba(217, 194, 189, 0.3) !important; /* Brand pink border */
+    color: #ffffff !important; /* White icons */
 }
 
 [data-theme="dark"] .footer-social-link:hover {
-    background: var(--color-pink) !important;
-    color: var(--color-bg-primary) !important;
+    background: var(--color-brand-pink, #d9c2bd) !important; /* Brand pink on hover */
+    color: #ffffff !important;
 }
 
 /* Link de reviews do Google - sempre com bom contraste */
 [data-theme="dark"] .google-reviews-link {
-    background: var(--color-dark-grey, #7a9aab) !important; /* Cinza da marca adaptado para dark mode */
-    border-color: var(--color-dark-grey, #7a9aab) !important;
-    color: var(--color-white, #ffffff) !important;
+    background: transparent !important; /* Transparent background */
+    border: none !important; /* No border */
+    box-shadow: none !important; /* No shadow */
 }
 
 [data-theme="dark"] .google-reviews-link:hover {
-    background: var(--color-button-secondary, #8a9aa2) !important; /* Botão secundário dark mode */
-    border-color: var(--color-button-secondary, #8a9aa2) !important;
+    background: transparent !important; /* Keep transparent */
+    border: none !important; /* No border */
+    box-shadow: none !important; /* No shadow */
+    opacity: 0.8 !important; /* Simple opacity change */
 }
 
 [data-theme="dark"] .google-reviews-link span {
-    color: var(--color-white, #ffffff) !important;
+    color: #ffffff !important; /* White text for excellent contrast in dark mode */
+    font-weight: 500 !important; /* Slightly bolder for better visibility */
+}
+
+[data-theme="dark"] .google-reviews-link i,
+[data-theme="dark"] .google-reviews-link svg {
+    color: #ffffff !important; /* White icons for excellent contrast in dark mode */
 }
 
 /* Seção de testimonials - garantir legibilidade */
@@ -239,8 +297,10 @@
 }
 
 [data-theme="dark"] .testimonial-card {
-    background-color: var(--color-bg-secondary) !important;
+    background-color: #383838 !important; /* Lighter dark tone for better contrast */
     color: var(--color-text-primary) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important; /* Subtle border */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important; /* Shadow for depth */
 }
 
 [data-theme="dark"] .testimonial-text {
@@ -251,11 +311,29 @@
     color: var(--color-text-primary) !important;
 }
 
-[data-theme="dark"] .testimonial-content {
-    background: var(--color-bg-secondary) !important;
-    color: var(--color-text-primary) !important;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
-    border: 1px solid var(--color-border-light) !important;
+/* CRITICAL: Dark mode testimonial - lighter tone for better contrast */
+[data-theme="dark"] .testimonial-content,
+body[data-theme="dark"] .testimonial-content,
+[data-theme="dark"] body .testimonial-content {
+    background: #383838 !important; /* Lighter dark tone for better contrast and separation */
+    color: #f5f5f5 !important; /* Light text for readability */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4) !important; /* Stronger shadow for depth */
+    border: 1px solid rgba(255, 255, 255, 0.1) !important; /* Subtle border for definition */
+    border-radius: 20px !important;
+    padding: 25px 30px !important; /* Same as light mode */
+}
+
+/* Dark mode testimonial text and author - must override light mode */
+[data-theme="dark"] .testimonial-text,
+body[data-theme="dark"] .testimonial-text,
+[data-theme="dark"] body .testimonial-text {
+    color: #f5f5f5 !important; /* MATCH PRODUCTION: rgb(245, 245, 245) */
+}
+
+[data-theme="dark"] .testimonial-author strong,
+body[data-theme="dark"] .testimonial-author strong,
+[data-theme="dark"] body .testimonial-author strong {
+    color: #f5f5f5 !important; /* MATCH PRODUCTION: rgb(245, 245, 245) */
 }
 
 [data-theme="dark"] .form-control,
@@ -491,12 +569,333 @@
     color: var(--color-text-primary);
 }
 
-/* Vaga Cards (página de vagas) */
+/* Dark mode: Section backgrounds for visual separation */
+/* Hero section - slightly lighter than body */
+[data-theme="dark"] .hero-section {
+    background-color: #2f2f2f !important; /* Slightly lighter than body for subtle separation */
+}
+
+/* About section (backgroundGrey) - different tone */
+[data-theme="dark"] #about.backgroundGrey,
+[data-theme="dark"] .backgroundGrey {
+    background-color: #333333 !important; /* Lighter dark tone for separation */
+    border-top: 2px solid rgba(255, 255, 255, 0.12) !important; /* Stronger border for better contrast */
+    border-bottom: 2px solid rgba(255, 255, 255, 0.12) !important;
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) inset !important; /* Inset shadow for depth */
+}
+
+/* Services section - different tone */
+[data-theme="dark"] #services {
+    background-color: #2d2d2d !important; /* Slightly different tone */
+    border-top: 2px solid rgba(255, 255, 255, 0.12) !important; /* Stronger border for better contrast */
+    border-bottom: 2px solid rgba(255, 255, 255, 0.12) !important;
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) inset !important; /* Inset shadow for depth */
+}
+
+/* Testimonials section - different tone */
+[data-theme="dark"] #testimonials,
+[data-theme="dark"] .testimonials-section {
+    background-color: #303030 !important; /* Different tone for separation */
+    border-top: 2px solid rgba(255, 255, 255, 0.12) !important; /* Stronger border for better contrast */
+    border-bottom: 2px solid rgba(255, 255, 255, 0.12) !important;
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) inset !important; /* Inset shadow for depth */
+}
+
+/* Service cards - elevated appearance */
+[data-theme="dark"] .service-card,
+[data-theme="dark"] .card-service {
+    background-color: #353535 !important; /* Lighter for cards */
+    border: 2px solid rgba(255, 255, 255, 0.15) !important; /* Stronger border for better contrast */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important; /* Stronger shadow for depth */
+    border-radius: 8px !important;
+}
+
+/* Service cards (.sessoes.container) - better contrast in dark mode */
+[data-theme="dark"] .sessoes.container {
+    border: 1px solid rgba(255, 255, 255, 0.12) !important; /* Stronger border for better contrast */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important; /* Stronger shadow for depth */
+    background-color: #2d2d2d !important; /* Dark background for cards */
+}
+
+/* Service card content - better text contrast */
+[data-theme="dark"] .sessoes.container h2,
+[data-theme="dark"] .sessoes.container h3 {
+    color: #f5f5f5 !important; /* Light text for headings */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important; /* Shadow for depth */
+}
+
+[data-theme="dark"] .sessoes.container p {
+    color: #e0e0e0 !important; /* Slightly lighter for body text */
+}
+
+[data-theme="dark"] .sessoes.container .content-overlay {
+    background: rgba(49, 38, 91, 0.7) !important; /* Darker overlay in dark mode for better contrast */
+}
+
+/* ============================================
+   SERVICE PAGES - NAV PILLS (TABS) - Dark Mode
+   Match home page patterns for consistency
+   ============================================ */
+
+/* Nav pills inactive links - light text for dark mode readability */
+/* High specificity to override product.css rules */
+[data-theme="dark"] .nav-pills .nav-link:not(.active),
+[data-theme="dark"] .nav-pills a.nav-link:not(.active),
+[data-theme="dark"] ul.nav-pills .nav-link:not(.active),
+[data-theme="dark"] ul.nav-pills a.nav-link:not(.active),
+body[data-theme="dark"] .nav-pills .nav-link:not(.active),
+body[data-theme="dark"] .nav-pills a.nav-link:not(.active) {
+    color: #e0e0e0 !important; /* Light gray for readability on dark background */
+    background-color: transparent !important;
+}
+
+/* Nav pills active link - brand pink background with white text */
+[data-theme="dark"] .nav-pills .nav-link.active,
+[data-theme="dark"] .nav-pills .show > .nav-link,
+[data-theme="dark"] .nav-pills a.nav-link.active {
+    color: #ffffff !important; /* White text on brand pink background */
+    background-color: #d9c2bd !important; /* Brand pink background */
+    border-radius: 20px !important;
+}
+
+/* Nav pills hover - lighter brand pink for better visibility */
+/* High specificity to override product.css rules */
+[data-theme="dark"] .nav-pills .nav-link:hover:not(.active),
+[data-theme="dark"] .nav-pills a.nav-link:hover:not(.active),
+[data-theme="dark"] ul.nav-pills .nav-link:hover:not(.active),
+[data-theme="dark"] ul.nav-pills a.nav-link:hover:not(.active),
+body[data-theme="dark"] .nav-pills .nav-link:hover:not(.active),
+body[data-theme="dark"] .nav-pills a.nav-link:hover:not(.active) {
+    color: #e5d1cd !important; /* Lighter brand pink on hover */
+    background-color: rgba(217, 194, 189, 0.2) !important; /* Subtle brand pink background on hover */
+    border-radius: 20px !important;
+}
+
+/* ============================================
+   SERVICE PAGES - Dark Mode
+   Match home page patterns for consistency
+   ============================================ */
+
+/* Service pages body - match home page dark mode */
+[data-theme="dark"] body:has(.esmal-header),
+[data-theme="dark"] body:has(.salao-header),
+[data-theme="dark"] body:has(.corporal-header),
+[data-theme="dark"] body:has(.cilios-header),
+[data-theme="dark"] body:has(.facial-header),
+[data-theme="dark"] body:has(.micro-header),
+body[data-theme="dark"]:has(.esmal-header),
+body[data-theme="dark"]:has(.salao-header),
+body[data-theme="dark"]:has(.corporal-header),
+body[data-theme="dark"]:has(.cilios-header),
+body[data-theme="dark"]:has(.facial-header),
+body[data-theme="dark"]:has(.micro-header) {
+    background-color: #2a2a2a !important; /* Match home page: lighter dark tone for better contrast */
+    color: #f5f5f5 !important; /* Light text for readability */
+}
+
+/* Service page containers - match home page pattern */
+[data-theme="dark"] body:has(.esmal-header) .container,
+[data-theme="dark"] body:has(.salao-header) .container,
+[data-theme="dark"] body:has(.corporal-header) .container,
+[data-theme="dark"] body:has(.cilios-header) .container,
+[data-theme="dark"] body:has(.facial-header) .container,
+[data-theme="dark"] body:has(.micro-header) .container {
+    background-color: transparent !important; /* Transparent containers - let body background show */
+    color: #f5f5f5 !important; /* Light text */
+}
+
+/* Service page content sections - different tones for visual separation */
+[data-theme="dark"] .service-content,
+[data-theme="dark"] .col-md-8.service-content,
+[data-theme="dark"] .col-md-12.container.my-5 {
+    background-color: transparent !important; /* Transparent - use body background */
+    color: #f5f5f5 !important; /* Light text */
+    border-top: 1px solid rgba(255, 255, 255, 0.05) !important; /* Subtle border for separation */
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+}
+
+/* Service page headers - ensure good contrast */
+[data-theme="dark"] .esmal-header,
+[data-theme="dark"] .salao-header,
+[data-theme="dark"] .corporal-header,
+[data-theme="dark"] .cilios-header,
+[data-theme="dark"] .facial-header,
+[data-theme="dark"] .micro-header {
+    /* Headers already have overlay - ensure text is visible */
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .esmal-header h2,
+[data-theme="dark"] .salao-header h2,
+[data-theme="dark"] .corporal-header h2,
+[data-theme="dark"] .cilios-header h2,
+[data-theme="dark"] .facial-header h2,
+[data-theme="dark"] .micro-header h2 {
+    color: #ffffff !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8) !important; /* Strong shadow for readability */
+}
+
+/* Service page tables - better contrast */
+[data-theme="dark"] .table,
+[data-theme="dark"] .table thead th,
+[data-theme="dark"] .table td,
+[data-theme="dark"] .table th {
+    background-color: #353535 !important; /* Lighter dark tone for tables */
+    color: #f5f5f5 !important; /* Light text */
+    border-color: rgba(255, 255, 255, 0.1) !important; /* Subtle borders */
+}
+
+[data-theme="dark"] .table thead th {
+    background-color: #3a3a3a !important; /* Slightly lighter for header */
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+/* ============================================
+   FAQ & VAGAS PAGES - Dark Mode
+   Match home page patterns for consistency
+   ============================================ */
+
+/* FAQ & Vagas pages body - match home page dark mode */
+/* Use more specific selectors to ensure they override base body rules */
+[data-theme="dark"] body:has(.faqheader),
+[data-theme="dark"] body:has(.page-hero),
+body[data-theme="dark"]:has(.faqheader),
+body[data-theme="dark"]:has(.page-hero),
+html[data-theme="dark"] body:has(.faqheader),
+html[data-theme="dark"] body:has(.page-hero) {
+    background-color: #2a2a2a !important; /* Match home page: lighter dark tone for better contrast */
+    color: #f5f5f5 !important; /* Light text for readability */
+}
+
+/* Note: :has() selector may not be supported in all browsers, but modern browsers support it */
+
+/* FAQ & Vagas page containers - match home page pattern */
+[data-theme="dark"] body:has(.faqheader) .container,
+[data-theme="dark"] body:has(.page-hero) .container,
+[data-theme="dark"] .page-section,
+[data-theme="dark"] .page-section-white {
+    background-color: transparent !important; /* Transparent containers - let body background show */
+    color: #f5f5f5 !important; /* Light text */
+}
+
+/* FAQ & Vagas page sections - different tones for visual separation */
+[data-theme="dark"] .page-section {
+    background-color: #2d2d2d !important; /* Slightly different tone for separation */
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important; /* Stronger border for better contrast */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+}
+
+[data-theme="dark"] .page-section-white {
+    background-color: #303030 !important; /* Different tone for separation */
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important; /* Stronger border for better contrast */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+}
+
+/* ============================================
+   CONTATO PAGE - Dark Mode
+   Better contrast for info cards and page hero
+   ============================================ */
+
+/* Page hero - darker background for better contrast */
+[data-theme="dark"] .page-hero {
+    background-color: #2f2f2f !important; /* Slightly lighter than body for subtle separation */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important; /* Border for separation */
+}
+
+[data-theme="dark"] .page-hero h1,
+[data-theme="dark"] .page-hero h2 {
+    color: #f5f5f5 !important; /* Light text for readability */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5) !important; /* Shadow for depth */
+}
+
+[data-theme="dark"] .page-hero p {
+    color: #e0e0e0 !important; /* Slightly lighter for secondary text */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important; /* Shadow for depth */
+}
+
+/* Info cards - elevated appearance with better contrast */
+[data-theme="dark"] .info-card {
+    background-color: #353535 !important; /* Lighter dark tone for cards - creates separation */
+    color: #f5f5f5 !important; /* Light text for readability */
+    border: 1px solid rgba(255, 255, 255, 0.12) !important; /* Stronger border for better contrast */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important; /* Stronger shadow for depth */
+    border-radius: 8px !important;
+}
+
+[data-theme="dark"] .info-card h3,
+[data-theme="dark"] .info-card h4 {
+    color: #f5f5f5 !important; /* Light text for headings */
+}
+
+[data-theme="dark"] .info-card p {
+    color: #e0e0e0 !important; /* Slightly lighter for body text */
+}
+
+[data-theme="dark"] .info-card p strong {
+    color: #f5f5f5 !important; /* Light text for emphasis */
+}
+
+[data-theme="dark"] .info-card i[data-lucide],
+[data-theme="dark"] .info-card svg {
+    color: #e5d1cd !important; /* Brand pink for icons */
+}
+
+/* Form inputs in info cards */
+[data-theme="dark"] .info-card input,
+[data-theme="dark"] .info-card textarea,
+[data-theme="dark"] .info-card select {
+    background-color: #2a2a2a !important; /* Darker background for inputs */
+    color: #f5f5f5 !important; /* Light text */
+    border: 1px solid rgba(255, 255, 255, 0.15) !important; /* Border for definition */
+}
+
+[data-theme="dark"] .info-card input:focus,
+[data-theme="dark"] .info-card textarea:focus,
+[data-theme="dark"] .info-card select:focus {
+    border-color: #e5d1cd !important; /* Brand pink border on focus */
+    box-shadow: 0 0 0 0.2rem rgba(229, 209, 205, 0.25) !important; /* Brand pink glow */
+}
+
+/* Map container */
+[data-theme="dark"] .map-container {
+    border: 1px solid rgba(255, 255, 255, 0.12) !important; /* Border for definition */
+    border-radius: 8px !important;
+    overflow: hidden !important;
+}
+
+/* FAQ header - ensure good contrast */
+[data-theme="dark"] .faqheader {
+    /* Header already has overlay - ensure text is visible */
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .faq-hero-content h2 {
+    color: #ffffff !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8) !important; /* Strong shadow for readability */
+}
+
+/* Page hero (Vagas, Contato, etc) - ensure good contrast */
+/* NOTE: More specific rules for .page-hero are defined in the CONTATO PAGE section above */
+
+/* Vaga Cards (página de vagas) - match home page card pattern */
 [data-theme="dark"] .vaga-card {
-    background-color: var(--color-bg-secondary) !important;
-    color: var(--color-text-primary) !important;
-    border-color: var(--color-border-light) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+    background-color: #353535 !important; /* Match home page cards: lighter dark tone */
+    color: #f5f5f5 !important; /* Light text */
+    border: 1px solid rgba(255, 255, 255, 0.12) !important; /* Stronger border for better contrast */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important; /* Stronger shadow for depth */
+    border-radius: 8px !important;
 }
 
 [data-theme="dark"] .vaga-card:hover {
@@ -539,79 +938,131 @@
 }
 
 [data-theme="dark"] .vaga-card.vaga-candidatar strong {
-	color: var(--color-text-primary) !important;
+	color: #f5f5f5 !important; /* Light text */
+}
+
+/* Vaga info items - match home page text pattern */
+[data-theme="dark"] .vaga-info-item {
+    color: #e0e0e0 !important; /* Slightly lighter for secondary text */
+}
+
+[data-theme="dark"] .vaga-info-item strong {
+    color: #f5f5f5 !important; /* Light text for emphasis */
+}
+
+[data-theme="dark"] .vaga-info-item i {
+    color: #e5d1cd !important; /* Brand pink for icons */
+}
+
+/* Vaga requirements and description - match home page pattern */
+[data-theme="dark"] .vaga-requirements {
+    background-color: #383838 !important; /* Slightly lighter for separation */
+    border: 1px solid rgba(255, 255, 255, 0.12) !important; /* Border for definition */
+    border-left: 4px solid #e5d1cd !important; /* Brand pink border */
+    padding: 15px !important;
+    border-radius: 5px !important;
+    margin-bottom: 20px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important; /* Shadow for depth */
+}
+
+[data-theme="dark"] .vaga-requirements h4,
+[data-theme="dark"] .vaga-description h4 {
+    color: #f5f5f5 !important; /* Light text */
+}
+
+[data-theme="dark"] .vaga-requirements h4 i,
+[data-theme="dark"] .vaga-description h4 i {
+    color: #e5d1cd !important; /* Brand pink for icons */
+}
+
+[data-theme="dark"] .vaga-requirements li {
+    color: #e0e0e0 !important; /* Slightly lighter for list items */
+}
+
+[data-theme="dark"] .vaga-description {
+    background-color: #383838 !important; /* Slightly lighter for separation */
+    border: 1px solid rgba(255, 255, 255, 0.12) !important; /* Border for definition */
+    border-left: 4px solid #e5d1cd !important; /* Brand pink border */
+    padding: 15px !important;
+    border-radius: 5px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important; /* Shadow for depth */
+    color: #e0e0e0 !important; /* Slightly lighter for description text */
 }
 
 /* Mobile - Vagas Page - Melhorias de Layout */
 @media (max-width: 768px) {
 	[data-theme="dark"] .vaga-info-item {
-		color: var(--color-text-secondary) !important;
+		color: #e0e0e0 !important; /* Slightly lighter for secondary text */
 	}
 
 	[data-theme="dark"] .vaga-info-item strong {
-		color: var(--color-text-primary) !important;
+		color: #f5f5f5 !important; /* Light text for emphasis */
 	}
 
 	[data-theme="dark"] .vaga-info-item i {
-		color: var(--color-pink) !important;
+		color: #e5d1cd !important; /* Brand pink for icons */
 	}
 
 	[data-theme="dark"] .vaga-requirements h4,
 	[data-theme="dark"] .vaga-description h4 {
-		color: var(--color-text-primary) !important;
+		color: #f5f5f5 !important; /* Light text */
 	}
 
 	[data-theme="dark"] .vaga-requirements h4 i,
 	[data-theme="dark"] .vaga-description h4 i {
-		color: var(--color-pink) !important;
+		color: #e5d1cd !important; /* Brand pink for icons */
 	}
 
 	[data-theme="dark"] .vaga-requirements li {
-		color: var(--color-text-secondary) !important;
+		color: #e0e0e0 !important; /* Slightly lighter for list items */
 	}
 }
 
-/* FAQ Items */
+/* FAQ Items - match home page card pattern */
 [data-theme="dark"] .faq-item,
 [data-theme="dark"] .faq-question,
 [data-theme="dark"] .faq-answer {
-    background-color: var(--color-bg-secondary) !important;
-    color: var(--color-text-primary) !important;
-    border-color: var(--color-border-light) !important;
+    background-color: #353535 !important; /* Match home page cards: lighter dark tone */
+    color: #f5f5f5 !important; /* Light text */
+    border: 1px solid rgba(255, 255, 255, 0.12) !important; /* Stronger border for better contrast */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important; /* Stronger shadow for depth */
 }
 
 [data-theme="dark"] .faq-question {
-    color: var(--color-text-primary) !important;
+    color: #f5f5f5 !important; /* Light text for readability */
 }
 
 [data-theme="dark"] .faq-answer {
-    color: var(--color-text-secondary) !important;
+    color: #e0e0e0 !important; /* Slightly lighter for secondary text */
 }
 
-/* Accordion (Bootstrap) */
+/* Accordion (Bootstrap) - match home page card pattern */
 [data-theme="dark"] .accordion-item {
-    background-color: var(--color-bg-secondary) !important;
-    border-color: var(--color-border-light) !important;
+    background-color: #353535 !important; /* Match home page cards: lighter dark tone */
+    border: 1px solid rgba(255, 255, 255, 0.12) !important; /* Stronger border for better contrast */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important; /* Stronger shadow for depth */
+    margin-bottom: 10px !important;
+    border-radius: 8px !important;
 }
 
 [data-theme="dark"] .accordion-button {
-    background-color: var(--color-bg-secondary) !important;
-    color: var(--color-text-primary) !important;
+    background-color: #353535 !important; /* Match home page cards */
+    color: #f5f5f5 !important; /* Light text */
 }
 
 [data-theme="dark"] .accordion-button:not(.collapsed) {
-    background-color: var(--color-bg-tertiary) !important;
-    color: var(--color-pink) !important;
+    background-color: #3a3a3a !important; /* Slightly lighter when expanded */
+    color: #e5d1cd !important; /* Brand pink for active state */
 }
 
 [data-theme="dark"] .accordion-button:focus {
-    border-color: var(--color-pink) !important;
-    box-shadow: 0 0 0 0.25rem rgba(212, 165, 176, 0.25) !important;
+    border-color: #e5d1cd !important; /* Brand pink border */
+    box-shadow: 0 0 0 0.25rem rgba(229, 209, 205, 0.25) !important; /* Brand pink shadow */
 }
 
 [data-theme="dark"] .accordion-body {
-    background-color: var(--color-bg-secondary) !important;
-    color: var(--color-text-primary) !important;
+    background-color: #353535 !important; /* Match home page cards */
+    color: #f5f5f5 !important; /* Light text */
 }
 
 /* List Groups */

@@ -78,8 +78,8 @@ function navbar(){
         }
         
         // FIX: Batch DOM reads first, then batch writes to prevent forced reflow
-        // Read scroll position once
-        var scrollTop = $(window).scrollTop();
+        // Read scroll position once - use native API for reliability
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
         var shouldBeCompressed = scrollTop >= 20;
         var newState = shouldBeCompressed ? 'compressed' : 'expanded';
         
@@ -105,7 +105,10 @@ function navbar(){
     $(document).ready(function() {
         // Debounce scroll handler to reduce forced reflows
         var scrollTimeout = null;
-        $(window).on('scroll', function() {
+        var lastScrollTop = -1; // Initialize to -1 to ensure first check always runs
+        var checkInterval = null;
+        
+        function handleScroll() {
             // Cancel previous timeout
             if (scrollTimeout) {
                 cancelAnimationFrame(scrollTimeout);
@@ -115,8 +118,54 @@ function navbar(){
                 navbar();
                 scrollTimeout = null;
             });
-        });
+        }
+        
+        // Listen to scroll events
+        $(window).on('scroll', handleScroll);
+        
+        // Also listen to native scroll event as fallback
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        
+        // Polling fallback: check scroll position periodically to catch programmatic scrolls
+        // This ensures navbar animation works even when scroll events don't fire
+        // Initialize lastScrollTop to current scroll position
+        lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Force immediate check on scroll change
+        var forceCheck = function() {
+            var currentScroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+            if (Math.abs(currentScroll - lastScrollTop) > 1) { // Use Math.abs to handle both directions
+                lastScrollTop = currentScroll;
+                handleScroll();
+            }
+        };
+        
+        checkInterval = setInterval(forceCheck, 50); // Check every 50ms for more responsive animation
+        
+        // Also force check on any scroll-related events
+        window.addEventListener('scroll', forceCheck, { passive: true });
+        window.addEventListener('wheel', forceCheck, { passive: true });
+        window.addEventListener('touchmove', forceCheck, { passive: true });
+        
+        // Direct call to navbar() on scroll events as ultimate fallback
+        window.addEventListener('scroll', function() {
+            navbar();
+        }, { passive: true });
+        
+        // Initial call
         navbar();
+        
+        // Also check on load in case page loads with scroll position
+        $(window).on('load', function() {
+            navbar();
+        });
+        
+        // Clean up interval on page unload
+        $(window).on('beforeunload', function() {
+            if (checkInterval) {
+                clearInterval(checkInterval);
+            }
+        });
     });
 
 
@@ -172,58 +221,106 @@ function navbar(){
      * Em desktop: remove classes de mobile
      */
 
-    $( document ).ready(function() {
+    // FIX: Wait for Bootstrap to load before initializing navbar
+    function initNavbar() {
+        // Check if Bootstrap is loaded
+        if (typeof $ === 'undefined' || typeof $.fn.collapse === 'undefined') {
+            // Retry after a short delay
+            setTimeout(initNavbar, 50);
+            return;
+        }
+        
         var isMobile = window.matchMedia("only screen and (max-width: 760px)");
-
 
         if (isMobile.matches) {
             $('#navbar2').addClass('collapse');
             $('#navbar2').addClass('navbar-collapse');
             $('.navbar').addClass('navbar-dark');
-
         } else {
             $('#navbar2').removeClass('collapse');
             $('#navbar2').removeClass('navbar-collapse');
             $('.navbar').removeClass('navbar-dark');
         }
-
-        /**
-         * Faz scroll suave até um elemento alvo
-         * 
-         * Scrolla a página até o elemento especificado com offset de 100px
-         * para compensar a navbar fixa. Em mobile, fecha o menu antes de scrollar.
-         * 
-         * @param {string} target - Seletor CSS do elemento alvo (ex: '#about', '.section')
-         * @returns {void}
-         * 
-         * @example
-         * scrollTo('#about'); // Scrolla até elemento com id="about"
-         */
-        function scrollTo(target){
-            // FIX: Usar requestAnimationFrame para evitar forced reflow
-            requestAnimationFrame(function() {
-                var position = $(target).position();
-
-                // Em mobile, fechar menu antes de scrollar
-                if (isMobile.matches) {
-                    $('#navbar2').removeClass('show');
-                }
-                // Scroll com offset de 100px para compensar navbar fixa
-                $(window).scrollTop(position.top - 100);
-            });
+        
+        // Ensure Bootstrap collapse is initialized
+        if ($('#navbar2').length && typeof $.fn.collapse !== 'undefined') {
+            // Bootstrap auto-initializes, but we can ensure it's ready
+            var collapseElement = $('#navbar2');
+            if (collapseElement.data('bs.collapse') === undefined) {
+                collapseElement.collapse({ toggle: false });
+            }
         }
+    }
+    
+    // Initialize when DOM and scripts are ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initNavbar);
+    } else {
+        // DOM already loaded, but scripts might not be
+        initNavbar();
+    }
+    
+    // Also try on window load as fallback
+    window.addEventListener('load', function() {
+        if (typeof $ !== 'undefined' && typeof $.fn.collapse !== 'undefined') {
+            initNavbar();
+        }
+    });
 
-        /**
-         * Handler para links com classe .scroll
-         * 
-         * Links com classe .scroll fazem scroll suave para âncoras
-         * Exemplo: <a href="#about" class="scroll">Sobre</a>
-         */
+    /**
+     * Faz scroll suave até um elemento alvo
+     * 
+     * Scrolla a página até o elemento especificado com offset de 100px
+     * para compensar a navbar fixa. Em mobile, fecha o menu antes de scrollar.
+     * 
+     * @param {string} target - Seletor CSS do elemento alvo (ex: '#about', '.section')
+     * @returns {void}
+     * 
+     * @example
+     * scrollTo('#about'); // Scrolla até elemento com id="about"
+     */
+    function scrollTo(target){
+        if (typeof $ === 'undefined') return;
+        
+        // FIX: Usar requestAnimationFrame para evitar forced reflow
+        requestAnimationFrame(function() {
+            var position = $(target).position();
+            var isMobile = window.matchMedia("only screen and (max-width: 760px)");
+
+            // Em mobile, fechar menu antes de scrollar
+            if (isMobile.matches) {
+                $('#navbar2').removeClass('show');
+            }
+            // Scroll com offset de 100px para compensar navbar fixa
+            $(window).scrollTop(position.top - 100);
+        });
+    }
+
+    /**
+     * Handler para links com classe .scroll
+     * 
+     * Links com classe .scroll fazem scroll suave para âncoras
+     * Exemplo: <a href="#about" class="scroll">Sobre</a>
+     */
+    function initScrollHandlers() {
+        if (typeof $ === 'undefined') {
+            setTimeout(initScrollHandlers, 50);
+            return;
+        }
+        
         $('a.scroll').on('click', function (e) {
             e.preventDefault();
             var target = $(this).attr('href');
             scrollTo(target);
         });
+    }
+    
+    // Initialize scroll handlers when jQuery is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initScrollHandlers);
+    } else {
+        initScrollHandlers();
+    }
 
         /**
          * Scroll automático para hash na URL

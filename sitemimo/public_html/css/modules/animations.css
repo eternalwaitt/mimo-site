@@ -372,7 +372,8 @@ html {
 
 .content:hover .content-image {
     transform: scale(1.1);
-    filter: brightness(0.8);
+    /* CRITICAL: No filter - overlay will darken the image, keep images vivid */
+    filter: none;
 }
 
 .content-details {

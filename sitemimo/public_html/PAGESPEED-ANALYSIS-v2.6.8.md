@@ -154,3 +154,4 @@
 5. Re-executar PageSpeed Insights após correções
 6. Iterar até performance mobile >= 90
 
+

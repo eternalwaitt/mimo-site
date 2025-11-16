@@ -152,13 +152,13 @@ function render_manual_reviews($reviews) {
     foreach ($reviews as $review) {
         $html .= '<div class="review-item" itemscope itemtype="https://schema.org/Review">';
         
-        // Rating stars
+        // Rating stars (using Unicode for better performance, no icon library needed)
         $stars = '';
         for ($i = 1; $i <= 5; $i++) {
             if ($i <= $review['rating']) {
-                $stars .= '<i class="fas fa-star text-warning"></i>';
+                $stars .= '<span class="star-filled">★</span>';
             } else {
-                $stars .= '<i class="far fa-star text-muted"></i>';
+                $stars .= '<span class="star-empty">☆</span>';
             }
         }
         

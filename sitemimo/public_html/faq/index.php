@@ -49,8 +49,35 @@
     
     <!-- Dark Mode Styles -->
     <link rel="stylesheet" href="../css/modules/dark-mode.css">
-
-
+    
+    <!-- Mobile UI Improvements -->
+    <link rel="stylesheet" href="../css/modules/mobile-ui-improvements.css">
+    
+    <!-- Force footer social container width consistency -->
+    <style>
+        /* Force consistent footer social container width */
+        .site-footer .footer-social,
+        footer .footer-social,
+        .footer-social-col .footer-social {
+            width: 100% !important;
+            min-width: 100% !important;
+            max-width: 100% !important;
+            flex-basis: 100% !important;
+            flex-grow: 1 !important;
+            flex-shrink: 0 !important;
+            box-sizing: border-box !important;
+            align-self: stretch !important;
+        }
+        
+        /* Force footer social col to use full width */
+        .site-footer .footer-social-col,
+        footer .footer-social-col,
+        .footer-social-col {
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+    </style>
 
     <!-- Form -->
 
@@ -94,7 +121,41 @@
 
     <meta name="theme-color" content="#ffffff">
 
-
+    <!-- Critical CSS for header - Always compact, only logo animates -->
+    <style>
+    /* Header sempre compacto - apenas logo anima */
+    .navbar {
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+        background-color: rgba(45, 45, 45, 0.95) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+        box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 4px 0px !important;
+        transition: background-color 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease !important;
+    }
+    .navbar.compressed {
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+        background-color: rgba(45, 45, 45, 0.95) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+        box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 4px 0px !important;
+    }
+    /* Logo inicial - maior */
+    .logonav {
+        height: 55px !important;
+        max-width: 150px !important;
+        transition: height 0.3s ease, max-width 0.3s ease, transform 0.3s ease !important;
+    }
+    /* Logo comprimido - menor */
+    .navbar.compressed .logonav {
+        height: 28px !important;
+        max-width: 100px !important;
+    }
+    .navbar-nav .nav-link {
+        color: #ffffff !important;
+    }
+    </style>
 
 </head>
 
@@ -260,12 +321,33 @@
 
 
 
-    <!-- Banner -->
-
-    <div class="position-relative overflow-hidden faqheader text-center text-white">
-
-        <h2 style="line-height: 7; font-size: 60px;"> FAQ </h2>
-
+    <!-- Banner / Hero -->
+    <div class="position-relative overflow-hidden faqheader text-center text-white" role="banner" aria-label="FAQ Hero section">
+        <!-- Background image with gradient overlay -->
+        <?php
+        // Desktop image
+        if (file_exists(__DIR__ . '/../img/bgheader.avif')) {
+            echo '<picture class="faq-hero-image-desktop d-none d-md-block" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;">
+                <source srcset="/img/bgheader.avif" type="image/avif">
+                <source srcset="/img/bgheader.webp" type="image/webp">
+                <img src="/img/bgheader.jpg" alt="Mimo - FAQ" loading="eager" width="1920" height="1080" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+            </picture>';
+        }
+        // Mobile image
+        if (file_exists(__DIR__ . '/../img/header_dezembro_mobile.avif')) {
+            echo '<picture class="faq-hero-image-mobile d-block d-md-none" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;">
+                <source srcset="/img/header_dezembro_mobile.avif" type="image/avif" media="(max-width: 750px)">
+                <source srcset="/img/header_dezembro_mobile.webp" type="image/webp" media="(max-width: 750px)">
+                <img src="/img/header_dezembro_mobile.png" alt="Mimo - FAQ" loading="eager" width="750" height="422" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+            </picture>';
+        }
+        ?>
+        <!-- Gradient overlay for better text readability -->
+        <div class="faq-hero-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(217, 194, 189, 0.85), rgba(49, 38, 91, 0.85)); z-index: 1;"></div>
+        <!-- Hero content -->
+        <div class="faq-hero-content" style="position: relative; z-index: 2; padding: 100px 20px 60px; display: flex; align-items: center; justify-content: center; min-height: 300px;">
+            <h2 style="font-size: 60px; font-weight: 700; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); margin: 0;">FAQ</h2>
+        </div>
     </div>
 
 
@@ -976,19 +1058,8 @@
 
 
 
-    <footer class="container mt-5">
-
-        <div class="row">
-
-            <div class="col-12 col-md my-2 py-2">
-
-                <small class="d-block text-muted text-center" style="line-height: 3;">&copy; MIMO Estética 2018 | Todos os direitos reservados</small>
-
-            </div>
-
-        </div>
-
-    </footer>
+    <!-- Footer -->
+    <?php include '../inc/footer.php'; ?>
 
 
 
@@ -1011,6 +1082,47 @@
     <script src="../form/main.js"></script>
 
     <script src="../main.js"></script>
+    <!-- Fallback navbar scroll handler - ensures animation works even if main.js fails -->
+    <script>
+    (function() {
+        function handleNavbarScroll() {
+            var navbar = document.querySelector('.navbar');
+            if (!navbar) return;
+            
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+            var shouldBeCompressed = scrollTop >= 20;
+            
+            if (shouldBeCompressed && !navbar.classList.contains('compressed')) {
+                navbar.classList.add('compressed');
+            } else if (!shouldBeCompressed && navbar.classList.contains('compressed')) {
+                navbar.classList.remove('compressed');
+            }
+        }
+
+        // Initial call
+        handleNavbarScroll();
+
+        // Listen to scroll events
+        window.addEventListener('scroll', handleNavbarScroll, { passive: true });
+        window.addEventListener('DOMContentLoaded', handleNavbarScroll);
+        window.addEventListener('load', handleNavbarScroll);
+
+        // Polling fallback for programmatic scrolls or if events are missed
+        var lastScrollTop = 0;
+        var checkInterval = setInterval(function() {
+            var currentScroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+            if (Math.abs(currentScroll - lastScrollTop) > 0) { // Only trigger if scroll position actually changed
+                lastScrollTop = currentScroll;
+                handleNavbarScroll();
+            }
+        }, 50); // Check every 50ms for responsiveness
+
+        // Clear interval on page unload to prevent memory leaks
+        window.addEventListener('beforeunload', function() {
+            clearInterval(checkInterval);
+        });
+    })();
+    </script>
     
     <!-- Dark Mode JavaScript -->
     <script src="../js/dark-mode.js"></script>

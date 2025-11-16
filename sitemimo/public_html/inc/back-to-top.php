@@ -80,8 +80,10 @@
     if (!backToTopBtn) return;
     
     // Mostrar/esconder botão baseado no scroll
+    // FIX: Lower threshold to 100px and use more reliable scroll detection
     function toggleBackToTop() {
-        if (window.pageYOffset > 300) {
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+        if (scrollTop > 100) {
             backToTopBtn.classList.add('show');
         } else {
             backToTopBtn.classList.remove('show');

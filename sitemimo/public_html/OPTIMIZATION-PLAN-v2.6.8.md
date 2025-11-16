@@ -128,3 +128,4 @@
 2. Verificar melhorias
 3. Iterar até performance >= 90
 
+

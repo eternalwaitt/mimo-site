@@ -63,62 +63,63 @@
 
 /* FIX: Prevenir layout shift no main-content (causa 93% do CLS - 0.358 de 0.383) */
 /* CRITICAL: Desktop CLS fix - main-content causing 0.501 shift */
+/* FIX: Add padding-top to compensate for fixed navbar - but only on main-content, not body */
+/* Removed body padding-top to prevent white rectangle above navbar */
 #main-content {
 	contain: layout style paint; /* More aggressive containment to prevent CLS */
 	min-height: 100vh; /* Reservar espaço desde o início */
 	overflow-x: hidden; /* Prevenir scroll horizontal causar shift */
+	position: relative; /* Ensure proper stacking context */
+	z-index: 0; /* Base z-index for main content */
+	padding-top: 70px; /* Compensate for fixed navbar - add padding to main-content instead of body */
 	/* FIX: Garantir que conteúdo dinâmico não cause shift */
-	position: relative;
 	/* FIX: Garantir que seções principais tenham altura mínima desde o início */
 	/* Prevent font reflow causing layout shift */
 	font-size: inherit;
 	line-height: inherit;
 }
 
-/* FIX: Garantir altura mínima para seções principais dentro do main */
-/* FIX: Add padding-top to compensate for fixed navbar - but only on main-content, not body */
-/* Removed body padding-top to prevent white rectangle above navbar */
-
-#main-content {
-	padding-top: 70px; /* Compensate for fixed navbar - add padding to main-content instead of body */
-}
-
-#main-content > .bg-header,
-#main-content > .hero-section {
-	min-height: 250px; /* Mobile */
-}
-
-@media (min-width: 751px) {
-	#main-content > .bg-header,
-	#main-content > .hero-section {
-		min-height: 300px; /* Desktop - reduced to match production */
-		max-height: 350px; /* Desktop - reduced to match production */
-	}
-}
+/* Hero section height is now defined in .hero-section rule above */
+/* Removed duplicate min-height rules to prevent conflicts */
 
 /* FIX: Garantir altura mínima para seção about */
 #about {
 	min-height: 500px; /* Reservar espaço desde o início */
-	contain: layout style paint; /* More aggressive containment to prevent CLS */
+	contain: layout; /* Reduced from layout style paint - section needs to flow naturally */
+	position: relative; /* Ensure proper stacking context */
+	margin-top: 0; /* Remove any default margin that might cause overlap */
+	padding-top: 3rem; /* Add padding for spacing from hero */
+	padding-bottom: 1rem !important; /* Reduced from 2rem (32px) to 1rem (16px) to optimize space before .backgroundPink */
 }
 
 /* FIX: Garantir altura mínima para seção services */
 #services {
 	min-height: 800px; /* Reservar espaço desde o início */
-	contain: layout style paint; /* More aggressive containment to prevent CLS */
+	contain: layout; /* Reduced from layout style paint - section needs to flow naturally */
+	padding-top: 1rem !important; /* Reduced from default 2rem to optimize space after testimonials */
+	margin-top: 0 !important; /* Remove margin-top to optimize space */
+}
+
+/* Clear floats for service cards container */
+#services .d-none.d-sm-block {
+	overflow: hidden !important; /* Clear floats - matches production behavior */
+	width: 100% !important;
+	display: block !important;
 }
 
 /* FIX: Garantir altura mínima para testimonials section */
 .testimonials-section {
 	min-height: 600px; /* Reservar espaço desde o início */
-	contain: layout style paint; /* More aggressive containment to prevent CLS */
+	contain: layout; /* Reduced from layout style paint - section needs to flow naturally */
 	position: relative;
 	overflow: hidden;
+	padding-bottom: 0.5rem !important; /* Further reduced from 1rem to 0.5rem (8px) to minimize space before services section */
+	margin-bottom: 0 !important; /* Remove margin-bottom to optimize space */
 }
 
 /* CRITICAL: CLS Fix - Testimonials carousel container */
 .testimonials-container {
-	contain: layout style paint;
+	contain: layout; /* Reduced from layout style paint - container needs to flow */
 	min-height: 500px; /* Reserve space for carousel */
 	position: relative;
 }
@@ -127,7 +128,7 @@
 .testimonials-carousel,
 .testimonials-carousel .carousel-inner,
 .testimonials-inner {
-	contain: layout style paint;
+	contain: layout; /* Reduced from layout style paint - carousel needs to flow */
 	min-height: 500px; /* Reserve space for carousel items */
 	position: relative;
 }
@@ -137,6 +138,43 @@
 	contain: layout style paint;
 	min-height: 400px; /* Reserve space for testimonial content */
 	position: relative;
+	/* FIX: Reserve space for content to prevent shift when loading */
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+/* CRITICAL: CLS Fix - Testimonial content */
+.testimonial-content {
+	contain: layout; /* Reduced from layout style paint - content needs to flow */
+	min-height: 350px; /* Reserve space for testimonial text and avatar */
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+}
+
+/* CRITICAL: CLS Fix - Testimonial text */
+.testimonial-text {
+	contain: layout;
+	min-height: 100px; /* Reserve space for text */
+	margin: 1rem 0;
+}
+
+/* CRITICAL: CLS Fix - Testimonial author */
+.testimonial-author {
+	contain: layout;
+	min-height: 1.5em; /* Reserve space for author name */
+	margin: 0.5rem 0;
+}
+
+/* CRITICAL: CLS Fix - Testimonial rating */
+.testimonial-rating {
+	contain: layout;
+	min-height: 1.2em; /* Reserve space for stars */
+	margin: 0.5rem 0;
 }
 
 /* CRITICAL: CLS Fix - Testimonial avatar (already has dimensions but add containment) */
@@ -147,11 +185,46 @@
 	min-width: 80px;
 	min-height: 80px;
 	aspect-ratio: 1 / 1;
+	/* FIX: Reserve space even when image is loading */
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(0, 0, 0, 0.05); /* Skeleton background */
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+/* CRITICAL: CLS Fix - Testimonial avatar image */
+.testimonial-avatar img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+	/* FIX: Prevent layout shift when image loads */
+	aspect-ratio: 1 / 1;
+}
+
+/* CRITICAL: CLS Fix - Testimonial avatar placeholder */
+.testimonial-avatar-placeholder {
+	width: 80px !important;
+	height: 80px !important;
+	min-width: 80px;
+	min-height: 80px;
+	aspect-ratio: 1 / 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(0, 0, 0, 0.1);
+	border-radius: 50%;
+	font-size: 2rem;
+	font-weight: bold;
+	color: rgba(0, 0, 0, 0.5);
 }
 
 /* FIX: Carousel inner container - prevent layout shift */
 .testimonials-carousel .carousel-inner {
-	contain: layout style paint;
+	contain: layout; /* Reduced from layout style paint - carousel needs to flow */
 	min-height: 500px; /* Reserve space for carousel items */
 	position: relative;
 	background-color: var(--color-bg-secondary, #fafafa); /* Default background */
@@ -165,8 +238,18 @@ body:not([data-theme="dark"]) .testimonials-carousel .carousel-inner {
 }
 
 /* FIX: Google Reviews container - prevent layout shift when loading */
+/* Google reviews link icon styling - minimalista */
+.google-reviews-link i,
+.google-reviews-link svg {
+	color: var(--color-brand-dark, #31265b) !important; /* Brand dark (blue) icon - default for light mode */
+	margin-right: 6px !important; /* Tighter spacing */
+	width: 16px !important; /* Smaller icon */
+	height: 16px !important;
+	opacity: 0.9 !important; /* Slightly transparent */
+}
+
 .google-reviews-container {
-	contain: layout style paint;
+	contain: layout; /* Reduced from layout style paint - container needs to flow */
 	min-height: 50px; /* Reserve space for Google Reviews link */
 	position: relative;
 }
@@ -174,28 +257,28 @@ body:not([data-theme="dark"]) .testimonials-carousel .carousel-inner {
 /* FIX: All sections should have containment to prevent CLS */
 section,
 .page-section {
-	contain: layout style paint;
+	contain: layout; /* Reduced from layout style paint - sections need to flow naturally */
 	position: relative;
 }
 
 /* FIX: Testimonials carousel items need min-height */
 .testimonials-carousel .carousel-item {
 	min-height: 400px; /* Reserve space for testimonial content */
-	contain: layout style paint;
+	contain: layout style paint; /* Keep full containment - isolated carousel item */
 }
 
 /* FIX: Service cards need min-height */
 .service-card,
 .sessoes.container .content {
 	min-height: 300px;
-	contain: layout style paint;
+	contain: layout style paint; /* Keep full containment - isolated service card component */
 }
 
 /* FIX: Category items need min-height */
 .mobile-category-item,
 .category-item {
 	min-height: 200px;
-	contain: layout style paint;
+	contain: layout style paint; /* Keep full containment - isolated category item */
 }
 
 html {
@@ -205,21 +288,70 @@ html {
 	padding: 0;
 }
 
+/* Light mode body - default */
 body {
 	overflow-x: hidden;
 	font-family: Nunito, sans-serif;
 	padding-right: 0!important;
 	padding-top: 0 !important; /* FIX: Remove padding-top to prevent white rectangle above navbar */
 	margin: 0; /* FIX: Remove margin to prevent white space */
-	background-color: var(--color-bg-primary, #fafafa); /* Usa variável CSS, fallback off-white */
+	background-color: #f0e8e6; /* More visible pink/beige blend (80% white, 20% brand pink #d9c2bd) */
+	color: #31265b; /* Brand dark for text */
+}
+
+/* Service procedure pages - body background should be rgb(250,250,250) (match production) */
+/* Target pages with service headers */
+body:has(.esmal-header),
+body:has(.salao-header),
+body:has(.corporal-header),
+body:has(.cilios-header),
+body:has(.facial-header),
+body:has(.micro-header) {
+	background-color: rgb(250, 250, 250) !important; /* Match production: rgb(250,250,250) for service pages */
+}
+
+
+/* Force light mode colors when not in dark mode - Based on brand colors */
+:not([data-theme="dark"]) body,
+body:not([data-theme="dark"]) {
+	background-color: #f0e8e6 !important; /* More visible pink/beige blend (80% white, 20% brand pink #d9c2bd) */
+	color: #31265b !important; /* Brand dark for text */
 }
 
 
 
 .container {
+	max-width: 960px;
+}
 
-	max-width: 960px
+/* Service procedure pages - containers should be 960px max-width (match production) */
+/* Target pages with service headers (esmal-header, salao-header, etc.) */
+.esmal-header ~ .container,
+.salao-header ~ .container,
+.corporal-header ~ .container,
+.cilios-header ~ .container,
+.facial-header ~ .container,
+.micro-header ~ .container,
+body:has(.esmal-header) .container,
+body:has(.salao-header) .container,
+body:has(.corporal-header) .container,
+body:has(.cilios-header) .container,
+body:has(.facial-header) .container,
+body:has(.micro-header) .container {
+	max-width: 960px !important; /* Match production: 960px for service pages */
+}
 
+/* CRITICAL: Override .container for .sessoes.container - must be more specific than Bootstrap */
+.sessoes.container,
+#services .sessoes.container,
+#services .d-none.d-sm-block .sessoes.container {
+	/* Override Bootstrap .container styles - CRITICAL: Use !important to override Bootstrap */
+	padding: 0 !important; /* Remove Bootstrap's padding */
+	margin: 0 !important; /* Remove Bootstrap's margin auto */
+	max-width: 960px !important; /* Match production: Bootstrap's .container max-width */
+	float: left !important; /* CRITICAL: Override Bootstrap's block display */
+	width: 50% !important; /* Default: 2 per row on tablet */
+	display: flex !important; /* CRITICAL: Override Bootstrap's block display */
 }
 
 
@@ -340,24 +472,49 @@ iframe {
 
 .textPink {
 
-	color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS, fallback para cor original */
+	color: var(--color-pink, #d9c2bd); /* Brand pink via CSS variable */
 
 }
 
 
 
-.backgroundPink {
+/* High specificity to override any other rules */
+.backgroundPink,
+div.backgroundPink,
+.position-relative.backgroundPink,
+body .backgroundPink,
+html body .backgroundPink {
+	background-color: #d9c2bd !important; /* Brand pink - match brand colors (direct value to ensure it works) */
+	color: #ffffff !important; /* White text for excellent contrast on pink background (WCAG AA compliant) */
+	padding-top: 0.75rem !important; /* Reduced from 1rem (16px) to 0.75rem (12px) to optimize space after #about */
+	padding-bottom: 0.75rem !important; /* Reduced padding-bottom for better space optimization */
+}
 
-	background-color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
-
+/* Ensure text inside .backgroundPink uses the correct color - high specificity */
+.backgroundPink p,
+.backgroundPink .lead,
+.backgroundPink *,
+div.backgroundPink p,
+div.backgroundPink .lead,
+div.backgroundPink *,
+.position-relative.backgroundPink p,
+.position-relative.backgroundPink .lead,
+.position-relative.backgroundPink * {
+	color: #ffffff !important; /* White text for excellent contrast on pink background */
+	font-weight: 600 !important; /* Slightly bolder for better readability */
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important; /* Subtle shadow for depth */
 }
 
 
 
 .textDarkGrey {
+	color: var(--color-dark-grey, #31265b); /* Brand dark for hero subtitle */
+}
 
-	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS, fallback para cor original */
-
+/* Hero title - MATCH PRODUCTION */
+.hero-title,
+.display-4.hero-title {
+	color: #1a1a1a; /* MATCH PRODUCTION: rgb(26, 26, 26) - hero title light mode */
 }
 
 
@@ -380,7 +537,7 @@ iframe {
 
 .backgroundGrey {
 
-	background-color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
+	background-color: #d9c2bd !important; /* Brand pink background - use brand color directly */
 
 }
 
@@ -440,7 +597,7 @@ li p {
 
 	color: #fff;
 
-	background-color: var(--color-pink, #ccb7bc) /* Rosa da marca via variável CSS */
+	background-color: var(--color-pink, #d9c2bd); /* Brand pink via CSS variable */
 
 }
 
@@ -490,17 +647,19 @@ li p {
 
 	font-weight: 600;
 
-	background-color: transparent;
+	background-color: transparent !important; /* CRITICAL: White button with border like production */
 
-	color: #fff;
+	color: #fff !important;
 
-	border: 2px solid #fff;
+	border: 2px solid #fff !important;
 
 	font-size: 14px;
 
 	letter-spacing: 1.8px;
 
-	border-radius: 0
+	border-radius: 0;
+
+	padding: 10px 20px; /* Add padding for better appearance */
 
 }
 
@@ -516,19 +675,53 @@ li p {
 
 .btnSeeMore:hover {
 
-	background-color: var(--color-bg-secondary); /* Usa variável CSS */
+	background-color: rgba(255, 255, 255, 0.2) !important; /* Slight white background on hover */
 
-	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
+	color: #fff !important; /* Keep white text on hover */
+
+	border: 2px solid #fff !important; /* Keep white border */
 
 }
 
 
 
+/* WhatsApp button in header - make it look clickable with borders */
+.navbar .btn-rosa {
+	background-color: var(--color-brand-pink, #d9c2bd) !important; /* Brand pink */
+	border: 2px solid var(--color-brand-pink, #d9c2bd) !important; /* Border for clickable look */
+	border-radius: 6px !important;
+	padding: 8px 16px !important;
+	color: #ffffff !important;
+	text-decoration: none !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	transition: all 0.3s ease !important;
+	font-weight: 600 !important;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important; /* Subtle shadow for depth */
+	letter-spacing: 1.3px !important;
+}
+
+.navbar .btn-rosa:hover {
+	background-color: var(--color-pink-dark, #c4a8a1) !important; /* Darker brand pink on hover */
+	border-color: var(--color-pink-dark, #c4a8a1) !important;
+	color: #ffffff !important;
+	text-decoration: none !important;
+	transform: translateY(-1px) !important; /* Slight lift on hover */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important; /* Stronger shadow on hover */
+}
+
+.navbar .btn-rosa svg {
+	flex-shrink: 0; /* Prevent icon from shrinking */
+	margin-right: 6px !important;
+	vertical-align: middle !important;
+}
+
 .btn-rosa {
 
 	color: #fff;
 
-	background-color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
+	background-color: var(--color-dark-grey, #31265b); /* Brand dark via CSS variable */
 
 	border-radius: 2px;
 
@@ -540,9 +733,10 @@ li p {
 
 
 
+/* General btn-rosa hover (not in navbar) */
 .btn-rosa:hover {
 
-	background-color: var(--color-pink, #ccb7bc) /* Rosa da marca via variável CSS */;
+	background-color: var(--color-pink, #d9c2bd); /* Brand pink via CSS variable */;
 
 	color: #fff
 
@@ -576,54 +770,135 @@ li p {
 
 
 
+/* Navbar - Base: Always compact, only logo animates */
+/* Background darkened for better contrast with white logo (WCAG AA compliant) */
 .navbar {
-
-	padding-top: 20px;
-
-	padding-bottom: 2px;
-
-	background-color: transparent;
-
-	margin: 0;
-
+	padding-top: 8px !important; /* Always compact - navbar stays small */
+	padding-bottom: 8px !important; /* Always compact */
+	background-color: rgba(45, 45, 45, 0.95) !important; /* Darker gray for better contrast with white logo - WCAG AA compliant (4.5:1+) */
+	backdrop-filter: blur(10px) !important; /* Blur for better contrast */
+	-webkit-backdrop-filter: blur(10px) !important;
+	box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 4px 0px !important; /* Slightly stronger shadow for depth */
+	margin: 0 !important;
 	color: #333;
-
-	transition: background-color .3s ease, padding .3s ease; /* Only animate GPU-accelerated properties */
-	z-index: 9999;
+	/* Smooth animation for background only - logo animation handled separately */
+	transition: background-color 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease !important;
+	z-index: 9999 !important;
 	/* FIX: Prevenir layout shift na navbar (causa pequeno CLS ~0.0005) */
-	contain: layout style paint; /* More aggressive containment */
-	min-height: 70px; /* Altura mínima para prevenir shift */
-	position: fixed; /* Fixed navbar - persistent at top */
-	top: 0;
-	left: 0;
-	right: 0;
-	width: 100%;
-	overflow: hidden; /* Prevent overflow causing shifts */
+	contain: layout style paint !important; /* More aggressive containment */
+	min-height: 70px !important; /* Altura mínima para prevenir shift */
+	position: fixed !important; /* Fixed navbar - persistent at top */
+	top: 0 !important;
+	left: 0 !important;
+	right: 0 !important;
+	width: 100% !important;
+	overflow: hidden !important; /* Prevent overflow causing shifts */
 	/* GPU acceleration */
-	will-change: background-color, transform;
-	transform: translateZ(0); /* Force GPU layer */
-	backface-visibility: hidden;
-	-webkit-backface-visibility: hidden;
-
+	will-change: background-color, transform !important;
+	transform: translateZ(0) !important; /* Force GPU layer */
+	backface-visibility: hidden !important;
+	-webkit-backface-visibility: hidden !important;
 }
 
-/* Light mode: darker navbar background for better text readability */
-[data-theme="light"] .navbar,
-:not([data-theme]) .navbar,
-body:not([data-theme="dark"]) .navbar {
-	background-color: rgba(42, 42, 42, 0.85) !important; /* Dark semi-transparent background in light mode */
-	backdrop-filter: blur(10px); /* Add blur for better contrast */
-	-webkit-backdrop-filter: blur(10px);
+/* Navbar compressed (scrolled) - Same size, only logo changes */
+/* High specificity to ensure it overrides base .navbar rules */
+.navbar.compressed,
+nav.navbar.compressed,
+.navbar.navbar-compressed {
+	padding-top: 8px !important; /* Same compact size - no change */
+	padding-bottom: 8px !important; /* Same compact size - no change */
+	background-color: rgba(45, 45, 45, 0.95) !important; /* Same darker gray for consistent contrast */
+	backdrop-filter: blur(10px) !important;
+	-webkit-backdrop-filter: blur(10px) !important;
+	box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 4px 0px !important; /* Slightly stronger shadow for depth */
+	/* Smooth animation for background only */
+	transition: background-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease !important;
+	/* GPU acceleration */
+	will-change: background-color, transform !important;
+	transform: translateZ(0) !important;
 }
 
+/* Nav links - Remove underline from all nav links */
+.navbar-nav .nav-link {
+	text-decoration: none !important; /* Remove underline */
+}
 
+.navbar-nav .nav-link:hover {
+	text-decoration: none !important; /* Remove underline on hover */
+}
 
-a.nav-link {
+/* Nav links - When navbar is transparent (top of page), use brand pink in light mode */
+.navbar:not(.compressed) .navbar-nav .nav-link {
+	color: var(--color-brand-pink, #d9c2bd) !important; /* Brand pink when transparent */
+	letter-spacing: 1.5px;
+	font-weight: 400; /* Normal weight for sophisticated look */
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Subtle depth, GPU-accelerated */
+	text-decoration: none !important; /* Remove underline */
+}
 
-	color: #fff!important;
+/* Light mode: ensure transparent header uses brand pink */
+[data-theme="light"] .navbar:not(.compressed) .navbar-nav .nav-link,
+:not([data-theme]) .navbar:not(.compressed) .navbar-nav .nav-link,
+html:not([data-theme="dark"]) .navbar:not(.compressed) .navbar-nav .nav-link {
+	color: var(--color-brand-pink, #d9c2bd) !important; /* Brand pink in light mode */
+}
 
-	letter-spacing: 1.3px
+/* Nav links - When navbar is compressed (scrolled), use off-white or brand pink in light mode */
+.navbar.compressed .navbar-nav .nav-link {
+	color: #fafafa !important; /* Off-white text on dark gray header */
+	letter-spacing: 1.5px;
+	font-weight: 400; /* Normal weight for sophisticated look */
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Subtle depth, GPU-accelerated */
+	text-decoration: none !important; /* Remove underline */
+}
 
+/* Light mode: compressed header uses brand pink text */
+[data-theme="light"] .navbar.compressed .navbar-nav .nav-link,
+:not([data-theme]) .navbar.compressed .navbar-nav .nav-link,
+html:not([data-theme="dark"]) .navbar.compressed .navbar-nav .nav-link {
+	color: var(--color-brand-pink, #d9c2bd) !important; /* Brand pink text on compressed header in light mode */
+}
+
+/* Nav links hover - When transparent */
+.navbar:not(.compressed) .navbar-nav .nav-link:hover {
+	color: var(--color-pink-dark, #c4a8a1) !important; /* Darker brand pink on hover */
+}
+
+/* Nav links hover - When compressed */
+.navbar.compressed .navbar-nav .nav-link:hover {
+	color: var(--color-pink-dark, #c4a8a1) !important; /* Darker brand pink on hover */
+}
+
+/* Light mode: compressed header hover uses darker brand pink */
+[data-theme="light"] .navbar.compressed .navbar-nav .nav-link:hover,
+:not([data-theme]) .navbar.compressed .navbar-nav .nav-link:hover,
+html:not([data-theme="dark"]) .navbar.compressed .navbar-nav .nav-link:hover {
+	color: var(--color-pink-dark, #c4a8a1) !important; /* Darker brand pink on hover */
+}
+
+/* Light mode: compressed header uses brand pink (already set above) */
+
+/* Dark mode: navbar compressed - lighter dark gray background (same as light mode) */
+[data-theme="dark"] .navbar.compressed {
+	background-color: rgba(60, 60, 60, 0.9) !important; /* Lighter dark gray (was 42, 42, 42) */
+	backdrop-filter: blur(10px) !important;
+	-webkit-backdrop-filter: blur(10px) !important;
+	box-shadow: rgba(0, 0, 0, 0.1) 2px 2px 2px 0px !important; /* Subtle shadow */
+}
+
+/* Dark mode: nav links white when compressed */
+[data-theme="dark"] .navbar.compressed .navbar-nav .nav-link {
+	color: #ffffff !important; /* White text on dark gray header */
+}
+
+[data-theme="dark"] .navbar.compressed .navbar-nav .nav-link:hover {
+	color: var(--color-brand-pink, #d9c2bd) !important; /* Brand pink on hover */
+}
+
+/* Dark mode: nav links when transparent - use brand pink */
+[data-theme="dark"] .navbar:not(.compressed) .navbar-nav .nav-link {
+	color: var(--color-brand-pink, #d9c2bd) !important; /* Brand pink when transparent */
+	text-decoration: none !important; /* Remove underline */
 }
 
 
@@ -672,26 +947,6 @@ nav.footer-nav-vertical {
 
 
 
-.navbar.compressed {
-
-	padding-top: 10px; /* Reduced padding when compressed */
-
-	padding-bottom: 10px;
-
-	/*background: #454545;*/
-
-	background: #252527;
-
-	color: #fff;
-
-	box-shadow: 2px 2px 2px rgba(0, 0, 0, .1);
-	/* Smooth animation for compression */
-	transition: background-color .3s ease, padding .3s ease, box-shadow .3s ease;
-	/* GPU acceleration */
-	will-change: background-color, padding, transform;
-	transform: translateZ(0);
-
-}
 
 
 
@@ -717,17 +972,23 @@ nav.footer-nav-vertical {
 
 /* FIX: Hero section agora usa <img> tag em vez de background-image para melhor LCP */
 .hero-section {
-	min-height: 250px !important; /* Reduced to match production */
-	max-height: 350px !important; /* Reduced to match production */
 	width: 100%;
 	display: block;
 	position: relative;
 	/* CLS Fix: Prevenir layout shift - LCP element */
 	contain: layout;
-	aspect-ratio: 16 / 9; /* Proporção padrão hero images - define altura automaticamente */
+	/* FIX: Use explicit height instead of aspect-ratio to prevent conflicts */
+	height: 250px; /* Mobile default */
 	/* FIX: Garantir espaço reservado mesmo antes da imagem carregar */
 	background-color: #3d3d3d;
 	overflow: hidden;
+}
+
+/* Desktop: taller hero section */
+@media (min-width: 751px) {
+	.hero-section {
+		height: 400px; /* Desktop height */
+	}
 }
 
 /* Light mode: transparent background to allow vivid image */
@@ -802,31 +1063,53 @@ body:not([data-theme="dark"]) .hero-section .hero-overlay {
 
 
 .logonav {
-
-	height: 40px;
+	height: 55px !important; /* Logo maior no início (era 50px) - mais visível */
 	width: auto !important;
-	max-width: 120px;
-	object-fit: contain;
-	object-position: left center;
-
-	transition: .3s height;
-
+	max-width: 150px !important; /* Logo mais largo no início (era 140px) */
+	object-fit: contain !important;
+	object-position: left center !important;
+	/* Smooth animation for logo compression */
+	transition: height 0.3s ease, max-width 0.3s ease, transform 0.3s ease !important;
+	/* GPU acceleration for smooth animation */
+	will-change: height, max-width !important;
+	transform: translateZ(0) !important;
 }
 
 
 
 .navbar.compressed .logonav {
-
-	height: 25px;
+	height: 28px !important; /* Logo menor quando comprimido (era 30px) */
 	width: auto !important;
-	max-width: 100px;
-
+	max-width: 100px !important; /* Logo mais estreito quando comprimido (era 110px) */
+	/* Smooth transition already defined in .logonav */
 }
 
-/* Garantir que o logo não seja distorcido */
-.navbar-brand img.logonav {
-	aspect-ratio: auto;
+/* Garantir que o logo não seja distorcido - Estado inicial (não comprimido) */
+.navbar-brand img.logonav,
+.navbar:not(.compressed) .navbar-brand img.logonav,
+.navbar:not(.compressed) img.logonav {
+	aspect-ratio: auto !important;
 	transform: none !important;
+	/* Ensure logo size is applied with high specificity - Logo maior no início */
+	height: 55px !important; /* Logo maior no início (aumentado de 50px) */
+	max-width: 150px !important; /* Logo mais largo no início (aumentado de 140px) */
+	width: auto !important;
+	object-fit: contain !important;
+	object-position: left center !important;
+	/* Smooth animation for logo compression */
+	transition: height 0.3s ease, max-width 0.3s ease, transform 0.3s ease !important;
+	/* GPU acceleration for smooth animation */
+	will-change: height, max-width !important;
+	transform: translateZ(0) !important;
+}
+
+/* Logo compressed state - high specificity - Logo menor quando comprimido */
+.navbar.compressed .navbar-brand img.logonav,
+.navbar.compressed img.logonav,
+.navbar.compressed .logonav {
+	height: 28px !important; /* Logo menor quando comprimido (reduzido de 30px) */
+	max-width: 100px !important; /* Logo mais estreito quando comprimido (reduzido de 110px) */
+	/* Transitions já definidas em .logonav */
 }
 
 .site-header {
@@ -1100,24 +1383,17 @@ body:not([data-theme="dark"]) .hero-section .hero-overlay {
 
 
 
+/* Note: .sessoes.container base styles moved to after .container definition for better specificity */
 .sessoes.container {
 
 	/* CRITICAL: Remover height quando aspect-ratio está presente para evitar conflito CSS */
 	/* height: 300px; - REMOVIDO: conflito com aspect-ratio causa layout shift */
 
-	padding: 0;
-
-	float: left;
-
-	width: 50%;
-
-	display: flex;
-
 	align-items: center;
 
 	justify-content: center;
 	/* CLS Fix: Prevent layout shift */
-	contain: layout style paint; /* More aggressive containment */
+	contain: layout style paint; /* Keep full containment - isolated service card component */
 	min-height: 300px;
 	aspect-ratio: 5 / 4; /* Proporção padrão imagens de serviço - define altura automaticamente */
 
@@ -1129,9 +1405,9 @@ body:not([data-theme="dark"]) .hero-section .hero-overlay {
 
 	.sessoes.container {
 
-		display: block;
+		display: block !important; /* CRITICAL: Override Bootstrap */
 
-		width: 100%
+		width: 100% !important; /* CRITICAL: Override Bootstrap */
 
 	}
 
@@ -1141,15 +1417,21 @@ body:not([data-theme="dark"]) .hero-section .hero-overlay {
 
 @media screen and (min-width:900px) {
 
-	.sessoes.container {
+	.sessoes.container,
+	#services .sessoes.container,
+	#services .d-none.d-sm-block .sessoes.container {
 
-		width: 33.33333%
+		width: 33.33333% !important; /* CRITICAL: Override Bootstrap - 3 per row on desktop */
 
 	}
 
 }
 
-
+/* Override inline min-width on service card images */
+.sessoes.container .content-image {
+	min-width: 0 !important; /* Override inline min-width: 500px/600px that breaks layout */
+	max-width: 100%; /* Ensure images don't overflow container */
+}
 
 .sessoes.container .title {
 
@@ -1167,7 +1449,8 @@ body:not([data-theme="dark"]) .hero-section .hero-overlay {
 
 	position: relative;
 
-	margin: auto;
+	/* margin: auto removed - conflicts with float: left and width: 50% */
+	/* margin already set to 0 !important above to override Bootstrap */
 
 	overflow: hidden
 
@@ -1183,7 +1466,7 @@ body:not([data-theme="dark"]) .hero-section .hero-overlay {
 
 	display: block;
 	/* CLS Fix: Prevent layout shift */
-	contain: layout style paint; /* More aggressive containment */
+	contain: layout style paint; /* Keep full containment - isolated service card component */
 	min-height: 300px;
 
 }
@@ -1194,7 +1477,7 @@ body:not([data-theme="dark"]) .hero-section .hero-overlay {
 
 	/*background: rgba(204, 132, 149, .8);*/
 
-	background: rgba(58, 80, 90, .8);
+	background: rgba(49, 38, 91, 0.6); /* Brand dark overlay - only darken a bit on hover */
 
 	position: absolute;
 
@@ -1246,6 +1529,11 @@ body:not([data-theme="dark"]) .hero-section .hero-overlay {
 	display: block;
 	/* Prevent layout shift */
 	aspect-ratio: 5 / 4;
+	/* Override inline min-width styles that break layout */
+	min-width: 0 !important;
+	/* CRITICAL: Keep images vivid by default - no filter */
+	filter: none !important;
+	transition: transform 0.4s ease, filter 0.4s ease;
 
 }
 
@@ -1267,7 +1555,7 @@ body:not([data-theme="dark"]) .hero-section .hero-overlay {
 
 	left: 50%;
 
-	opacity: 0;
+	opacity: 0 !important; /* CRITICAL: Hide text by default, only show on hover */
 
 	-webkit-transform: translate(-50%, -50%) translateZ(0); /* Force GPU acceleration */
 
@@ -1295,8 +1583,21 @@ body:not([data-theme="dark"]) .hero-section .hero-overlay {
 
 	left: 50%;
 
-	opacity: 1
+	opacity: 1 !important; /* Show text on hover */
 
+}
+
+/* CRITICAL: Service card titles - better readability like production */
+.content-details h2 {
+	color: #1a1a1a !important; /* Dark gray for better readability - MATCH PRODUCTION */
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for readability */
+	font-weight: 300;
+}
+
+/* Dark mode: white text for titles */
+[data-theme="dark"] .content-details h2 {
+	color: #ffffff !important; /* White text in dark mode */
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Stronger shadow in dark mode */
 }
 
 /* CRITICAL: CLS Fix - About section col-md-7 (causes 93% of layout shift) */
@@ -1306,24 +1607,18 @@ body:not([data-theme="dark"]) .hero-section .hero-overlay {
 	min-height: 400px; /* Reserve space for text content */
 	font-size: inherit;
 	line-height: inherit;
-	/* Override Bootstrap col-md-7 (58.33%) to make it wider */
-	flex: 0 0 65% !important; /* 65% width instead of 58.33% */
-	max-width: 65% !important;
+	/* Removed flex and max-width overrides - let Bootstrap handle responsive widths */
 }
 
 /* FIX: Make image column narrower to give more space to text */
-#about .col-md-5 {
-	/* Override Bootstrap col-md-5 (41.67%) to make it narrower */
-	flex: 0 0 35% !important; /* 35% width instead of 41.67% */
-	max-width: 35% !important;
-}
+/* Removed flex and max-width overrides - let Bootstrap handle responsive widths */
 
 /* CRITICAL: Desktop CLS fix - h1 in about section causing 0.501 shift */
 /* FIX: Better proportions - reduce title size, increase text size */
 #about .col-md-7 h1 {
 	min-height: 2.5em; /* Reserve space for title */
 	height: auto; /* Allow natural height but reserve minimum */
-	contain: layout style paint; /* More aggressive containment */
+	contain: layout; /* Reduced from layout style paint - text needs to flow naturally */
 	/* Prevent font reflow - reserve space even before font loads */
 	font-size: 2.8rem !important; /* Reduced from 3.5rem for better proportion */
 	line-height: 1.3 !important; /* Better line height */
@@ -1348,31 +1643,26 @@ body:not([data-theme="dark"]) .hero-section .hero-overlay {
 /* FIX: Better proportions for tagline */
 #about .col-md-7 .hero-tagline {
 	font-size: 1.4rem !important; /* Slightly larger than intro text */
-	margin-top: 1rem !important; /* Add spacing above */
+	margin-top: 0.5rem !important; /* Reduced from 1rem to optimize space */
+	margin-bottom: 0 !important; /* Remove bottom margin to optimize space before .backgroundPink */
 }
 
-#about .container.row.mx-auto {
+#about .container .row.mx-auto {
 	min-height: 600px; /* Reserve space for content */
-	contain: layout style paint; /* More aggressive containment to prevent CLS */
+	contain: layout; /* Reduced from layout style paint - Bootstrap row needs to flow naturally */
 	position: relative; /* Force layout stability */
-	display: flex; /* Explicit flex container */
-	flex-wrap: wrap; /* Allow wrapping */
-	/* Prevent layout shift during content load */
-	overflow: hidden;
+	/* Removed display: flex and flex-wrap - Bootstrap's .row already uses flexbox */
+	/* Removed overflow: hidden - may hide content */
 }
 
 /* CLS Fix: Florzinha container (imagem lado esquerdo) */
 /* FIX: Better proportions - constrain logo image size */
 #florzinha {
-	contain: layout style paint; /* More aggressive containment */
+	contain: layout; /* Reduced from layout style paint - needs to work within Bootstrap column */
 	min-height: 400px; /* Reservar espaço para imagem */
 	max-width: 100%; /* Prevent image from being too large */
 	position: relative; /* Force layout stability */
-	/* Explicit flex properties */
-	display: flex;
-	flex-direction: column;
-	align-items: center; /* Center the image */
-	justify-content: center; /* Center vertically */
+	/* Removed display: flex - let Bootstrap column handle layout */
 	overflow: hidden; /* Prevent overflow causing shifts */
 }
 
@@ -1406,8 +1696,13 @@ body:not([data-theme="dark"]) .hero-section .hero-overlay {
 	}
 	
 	.sessoes.container:hover .content-overlay {
-		opacity: 0 !important;
+		opacity: 1 !important; /* Show overlay on hover on mobile too */
 		transition: none !important;
+	}
+	
+	/* CRITICAL: Ensure content-details is hidden by default on mobile */
+	.sessoes.container .content-details {
+		opacity: 0 !important;
 	}
 	
 	.content-image {
@@ -1431,13 +1726,22 @@ body:not([data-theme="dark"]) .hero-section .hero-overlay {
 		animation-fill-mode: none !important;
 	}
 	
-	/* Force all animated elements to be visible immediately */
+	/* Force all animated elements to be visible immediately - MOBILE ONLY */
 	.fade-in-up,
 	.fade-in-left,
 	.fade-in-right,
 	.scale-in,
 	.fade-in,
-	.stagger-item,
+	.stagger-item {
+		opacity: 1 !important;
+		transform: none !important;
+		transition: none !important;
+		animation: none !important;
+		will-change: auto !important;
+		visibility: visible !important;
+	}
+	
+	/* Also disable visible state animations on mobile */
 	.fade-in-up.visible,
 	.fade-in-left.visible,
 	.fade-in-right.visible,
@@ -1449,7 +1753,6 @@ body:not([data-theme="dark"]) .hero-section .hero-overlay {
 		transition: none !important;
 		animation: none !important;
 		will-change: auto !important;
-		visibility: visible !important;
 	}
 	
 	/* Disable hover effects on mobile */
@@ -1510,7 +1813,7 @@ body:not([data-theme="dark"]) .hero-section .hero-overlay {
 		pointer-events: auto !important;
 		cursor: pointer !important;
 		touch-action: manipulation !important;
-		-webkit-tap-highlight-color: rgba(58, 80, 90, 0.3) !important;
+		-webkit-tap-highlight-color: rgba(49, 38, 91, 0.3) !important; /* Brand dark */
 		z-index: 15 !important;
 	}
 	
@@ -1740,9 +2043,9 @@ body:not([data-theme="dark"]) .hero-section .hero-overlay {
 
 /* Sobrescrever estilos genéricos para testimonials-carousel */
 .testimonials-carousel .carousel-indicators li {
-	background: rgba(58, 80, 90, 0.4) !important;
-	border: 2px solid rgba(58, 80, 90, 0.6) !important;
-	border-color: rgba(58, 80, 90, 0.6) !important;
+	background: rgba(49, 38, 91, 0.4) !important; /* Brand dark */
+	border: 2px solid rgba(49, 38, 91, 0.6) !important; /* Brand dark */
+	border-color: rgba(49, 38, 91, 0.6) !important; /* Brand dark */
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
 }
 
@@ -1756,12 +2059,12 @@ body:not([data-theme="dark"]) .hero-section .hero-overlay {
 
 /* Sobrescrever estilo ativo genérico para testimonials-carousel */
 .testimonials-carousel .carousel-indicators li.active {
-	background: var(--color-dark-grey, #3a505a) !important; /* Cinza da marca via variável CSS */
-	border-color: var(--color-dark-grey, #3a505a) !important;
+	background: var(--color-dark-grey, #31265b) !important; /* Brand dark via CSS variable */
+	border-color: var(--color-dark-grey, #31265b) !important;
 	width: 32px !important;
 	height: 12px !important;
 	border-radius: 6px !important;
-	box-shadow: 0 3px 10px rgba(58, 80, 90, 0.6) !important;
+	box-shadow: 0 3px 10px rgba(49, 38, 91, 0.6) !important; /* Brand dark shadow */
 }
 
 
@@ -1776,7 +2079,7 @@ body:not([data-theme="dark"]) .hero-section .hero-overlay {
 
 	/*background: url(img/opacidadelogo.png);*/
 
-	background: #3a505a;
+	background: #31265b; /* Brand dark */
 
 	/*background-repeat: no-repeat;
 
@@ -2071,7 +2374,7 @@ textarea {
 
 	.navbar-light .navbar-nav .nav-link {
 
-		color: #fff;
+		color: #fff !important; /* MATCH PRODUCTION: White nav links in light mode */
 
 		font-weight: 600;
 
@@ -2101,7 +2404,7 @@ textarea {
 
 		color: #fff;
 
-		background-color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
+		background-color: var(--color-dark-grey, #31265b); /* Brand dark via CSS variable */
 
 		border-radius: 2px;
 
@@ -2214,11 +2517,11 @@ textarea {
 		left: 0 !important;
 		right: 0 !important;
 		width: 100% !important;
-		contain: layout style paint; /* Prevent layout shift on mobile */
+		contain: layout style paint; /* Keep full containment - navbar is isolated component */
 	}
 
 	.navbar .container {
-		contain: layout style paint; /* Prevent layout shift in navbar container */
+		contain: layout; /* Reduced from layout style paint - container needs to flow */
 		min-height: 70px; /* Reserve space */
 	}
 	
@@ -2229,7 +2532,7 @@ textarea {
 
 	/* CRITICAL: Mobile CLS fixes - aggressive containment for mobile-specific containers */
 	#main-content {
-		contain: layout style paint; /* More aggressive containment on mobile */
+		contain: layout; /* Reduced from layout style paint - main content needs to flow */
 		min-height: 100vh; /* Reserve space */
 		position: relative;
 		overflow-x: hidden;
@@ -2237,34 +2540,32 @@ textarea {
 
 	/* Mobile: Hero section - prevent layout shift */
 	.hero-section {
-		contain: layout style paint;
-		min-height: 250px !important;
-		max-height: 400px !important;
+		contain: layout; /* Reduced from layout style paint - hero needs to flow */
+		height: 250px !important; /* Use explicit height instead of min-height */
 		position: relative;
 		overflow: hidden;
 	}
 
 	/* Mobile: About section - prevent layout shift */
 	#about {
-		contain: layout style paint;
+		contain: layout; /* Reduced from layout style paint - section needs to flow */
 		min-height: 600px; /* Reserve space for mobile layout */
 		position: relative;
 		overflow: hidden;
 	}
 
-	#about .container.row.mx-auto {
-		contain: layout style paint;
+	#about .container .row.mx-auto {
+		contain: layout; /* Reduced from layout style paint - Bootstrap row needs to flow */
 		min-height: 600px;
 		position: relative;
-		display: flex;
-		flex-wrap: wrap;
-		overflow: hidden;
+		/* Removed display: flex and flex-wrap - Bootstrap's .row already uses flexbox */
+		/* Removed overflow: hidden - may hide content */
 	}
 
 	/* Mobile: About section columns - prevent font reflow */
 	#about .col-md-7,
 	#about .col-md-5 {
-		contain: layout style paint;
+		contain: layout; /* Reduced from layout style paint - columns need to flow */
 		min-height: 300px; /* Reserve space for mobile stacked layout */
 		position: relative;
 		overflow: hidden;
@@ -2276,7 +2577,7 @@ textarea {
 	/* Mobile: About section h1 - prevent font reflow */
 	#about .col-md-7 h1 {
 		min-height: 2em; /* Reserve space for title on mobile */
-		contain: layout style paint;
+		contain: layout; /* Reduced from layout style paint - text needs to flow */
 		font-size: 2rem !important; /* Smaller on mobile */
 		line-height: 1.3 !important;
 		margin-bottom: 1rem !important;
@@ -2490,7 +2791,7 @@ body nav.breadcrumb-nav ol {
 }
 
 .breadcrumb-item a:hover {
-	color: #b8a3a8;
+	color: #c4a8a1; /* Darker brand pink */
 	text-decoration: underline;
 }
 
@@ -2532,9 +2833,20 @@ body nav.breadcrumb-nav ol {
 	margin-bottom: 10px;
 }
 
-.review-rating .fa-star {
+/* Unicode stars (replaced Font Awesome) */
+.review-rating .star-filled,
+.review-rating .star-empty {
 	font-size: 16px;
 	margin-right: 2px;
+	display: inline-block;
+}
+
+.review-rating .star-filled {
+	color: #ffc107;
+}
+
+.review-rating .star-empty {
+	color: #e0e0e0;
 }
 
 .review-author {
@@ -2633,7 +2945,7 @@ body nav.breadcrumb-nav ol {
 
 .testimonials-carousel {
 	margin: 50px auto 0;
-	padding: 0 60px 20px 60px; /* Reduzido padding-bottom para 20px já que botão está fora */
+	padding: 0 60px 10px 60px; /* Reduced padding-bottom from 20px to 10px to optimize space before services */
 	position: relative;
 	/* CLS Fix: Prevent layout shift */
 	contain: layout style paint; /* More aggressive containment */
@@ -2705,10 +3017,10 @@ body:not([data-theme="dark"]) .testimonials-inner {
 }
 
 .testimonial-content {
-	background: var(--color-bg-secondary); /* Usa variável CSS */
+	/* Base styles - will be overridden by theme-specific rules */
 	border-radius: 20px;
-	padding: 30px 35px; /* Reduzido de 50px 40px para 30px 35px */
-	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+	padding: 30px 35px; /* Default padding - overridden by theme-specific rules */
+	box-shadow: none; /* MATCH PRODUCTION: no base shadow - theme-specific rules will add if needed */
 	max-width: 700px;
 	width: 100%;
 	height: 500px; /* Altura fixa otimizada - reduzida de 600px */
@@ -2722,38 +3034,64 @@ body:not([data-theme="dark"]) .testimonials-inner {
 	box-sizing: border-box;
 	min-height: 500px; /* Garante altura mínima */
 	max-height: 500px; /* Garante altura máxima */
-	border: none !important; /* FIX: Remove any unwanted border in light mode */
+	border: none !important; /* MATCH PRODUCTION: no border */
+	/* Background will be set by theme-specific rules below */
 }
 
-/* Light mode: reduce padding to match dark mode natural spacing */
+/* Light mode: MATCH PRODUCTION - light gray background, no shadow */
+/* FIX: Only use html:not() or [data-theme="light"] - :not() without html: checks the element itself, not html */
 [data-theme="light"] .testimonial-content,
-:not([data-theme]) .testimonial-content,
-body:not([data-theme="dark"]) .testimonial-content {
-	border: none !important; /* FIX: Remove border in light mode to match dark mode styling */
-	padding: 25px 30px !important; /* FIX: Reduce padding to match dark mode natural spacing (was 30px 35px) */
+html:not([data-theme="dark"]) .testimonial-content {
+	background-color: #f5f5f5 !important; /* MATCH PRODUCTION: rgb(245, 245, 245) - light gray background */
+	border: none !important;
+	padding: 25px 30px !important; /* MATCH PRODUCTION */
+	border-radius: 20px !important; /* MATCH PRODUCTION */
+	box-shadow: none !important; /* MATCH PRODUCTION: no shadow in light mode */
+	color: #212529 !important; /* MATCH PRODUCTION: rgb(33, 37, 41) - body text color */
 }
 
-/* Light mode: ensure testimonial text uses proper text color for contrast */
+/* Light mode: ensure testimonial text uses proper text color for contrast - MATCH PRODUCTION */
 [data-theme="light"] .testimonial-text,
-:not([data-theme]) .testimonial-text,
-body:not([data-theme="dark"]) .testimonial-text {
-	color: var(--color-text-primary, #1a1a1a) !important; /* FIX: Use text-primary for better contrast */
+html:not([data-theme="dark"]) .testimonial-text {
+	color: #212529 !important; /* MATCH PRODUCTION: rgb(33, 37, 41) - body text color */
 }
 
 [data-theme="light"] .testimonial-author strong,
-:not([data-theme]) .testimonial-author strong,
-body:not([data-theme="dark"]) .testimonial-author strong {
-	color: var(--color-text-primary, #1a1a1a) !important; /* FIX: Use text-primary for better contrast */
+html:not([data-theme="dark"]) .testimonial-author strong {
+	color: #212529 !important; /* MATCH PRODUCTION: rgb(33, 37, 41) - body text color */
 }
 
-/* Light mode: remove padding and make testimonial-card completely transparent to show only testimonial-content */
+/* CRITICAL: Dark mode testimonials - must be in product.css to override light mode (loads after dark-mode.css) */
+/* FIX: Use html[data-theme="dark"] for higher specificity than html:not([data-theme="dark"]) */
+html[data-theme="dark"] .testimonial-content,
+[data-theme="dark"] .testimonial-content {
+	background: #1a1a1a !important; /* MATCH PRODUCTION: rgb(26, 26, 26) - dark background */
+	color: #f5f5f5 !important; /* MATCH PRODUCTION: rgb(245, 245, 245) */
+	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1) !important; /* MATCH PRODUCTION: lighter shadow */
+	border: none !important; /* MATCH PRODUCTION: no border */
+	border-radius: 20px !important;
+	padding: 25px 30px !important; /* MATCH PRODUCTION: same as light mode */
+}
+
+/* Dark mode testimonial text and author - must override light mode */
+html[data-theme="dark"] .testimonial-text,
+[data-theme="dark"] .testimonial-text {
+	color: #f5f5f5 !important; /* MATCH PRODUCTION: rgb(245, 245, 245) */
+}
+
+html[data-theme="dark"] .testimonial-author strong,
+[data-theme="dark"] .testimonial-author strong {
+	color: #f5f5f5 !important; /* MATCH PRODUCTION: rgb(245, 245, 245) */
+}
+
+/* Light mode: MATCH PRODUCTION - transparent card wrapper, content has background */
 [data-theme="light"] .testimonial-card,
 :not([data-theme]) .testimonial-card,
 body:not([data-theme="dark"]) .testimonial-card {
-	padding: 0 !important; /* FIX: Remove padding to eliminate white border appearance */
-	border: none !important; /* FIX: Ensure no border */
-	background-color: transparent !important; /* FIX: Ensure transparent background */
-	box-shadow: none !important; /* FIX: Remove any shadow from wrapper */
+	padding: 0 !important; /* Transparent wrapper - content has background */
+	border: none !important;
+	background-color: transparent !important;
+	box-shadow: none !important;
 }
 
 .testimonial-content:hover {
@@ -2768,8 +3106,8 @@ body:not([data-theme="dark"]) .testimonial-card {
 	border-radius: 50%;
 	overflow: hidden;
 	margin-bottom: 10px; /* Reduzido de 15px */
-	border: 3px solid var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
-	box-shadow: 0 4px 15px rgba(204, 183, 188, 0.3);
+	border: 3px solid var(--color-pink, #d9c2bd); /* Brand pink via CSS variable */
+	box-shadow: 0 4px 15px rgba(217, 194, 189, 0.3); /* Brand pink shadow */
 	flex-shrink: 0;
 	min-width: 80px; /* Garante largura mínima */
 	min-height: 80px; /* Garante altura mínima */
@@ -2784,7 +3122,7 @@ body:not([data-theme="dark"]) .testimonial-card {
 }
 
 .testimonial-avatar-placeholder {
-	background: linear-gradient(135deg, #ccb7bc, #b8a3a8);
+	background: linear-gradient(135deg, #d9c2bd, #c4a8a1); /* Brand pink gradient */
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -2806,18 +3144,9 @@ body:not([data-theme="dark"]) .testimonial-card {
 	color: var(--color-text-primary, #1a1a1a) !important; /* FIX: Use text-primary for consistency */
 }
 
-.testimonial-rating .fas.fa-star {
-	color: #ffc107;
-	text-shadow: 0 1px 2px rgba(255, 193, 7, 0.3);
-}
-
-.testimonial-rating .far.fa-star {
-	color: #e0e0e0;
-}
-
-/* Estrelas Unicode (fallback quando Font Awesome não carrega) */
+/* Unicode stars (replaced Font Awesome) */
 .testimonial-rating .star-filled {
-	color: #ffc107 !important;
+	color: #ffc107;
 	font-size: 1.2rem;
 	text-shadow: 0 1px 2px rgba(255, 193, 7, 0.3);
 	display: inline-block;
@@ -2825,7 +3154,7 @@ body:not([data-theme="dark"]) .testimonial-card {
 }
 
 .testimonial-rating .star-empty {
-	color: #e0e0e0 !important;
+	color: #e0e0e0;
 	font-size: 1.2rem;
 	display: inline-block;
 	margin: 0 2px;
@@ -2862,12 +3191,12 @@ body:not([data-theme="dark"]) .testimonial-card {
 }
 
 .testimonial-text::-webkit-scrollbar-thumb {
-	background: #ccb7bc;
+	background: #d9c2bd; /* Brand pink */
 	border-radius: 10px;
 }
 
 .testimonial-text::-webkit-scrollbar-thumb:hover {
-	background: #b8a3a8;
+	background: #c4a8a1; /* Darker brand pink on hover */
 }
 
 /* Autor */
@@ -2900,37 +3229,85 @@ body:not([data-theme="dark"]) .testimonial-card {
 	font-weight: normal;
 }
 
-/* Link para reviews do Google */
+/* Link para reviews do Google - estilo minimalista integrado */
 .google-reviews-link {
 	display: inline-flex !important;
 	align-items: center !important;
-	padding: 10px 20px !important;
-	background: #3a505a !important;
-	border: 2px solid #3a505a !important;
-	border-radius: 25px !important;
-	margin-top: 20px !important; /* Reduzido para 20px já que está fora do container */
-	margin-bottom: 40px !important; /* Adicionado espaçamento antes do footer */
+	padding: 0 !important; /* Remove padding */
+	background: transparent !important; /* Transparent background */
+	border: none !important; /* Remove border */
+	border-radius: 0 !important; /* Remove border radius */
+	margin-top: 20px !important;
+	margin-bottom: 40px !important;
 	text-decoration: none !important;
-	transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease !important; /* Only animate GPU-accelerated properties */
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+	transition: color 0.3s ease, opacity 0.3s ease !important; /* Simple transitions */
+	box-shadow: none !important;
 	position: relative !important;
-	z-index: 10 !important; /* Garantir que fique acima dos indicadores */
-	will-change: transform, background-color;
-	transform: translateZ(0);
-	backface-visibility: hidden;
+	z-index: 10 !important;
 }
 
 .google-reviews-link:hover {
-	background: #2a3a42 !important;
-	border-color: #2a3a42 !important;
-	transform: translateY(-2px) translateZ(0) !important;
+	background: transparent !important; /* Keep transparent */
+	border: none !important; /* No border */
 	text-decoration: none !important;
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+	opacity: 0.7 !important; /* Slightly more opacity change on hover for better feedback */
+	transform: none !important; /* No transform */
+	box-shadow: none !important; /* No shadow */
+}
+
+/* Light mode hover: darker brand dark (blue) for feedback */
+[data-theme="light"] .google-reviews-link:hover span,
+:not([data-theme]) .google-reviews-link:hover span,
+html:not([data-theme="dark"]) .google-reviews-link:hover span {
+	color: var(--color-grey, #4a3d6b) !important; /* Darker brand dark (blue) on hover */
 }
 
 .google-reviews-link span {
-	color: #fff !important;
-	font-weight: 600 !important;
+	color: var(--color-brand-dark, #31265b) !important; /* Brand dark (blue) text - default for light mode */
+	font-weight: 400 !important; /* Normal weight */
+	letter-spacing: 0.5px !important; /* Subtle letter spacing */
+	font-size: 0.95rem !important; /* Slightly smaller to be less prominent */
+}
+
+/* Light mode: use brand dark (blue) */
+[data-theme="light"] .google-reviews-link span,
+:not([data-theme]) .google-reviews-link span,
+html:not([data-theme="dark"]) .google-reviews-link span {
+	color: var(--color-brand-dark, #31265b) !important; /* Brand dark (blue) for light mode */
+}
+
+/* Light mode: icon also uses brand dark (blue) */
+[data-theme="light"] .google-reviews-link i,
+[data-theme="light"] .google-reviews-link svg,
+:not([data-theme]) .google-reviews-link i,
+:not([data-theme]) .google-reviews-link svg,
+html:not([data-theme="dark"]) .google-reviews-link i,
+html:not([data-theme="dark"]) .google-reviews-link svg {
+	color: var(--color-brand-dark, #31265b) !important; /* Brand dark (blue) for light mode */
+}
+
+/* Dark mode Google reviews link - minimalista como light mode */
+[data-theme="dark"] .google-reviews-link {
+	background: transparent !important; /* Transparent background */
+	border: none !important; /* No border */
+	box-shadow: none !important; /* No shadow */
+}
+
+[data-theme="dark"] .google-reviews-link:hover {
+	background: transparent !important; /* Keep transparent */
+	border: none !important; /* No border */
+	box-shadow: none !important; /* No shadow */
+	opacity: 0.8 !important; /* Simple opacity change */
+}
+
+[data-theme="dark"] .google-reviews-link span {
+	color: #ffffff !important; /* White text for excellent contrast in dark mode */
+	font-weight: 500 !important; /* Slightly bolder for better visibility */
+}
+
+[data-theme="dark"] .google-reviews-link i,
+[data-theme="dark"] .google-reviews-link svg {
+	color: #ffffff !important; /* White icons for excellent contrast in dark mode */
 }
 
 /* Controles do carousel */
@@ -2961,7 +3338,7 @@ body:not([data-theme="dark"]) .testimonial-card {
 }
 
 .testimonials-control i {
-	color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
+	color: var(--color-pink, #d9c2bd); /* Brand pink via CSS variable */
 	font-size: 24px;
 	position: relative;
 	display: block;
@@ -2996,13 +3373,32 @@ body:not([data-theme="dark"]) .testimonial-card {
 	right: 10px !important;
 }
 
-/* Estilizar ícones dentro dos controles */
+/* Estilizar ícones dentro dos controles - Light mode */
 .testimonials-carousel .carousel-control-prev i,
-.testimonials-carousel .carousel-control-next i {
-	color: #ccb7bc !important;
+.testimonials-carousel .carousel-control-next i,
+.testimonials-carousel .carousel-control-prev .carousel-arrow,
+.testimonials-carousel .carousel-control-next .carousel-arrow {
+	color: #d9c2bd !important; /* Brand pink */
 	font-size: 24px !important;
 	position: relative !important;
 	display: block !important;
+	font-weight: 600 !important; /* Bolder for better visibility */
+}
+
+/* FIX: Dark mode testimonial controls - brand pink icons on white background for better contrast */
+[data-theme="dark"] .testimonials-carousel .carousel-control-prev,
+[data-theme="dark"] .testimonials-carousel .carousel-control-next {
+	background: white !important;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35) !important; /* Stronger shadow for better contrast */
+	border: 1px solid rgba(217, 194, 189, 0.3) !important; /* Subtle brand pink border */
+}
+
+[data-theme="dark"] .testimonials-carousel .carousel-control-prev i,
+[data-theme="dark"] .testimonials-carousel .carousel-control-next i,
+[data-theme="dark"] .testimonials-carousel .carousel-control-prev .carousel-arrow,
+[data-theme="dark"] .testimonials-carousel .carousel-control-next .carousel-arrow {
+	color: #d9c2bd !important; /* Brand pink for excellent contrast on white background */
+	font-weight: 700 !important; /* Bolder for better visibility */
 }
 
 /* Indicadores - Especificidade máxima para sobrescrever Bootstrap */
@@ -3020,9 +3416,9 @@ body:not([data-theme="dark"]) .testimonial-card {
 	width: 12px !important;
 	height: 12px !important;
 	border-radius: 50% !important;
-	background: rgba(58, 80, 90, 0.4) !important;
-	border: 2px solid rgba(58, 80, 90, 0.6) !important;
-	border-color: rgba(58, 80, 90, 0.6) !important;
+	background: rgba(49, 38, 91, 0.4) !important; /* Brand dark */
+	border: 2px solid rgba(49, 38, 91, 0.6) !important; /* Brand dark */
+	border-color: rgba(49, 38, 91, 0.6) !important; /* Brand dark */
 	margin: 0 6px !important;
 	transition: all 0.3s ease !important;
 	cursor: pointer !important;
@@ -3033,8 +3429,8 @@ body:not([data-theme="dark"]) .testimonial-card {
 .testimonials-carousel .carousel-indicators.testimonials-indicators li:hover,
 .testimonials-carousel .testimonials-indicators li:hover,
 .testimonials-carousel.carousel .carousel-indicators.testimonials-indicators li:hover {
-	background: rgba(58, 80, 90, 0.7) !important;
-	border-color: rgba(58, 80, 90, 0.9) !important;
+	background: rgba(49, 38, 91, 0.7) !important; /* Brand dark */
+	border-color: rgba(49, 38, 91, 0.9) !important; /* Brand dark */
 	transform: scale(1.3) !important;
 	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
 }
@@ -3042,14 +3438,14 @@ body:not([data-theme="dark"]) .testimonial-card {
 .testimonials-carousel .carousel-indicators.testimonials-indicators li.active,
 .testimonials-carousel .testimonials-indicators li.active,
 .testimonials-carousel.carousel .carousel-indicators.testimonials-indicators li.active {
-	background: var(--color-dark-grey, #3a505a) !important; /* Cinza da marca via variável CSS */
-	border-color: var(--color-dark-grey, #3a505a) !important;
+	background: var(--color-dark-grey, #31265b) !important; /* Brand dark via CSS variable */
+	border-color: var(--color-dark-grey, #31265b) !important;
 	width: 32px !important;
 	height: 12px !important;
 	border-radius: 6px !important;
 	transform: scale(1) !important;
 	opacity: 1 !important;
-	box-shadow: 0 3px 10px rgba(58, 80, 90, 0.6) !important;
+	box-shadow: 0 3px 10px rgba(49, 38, 91, 0.6) !important; /* Brand dark shadow */
 }
 
 /* Carousel fade transition optimization */
@@ -3074,23 +3470,74 @@ body:not([data-theme="dark"]) .testimonial-card {
    FOOTER - Estilos Modernos e Elegantes
    ======================================== */
 
-.site-footer {
-	background: linear-gradient(135deg, #252527 0%, #1a1a1c 100%);
-	color: #fff;
-	padding: 60px 0 25px;
+/* Footer - High specificity to ensure background applies */
+.site-footer,
+footer.site-footer,
+body .site-footer,
+html body .site-footer {
+	background: linear-gradient(135deg, rgb(37, 37, 39) 0%, rgb(26, 26, 28) 100%) !important; /* Match production: dark gray gradient */
+	background-color: rgb(37, 37, 39) !important; /* Fallback solid color */
+	color: #fff !important;
+	padding: 60px 0 25px !important;
 	margin-top: 0 !important;
-	border-top: 1px solid rgba(204, 183, 188, 0.1);
+	border-top: 1px solid rgba(217, 194, 189, 0.1) !important; /* Brand pink border */
+	display: block !important;
+	visibility: visible !important;
+	opacity: 1 !important;
+	position: relative !important;
+	z-index: 1 !important;
 }
 
-/* Footer titles - corrigido para h2 (heading order) */
+/* Footer container - Match production max-width */
+/* Higher specificity to ensure it applies */
+.site-footer .container,
+footer.site-footer .container,
+.site-footer > .container {
+	max-width: 960px !important; /* Match production: 960px instead of Bootstrap's default 1140px */
+	margin-left: auto !important; /* Center container */
+	margin-right: auto !important; /* Center container */
+	padding-left: 15px !important; /* Bootstrap default padding */
+	padding-right: 15px !important; /* Bootstrap default padding */
+}
+
+/* Footer row - ensure proper spacing and alignment */
+.site-footer .row,
+footer.site-footer .row,
+.site-footer > .container > .row {
+	margin-left: -15px !important; /* Bootstrap default negative margin */
+	margin-right: -15px !important; /* Bootstrap default negative margin */
+	display: flex !important;
+	flex-wrap: wrap !important;
+	align-items: flex-start !important; /* Align columns to top */
+}
+
+/* Footer titles - Match production: rgb(184, 149, 160) */
 .footer-title,
 h2.footer-title {
-	color: #b895a0 !important; /* Rosa mais escuro para melhor legibilidade */
+	color: rgb(184, 149, 160) !important; /* Match production: darker pink/beige */
 	font-size: 1.1rem;
 	font-weight: 600;
 	margin-bottom: 20px;
+	margin-left: 0 !important; /* Garantir alinhamento */
+	padding-left: 0 !important; /* Garantir alinhamento */
 	letter-spacing: 0.5px;
 	text-transform: uppercase;
+	text-align: left !important; /* Default: left align for navigation and contact */
+}
+
+/* Footer columns - Navigation and Contact: left align, Social: center align */
+.site-footer .col-md-4:first-child,
+.site-footer .col-md-4:nth-child(2),
+.site-footer .col-12.col-md-4:first-child,
+.site-footer .col-12.col-md-4:nth-child(2) {
+	text-align: left !important; /* Left align for navigation and contact columns */
+}
+
+.site-footer .col-md-4:first-child .footer-title,
+.site-footer .col-md-4:nth-child(2) .footer-title,
+.site-footer .col-12.col-md-4:first-child .footer-title,
+.site-footer .col-12.col-md-4:nth-child(2) .footer-title {
+	text-align: left !important; /* Left align titles for navigation and contact */
 }
 
 /* Centralizar título e ícones da seção de redes sociais */
@@ -3098,12 +3545,34 @@ h2.footer-title {
 footer .footer-social-col,
 .footer-social-col {
 	text-align: center !important;
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: stretch !important; /* Stretch children to full width */
+	padding-left: 15px !important; /* Keep Bootstrap padding */
+	padding-right: 15px !important; /* Keep Bootstrap padding */
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+	width: 100% !important; /* Garantir largura total da coluna */
+	max-width: 100% !important; /* Garantir que não ultrapasse */
+	box-sizing: border-box !important; /* Include padding in width calculation */
 }
 
+/* Footer social title - Highest specificity to override all other rules */
 .site-footer .footer-social-col .footer-title,
 footer .footer-social-col .footer-title,
-.footer-social-col .footer-title {
+.footer-social-col .footer-title,
+.site-footer .footer-social-col h2.footer-title,
+footer .footer-social-col h2.footer-title,
+.footer-social-col h2.footer-title {
 	text-align: center !important;
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+	margin-bottom: 20px !important; /* Consistent margin across all pages */
+	margin-top: 0 !important;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+	width: 100% !important;
+	align-self: center !important; /* Garantir alinhamento central */
 }
 
 .footer-nav-vertical,
@@ -3118,6 +3587,8 @@ nav.footer-nav-vertical,
 	padding: 0 !important;
 	margin: 0 !important;
 	align-items: flex-start !important;
+	padding-left: 0 !important; /* Alinhar com o título */
+	text-align: left !important; /* Left align navigation links */
 }
 
 .footer-link,
@@ -3125,7 +3596,7 @@ nav.footer-nav-vertical,
 nav.footer-nav-vertical .footer-link,
 .site-footer nav.footer-nav-vertical .footer-link,
 .site-footer .footer-nav-vertical .footer-link {
-	color: rgba(255, 255, 255, 0.85) !important; /* Mais claro para melhor legibilidade */
+	color: rgba(255, 255, 255, 0.85) !important; /* Match production: white with 85% opacity */
 	font-size: 14px !important;
 	font-weight: 400 !important;
 	letter-spacing: 0.3px !important;
@@ -3133,13 +3604,15 @@ nav.footer-nav-vertical .footer-link,
 	text-decoration: none !important;
 	display: block !important;
 	padding: 4px 0 !important;
+	padding-left: 0 !important; /* Alinhar com o título */
 	width: auto !important;
 	white-space: nowrap !important;
+	margin-left: 0 !important; /* Garantir alinhamento */
 }
 
 .footer-link:hover {
-	color: #b895a0 !important; /* Rosa mais escuro para melhor contraste */
-	padding-left: 8px;
+	color: rgb(184, 149, 160) !important; /* Match production: darker pink/beige on hover */
+	padding-left: 8px !important; /* Indentação no hover */
 	text-decoration: none !important;
 }
 
@@ -3147,22 +3620,26 @@ nav.footer-nav-vertical .footer-link,
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
+	text-align: left !important; /* Left align contact items */
+	align-items: flex-start !important; /* Align contact items to the left */
 }
 
 .footer-contact-item {
 	margin: 0;
-	color: rgba(255, 255, 255, 0.85) !important; /* Mais claro para melhor legibilidade */
+	color: #ffffff !important; /* White text */
 	font-size: 14px;
 	display: flex;
 	align-items: flex-start;
 	gap: 12px;
 	line-height: 1.6;
 	margin-bottom: 0;
+	text-align: left !important; /* Left align contact text */
+	justify-content: flex-start !important; /* Align to left */
 }
 
 .footer-contact-item i,
 .footer-contact-item ion-icon {
-	color: #b895a0 !important; /* Rosa mais escuro para melhor visibilidade */
+	color: #d9c2bd !important; /* Brand pink for icons */
 	font-size: 18px !important; /* Tamanho fixo maior para todos os ícones */
 	margin-top: 2px;
 	flex-shrink: 0;
@@ -3184,9 +3661,9 @@ nav.footer-nav-vertical .footer-link,
 	height: 20px !important;
 	min-width: 20px !important;
 	max-width: 20px !important;
-	color: #b895a0 !important;
-	fill: #b895a0 !important;
-	stroke: #b895a0 !important;
+	color: #d9c2bd !important; /* Brand pink */
+	fill: #d9c2bd !important;
+	stroke: #d9c2bd !important;
 	display: inline-flex !important;
 	align-items: center !important;
 	justify-content: center !important;
@@ -3236,45 +3713,80 @@ nav.footer-nav-vertical .footer-link,
 }
 
 .footer-contact-item strong {
-	color: rgba(255, 255, 255, 0.95) !important; /* Mais claro para melhor legibilidade */
+	color: #ffffff !important; /* White text */
 	font-weight: 600;
 	margin-right: 5px;
 }
 
+/* Footer social icons container - CRITICAL: High specificity to override any conflicting styles */
+.site-footer .footer-social,
+footer .footer-social,
+.footer-social-col .footer-social,
+.site-footer .footer-social-col .footer-social,
 .footer-social {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 15px;
-	margin-top: 15px;
-	align-items: center;
-	justify-content: center;
+	display: flex !important; /* CRITICAL: Must be flex for justify-content to work */
+	flex-wrap: wrap !important;
+	flex-basis: 100% !important; /* Force full width in flex context */
+	flex-grow: 1 !important; /* Allow growth */
+	flex-shrink: 0 !important; /* Prevent shrinking - force full width */
+	gap: 15px !important;
+	margin-top: 15px !important;
+	margin-left: 0 !important; /* Alinhar com o título */
+	margin-right: 0 !important; /* Alinhar com o título */
+	margin-bottom: 0 !important;
+	padding-left: 0 !important; /* Remover padding */
+	padding-right: 0 !important; /* Remover padding */
+	align-items: center !important;
+	justify-content: center !important; /* Centralizar ícones */
+	width: 100% !important; /* Garantir largura total */
+	min-width: 100% !important; /* Force minimum width to be 100% */
+	max-width: 100% !important; /* Garantir que não ultrapasse o container */
+	box-sizing: border-box !important; /* Include padding in width calculation */
+	align-self: stretch !important; /* Stretch to fill parent width */
+	/* Force width calculation - override any content-based sizing */
+	overflow: visible !important; /* Allow content to be visible */
 }
 
+/* Footer social link - Match production: 42px width/height, high specificity to prevent overrides */
+.site-footer .footer-social-link,
+footer.site-footer .footer-social-link,
+.footer-social-col .footer-social-link,
+.site-footer .footer-social-col .footer-social-link,
 .footer-social-link {
-	width: 44px;
-	height: 44px;
+	width: 42px !important; /* Match production: 42px (not 44px) */
+	height: 42px !important; /* Match production: 42px (not 44px) */
 	display: flex !important;
 	align-items: center !important;
 	justify-content: center !important;
-	background: rgba(255, 255, 255, 0.1);
-	border: 1px solid rgba(204, 183, 188, 0.3);
-	border-radius: 50%;
-	color: rgba(255, 255, 255, 0.95) !important;
+	background: rgba(255, 255, 255, 0.1) !important; /* Match production */
+	border: 1px solid rgba(204, 183, 188, 0.3) !important; /* Match production: rgba(204, 183, 188, 0.3) */
+	border-radius: 50% !important;
+	color: rgba(255, 255, 255, 0.95) !important; /* Match production: rgba(255, 255, 255, 0.95) */
 	font-size: 20px !important;
-	transition: all 0.3s ease;
+	transition: all 0.3s ease !important;
 	text-decoration: none !important;
-	flex-shrink: 0;
-	text-align: center;
-	line-height: 1;
-	position: relative;
+	flex-shrink: 0 !important;
+	flex-grow: 0 !important;
+	text-align: center !important;
+	line-height: 1 !important;
+	position: relative !important;
+	margin: 0 !important; /* Remove auto margin - let parent justify-content handle centering */
+	box-sizing: border-box !important; /* Include border in width calculation */
 }
 
+/* Footer social link SVG - High specificity to prevent generic SVG rules from overriding */
+.site-footer .footer-social-link svg,
+footer.site-footer .footer-social-link svg,
+.footer-social-col .footer-social-link svg,
+.site-footer .footer-social-col .footer-social-link svg,
 .footer-social-link svg {
 	width: 22px !important;
 	height: 22px !important;
-	fill: currentColor;
-	display: block;
-	flex-shrink: 0;
+	fill: rgba(255, 255, 255, 0.95) !important; /* Match production: rgba(255, 255, 255, 0.95) */
+	display: block !important;
+	flex-shrink: 0 !important;
+	position: relative !important; /* Prevent any positioning issues */
+	z-index: auto !important;
 }
 
 
@@ -3342,24 +3854,29 @@ nav.footer-nav-vertical .footer-link,
 }
 
 .footer-social-link:hover {
-	background: #ccb7bc;
-	border-color: #ccb7bc;
-	color: #fff;
+	background: rgb(184, 149, 160) !important; /* Match production: darker pink/beige */
+	border-color: rgb(184, 149, 160) !important;
+	color: #ffffff !important;
 	transform: translateY(-3px);
-	box-shadow: 0 5px 20px rgba(204, 183, 188, 0.4);
+	box-shadow: 0 5px 20px rgba(184, 149, 160, 0.4) !important; /* Match production shadow */
 	text-decoration: none !important;
 }
 
+.footer-social-link:hover svg {
+	fill: #ffffff !important; /* White icons on hover */
+}
+
 .footer-copyright {
-	margin-top: 40px;
-	padding-top: 25px;
-	border-top: 1px solid rgba(255, 255, 255, 0.1);
-	text-align: center;
+	margin-top: 40px !important;
+	padding-top: 25px !important;
+	border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+	text-align: center !important; /* Center copyright text */
+	width: 100% !important;
 }
 
 .footer-copyright p {
 	margin: 0;
-	color: rgba(255, 255, 255, 0.5);
+	color: rgba(255, 255, 255, 0.5) !important; /* Match production: white with 50% opacity */
 	font-size: 12px;
 	letter-spacing: 0.5px;
 	font-weight: 300;
@@ -3399,15 +3916,22 @@ nav.footer-nav-vertical .footer-link,
 	}
 
 	.footer-social {
-		justify-content: center;
+		display: flex !important; /* CRITICAL: Must be flex for justify-content to work */
+		justify-content: center !important;
+		align-items: center !important;
 		gap: 15px;
 		margin-top: 15px;
+		width: 100% !important;
+		margin-left: 0 !important;
+		margin-right: 0 !important;
+		padding-left: 0 !important;
+		padding-right: 0 !important;
 	}
 
 	.footer-social-link {
-		width: 44px;
-		height: 44px;
-		font-size: 20px;
+		width: 42px !important; /* Match production: 42px */
+		height: 42px !important; /* Match production: 42px */
+		font-size: 20px !important;
 	}
 
 	.footer-social-link svg {
@@ -3436,13 +3960,13 @@ nav.footer-nav-vertical .footer-link,
 /* Hero Section Padrão (Contato, Vagas, etc) */
 .page-hero {
 	/* Desktop: usar AVIF/WebP com fallback JPG */
-	background: linear-gradient(135deg, rgba(204, 183, 188, 0.9), rgba(58, 80, 90, 0.9)), url('/img/bgheader.avif');
-	background: linear-gradient(135deg, rgba(204, 183, 188, 0.9), rgba(58, 80, 90, 0.9)), -webkit-image-set(
+	background: linear-gradient(135deg, rgba(217, 194, 189, 0.9), rgba(49, 38, 91, 0.9)), url('/img/bgheader.avif'); /* Brand colors gradient */
+	background: linear-gradient(135deg, rgba(217, 194, 189, 0.9), rgba(49, 38, 91, 0.9)), -webkit-image-set( /* Brand colors gradient */
 		url('/img/bgheader.avif') type("image/avif"),
 		url('/img/bgheader.webp') type("image/webp"),
 		url('/img/bgheader.jpg') type("image/jpeg")
 	);
-	background: linear-gradient(135deg, rgba(204, 183, 188, 0.9), rgba(58, 80, 90, 0.9)), image-set(
+	background: linear-gradient(135deg, rgba(217, 194, 189, 0.9), rgba(49, 38, 91, 0.9)), image-set( /* Brand colors gradient */
 		url('/img/bgheader.avif') type("image/avif"),
 		url('/img/bgheader.webp') type("image/webp"),
 		url('/img/bgheader.jpg') type("image/jpeg")
@@ -3482,18 +4006,18 @@ nav.footer-nav-vertical .footer-link,
 	border-radius: 15px;
 	padding: 30px;
 	margin-bottom: 30px;
-	box-shadow: 0 4px 20px rgba(58, 80, 90, 0.15);
+	box-shadow: 0 4px 20px rgba(49, 38, 91, 0.15); /* Brand dark shadow */
 	contain: layout style paint; /* More aggressive containment */
 	min-height: 300px; /* Reservar espaço para conteúdo */
-	border: 1px solid rgba(204, 183, 188, 0.3);
+	border: 1px solid rgba(217, 194, 189, 0.3); /* Brand pink border */
 	transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .info-card:hover,
 .vaga-card:hover {
 	transform: translateY(-5px);
-	box-shadow: 0 8px 30px rgba(58, 80, 90, 0.2);
-	border-color: rgba(204, 183, 188, 0.4);
+	box-shadow: 0 8px 30px rgba(49, 38, 91, 0.2); /* Brand dark shadow */
+	border-color: rgba(217, 194, 189, 0.4); /* Brand pink border */
 }
 
 .info-card h3,
@@ -3506,7 +4030,7 @@ nav.footer-nav-vertical .footer-link,
 
 .info-card h3 i,
 .vaga-title i {
-	color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
+	color: var(--color-pink, #d9c2bd); /* Brand pink via CSS variable */
 	margin-right: 10px;
 	font-size: 1.3rem;
 	width: 28px;
@@ -3514,7 +4038,7 @@ nav.footer-nav-vertical .footer-link,
 }
 
 .vaga-title {
-	border-bottom: 2px solid #ccb7bc;
+	border-bottom: 2px solid #d9c2bd; /* Brand pink */
 	padding-bottom: 10px;
 	font-weight: 700;
 }
@@ -3529,7 +4053,7 @@ nav.footer-nav-vertical .footer-link,
 }
 
 .vaga-info-item {
-	color: #2a3a42 !important;
+	color: #31265b !important; /* Brand dark */
 	margin-bottom: 12px;
 	font-size: 1rem;
 	line-height: 1.7;
@@ -3562,13 +4086,13 @@ nav.footer-nav-vertical .footer-link,
 	flex-shrink: 0;
 	width: 20px;
 	text-align: center;
-	color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
+	color: var(--color-pink, #d9c2bd); /* Brand pink via CSS variable */
 	font-size: 1.1rem;
 	margin-top: 2px;
 }
 
 .vaga-info-item strong {
-	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
+	color: var(--color-dark-grey, #31265b); /* Brand dark via CSS variable */
 	font-weight: 600;
 	margin-right: 5px;
 }
@@ -3600,32 +4124,32 @@ nav.footer-nav-vertical .footer-link,
 
 .action-btn-primary,
 .btn-candidatar {
-	background: linear-gradient(135deg, #ccb7bc, #b8a3a8);
+	background: linear-gradient(135deg, #d9c2bd, #c4a8a1); /* Brand pink gradient */
 	color: white;
 }
 
 .action-btn-primary:hover,
 .btn-candidatar:hover {
-	background: linear-gradient(135deg, #b8a3a8, #ccb7bc);
+	background: linear-gradient(135deg, #c4a8a1, #d9c2bd); /* Brand pink gradient */
 	transform: translateY(-2px);
-	box-shadow: 0 4px 15px rgba(204, 183, 188, 0.4);
+	box-shadow: 0 4px 15px rgba(217, 194, 189, 0.4); /* Brand pink shadow */
 	color: white;
 	text-decoration: none;
 }
 
 .action-btn-secondary {
 	background: var(--color-bg-secondary); /* Usa variável CSS */
-	color: #2a3a42;
-	border: 2px solid #ccb7bc;
+	color: #31265b; /* Brand dark */
+	border: 2px solid #d9c2bd; /* Brand pink */
 }
 
 .action-btn-secondary:hover {
-	background: linear-gradient(135deg, #ccb7bc, #b8a3a8);
+	background: linear-gradient(135deg, #d9c2bd, #c4a8a1); /* Brand pink gradient */
 	color: white;
-	border-color: #ccb7bc;
+	border-color: #d9c2bd; /* Brand pink */
 	text-decoration: none;
 	transform: translateY(-2px);
-	box-shadow: 0 4px 15px rgba(204, 183, 188, 0.3);
+	box-shadow: 0 4px 15px rgba(217, 194, 189, 0.3); /* Brand pink shadow */
 }
 
 .action-btn svg {
@@ -3674,23 +4198,23 @@ nav.footer-nav-vertical .footer-link,
 }
 
 .horario-status.aberto {
-	background: rgba(204, 183, 188, 0.15);
-	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
-	border: 1px solid rgba(204, 183, 188, 0.3);
+	background: rgba(217, 194, 189, 0.15); /* Brand pink background */
+	color: var(--color-dark-grey, #31265b); /* Brand dark via CSS variable */
+	border: 1px solid rgba(217, 194, 189, 0.3); /* Brand pink border */
 }
 
 .horario-status.aberto i {
-	color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
+	color: var(--color-pink, #d9c2bd); /* Brand pink via CSS variable */
 }
 
 .horario-status.fechado {
-	background: rgba(58, 80, 90, 0.1);
-	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
-	border: 1px solid rgba(58, 80, 90, 0.2);
+	background: rgba(49, 38, 91, 0.1); /* Brand dark */
+	color: var(--color-dark-grey, #31265b); /* Brand dark via CSS variable */
+	border: 1px solid rgba(49, 38, 91, 0.2); /* Brand dark */
 }
 
 .horario-status.fechado i {
-	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
+	color: var(--color-dark-grey, #31265b); /* Brand dark via CSS variable */
 }
 
 /* Seção de Conteúdo Padrão */
@@ -3711,11 +4235,11 @@ nav.footer-nav-vertical .footer-link,
 	padding: 20px;
 	border-radius: 8px;
 	margin-bottom: 20px;
-	border-left: 4px solid #ccb7bc;
+	border-left: 4px solid #d9c2bd; /* Brand pink */
 }
 
 .vaga-requirements h4 {
-	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
+	color: var(--color-dark-grey, #31265b); /* Brand dark via CSS variable */
 	font-size: 1.1rem;
 	font-weight: 600;
 	margin-bottom: 12px;
@@ -3725,7 +4249,7 @@ nav.footer-nav-vertical .footer-link,
 }
 
 .vaga-requirements h4 i {
-	color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
+	color: var(--color-pink, #d9c2bd); /* Brand pink via CSS variable */
 	font-size: 1.2rem;
 	width: 24px;
 	text-align: center;
@@ -3733,7 +4257,7 @@ nav.footer-nav-vertical .footer-link,
 }
 
 .vaga-description h4 {
-	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
+	color: var(--color-dark-grey, #31265b); /* Brand dark via CSS variable */
 	font-size: 1.1rem;
 	font-weight: 600;
 	margin-bottom: 12px;
@@ -3743,7 +4267,7 @@ nav.footer-nav-vertical .footer-link,
 }
 
 .vaga-description h4 i {
-	color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
+	color: var(--color-pink, #d9c2bd); /* Brand pink via CSS variable */
 	font-size: 1.2rem;
 	width: 24px;
 	text-align: center;
@@ -3769,19 +4293,19 @@ nav.footer-nav-vertical .footer-link,
 }
 
 .vaga-description h4 {
-	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
+	color: var(--color-dark-grey, #31265b); /* Brand dark via CSS variable */
 	margin-bottom: 15px;
 	font-weight: 600;
 	font-size: 1.1rem;
 }
 
 .vaga-description h4 i {
-	color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
+	color: var(--color-pink, #d9c2bd); /* Brand pink via CSS variable */
 	margin-right: 8px;
 }
 
 .vaga-requirements h4 i {
-	color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
+	color: var(--color-pink, #d9c2bd); /* Brand pink via CSS variable */
 	margin-right: 8px;
 }
 
@@ -3813,7 +4337,7 @@ nav.footer-nav-vertical .footer-link,
 
 /* Card de Candidatura */
 .vaga-card.vaga-candidatar {
-	background: linear-gradient(135deg, #ccb7bc, #b8a3a8);
+	background: linear-gradient(135deg, #d9c2bd, #c4a8a1); /* Brand pink gradient */
 	color: white;
 }
 
@@ -3842,7 +4366,7 @@ nav.footer-nav-vertical .footer-link,
 
 /* Título de Seção Padrão */
 .page-section h2 {
-	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
+	color: var(--color-dark-grey, #31265b); /* Brand dark via CSS variable */
 	font-weight: 700;
 	font-size: 2rem;
 }
@@ -3858,14 +4382,14 @@ nav.footer-nav-vertical .footer-link,
 .no-vagas i,
 .no-content i {
 	font-size: 4rem;
-	color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
+	color: var(--color-pink, #d9c2bd); /* Brand pink via CSS variable */
 	margin-bottom: 20px;
 	display: block;
 }
 
 .no-vagas h3,
 .no-content h3 {
-	color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
+	color: var(--color-dark-grey, #31265b); /* Brand dark via CSS variable */
 	margin-bottom: 15px;
 	font-weight: 600;
 }
@@ -3914,13 +4438,13 @@ nav.footer-nav-vertical .footer-link,
 	.vaga-info-item i {
 		width: 18px;
 		font-size: 1rem;
-		color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
+		color: var(--color-pink, #d9c2bd); /* Brand pink via CSS variable */
 		flex-shrink: 0;
 		margin-top: 3px;
 	}
 
 	.vaga-info-item strong {
-		color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
+		color: var(--color-dark-grey, #31265b); /* Brand dark via CSS variable */
 		font-weight: 600;
 		margin-right: 4px;
 	}
@@ -3941,7 +4465,7 @@ nav.footer-nav-vertical .footer-link,
 	}
 
 	.vaga-requirements h4 i {
-		color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
+		color: var(--color-pink, #d9c2bd); /* Brand pink via CSS variable */
 		font-size: 1.1rem;
 		width: 20px;
 		text-align: center;
@@ -3961,7 +4485,7 @@ nav.footer-nav-vertical .footer-link,
 
 	.vaga-description h4,
 	.vaga-requirements h4 {
-		color: var(--color-dark-grey, #3a505a); /* Cinza da marca via variável CSS */
+		color: var(--color-dark-grey, #31265b); /* Brand dark via CSS variable */
 	}
 
 	.action-buttons {
@@ -3988,11 +4512,11 @@ nav.footer-nav-vertical .footer-link,
 	/* Melhorias de cores mobile - Vagas */
 	.vaga-card {
 		background: #ffffff;
-		border: 1px solid rgba(204, 183, 188, 0.2);
+		border: 1px solid rgba(217, 194, 189, 0.2); /* Brand pink border */
 	}
 
 	.vaga-title {
-		color: #3a505a !important;
+		color: #31265b !important; /* Brand dark */
 	}
 
 	.vaga-info-item {
@@ -4000,7 +4524,7 @@ nav.footer-nav-vertical .footer-link,
 	}
 
 	.vaga-info-item strong {
-		color: #3a505a !important;
+		color: #31265b !important; /* Brand dark */
 	}
 
 	.vaga-description p,
@@ -4011,7 +4535,7 @@ nav.footer-nav-vertical .footer-link,
 
 	.vaga-requirements {
 		background: #f8f9fa;
-		border-left-color: #ccb7bc;
+		border-left-color: #d9c2bd; /* Brand pink */
 	}
 
 	.vaga-requirements li {
@@ -4124,25 +4648,25 @@ nav.footer-nav-vertical .footer-link,
 	width: 12px !important;
 	height: 12px !important;
 	border-radius: 50% !important;
-	background: rgba(58, 80, 90, 0.4) !important;
-	border: 2px solid rgba(58, 80, 90, 0.6) !important;
+	background: rgba(49, 38, 91, 0.4) !important; /* Brand dark */
+	border: 2px solid rgba(49, 38, 91, 0.6) !important; /* Brand dark */
 	margin: 0 6px !important;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
 	text-indent: 0 !important;
 }
 
 #testimonialsCarousel .carousel-indicators.testimonials-indicators li:hover {
-	background: rgba(58, 80, 90, 0.7) !important;
-	border-color: rgba(58, 80, 90, 0.9) !important;
+	background: rgba(49, 38, 91, 0.7) !important; /* Brand dark */
+	border-color: rgba(49, 38, 91, 0.9) !important; /* Brand dark */
 	transform: scale(1.3) !important;
 	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
 }
 
 #testimonialsCarousel .carousel-indicators.testimonials-indicators li.active {
-	background: var(--color-dark-grey, #3a505a) !important; /* Cinza da marca via variável CSS */
-	border-color: var(--color-dark-grey, #3a505a) !important;
+	background: var(--color-dark-grey, #31265b) !important; /* Brand dark via CSS variable */
+	border-color: var(--color-dark-grey, #31265b) !important;
 	width: 32px !important;
 	height: 12px !important;
 	border-radius: 6px !important;
-	box-shadow: 0 3px 10px rgba(58, 80, 90, 0.6) !important;
+	box-shadow: 0 3px 10px rgba(49, 38, 91, 0.6) !important; /* Brand dark shadow */
 }

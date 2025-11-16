@@ -8,24 +8,30 @@
  */
 
 :root {
-	/* Cores da Marca - Light Mode (cores originais do site) */
-	/* Rosa principal da marca: #ccb7bc (original) - mantém identidade */
-	--color-pink: #ccb7bc; /* Rosa original da marca */
-	--color-pink-light: #d4a5b0; /* Rosa claro para hovers */
-	--color-pink-dark: #b895a0; /* Rosa escuro para elementos pressionados */
+	/* Brand Colors - Primary */
+	--color-brand-pink: #d9c2bd; /* Primary brand pink/beige */
+	--color-brand-dark: #31265b; /* Primary brand dark color */
+	--color-brand-white: #ffffff; /* White/off-white base */
 	
-	/* Cinza escuro da marca: #3a505a (original) - mantém identidade */
-	--color-dark-grey: #3a505a; /* Cinza escuro original da marca */
-	--color-grey: #454545;
-	--color-light-grey: #6a6a6a;
+	/* Cores da Marca - Light Mode (derivadas das cores primárias da marca) */
+	/* Rosa principal da marca: #d9c2bd (brand color) */
+	--color-pink: #d9c2bd; /* Brand pink/beige */
+	--color-pink-light: #e5d1cd; /* Light variation for hovers */
+	--color-pink-dark: #c4a8a1; /* Dark variation for pressed states */
 	
-	/* Cores de Texto - Light Mode */
-	--color-text-primary: #1a1a1a; /* Texto principal - quase preto mas não puro */
-	--color-text-secondary: #4a4a4a; /* Texto secundário */
-	--color-text-muted: #6a6a6a; /* Texto desabilitado/muted */
+	/* Cor escura da marca: #31265b (brand color) */
+	--color-dark-grey: #31265b; /* Brand dark color */
+	--color-grey: #4a3d6b; /* Medium dark variation */
+	--color-light-grey: #6a5a8a; /* Light dark variation */
 	
-	/* Cores de Fundo - Light Mode (cores originais: off-white) */
-	--color-bg-primary: #fafafa; /* Fundo principal - off-white original do site */
+	/* Cores de Texto - Light Mode - Based on brand colors */
+	--color-text-primary: #31265b; /* Brand dark color for primary text */
+	--color-text-secondary: #4a3d6b; /* Medium dark for secondary text */
+	--color-text-muted: #6a5a8a; /* Light dark for muted text */
+	
+	/* Cores de Fundo - Light Mode - Based on brand pink/beige */
+	/* More pink/beige - blend of brand pink #d9c2bd with white */
+	--color-bg-primary: #f0e8e6; /* More visible pink/beige blend (80% white, 20% brand pink) */
 	--color-bg-secondary: #f5f5f5; /* Fundo secundário - cards, modais */
 	--color-bg-tertiary: #f0f0f0; /* Fundo terciário - hover states */
 	--color-bg-elevated: #ffffff; /* Elementos elevados - apenas quando necessário */
@@ -35,10 +41,10 @@
 	--color-border-medium: #d0d0d0; /* Bordas médias */
 	--color-border-dark: #b0b0b0; /* Bordas fortes */
 	
-	/* Cores de Botões - Light Mode */
-	--color-button-primary: #b895a0; /* Botão primário - rosa da marca */
-	--color-button-primary-hover: #9a7a85; /* Hover mais escuro */
-	--color-button-secondary: #2a3a42; /* Botão secundário - cinza da marca */
+	/* Cores de Botões - Light Mode - Based on brand colors */
+	--color-button-primary: #d9c2bd; /* Botão primário - brand pink */
+	--color-button-primary-hover: #c4a8a1; /* Hover - darker brand pink */
+	--color-button-secondary: #31265b; /* Botão secundário - brand dark */
 	--color-button-text: #ffffff; /* Texto em botões */
 	
 	/* Espaçamentos */
@@ -64,41 +70,41 @@
 	--z-index-modal: 100001;
 }
 
-/* Dark Mode - Tons mais escuros mantendo cores da marca */
+/* Dark Mode - Darker tones (not pure black) based on brand colors */
 [data-theme="dark"] {
-	/* Cores da Marca - Dark Mode (mantém identidade, tons mais escuros) */
-	/* Rosa da marca: mais claro para legibilidade mas mantém tom original */
-	--color-pink: #d4a5b0; /* Rosa mais claro (baseado em #ccb7bc) para legibilidade */
-	--color-pink-light: #e8b8c8; /* Rosa muito claro para destaques */
-	--color-pink-dark: #c0a0ab; /* Rosa médio para elementos pressionados */
+	/* Cores da Marca - Dark Mode (darker tones, not pure black) */
+	/* Brand pink: lighter for readability but maintains brand identity */
+	--color-pink: #e5d1cd; /* Lighter brand pink for readability */
+	--color-pink-light: #f0e4e1; /* Very light brand pink for highlights */
+	--color-pink-dark: #c4a8a1; /* Medium brand pink for pressed states */
 	
-	/* Cinza escuro da marca adaptado para dark mode */
-	/* Baseado em #3a505a mas mais claro para legibilidade */
-	--color-dark-grey: #7a9aab; /* Cinza claro (baseado em #3a505a) para legibilidade */
-	--color-grey: #6a6a6a;
-	--color-light-grey: #9a9a9a;
+	/* Brand dark: lighter for readability in dark mode */
+	--color-dark-grey: #6a5a8a; /* Lighter brand dark for readability */
+	--color-grey: #7a6a9a; /* Medium dark variation */
+	--color-light-grey: #9a8aaa; /* Light dark variation */
 	
-	/* Cores de Texto - Dark Mode */
+	/* Cores de Texto - Dark Mode (lighter for readability) */
 	--color-text-primary: #f5f5f5; /* Texto principal - quase branco mas não puro */
 	--color-text-secondary: #e0e0e0; /* Texto secundário */
 	--color-text-muted: #b0b0b0; /* Texto desabilitado/muted */
 	
-	/* Cores de Fundo - Dark Mode (tons mais escuros, não preto puro) */
-	--color-bg-primary: #0d0d0d; /* Fundo principal - mais escuro que #121212 */
-	--color-bg-secondary: #1a1a1a; /* Fundo secundário - cards, modais (mais escuro) */
-	--color-bg-tertiary: #262626; /* Fundo terciário - hover states (mais escuro) */
-	--color-bg-elevated: #2d2d2d; /* Elementos elevados */
+	/* Cores de Fundo - Dark Mode (darker tones, not pure black) */
+	/* Based on brand dark (#31265b) - darker variations */
+	--color-bg-primary: #1a1a1a; /* Darker, more neutral tone (not purple-tinted), not pure black */
+	--color-bg-secondary: #252525; /* Cards, modais - darker neutral tone */
+	--color-bg-tertiary: #2f2f2f; /* Hover states - darker neutral tone */
+	--color-bg-elevated: #3a3a3a; /* Elementos elevados - neutral dark */
 	
 	/* Cores de Bordas - Dark Mode */
 	--color-border-light: #333333; /* Bordas sutis */
 	--color-border-medium: #444444; /* Bordas médias */
 	--color-border-dark: #555555; /* Bordas fortes */
 	
-	/* Cores de Botões - Dark Mode */
-	--color-button-primary: #d4a5b0; /* Botão primário - rosa claro */
-	--color-button-primary-hover: #e8b8c8; /* Hover mais claro */
-	--color-button-secondary: #8a9aa2; /* Botão secundário - cinza claro */
-	--color-button-text: #0d0d0d; /* Texto em botões - fundo escuro */
+	/* Cores de Botões - Dark Mode - Based on brand colors */
+	--color-button-primary: #e5d1cd; /* Botão primário - lighter brand pink */
+	--color-button-primary-hover: #f0e4e1; /* Hover - very light brand pink */
+	--color-button-secondary: #6a5a8a; /* Botão secundário - lighter brand dark */
+	--color-button-text: #1a1626; /* Texto em botões - dark background */
 	
 	/* Cores auxiliares */
 	--color-white: #ffffff; /* Branco para contraste */

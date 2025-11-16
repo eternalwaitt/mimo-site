@@ -144,15 +144,7 @@ if (!isset($includeGTM)) {
     <noscript><link rel="stylesheet" href="<?php echo get_css_asset('css/modules/mobile-ui-improvements.css'); ?>"></noscript>
     
     <!-- Footer social links já usam SVG inline - sem necessidade de Font Awesome -->
-    <style>
-    .site-footer .footer-social-link {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        width: 42px !important;
-        height: 42px !important;
-    }
-    </style>
+    <!-- Removed inline styles - using product.css instead -->
     <!-- Servicos CSS - Defer para melhorar FCP -->
     <script>loadCSS("<?php echo get_css_asset('servicos.css'); ?>");</script>
     <noscript><?php echo css_tag('servicos.css'); ?></noscript>

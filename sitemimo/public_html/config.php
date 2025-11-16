@@ -63,7 +63,8 @@ define('SITE_URL', getenv('SITE_URL') ?: 'https://minhamimo.com.br');
 
 // Environment (development, staging, production)
 // Set via .env file: APP_ENV=development
-define('APP_ENV', getenv('APP_ENV') ?: 'production');
+// CRITICAL: Default to 'development' for local dev to avoid using minified/purged CSS
+define('APP_ENV', getenv('APP_ENV') ?: 'development');
 
 // Google Places API Configuration (for reviews)
 // IMPORTANTE: Para produção, mova estas chaves para o arquivo .env por segurança
@@ -83,7 +84,7 @@ define('APP_VERSION_PATCH', 12);
 // Asset version for cache busting (update this when deploying changes)
 // Format: YYYYMMDD (date-based for easy tracking)
 // IMPORTANTE: Atualizar sempre que houver mudanças em CSS/JS para forçar reload do cache
-define('ASSET_VERSION', '20251116-3');
+define('ASSET_VERSION', '20251116-92'); // Updated: Further optimized spacing between testimonials section (gray bar) and services section - reduced padding-bottom of .testimonials-section from 1rem to 0.5rem (8px) and removed p-3 class from HTML, using inline styles for tighter control
 
 // Use minified assets in production
 // IMPORTANTE: Ative apenas DEPOIS de rodar os scripts de build:
@@ -92,4 +93,12 @@ define('ASSET_VERSION', '20251116-3');
 // Isso garante que os arquivos .min.css e .min.js existam na pasta minified/
 // Automatically enabled in production, disabled in development
 define('USE_MINIFIED', APP_ENV === 'production');
+
+// OPcache check (set to true temporarily to verify OPcache status)
+// CRITICAL: Set to false after checking (security)
+define('CHECK_OPCACHE', false);
+
+// CDN Configuration (if using CDN for static assets)
+// Set CDN_URL in .env file: CDN_URL=https://cdn.minhamimo.com.br
+define('CDN_URL', getenv('CDN_URL') ?: '');
 

@@ -100,7 +100,7 @@ button:not([aria-label]):not([aria-labelledby]) {
 .footer-title {
     font-size: 1.25rem;
     font-weight: 600;
-    margin-bottom: 1rem;
+    margin-bottom: 20px !important; /* Consistent with product.css */
 }
 
 /* ============================================
@@ -156,23 +156,25 @@ button:not([aria-label]):not([aria-labelledby]) {
    ============================================ */
 
 /* Background Pink - garantir contraste suficiente */
-.backgroundPink {
-    background-color: #3a505a; /* Cinza escuro */
-}
+/* REMOVED: This rule was overriding brand pink color - now handled in product.css with brand pink (#d9c2bd) */
+/* .backgroundPink {
+    background-color: #3a505a;
+} */
 
-.backgroundPink .text-white {
-    color: #ffffff !important; /* Branco puro para máximo contraste */
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Sombra para melhor legibilidade */
-}
+/* REMOVED: Text color now handled in product.css with brand dark (#31265b) for good contrast on pink */
+/* .backgroundPink .text-white {
+    color: #ffffff !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+} */
 
 /* Footer links - melhorar contraste */
 .site-footer .footer-link {
-    color: #ffffff !important; /* Branco puro ao invés de rgba */
-    opacity: 0.95; /* Ligeiramente transparente mas ainda legível */
+    color: rgba(255, 255, 255, 0.85) !important; /* Match production: white with 85% opacity */
+    opacity: 1; /* Fully opaque */
 }
 
 .site-footer .footer-link:hover {
-    color: #ccb7bc !important; /* Rosa da marca no hover */
+    color: rgb(184, 149, 160) !important; /* Match production: darker pink/beige on hover */
     opacity: 1;
 }
 
@@ -180,8 +182,8 @@ button:not([aria-label]):not([aria-labelledby]) {
 .site-footer .footer-contact-item,
 .site-footer .footer-contact span,
 .site-footer span:not(.footer-social-link) {
-    color: #ffffff !important; /* Branco puro */
-    opacity: 0.95; /* Ligeiramente transparente mas ainda legível */
+    color: #ffffff !important; /* White text */
+    opacity: 1; /* Fully opaque */
 }
 
 .site-footer .footer-contact-item:hover,

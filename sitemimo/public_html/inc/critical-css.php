@@ -27,7 +27,57 @@ body {
     margin: 0;
     font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     line-height: 1.6;
-    color: #333;
+    background-color: #f0e8e6; /* More visible pink/beige blend (80% white, 20% brand pink #d9c2bd) */
+    color: #31265b; /* Brand dark for text */
+}
+
+/* Force light mode when not in dark mode */
+:not([data-theme="dark"]) body,
+body:not([data-theme="dark"]) {
+    background-color: #f0e8e6 !important; /* More visible pink/beige blend (80% white, 20% brand pink #d9c2bd) */
+    color: #31265b !important; /* Brand dark for text */
+}
+
+/* CRITICAL: Dark mode body - lighter dark tone for better contrast and readability */
+[data-theme="dark"] body,
+body[data-theme="dark"] {
+    background-color: #2a2a2a !important; /* Lighter dark tone - better contrast, not too dark */
+    color: #f5f5f5 !important; /* Light text for readability */
+}
+
+/* CRITICAL: Dark mode testimonials - darker tones based on brand dark */
+/* FIX: Use html[data-theme="dark"] for higher specificity */
+html[data-theme="dark"] .testimonial-content,
+[data-theme="dark"] .testimonial-content {
+    background: #252525 !important; /* Darker neutral tone for testimonials, not pure black */
+    border: none !important; /* No border */
+    border-radius: 20px !important;
+    padding: 25px 30px !important; /* Same as light mode */
+    color: #f5f5f5 !important; /* Light text for readability */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1) !important; /* Lighter shadow */
+}
+
+/* CRITICAL: Dark mode testimonial text - must override light mode */
+html[data-theme="dark"] .testimonial-text,
+[data-theme="dark"] .testimonial-text {
+    color: #f5f5f5 !important; /* MATCH PRODUCTION: rgb(245, 245, 245) */
+}
+
+html[data-theme="dark"] .testimonial-author strong,
+[data-theme="dark"] .testimonial-author strong {
+    color: #f5f5f5 !important; /* MATCH PRODUCTION: rgb(245, 245, 245) */
+}
+
+/* CRITICAL: Light mode testimonials - MATCH PRODUCTION */
+/* FIX: Use html:not() not body:not() - data-theme is on html, not body */
+[data-theme="light"] .testimonial-content,
+html:not([data-theme="dark"]) .testimonial-content {
+    background-color: #f5f5f5 !important; /* MATCH PRODUCTION: rgb(245, 245, 245) */
+    border: none !important;
+    padding: 25px 30px !important; /* MATCH PRODUCTION */
+    border-radius: 20px !important;
+    box-shadow: none !important; /* MATCH PRODUCTION: no shadow */
+    color: #212529 !important; /* MATCH PRODUCTION: rgb(33, 37, 41) - body text color */
 }
 
 /* Google Fonts size-adjust para prevenir layout shift */
@@ -49,11 +99,36 @@ body {
 }
 
 /* Font fallback para Akrobat - prevenir layout shift */
+@font-face {
+    font-family: 'Akrobat Fallback';
+    src: local('Arial');
+    /* CRITICAL: size-adjust prevents layout shift during font swap */
+    size-adjust: 95%; /* Akrobat is slightly narrower than Arial */
+    ascent-override: 92%;
+    descent-override: 25%;
+    line-gap-override: 0%;
+    font-display: optional;
+}
+
 .Akrobat {
-    font-family: 'Akrobat Regular', 'Nunito', 'Nunito Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Akrobat Regular', 'Akrobat Fallback', 'Nunito', 'Nunito Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     /* Garantir que o tamanho seja consistente mesmo antes da fonte carregar */
     font-size: inherit;
     line-height: inherit;
+    /* FIX: Prevent layout shift during font loading */
+    font-display: optional;
+}
+
+/* Font fallback para EB Garamond - prevenir layout shift */
+@font-face {
+    font-family: 'EB Garamond Fallback';
+    src: local('Times New Roman');
+    /* CRITICAL: size-adjust prevents layout shift during font swap */
+    size-adjust: 98%; /* EB Garamond is similar to Times */
+    ascent-override: 88%;
+    descent-override: 24%;
+    line-gap-override: 0%;
+    font-display: optional;
 }
 
 /* Navbar - Primeiro elemento visível */
@@ -71,8 +146,60 @@ body {
     width: 100%;
     contain: layout;
     min-height: 70px;
-    /* Set transparent as default - product.css will override if needed */
-    background-color: transparent;
+    /* CRITICAL: Fully transparent at top (invisible) - only dark when compressed */
+    background-color: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    transition: background-color 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Navbar compressed (scrolled) - Lighter dark gray background for both modes */
+.navbar.compressed {
+    background-color: rgba(60, 60, 60, 0.9) !important; /* Lighter dark gray (was 42, 42, 42) */
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    box-shadow: rgba(0, 0, 0, 0.1) 2px 2px 2px 0px !important; /* Subtle shadow */
+}
+
+/* Nav links - Remove underline from all nav links */
+.navbar-nav .nav-link {
+    text-decoration: none !important; /* Remove underline */
+}
+
+.navbar-nav .nav-link:hover {
+    text-decoration: none !important; /* Remove underline on hover */
+}
+
+/* Nav links - When navbar is transparent (top of page), use brand pink */
+.navbar:not(.compressed) .navbar-nav .nav-link {
+    color: var(--color-brand-pink, #d9c2bd) !important; /* Brand pink when transparent */
+    letter-spacing: 1.5px;
+    font-weight: 400; /* Normal weight for sophisticated look */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Subtle depth, GPU-accelerated */
+    text-decoration: none !important; /* Remove underline */
+}
+
+/* Light mode: ensure transparent header uses brand pink */
+html:not([data-theme="dark"]) .navbar:not(.compressed) .navbar-nav .nav-link,
+[data-theme="light"] .navbar:not(.compressed) .navbar-nav .nav-link {
+    color: var(--color-brand-pink, #d9c2bd) !important; /* Brand pink in light mode */
+}
+
+/* Nav links - When navbar is compressed (scrolled), use brand pink in light mode */
+.navbar.compressed .navbar-nav .nav-link {
+    color: #fafafa !important; /* Off-white text on dark gray header (default) */
+    letter-spacing: 1.5px;
+    font-weight: 400; /* Normal weight for sophisticated look */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Subtle depth, GPU-accelerated */
+    text-decoration: none !important; /* Remove underline */
+}
+
+/* Light mode: compressed header uses brand pink text */
+html:not([data-theme="dark"]) .navbar.compressed .navbar-nav .nav-link,
+[data-theme="light"] .navbar.compressed .navbar-nav .nav-link {
+    color: var(--color-brand-pink, #d9c2bd) !important; /* Brand pink text on compressed header in light mode */
+}
     transition: background-color .3s ease, padding .3s ease;
     /* GPU acceleration */
     will-change: background-color, transform;
@@ -91,6 +218,40 @@ body:not([data-theme="dark"]) .navbar {
     background-color: rgba(42, 42, 42, 0.85) !important; /* Dark semi-transparent background in light mode */
     backdrop-filter: blur(10px); /* Add blur for better contrast */
     -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Modern subtle shadow */
+}
+
+/* Dark mode navbar - MATCH PRODUCTION */
+[data-theme="dark"] .navbar {
+    background-color: rgba(42, 42, 42, 0.85) !important; /* MATCH PRODUCTION: same as light mode */
+    backdrop-filter: blur(10px); /* MATCH PRODUCTION */
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Modern subtle shadow */
+}
+
+[data-theme="dark"] .navbar-nav .nav-link {
+    color: #f5f5f5 !important; /* White nav links in dark mode */
+}
+
+/* CRITICAL: Hero title and subtitle colors - MATCH PRODUCTION */
+.hero-title,
+.display-4.hero-title {
+    color: #1a1a1a; /* MATCH PRODUCTION: rgb(26, 26, 26) - hero title light mode */
+}
+
+[data-theme="dark"] .hero-title,
+[data-theme="dark"] .display-4 {
+    color: #f5f5f5 !important; /* MATCH PRODUCTION: rgb(245, 245, 245) */
+}
+
+.textDarkGrey,
+.hero-subtitle {
+    color: #31265b; /* Brand dark for hero subtitle */
+}
+
+[data-theme="dark"] .textDarkGrey,
+[data-theme="dark"] .hero-subtitle {
+    color: #f5f5f5 !important; /* MATCH PRODUCTION: rgb(245, 245, 245) */
 }
 
 .navbar-brand {
@@ -114,13 +275,18 @@ body:not([data-theme="dark"]) .navbar {
 .hero-section {
     position: relative;
     width: 100%;
-    min-height: 250px; /* Reduced to match production */
-    max-height: 350px; /* Reduced to match production */
-    aspect-ratio: 16 / 9;
+    height: 250px; /* Mobile default - explicit height to prevent conflicts */
     contain: layout;
     background-color: #3d3d3d;
     overflow: hidden;
     display: block;
+}
+
+/* Desktop: taller hero section */
+@media (min-width: 751px) {
+    .hero-section {
+        height: 400px; /* Desktop height */
+    }
 }
 
 /* Light mode: transparent background to allow vivid image */
@@ -165,13 +331,7 @@ body:not([data-theme="dark"]) .hero-section .hero-overlay {
     display: none !important; /* FIX: Hide overlay completely in light mode */
 }
 
-/* Mobile hero section */
-@media screen and (max-width: 750px) {
-    .hero-section {
-        min-height: 250px;
-        max-height: 350px;
-    }
-}
+/* Mobile hero section - height already set above (250px) */
 
 /* Hero Content - CRITICAL for FCP */
 .hero-content {
@@ -246,14 +406,15 @@ picture img {
     contain: layout style paint; /* Prevent CLS */
     min-height: 500px; /* Reserve space */
     position: relative;
+    margin-top: 0; /* Remove any default margin that might cause overlap */
+    padding-top: 3rem; /* Add padding for spacing from hero */
 }
 
-#about .container.row.mx-auto {
-    contain: layout style paint; /* Prevent CLS */
+#about .container .row.mx-auto {
+    contain: layout; /* Reduced from layout style paint - Bootstrap row needs to flow naturally */
     min-height: 600px; /* Reserve space */
     position: relative;
-    display: flex;
-    flex-wrap: wrap;
+    /* Removed display: flex and flex-wrap - Bootstrap's .row already uses flexbox */
 }
 
 /* Mobile optimizations - CRITICAL for LCP */
@@ -294,15 +455,14 @@ picture img {
         min-height: 400px; /* Smaller on mobile */
     }
     
-    #about .container.row.mx-auto {
+    #about .container .row.mx-auto {
         min-height: 400px; /* Smaller on mobile */
     }
     
     /* CRITICAL: Mobile hero section - above the fold, critical for FCP */
     .hero-section {
-        contain: layout style paint;
-        min-height: 250px !important;
-        max-height: 400px !important;
+        contain: layout; /* Reduced from layout style paint - hero needs to flow */
+        height: 250px !important; /* Use explicit height instead of min-height */
         position: relative;
         overflow: hidden;
         background-color: #3d3d3d;
@@ -388,32 +548,8 @@ picture img {
         flex-direction: column;
     }
     
-    /* CRITICAL: Disable ALL animations on mobile for better performance */
-    /* Force all animated elements to be visible immediately */
-    .fade-in-up,
-    .fade-in-left,
-    .fade-in-right,
-    .scale-in,
-    .fade-in,
-    .stagger-item {
-        opacity: 1 !important;
-        transform: none !important;
-        transition: none !important;
-        animation: none !important;
-        will-change: auto !important;
-        visibility: visible !important;
-    }
-    
-    /* Make sure visible class doesn't trigger animations */
-    .fade-in-up.visible,
-    .fade-in-left.visible,
-    .fade-in-right.visible,
-    .scale-in.visible,
-    .fade-in.visible {
-        opacity: 1 !important;
-        transform: none !important;
-        transition: none !important;
-    }
+    /* CRITICAL: Animation rules moved to @media (max-width: 768px) block below */
+    /* These rules should only apply on mobile, not desktop */
     
     /* Disable hover effects on mobile */
     .img-hover:hover {
@@ -457,7 +593,7 @@ p, span, li {
 }
 
 a:not(.btn):not(.action-btn) {
-    color: #3a505a;
+    color: #31265b; /* Brand dark */
 }
 
 /* Section containers - prevent layout shift */
@@ -470,7 +606,7 @@ section {
     font-weight: 300;
     margin-bottom: 2rem;
     text-align: center;
-    color: #3a505a;
+    color: #31265b; /* Brand dark */
 }
 
 /* Cards básicos - above the fold - CRITICAL for FCP */
@@ -577,20 +713,19 @@ section {
 }
 
 /* About section container - prevent layout shift */
-#about .container.row.mx-auto {
+#about .container .row.mx-auto {
     min-height: 600px; /* Reserve space for content */
     /* Prevenir layout shift durante carregamento */
-    contain: layout style paint; /* More aggressive containment */
+    contain: layout; /* Reduced from layout style paint - Bootstrap row needs to flow naturally */
     position: relative; /* Force layout stability */
-    display: flex; /* Explicit flex container */
-    flex-wrap: wrap; /* Allow wrapping */
-    overflow: hidden; /* Prevent overflow causing shifts */
+    /* Removed display: flex and flex-wrap - Bootstrap's .row already uses flexbox */
+    /* Removed overflow: hidden - may hide content */
 }
 
 /* CRITICAL: col-md-7 causing 93% of CLS (0.375) - prevent layout shift */
 /* FIX: Make text column wider horizontally to reduce vertical length */
 #about .col-md-7 {
-    contain: layout style paint; /* More aggressive containment */
+    contain: layout; /* Reduced from layout style paint - column needs to flow */
     min-height: 400px; /* Reserve space for text content */
     /* Prevent font reflow */
     font-size: inherit;
@@ -598,19 +733,13 @@ section {
     /* Force layout stability */
     position: relative;
     overflow: hidden;
-    /* Explicit flex properties */
-    display: flex;
-    flex-direction: column;
-    /* Override Bootstrap col-md-7 (58.33%) to make it wider */
-    flex: 0 0 65% !important; /* 65% width instead of 58.33% */
-    max-width: 65% !important;
+    /* Removed display: flex and flex-direction - let Bootstrap handle layout */
+    /* Removed flex and max-width overrides - let Bootstrap handle responsive widths */
 }
 
 /* FIX: Make image column narrower to give more space to text */
 #about .col-md-5 {
-    /* Override Bootstrap col-md-5 (41.67%) to make it narrower */
-    flex: 0 0 35% !important; /* 35% width instead of 41.67% */
-    max-width: 35% !important;
+    /* Removed flex and max-width overrides - let Bootstrap handle responsive widths */
 }
 
 /* CRITICAL: Desktop CLS fix - h1 in about section causing 0.501 shift */
@@ -619,7 +748,7 @@ section {
     /* Reserve space for title */
     min-height: 2.5em;
     height: auto; /* Allow natural height but reserve minimum */
-    contain: layout style paint; /* More aggressive containment */
+    contain: layout; /* Reduced from layout style paint - text needs to flow naturally */
     /* Prevent font reflow - reserve space even before font loads */
     font-size: 2.8rem !important; /* Reduced from 3.5rem for better proportion */
     line-height: 1.3 !important; /* Better line height */
@@ -684,25 +813,24 @@ section {
 
     /* Mobile: About section - prevent layout shift */
     #about {
-        contain: layout style paint;
+        contain: layout; /* Reduced from layout style paint - section needs to flow */
         min-height: 600px; /* Reserve space for mobile layout */
         position: relative;
         overflow: hidden;
     }
 
-    #about .container.row.mx-auto {
-        contain: layout style paint;
+    #about .container .row.mx-auto {
+        contain: layout; /* Reduced from layout style paint - Bootstrap row needs to flow */
         min-height: 600px;
         position: relative;
-        display: flex;
-        flex-wrap: wrap;
-        overflow: hidden;
+        /* Removed display: flex and flex-wrap - Bootstrap's .row already uses flexbox */
+        /* Removed overflow: hidden - may hide content */
     }
 
     /* Mobile: About section columns - prevent font reflow */
     #about .col-md-7,
     #about .col-md-5 {
-        contain: layout style paint;
+        contain: layout; /* Reduced from layout style paint - columns need to flow */
         min-height: 300px; /* Reserve space for mobile stacked layout */
         position: relative;
         overflow: hidden;
@@ -714,7 +842,7 @@ section {
     /* Mobile: About section h1 - prevent font reflow */
     #about .col-md-7 h1 {
         min-height: 2em; /* Reserve space for title on mobile */
-        contain: layout style paint;
+        contain: layout; /* Reduced from layout style paint - text needs to flow */
         font-size: 2rem !important; /* Smaller on mobile */
         line-height: 1.3 !important;
         margin-bottom: 1rem !important;
@@ -777,6 +905,43 @@ section {
     contain: layout style paint;
     min-height: 400px; /* Reserve space for testimonial content */
     position: relative;
+    /* FIX: Reserve space for content to prevent shift when loading */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* CRITICAL: CLS Fix - Testimonial content */
+.testimonial-content {
+    contain: layout style paint;
+    min-height: 350px; /* Reserve space for testimonial text and avatar */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* CRITICAL: CLS Fix - Testimonial text */
+.testimonial-text {
+    contain: layout;
+    min-height: 100px; /* Reserve space for text */
+    margin: 1rem 0;
+}
+
+/* CRITICAL: CLS Fix - Testimonial author */
+.testimonial-author {
+    contain: layout;
+    min-height: 1.5em; /* Reserve space for author name */
+    margin: 0.5rem 0;
+}
+
+/* CRITICAL: CLS Fix - Testimonial rating */
+.testimonial-rating {
+    contain: layout;
+    min-height: 1.2em; /* Reserve space for stars */
+    margin: 0.5rem 0;
 }
 
 /* CRITICAL: CLS Fix - Testimonial avatar */
@@ -787,6 +952,41 @@ section {
     min-width: 80px;
     min-height: 80px;
     aspect-ratio: 1 / 1;
+    /* FIX: Reserve space even when image is loading */
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.05); /* Skeleton background */
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+/* CRITICAL: CLS Fix - Testimonial avatar image */
+.testimonial-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    /* FIX: Prevent layout shift when image loads */
+    aspect-ratio: 1 / 1;
+}
+
+/* CRITICAL: CLS Fix - Testimonial avatar placeholder */
+.testimonial-avatar-placeholder {
+    width: 80px !important;
+    height: 80px !important;
+    min-width: 80px;
+    min-height: 80px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    font-size: 2rem;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.5);
 }
 
     /* Mobile: Category grid - prevent layout shift */
@@ -963,9 +1163,9 @@ section {
 
 /* Footer - prevent layout shift */
 .site-footer {
-    background-color: #3d3d3d;
+    background: linear-gradient(135deg, rgb(37, 37, 39) 0%, rgb(26, 26, 28) 100%) !important; /* Match production: dark gray gradient */
     color: #fff;
-    padding: 40px 0 20px;
+    padding: 60px 0 25px;
     margin-top: 60px;
     min-height: 300px; /* Reserve space */
     contain: layout;
@@ -985,32 +1185,79 @@ section {
 }
 
 .btn-primary {
-    background-color: #ccb7bc;
+    background-color: #d9c2bd; /* Brand pink */
     color: #fff;
 }
 
 .btn-primary:hover {
-    background-color: #b8a3a8;
+    background-color: #c4a8a1; /* Darker brand pink */
     transform: translateY(-2px);
 }
 
 /* btnSeeMore - Critical above the fold */
 .btnSeeMore {
-    background-color: rgba(58, 80, 90, 0.8);
-    color: #fff;
-    padding: 12px 30px;
-    border-radius: 25px;
-    font-weight: 400;
+    background-color: transparent !important; /* CRITICAL: White button with border like production */
+    color: #fff !important;
+    border: 2px solid #fff !important;
+    padding: 10px 20px;
+    border-radius: 0;
+    font-weight: 600;
     text-decoration: none;
     display: inline-block;
     transition: all 0.3s ease;
-    border: 2px solid #fff;
     cursor: pointer;
 }
 
 .btnSeeMore:hover {
-    background-color: rgba(58, 80, 90, 1);
-    transform: translateY(-2px);
+    background-color: rgba(255, 255, 255, 0.2) !important; /* Slight white background on hover */
+    color: #fff !important; /* Keep white text on hover */
+    border: 2px solid #fff !important; /* Keep white border */
+}
+
+/* Service cards - CRITICAL: Override Bootstrap .container for .sessoes.container */
+.sessoes.container,
+#services .sessoes.container,
+#services .d-none.d-sm-block .sessoes.container {
+    /* Override Bootstrap .container styles - CRITICAL: Use !important to override Bootstrap */
+    padding: 0 !important; /* Remove Bootstrap's padding */
+    margin: 0 !important; /* Remove Bootstrap's margin auto */
+    max-width: 960px !important; /* Match production: Bootstrap's .container max-width */
+    float: left !important; /* CRITICAL: Override Bootstrap's block display */
+    width: 50% !important; /* CRITICAL: Override Bootstrap's container width */
+    display: flex !important; /* CRITICAL: Override Bootstrap's block display */
+    align-items: center;
+    justify-content: center;
+    contain: layout style paint;
+    min-height: 300px;
+    aspect-ratio: 5 / 4;
+}
+
+/* Clear floats for service cards container */
+#services .d-none.d-sm-block {
+    overflow: hidden !important; /* Clear floats - matches production behavior */
+    width: 100% !important;
+    display: block !important;
+}
+
+/* Override inline min-width on service card images */
+.sessoes.container .content-image {
+    min-width: 0 !important; /* Override inline min-width: 500px/600px that breaks layout */
+    max-width: 100%; /* Ensure images don't overflow container */
+}
+
+@media screen and (min-width: 900px) {
+    .sessoes.container,
+    #services .sessoes.container,
+    #services .d-none.d-sm-block .sessoes.container {
+        width: 33.33333% !important; /* CRITICAL: Override Bootstrap - 3 per row on desktop */
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .sessoes.container {
+        display: block !important; /* CRITICAL: Override Bootstrap */
+        width: 100% !important; /* CRITICAL: Override Bootstrap */
+    }
 }
 
 /* Content details overlay - above the fold */
@@ -1020,6 +1267,7 @@ section {
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+    opacity: 0 !important; /* CRITICAL: Hide text by default, only show on hover */
     color: #fff;
     z-index: 2;
 }
@@ -1028,7 +1276,23 @@ section {
     font-size: 2.5rem;
     font-weight: 300;
     margin-bottom: 1rem;
+    color: #1a1a1a !important; /* CRITICAL: Dark gray for better readability like production */
     text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Dark mode: white text for titles */
+[data-theme="dark"] .content-details h2 {
+    color: #ffffff !important; /* White text in dark mode */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Stronger shadow in dark mode */
+}
+
+/* Show content-details and overlay on hover */
+.sessoes.container:hover .content-details {
+    opacity: 1 !important;
+}
+
+.sessoes.container:hover .content-overlay {
+    opacity: 1 !important;
 }
 
 .content-overlay {
@@ -1037,9 +1301,10 @@ section {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(49, 38, 91, 0.6); /* Brand dark overlay - only darken a bit on hover */
     z-index: 1;
-    transition: background 0.3s ease;
+    transition: opacity 0.4s ease;
+    opacity: 0; /* Hidden by default */
 }
 
 /* Mobile category items - above the fold */
@@ -1056,7 +1321,7 @@ section {
     margin-top: 10px;
     font-size: 0.9rem;
     font-weight: 600;
-    color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
+    color: var(--color-pink, #d9c2bd); /* Brand pink via CSS variable */
 }
 
 .mobile-vagas-button {
@@ -1066,7 +1331,7 @@ section {
 }
 
 .mobile-vagas-card {
-    background: linear-gradient(135deg, var(--color-pink, #ccb7bc) 0%, var(--color-pink-dark, #b895a0) 100%);
+    background: linear-gradient(135deg, var(--color-pink, #d9c2bd) 0%, var(--color-pink-dark, #c4a8a1) 100%);
     color: #fff;
     padding: 30px;
     border-radius: 12px;
@@ -1097,7 +1362,7 @@ section {
 
 /* Text utilities */
 .textPink {
-    color: var(--color-pink, #ccb7bc); /* Rosa da marca via variável CSS */
+    color: var(--color-pink, #d9c2bd); /* Brand pink via CSS variable */
 }
 
 /* Row/Column layout - prevent shift */
@@ -1214,6 +1479,36 @@ nav[aria-label="breadcrumb"].breadcrumb-nav {
 }
 
 @media (max-width: 768px) {
+    /* CRITICAL: Disable ALL animations on mobile for better performance */
+    /* Force all animated elements to be visible immediately */
+    .fade-in-up,
+    .fade-in-left,
+    .fade-in-right,
+    .scale-in,
+    .fade-in,
+    .stagger-item {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+        animation: none !important;
+        will-change: auto !important;
+        visibility: visible !important;
+    }
+    
+    /* Make sure visible class doesn't trigger animations */
+    .fade-in-up.visible,
+    .fade-in-left.visible,
+    .fade-in-right.visible,
+    .scale-in.visible,
+    .fade-in.visible,
+    .stagger-item.visible {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+        animation: none !important;
+        will-change: auto !important;
+    }
+    
     .breadcrumb-nav {
         /* Keep hidden on mobile too */
         position: absolute !important;

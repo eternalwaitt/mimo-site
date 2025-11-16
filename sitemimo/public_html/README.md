@@ -1,8 +1,10 @@
 # Mimo Site - Codebase Documentation
 
-**Versão Atual**: 2.6.9  
-**Última Atualização**: 2025-11-15
-**Asset Version**: 20251115-7
+**Versão Atual**: 2.6.12  
+**Última Atualização**: 2025-11-16
+**Asset Version**: 20251116-92
+
+> **📖 Documentação Master**: Para documentação completa e atualizada de todas as nuances do projeto, consulte **[PROJECT-MASTER-DOCUMENTATION.md](PROJECT-MASTER-DOCUMENTATION.md)**
 
 ## Overview
 
