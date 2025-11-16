@@ -112,21 +112,41 @@
 .testimonials-section {
 	min-height: 600px; /* Reservar espaço desde o início */
 	contain: layout style paint; /* More aggressive containment to prevent CLS */
+	position: relative;
+	overflow: hidden;
 }
 
-/* FIX: Testimonials container needs min-height for dynamic content */
+/* CRITICAL: CLS Fix - Testimonials carousel container */
 .testimonials-container {
-	min-height: 550px; /* Reserve space for carousel content */
 	contain: layout style paint;
-	position: relative; /* Force layout stability */
-	overflow: hidden; /* Prevent overflow causing shifts */
+	min-height: 500px; /* Reserve space for carousel */
+	position: relative;
 }
 
-/* FIX: Google Reviews carousel - prevent layout shift when loading */
-.testimonials-carousel {
-	contain: layout style paint; /* More aggressive containment */
-	min-height: 550px; /* Reserve space for carousel */
-	position: relative; /* Force layout stability */
+/* CRITICAL: CLS Fix - Testimonials carousel inner */
+.testimonials-carousel,
+.testimonials-carousel .carousel-inner,
+.testimonials-inner {
+	contain: layout style paint;
+	min-height: 500px; /* Reserve space for carousel items */
+	position: relative;
+}
+
+/* CRITICAL: CLS Fix - Testimonial cards */
+.testimonial-card {
+	contain: layout style paint;
+	min-height: 400px; /* Reserve space for testimonial content */
+	position: relative;
+}
+
+/* CRITICAL: CLS Fix - Testimonial avatar (already has dimensions but add containment) */
+.testimonial-avatar {
+	contain: layout style paint;
+	width: 80px !important;
+	height: 80px !important;
+	min-width: 80px;
+	min-height: 80px;
+	aspect-ratio: 1 / 1;
 }
 
 /* FIX: Carousel inner container - prevent layout shift */

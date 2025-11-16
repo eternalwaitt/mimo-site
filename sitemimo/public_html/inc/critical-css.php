@@ -35,6 +35,7 @@ body {
 @font-face {
     font-family: 'Nunito Fallback';
     src: local('Arial');
+    /* CRITICAL: size-adjust prevents layout shift during font swap */
     size-adjust: 100%;
     ascent-override: 90%;
     descent-override: 22%;
@@ -172,12 +173,15 @@ body:not([data-theme="dark"]) .hero-section .hero-overlay {
     }
 }
 
-/* Hero Content */
+/* Hero Content - CRITICAL for FCP */
 .hero-content {
     text-align: center;
     color: #fff;
     z-index: 1;
     position: relative;
+    /* CRITICAL: Reserve space to prevent layout shift */
+    min-height: 100px;
+    contain: layout;
 }
 
 .hero-content h1 {
@@ -185,11 +189,17 @@ body:not([data-theme="dark"]) .hero-section .hero-overlay {
     font-weight: 300;
     margin-bottom: 1rem;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    /* CRITICAL: Reserve space for title */
+    min-height: 1.2em;
+    contain: layout;
 }
 
 .hero-content p {
     font-size: 1.25rem;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    /* CRITICAL: Reserve space for text */
+    min-height: 1.2em;
+    contain: layout;
 }
 
 /* Navigation Menu - Minimal styles only */
@@ -463,16 +473,19 @@ section {
     color: #3a505a;
 }
 
-/* Cards básicos - above the fold */
+/* Cards básicos - above the fold - CRITICAL for FCP */
 .card {
     border: none;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* CRITICAL: Reserve space to prevent layout shift */
+    contain: layout;
+    min-height: 200px;
 }
 
 .card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px) translateZ(0); /* GPU acceleration */
     box-shadow: 0 4px 16px rgba(0,0,0,0.15);
 }
 
@@ -731,25 +744,50 @@ section {
         overflow: hidden;
     }
 
-    /* Mobile: Testimonials section - prevent layout shift */
-    .testimonials-section {
-        contain: layout style paint;
-        min-height: 600px; /* Reserve space for mobile layout */
-        position: relative;
-        overflow: hidden;
-    }
+/* Mobile: Testimonials section - prevent layout shift */
+.testimonials-section {
+    contain: layout style paint;
+    min-height: 600px; /* Reserve space for mobile layout */
+    position: relative;
+    overflow: hidden;
+}
 
-    .testimonials-carousel {
-        contain: layout style paint;
-        min-height: 500px; /* Reserve space for carousel */
-        position: relative;
-    }
+/* CRITICAL: CLS Fix - Testimonials carousel container */
+.testimonials-container {
+    contain: layout style paint;
+    min-height: 500px; /* Reserve space for carousel */
+    position: relative;
+}
 
-    .testimonials-carousel .carousel-inner {
-        contain: layout style paint;
-        min-height: 500px; /* Reserve space for carousel items */
-        position: relative;
-    }
+.testimonials-carousel {
+    contain: layout style paint;
+    min-height: 500px; /* Reserve space for carousel */
+    position: relative;
+}
+
+.testimonials-carousel .carousel-inner,
+.testimonials-inner {
+    contain: layout style paint;
+    min-height: 500px; /* Reserve space for carousel items */
+    position: relative;
+}
+
+/* CRITICAL: CLS Fix - Testimonial cards */
+.testimonial-card {
+    contain: layout style paint;
+    min-height: 400px; /* Reserve space for testimonial content */
+    position: relative;
+}
+
+/* CRITICAL: CLS Fix - Testimonial avatar */
+.testimonial-avatar {
+    contain: layout style paint;
+    width: 80px !important;
+    height: 80px !important;
+    min-width: 80px;
+    min-height: 80px;
+    aspect-ratio: 1 / 1;
+}
 
     /* Mobile: Category grid - prevent layout shift */
     .mobile-categories-container {
