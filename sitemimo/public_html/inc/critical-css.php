@@ -176,6 +176,7 @@ body {
     padding-left: 15px;
     margin-right: auto;
     margin-left: auto;
+    contain: layout style paint; /* Prevent CLS */
 }
 
 /* Loading state - evitar layout shift */

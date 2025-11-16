@@ -3,17 +3,36 @@
  * Estilos globais, layout, navegação, tipografia
  * 
  * Desenvolvido por: Victor Penter
- * Versão: 2.3.6
+ * Versão: 2.6.9
  * 
  * ESTRUTURA DO ARQUIVO:
- * 1. Reset e Base (linhas 9-200)
- * 2. Tipografia e Fontes (linhas 55-200)
- * 3. Navegação e Header (linhas 200-600)
+ * 1. Reset e Base (linhas 28-200)
+ *    - html, body, container
+ *    - Reset de estilos padrão
+ * 2. Tipografia e Fontes (linhas 76-200)
+ *    - @font-face (Akrobat)
+ *    - Classes de tipografia
+ *    - Font display optimization
+ * 3. Navegação e Header (linhas 514-600)
+ *    - .bg-header (hero image - LCP element)
+ *    - .navbar, .logonav
+ *    - Menu mobile/desktop
  * 4. Layout e Grid (linhas 600-900)
+ *    - .container, .row, .col
+ *    - Flex utilities
  * 5. Componentes (linhas 900-1500)
+ *    - Cards, buttons, modals
+ *    - Carousels, testimonials
+ *    - Form elements
  * 6. Páginas Internas (linhas 1500-2000)
+ *    - Service pages styles
+ *    - Page hero
  * 7. Footer (linhas 2000-2300)
+ *    - Footer styles
+ *    - Social links
  * 8. Responsive (linhas 2300-2885)
+ *    - Media queries
+ *    - Mobile optimizations
  * 
  * ONDE É USADO:
  * - Todas as páginas do site (index.php, contato.php, vagas.php, 404.php)
@@ -21,9 +40,100 @@
  * - Carregado via inc/asset-helper.php com suporte a minificação
  * - Cache busting via ASSET_VERSION em config.php
  * 
+ * DEPENDÊNCIAS:
+ * - Bootstrap 4.5.2 (CDN) - Grid system, utilities
+ * - css/modules/_variables.css - Variáveis CSS (design tokens)
+ * 
+ * PERFORMANCE:
+ * - Critical CSS inline via inc/critical-css.php
+ * - Minificação disponível via USE_MINIFIED
+ * - PurgeCSS remove CSS não utilizado
+ * - contain: layout style em containers críticos (previne CLS)
+ * 
+ * OTIMIZAÇÕES CLS:
+ * - .bg-header: aspect-ratio + contain: layout style
+ * - .testimonials-carousel: min-height fixo + contain
+ * - .sessoes.container: aspect-ratio + contain
+ * - Imagens: width/height explícitos via picture_webp()
+ * - #main-content: contain: layout + min-height (CRÍTICO - 93% do CLS)
+ * 
  * NOTA: Variáveis CSS são definidas em css/modules/_variables.css
  * e devem ser carregadas antes deste arquivo.
  */
+
+/* FIX: Prevenir layout shift no main-content (causa 93% do CLS - 0.358 de 0.383) */
+#main-content {
+	contain: layout; /* Previne que mudanças dentro do main afetem layout externo */
+	min-height: 100vh; /* Reservar espaço desde o início */
+	overflow-x: hidden; /* Prevenir scroll horizontal causar shift */
+	/* FIX: Garantir que conteúdo dinâmico não cause shift */
+	position: relative;
+	/* FIX: Garantir que seções principais tenham altura mínima desde o início */
+}
+
+/* FIX: Garantir altura mínima para seções principais dentro do main */
+#main-content > .bg-header,
+#main-content > .hero-section {
+	min-height: 250px; /* Mobile */
+}
+
+@media (min-width: 751px) {
+	#main-content > .bg-header,
+	#main-content > .hero-section {
+		min-height: 400px; /* Desktop */
+	}
+}
+
+/* FIX: Garantir altura mínima para seção about */
+#about {
+	min-height: 500px; /* Reservar espaço desde o início */
+	contain: layout style paint; /* More aggressive containment to prevent CLS */
+}
+
+/* FIX: Garantir altura mínima para seção services */
+#services {
+	min-height: 800px; /* Reservar espaço desde o início */
+	contain: layout style paint; /* More aggressive containment to prevent CLS */
+}
+
+/* FIX: Garantir altura mínima para testimonials section */
+.testimonials-section {
+	min-height: 600px; /* Reservar espaço desde o início */
+	contain: layout style paint; /* More aggressive containment to prevent CLS */
+}
+
+/* FIX: Testimonials container needs min-height for dynamic content */
+.testimonials-container {
+	min-height: 550px; /* Reserve space for carousel content */
+	contain: layout style paint;
+}
+
+/* FIX: All sections should have containment to prevent CLS */
+section,
+.page-section {
+	contain: layout style paint;
+	position: relative;
+}
+
+/* FIX: Testimonials carousel items need min-height */
+.testimonials-carousel .carousel-item {
+	min-height: 400px; /* Reserve space for testimonial content */
+	contain: layout style paint;
+}
+
+/* FIX: Service cards need min-height */
+.service-card,
+.sessoes.container .content {
+	min-height: 300px;
+	contain: layout style paint;
+}
+
+/* FIX: Category items need min-height */
+.mobile-category-item,
+.category-item {
+	min-height: 200px;
+	contain: layout style paint;
+}
 
 html {
 
@@ -86,6 +196,9 @@ button.navbar-toggler {
 	line-gap-override: 0%;
 	/* Preload hint para melhor performance */
 	unicode-range: U+0020-007F, U+00A0-00FF, U+0100-017F;
+	/* FIX: Adicionar font-feature-settings para prevenir reflow */
+	font-feature-settings: normal;
+	font-variant: normal;
 }
 
 
@@ -93,6 +206,13 @@ button.navbar-toggler {
 .Akrobat {
 	font-family: 'Akrobat Regular', 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 	/* Fallback para prevenir layout shift quando fonte carrega */
+	/* FIX: Garantir que fallback tenha métricas similares */
+	font-size: inherit;
+	line-height: inherit;
+	/* Prevenir reflow durante carregamento de fonte */
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 
@@ -413,7 +533,10 @@ li p {
 
 	transition: all .3s;
 
-	z-index: 9999
+	z-index: 9999;
+	/* FIX: Prevenir layout shift na navbar (causa pequeno CLS ~0.0005) */
+	contain: layout;
+	min-height: 70px; /* Altura mínima para prevenir shift */
 
 }
 
@@ -511,8 +634,51 @@ nav.footer-nav-vertical {
 
 
 
-.bg-header {
+/* FIX: Hero section agora usa <img> tag em vez de background-image para melhor LCP */
+.hero-section {
+	min-height: 350px;
+	max-height: 500px;
+	width: 100%;
+	display: block;
+	position: relative;
+	/* CLS Fix: Prevenir layout shift - LCP element */
+	contain: layout;
+	aspect-ratio: 16 / 9; /* Proporção padrão hero images - define altura automaticamente */
+	/* FIX: Garantir espaço reservado mesmo antes da imagem carregar */
+	background-color: #3d3d3d;
+	overflow: hidden;
+}
 
+.hero-section picture {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 0;
+}
+
+.hero-section picture img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+	display: block;
+}
+
+.hero-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(61, 61, 61, 0.3);
+	z-index: 1;
+	pointer-events: none;
+}
+
+/* Mantido para compatibilidade com outras páginas que ainda usam .bg-header */
+.bg-header {
 	/* Desktop: usar AVIF/WebP com fallback JPG */
 	background-image: url(/img/bgheader.avif);
 	background-image: -webkit-image-set(
@@ -525,25 +691,17 @@ nav.footer-nav-vertical {
 		url(/img/bgheader.webp) type("image/webp"),
 		url(/img/bgheader.jpg) type("image/jpeg")
 	);
-
 	background-size: cover;
-
 	background-repeat: no-repeat;
-
-	height: 50vh;
-
 	min-height: 350px;
-
 	max-height: 500px;
-
 	background-position: center;
-
 	width: 100%;
-
 	display: block;
-
 	position: relative;
-
+	contain: layout;
+	aspect-ratio: 16 / 9;
+	background-color: #3d3d3d;
 }
 
 
@@ -836,7 +994,8 @@ nav.footer-nav-vertical {
 
 .sessoes.container {
 
-	height: 300px;
+	/* CRITICAL: Remover height quando aspect-ratio está presente para evitar conflito CSS */
+	/* height: 300px; - REMOVIDO: conflito com aspect-ratio causa layout shift */
 
 	padding: 0;
 
@@ -849,9 +1008,10 @@ nav.footer-nav-vertical {
 	align-items: center;
 
 	justify-content: center;
-	/* Prevent layout shift */
-	contain: layout;
+	/* CLS Fix: Prevent layout shift */
+	contain: layout style paint; /* More aggressive containment */
 	min-height: 300px;
+	aspect-ratio: 5 / 4; /* Proporção padrão imagens de serviço - define altura automaticamente */
 
 }
 
@@ -914,8 +1074,8 @@ nav.footer-nav-vertical {
 	height: 100%;
 
 	display: block;
-	/* Prevent layout shift */
-	contain: layout;
+	/* CLS Fix: Prevent layout shift */
+	contain: layout style paint; /* More aggressive containment */
 	min-height: 300px;
 
 }
@@ -1024,7 +1184,7 @@ nav.footer-nav-vertical {
 
 /* CRITICAL: CLS Fix - About section col-md-7 (causes 93% of layout shift) */
 #about .col-md-7 {
-	contain: layout style;
+	contain: layout; /* Removido 'style' - pode estar causando reflow */
 	min-height: 400px; /* Reserve space for text content */
 	font-size: inherit;
 	line-height: inherit;
@@ -1038,7 +1198,25 @@ nav.footer-nav-vertical {
 
 #about .container.row.mx-auto {
 	min-height: 600px; /* Reserve space for content */
-	contain: layout;
+	contain: layout; /* Removido 'style' - pode estar causando reflow */
+}
+
+/* CLS Fix: Florzinha container (imagem lado esquerdo) */
+#florzinha {
+	contain: layout; /* Removido 'style' - pode estar causando reflow */
+	min-height: 400px; /* Reservar espaço para imagem */
+}
+
+/* CLS Fix: Containers de serviço na homepage */
+.mobile-categories-container,
+.mobile-categories-grid {
+	contain: layout; /* Removido 'style' - pode estar causando reflow */
+	min-height: 300px; /* Reservar espaço para grid mobile */
+}
+
+.mobile-category-item {
+	contain: layout style paint; /* More aggressive containment */
+	min-height: 200px; /* Reservar espaço para item */
 }
 
 /* Disable animations on mobile for better performance */
@@ -1680,11 +1858,20 @@ textarea {
 			url(/img/header_dezembro_mobile.png) type("image/png")
 		);
 		background-position: center;
-		height: 40vh;
+		/* CRITICAL: Remover height quando aspect-ratio está presente para evitar conflito CSS */
+		/* height: 40vh; - REMOVIDO: usar apenas aspect-ratio + min-height */
 		min-height: 250px;
 		max-height: 350px;
 		background-size: cover;
 		background-repeat: no-repeat;
+		/* Adicionar aspect-ratio para mobile também */
+		aspect-ratio: 16 / 9;
+		contain: layout; /* Removido 'style' - pode estar causando reflow */
+		/* FIX: Garantir espaço reservado mesmo antes da imagem carregar */
+		background-color: #3d3d3d;
+		/* FIX: Otimizar carregamento de background-image */
+		will-change: background-image;
+		transform: translateZ(0); /* Force GPU acceleration */
 	}
 
 	.navbar {
@@ -2102,6 +2289,9 @@ body nav.breadcrumb-nav ol {
 	margin: 50px auto 0;
 	padding: 0 60px 20px 60px; /* Reduzido padding-bottom para 20px já que botão está fora */
 	position: relative;
+	/* CLS Fix: Prevent layout shift */
+	contain: layout style paint; /* More aggressive containment */
+	min-height: 550px; /* Reserve space for carousel */
 }
 
 .testimonials-inner {
@@ -2113,8 +2303,10 @@ body nav.breadcrumb-nav ol {
 	box-sizing: border-box; /* Inclui padding no cálculo da altura */
 	overflow: hidden; /* Evita que elementos saiam do container durante transição */
 	will-change: transform;
-	/* Prevent layout shift */
-	contain: layout;
+	/* CLS Fix: Prevent layout shift */
+	contain: layout; /* Removido 'style' - pode estar causando reflow */
+	/* FIX: Garantir espaço reservado mesmo antes dos reviews carregarem */
+	background-color: var(--color-bg-secondary, #fafafa);
 }
 
 .testimonial-card {
@@ -2141,6 +2333,10 @@ body nav.breadcrumb-nav ol {
 	-webkit-transform: translateZ(0);
 	transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
 	z-index: 0; /* Base z-index */
+	/* CLS Fix: Prevent layout shift */
+	contain: layout; /* Removido 'style' - pode estar causando reflow */
+	/* FIX: Garantir que conteúdo não cause layout shift */
+	overflow: hidden;
 }
 
 .testimonial-card.active {
@@ -2149,6 +2345,9 @@ body nav.breadcrumb-nav ol {
 	visibility: visible !important; /* Tornar visível quando ativo */
 	pointer-events: auto !important;
 	z-index: 1 !important; /* Apenas z-index muda */
+	/* FIX: Garantir que active card não cause layout shift */
+	transform: translateZ(0);
+	-webkit-transform: translateZ(0);
 }
 
 .testimonial-content {
@@ -2867,6 +3066,7 @@ nav.footer-nav-vertical .footer-link,
 	text-align: center;
 	position: relative;
 	margin-top: 70px;
+	contain: layout style paint; /* Prevent CLS */
 }
 
 .page-hero h1 {
@@ -2884,12 +3084,15 @@ nav.footer-nav-vertical .footer-link,
 
 /* Cards Padrão (Info Cards, Vaga Cards, etc) */
 .info-card,
+/* CLS Fix: Vaga cards - prevenir layout shift */
 .vaga-card {
 	background: var(--color-bg-secondary); /* Usa variável CSS */
 	border-radius: 15px;
 	padding: 30px;
 	margin-bottom: 30px;
 	box-shadow: 0 4px 20px rgba(58, 80, 90, 0.15);
+	contain: layout style paint; /* More aggressive containment */
+	min-height: 300px; /* Reservar espaço para conteúdo */
 	border: 1px solid rgba(204, 183, 188, 0.3);
 	transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -2925,11 +3128,21 @@ nav.footer-nav-vertical .footer-link,
 }
 
 .info-card p,
+/* CLS Fix: Vaga info containers */
+.vaga-info,
+.vaga-requirements,
+.vaga-description {
+	contain: layout style paint; /* More aggressive containment */
+	min-height: 50px; /* Reservar espaço mínimo */
+}
+
 .vaga-info-item {
 	color: #2a3a42 !important;
 	margin-bottom: 12px;
 	font-size: 1rem;
 	line-height: 1.7;
+	contain: layout;
+	min-height: 1.5em; /* Reservar espaço para texto */
 }
 
 .info-card p strong {

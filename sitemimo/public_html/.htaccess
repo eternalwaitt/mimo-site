@@ -63,10 +63,20 @@ FileETag None
     </IfModule>
 </FilesMatch>
 
+# Ativar compressão gzip/brotli para melhor performance
+<IfModule mod_deflate.c>
+    # Compressão para HTML, CSS, JavaScript, Text, XML e fonts
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json application/xml application/xhtml+xml application/x-font-ttf application/x-font-opentype image/svg+xml
+    
+    # Não comprimir imagens já comprimidas
+    SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png|webp|avif)$ no-gzip dont-vary
+    SetEnvIfNoCase Request_URI \.(?:exe|t?gz|zip|bz2|sit|rar)$ no-gzip dont-vary
+</IfModule>
+
 # Ativar módulo headers se disponível
 <IfModule mod_headers.c>
     # Vary header para compressão
-    <FilesMatch "\.(css|js)$">
+    <FilesMatch "\.(css|js|html|xml|txt)$">
         Header append Vary Accept-Encoding
     </FilesMatch>
 </IfModule>

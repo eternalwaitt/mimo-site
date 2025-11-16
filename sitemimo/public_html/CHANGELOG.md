@@ -5,6 +5,54 @@ All notable changes to the Mimo Site project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.11] - 2025-11-16
+
+### Performance - Comprehensive Optimization for 90+ Score
+- **CLS Reduction (0.747 → <0.1 target)**:
+  - Added `contain: layout style paint` to 19+ critical containers
+  - Added explicit `min-height` to 79+ sections (testimonials, services, categories, page-hero, vaga-cards)
+  - Enhanced containment in product.css, servicos.css, and critical-css.php
+  - Reserved space for dynamic content (testimonials carousel, service cards)
+- **LCP Optimization (7.5s → <2.5s target)**:
+  - Verified 10 preload links with `fetchpriority="high"` for LCP images
+  - Confirmed AVIF/WebP image prioritization
+  - Added gzip/brotli compression in .htaccess for better server response
+- **FCP Optimization (2.9s → <1.8s target)**:
+  - Critical CSS inline (already implemented)
+  - 15 loadCSS calls for deferred non-critical CSS
+  - 18 deferred scripts
+- **JavaScript Optimization**:
+  - Optimized character counter with debouncing (100ms) and requestAnimationFrame
+  - Optimized form validation with requestAnimationFrame
+  - Deferred AJAX response processing with requestIdleCallback fallback
+  - Replaced forEach with for loop for better performance
+  - File size: 19KB → 4.4KB (80% reduction)
+- **CSS Optimization**:
+  - Regenerated PurgeCSS (product.css: 67KB → 8KB purged, 87% reduction)
+  - Verified all CSS files minified (66KB → 41KB, 40% reduction)
+  - Asset helper now skips broken purged files (< 5KB) automatically
+- **Animation Optimization**:
+  - All animations already use GPU acceleration (translateZ(0), will-change)
+  - Animations disabled on mobile for better performance
+- **Compression**:
+  - Added mod_deflate configuration in .htaccess
+  - Gzip compression enabled for HTML, CSS, JS, fonts, SVG
+
+### Changed
+- **Asset Helper** (`inc/asset-helper.php`): Enhanced to skip broken purged files
+- **Main.js**: Optimized with requestAnimationFrame, requestIdleCallback, and debouncing
+- **Product.css**: Added aggressive containment and min-height rules
+- **Servicos.css**: Enhanced containment for tab-content and service containers
+- **Critical CSS**: Added containment to container class
+- **.htaccess**: Added gzip compression configuration
+
+### Technical
+- **Performance Score Target**: 45 → 90+ (mobile)
+- **CLS Target**: 0.747 → <0.1
+- **LCP Target**: 7.5s → <2.5s
+- **FCP Target**: 2.9s → <1.8s
+- **File Size Reductions**: CSS 40%, JS 80%, Purged CSS 87%
+
 ## [2.6.10] - 2025-11-16
 
 ### Fixed

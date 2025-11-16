@@ -4,6 +4,8 @@
  * 
  * Desenvolvido por: Victor Penter
  * Versão: 2.0.0
+ * 
+ * CLS Fixes: Adicionados contain: layout style e min-height em containers críticos
  */
 
 /***********************************
@@ -717,14 +719,38 @@
 ***********************************/
 
 /* Service content layout - responsive alternative to inline margin-left: 240px */
+/* CLS Fix: Prevenir layout shift em containers de serviço */
 .service-content {
     margin-left: 240px;
+    contain: layout style; /* Prevenir layout shift */
+    min-height: 200px; /* Reservar espaço mínimo */
 }
 
 @media only screen and (max-width: 768px) {
     .service-content {
         margin-left: 0;
     }
+}
+
+/* CLS Fix: Tab content containers */
+.tab-content,
+.tab-pane {
+    contain: layout style paint; /* More aggressive containment */
+    min-height: 300px; /* Reservar espaço mínimo */
+}
+
+/* CLS Fix: Service page containers com float */
+.col-md-8.service-content,
+.col-md-4[style*="float"] {
+    contain: layout style paint; /* More aggressive containment */
+    min-height: 200px;
+}
+
+/* CLS Fix: Containers de conteúdo em páginas de serviço */
+.col-md-12.container.my-5,
+.col-md-12.container.m-auto {
+    contain: layout style paint; /* More aggressive containment */
+    min-height: 150px;
 }
 
 /***********************************
