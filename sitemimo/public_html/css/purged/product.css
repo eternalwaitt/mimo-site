@@ -62,6 +62,7 @@
  */
 
 /* FIX: Prevenir layout shift no main-content (causa 93% do CLS - 0.358 de 0.383) */
+/* CRITICAL: Desktop CLS fix - main-content causing 0.501 shift */
 
 /* FIX: Garantir altura mínima para seções principais dentro do main */
 /* FIX: Add padding-top to compensate for fixed navbar - but only on main-content, not body */
@@ -119,9 +120,9 @@
 
 /* FIX: Hero section agora usa <img> tag em vez de background-image para melhor LCP */
 
-/* Light mode: darker background for better text contrast */
+/* Light mode: transparent background to allow vivid image */
 
-/* Light mode: lighter overlay to prevent washed out look - match production */
+/* Light mode: remove overlay completely for vivid image - use text-shadow on text instead */
 
 /* Mantido para compatibilidade com outras páginas que ainda usam .bg-header */
 
@@ -148,8 +149,21 @@
 }
 
 /* CRITICAL: CLS Fix - About section col-md-7 (causes 93% of layout shift) */
+/* FIX: Make text column wider horizontally to reduce vertical length */
+
+/* FIX: Make image column narrower to give more space to text */
+
+/* CRITICAL: Desktop CLS fix - h1 in about section causing 0.501 shift */
+/* FIX: Better proportions - reduce title size, increase text size */
+
+/* FIX: Better proportions - increase intro text size significantly */
+
+/* FIX: Better proportions for tagline */
 
 /* CLS Fix: Florzinha container (imagem lado esquerdo) */
+/* FIX: Better proportions - constrain logo image size */
+
+/* FIX: Better proportions - limit logo image size */
 
 /* CLS Fix: Containers de serviço na homepage */
 
@@ -232,6 +246,26 @@
 @media (max-width: 750px) {
 	
 	/* Compensate for fixed navbar on mobile */
+
+	/* CRITICAL: Mobile CLS fixes - aggressive containment for mobile-specific containers */
+
+	/* Mobile: Hero section - prevent layout shift */
+
+	/* Mobile: About section - prevent layout shift */
+
+	/* Mobile: About section columns - prevent font reflow */
+
+	/* Mobile: About section h1 - prevent font reflow */
+
+	/* Mobile: About section text - prevent font reflow */
+
+	/* Mobile: Services section - prevent layout shift */
+
+	/* Mobile: Testimonials section - prevent layout shift */
+
+	/* Mobile: Category grid - prevent layout shift */
+
+	/* Mobile: Florzinha (logo image) - prevent layout shift */
 
 }
 

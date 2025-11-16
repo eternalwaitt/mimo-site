@@ -1,14 +1,37 @@
 # Mimo Site - Codebase Documentation
 
-**Versão Atual**: 2.6.7  
-**Última Atualização**: 2025-11-15  
-**Asset Version**: 20251115-5
+**Versão Atual**: 2.6.9  
+**Última Atualização**: 2025-11-15
+**Asset Version**: 20251115-7
 
 ## Overview
 
 Mimo Site is a PHP-based website for a beauty and aesthetics center. The site features a homepage with contact form, service pages for different treatment categories, and a responsive design using Bootstrap 4.
 
-### Latest Updates (v2.6.7)
+### Latest Updates (v2.6.9)
+
+**Performance - CLS Reductions (2025-11-15)**
+- Adicionado `contain: layout style` e `min-height` em containers críticos para reduzir CLS
+- Containers de serviço, vagas, homepage e seção about otimizados
+- Re-executado PurgeCSS e minificação de assets
+- **Meta**: Reduzir CLS para <0.1 e melhorar Performance Score para 90+
+
+### Latest Updates (v2.6.8)
+
+- ✅ **Migração Font Awesome → Lucide Icons**:
+  - Helper function criado: `inc/icon-helper.php` com `lucide_icon()`
+  - Todos os ícones Font Awesome substituídos por Lucide (30 ícones únicos)
+  - Font Awesome CSS removido de todas as páginas (~70 KiB economia)
+  - Lucide inicializado em todas as páginas principais
+  - Economia: ~70 KiB CSS + 1 requisição HTTP a menos
+- ✅ **Otimizações de Performance**:
+  - PurgeCSS re-executado (removido Font Awesome do safelist)
+  - CSS e JS minificados
+  - Dark mode toggle com `contain: layout style` para prevenir CLS
+  - Script de teste automatizado: `build/pagespeed-test-all.sh`
+  - Checklist de testes: `TESTING-CHECKLIST.md`
+
+### Previous Updates (v2.6.7)
 
 - ✅ **Performance 90+ Optimization**:
   - Bootstrap Custom Build: Apenas Carousel e Tab (economia: 37 KiB, de 49 KiB para 12 KiB)
@@ -494,12 +517,36 @@ This project uses [Semantic Versioning](https://semver.org/) (MAJOR.MINOR.PATCH)
 
 ## Additional Documentation
 
-- **AI Development Guide**: See `AI-DEVELOPMENT-GUIDE.md` - **MASTER DOCUMENTATION** for IAs and developers (start here!)
-- **Changelog**: See `CHANGELOG.md` for version history and changes
-- **Versioning Guide**: See `VERSIONING.md` for versioning system documentation
-- **Future Improvements**: See `IMPROVEMENTS.md` for comprehensive roadmap of enhancements, optimizations, and modern additions
-- **SEO Optimization**: See `SEO-OPTIMIZATION.md` for complete SEO documentation and best practices
-- **Build Scripts**: See `build/README.md` for build script documentation
+### 🎯 Documentação Principal (Comece Aqui)
+- **[ARCHITECTURE.md](ARCHITECTURE.md)** ⭐ **MASTER DOCUMENTATION** - Arquitetura completa do sistema
+- **[DOCUMENTATION-INDEX.md](DOCUMENTATION-INDEX.md)** - Índice completo de toda documentação
+- **[AI-DEVELOPMENT-GUIDE.md](AI-DEVELOPMENT-GUIDE.md)** - Guia específico para desenvolvimento com IA
+- **[DOCUMENTATION-SUMMARY.md](DOCUMENTATION-SUMMARY.md)** - Resumo da documentação criada/melhorada
+
+### 📊 Performance e Otimização
+- **[PERFORMANCE-FIX-PLAN.md](PERFORMANCE-FIX-PLAN.md)** - Plano de ação para performance 90+
+- **[PERFORMANCE-PROGRESS.md](PERFORMANCE-PROGRESS.md)** - Progresso das otimizações
+- **[PERFORMANCE-PHASE1-RESULTS.md](PERFORMANCE-PHASE1-RESULTS.md)** - Resultados da FASE 1
+- **[CSS-FRAMEWORKS-INSIGHTS.md](CSS-FRAMEWORKS-INSIGHTS.md)** - Análise de frameworks CSS
+- **[STATIC-ANALYSIS-INSIGHTS.md](STATIC-ANALYSIS-INSIGHTS.md)** - Insights de análise estática
+
+### 📝 Histórico e Versionamento
+- **[CHANGELOG.md](CHANGELOG.md)** - Histórico completo de versões e mudanças
+- **[VERSIONING.md](VERSIONING.md)** - Sistema de versionamento (Semantic Versioning)
+
+### 🚀 Melhorias e Roadmap
+- **[IMPROVEMENTS.md](IMPROVEMENTS.md)** - Roadmap completo de melhorias futuras
+- **[ROADMAP.md](ROADMAP.md)** - Roadmap geral do projeto
+- **[PROXIMOS-PASSOS.md](PROXIMOS-PASSOS.md)** - Próximos passos imediatos
+
+### 🔍 Análises e Auditorias
+- **[FRAMEWORK-CSS-ANALYSIS.md](FRAMEWORK-CSS-ANALYSIS.md)** - Análise comparativa de frameworks CSS
+- **[CODE-AUDIT.md](CODE-AUDIT.md)** - Auditoria de código
+- **[SEO-OPTIMIZATION.md](SEO-OPTIMIZATION.md)** - Documentação completa de SEO
+
+### 🛠️ Ferramentas e Setup
+- **[LINTING.md](LINTING.md)** - Guia de linting (PHP, JS, CSS)
+- **[build/README.md](build/README.md)** - Documentação dos scripts de build
 
 ## Support
 

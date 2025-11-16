@@ -16,6 +16,9 @@
     transform: translateY(30px) translateZ(0); /* Force GPU acceleration */
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
     will-change: opacity, transform; /* Otimizar para composição GPU */
+    /* FIX: Garantir espaço reservado para prevenir layout shift */
+    min-height: 1px; /* Reserve space even when invisible */
+    contain: layout; /* Prevent layout shift */
 }
 
 .fade-in-up.visible {
@@ -40,6 +43,9 @@
     transform: translateX(-30px) translateZ(0); /* Force GPU acceleration */
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
     will-change: opacity, transform;
+    /* FIX: Garantir espaço reservado para prevenir layout shift */
+    min-height: 1px; /* Reserve space even when invisible */
+    contain: layout; /* Prevent layout shift */
 }
 
 /* Mobile: Force visible immediately (no animation) */
@@ -64,6 +70,9 @@
     transform: translateX(30px) translateZ(0); /* Force GPU acceleration */
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
     will-change: opacity, transform;
+    /* FIX: Garantir espaço reservado para prevenir layout shift */
+    min-height: 1px; /* Reserve space even when invisible */
+    contain: layout; /* Prevent layout shift */
 }
 
 /* Mobile: Force visible immediately (no animation) */
@@ -88,6 +97,9 @@
     transform: scale(0.9) translateZ(0); /* Force GPU acceleration */
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
     will-change: opacity, transform;
+    /* FIX: Garantir espaço reservado para prevenir layout shift */
+    min-height: 1px; /* Reserve space even when invisible */
+    contain: layout; /* Prevent layout shift */
 }
 
 .scale-in.visible {

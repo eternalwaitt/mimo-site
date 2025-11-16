@@ -25,6 +25,9 @@ require_once 'inc/security-headers.php';
 // Funções auxiliares de imagem para suporte WebP
 require_once 'inc/image-helper.php';
 
+// Helper de ícones Lucide
+require_once 'inc/icon-helper.php';
+
 // Helper de SEO
 require_once 'inc/seo-helper.php';
 
@@ -201,9 +204,8 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
     <script>loadCSS("bootstrap/bootstrap/dist/css/bootstrap.min.css?<?php echo ASSET_VERSION; ?>");</script>
     <noscript><link rel="stylesheet" href="bootstrap/bootstrap/dist/css/bootstrap.min.css?<?php echo ASSET_VERSION; ?>"></noscript>
 
-    <!-- Font Awesome - Defer -->
-    <script>loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css");</script>
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer"></noscript>
+    <!-- Lucide Icons - Lightweight replacement for Font Awesome -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.1/dist/umd/lucide.js"></script>
 
     <!-- Google Fonts - Defer -->
     <script>loadCSS("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap");</script>
@@ -277,40 +279,7 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
         height: 42px !important;
     }
     
-    .site-footer .footer-social-link i.fab {
-        font-family: "Font Awesome 6 Brands" !important;
-        font-weight: 400 !important;
-        font-size: 18px !important;
-        display: inline-block !important;
-        line-height: 1 !important;
-        width: auto !important;
-        height: auto !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        -webkit-font-smoothing: antialiased !important;
-        -moz-osx-font-smoothing: grayscale !important;
-    }
-    
-    .site-footer .footer-social-link i.fa-instagram::before {
-        content: "\f16d" !important;
-        font-family: "Font Awesome 6 Brands" !important;
-        font-weight: 400 !important;
-        display: inline-block !important;
-    }
-    
-    .site-footer .footer-social-link i.fa-facebook-f::before {
-        content: "\f39e" !important;
-        font-family: "Font Awesome 6 Brands" !important;
-        font-weight: 400 !important;
-        display: inline-block !important;
-    }
-    
-    .site-footer .footer-social-link i.fa-whatsapp::before {
-        content: "\f232" !important;
-        font-family: "Font Awesome 6 Brands" !important;
-        font-weight: 400 !important;
-        display: inline-block !important;
-    }
+    /* Footer social links já usam SVG inline - sem necessidade de Font Awesome */
     </style>
     <link rel="stylesheet" href="form/main.css?<?php echo ASSET_VERSION; ?>">
 
@@ -339,24 +308,24 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
                 <!-- Informações de Contato -->
                 <div class="col-lg-5 mb-4">
                     <div class="info-card">
-                        <h3><i class="fas fa-map-marker-alt"></i> Endereço</h3>
+                        <h3><?php echo lucide_icon('map-pin', 'mr-2', 20); ?> Endereço</h3>
                         <p><strong>Rua Heitor Penteado, 626</strong></p>
                         <p>(Próximo ao metrô Vila Madalena e Sumaré)</p>
                         <p>SÃO PAULO - SP</p>
                         <div class="action-buttons">
                             <a href="<?php echo $googleMapsUrl; ?>" target="_blank" class="action-btn action-btn-primary">
-                                <i class="fas fa-route"></i> Como chegar
+                                <?php echo lucide_icon('route', 'mr-2', 18); ?> Como chegar
                             </a>
                         </div>
                     </div>
 
                     <div class="info-card">
-                        <h3><i class="fas fa-phone"></i> Telefone</h3>
+                        <h3><?php echo lucide_icon('phone', 'mr-2', 20); ?> Telefone</h3>
                         <p><strong>(11) 3062-8295</strong></p>
                         <p>(11) 99478-1012 (Somente WhatsApp)</p>
                         <div class="action-buttons">
                             <a href="tel:+551130628295" class="action-btn action-btn-secondary">
-                                <i class="fas fa-phone"></i> Ligar
+                                <?php echo lucide_icon('phone', 'mr-2', 18); ?> Ligar
                             </a>
                             <a href="https://api.whatsapp.com/send?1=pt_BR&phone=5511994781012" target="_blank" class="action-btn action-btn-primary">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="margin-right: 6px; vertical-align: middle;">
@@ -367,7 +336,7 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
                     </div>
 
                     <div class="info-card">
-                        <h3><i class="fas fa-clock"></i> Horário de Funcionamento</h3>
+                        <h3><?php echo lucide_icon('clock', 'mr-2', 20); ?> Horário de Funcionamento</h3>
                         <p><strong>Terça-Feira à Sábado</strong></p>
                         <p>08h30 às 22h</p>
                         <?php
@@ -388,12 +357,12 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
                         }
                         ?>
                         <span class="horario-status <?php echo $isOpen ? 'aberto' : 'fechado'; ?>">
-                            <i class="fas fa-circle"></i> <?php echo $isOpen ? 'Aberto agora' : 'Fechado agora'; ?>
+                            <?php echo lucide_icon('circle', 'mr-2', 12); ?> <?php echo $isOpen ? 'Aberto agora' : 'Fechado agora'; ?>
                         </span>
                     </div>
 
                     <div class="info-card">
-                        <h3><i class="fas fa-share-alt"></i> Redes Sociais</h3>
+                        <h3><?php echo lucide_icon('share-2', 'mr-2', 20); ?> Redes Sociais</h3>
                         <div class="action-buttons">
                             <a href="https://www.instagram.com/minhamimo/" target="_blank" class="action-btn action-btn-secondary">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
@@ -423,7 +392,7 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
 
                     <!-- Formulário -->
                     <div class="info-card">
-                        <h3><i class="fas fa-envelope"></i> Envie sua Mensagem</h3>
+                        <h3><?php echo lucide_icon('mail', 'mr-2', 20); ?> Envie sua Mensagem</h3>
                         
                         <?php if ($form_submitted && isset($is_mail_sent) && $is_mail_sent) { ?>
                             <div class="alert alert-success" role="alert">
@@ -713,6 +682,22 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
             text-align: center !important;
         }
     </style>
+
+    <!-- Inicializar Lucide Icons -->
+    <script>
+        // Inicializar Lucide Icons após DOM ready
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", function() {
+                if (typeof lucide !== "undefined") {
+                    lucide.createIcons();
+                }
+            });
+        } else {
+            if (typeof lucide !== "undefined") {
+                lucide.createIcons();
+            }
+        }
+    </script>
 
 </body>
 

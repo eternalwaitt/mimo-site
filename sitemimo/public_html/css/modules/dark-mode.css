@@ -22,6 +22,7 @@
     height: auto;
     vertical-align: middle;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    contain: layout style; /* Prevenir layout shift quando toggle é inserido dinamicamente */
 }
 
 /* Ajuste para o nav-item que contém o toggle */

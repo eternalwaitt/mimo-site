@@ -66,8 +66,8 @@ http_response_code(404);
     <!-- Bootstrap -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <!-- Lucide Icons - Lightweight replacement for Font Awesome -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.1/dist/umd/lucide.js"></script>
     
     <!-- CSS Variables (deve vir antes de product.css) -->
     <link rel="stylesheet" href="<?php echo get_css_asset('css/modules/_variables.css'); ?>">
@@ -88,40 +88,7 @@ http_response_code(404);
         height: 42px !important;
     }
     
-    .site-footer .footer-social-link i.fab {
-        font-family: "Font Awesome 6 Brands" !important;
-        font-weight: 400 !important;
-        font-size: 18px !important;
-        display: inline-block !important;
-        line-height: 1 !important;
-        width: auto !important;
-        height: auto !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        -webkit-font-smoothing: antialiased !important;
-        -moz-osx-font-smoothing: grayscale !important;
-    }
-    
-    .site-footer .footer-social-link i.fa-instagram::before {
-        content: "\f16d" !important;
-        font-family: "Font Awesome 6 Brands" !important;
-        font-weight: 400 !important;
-        display: inline-block !important;
-    }
-    
-    .site-footer .footer-social-link i.fa-facebook-f::before {
-        content: "\f39e" !important;
-        font-family: "Font Awesome 6 Brands" !important;
-        font-weight: 400 !important;
-        display: inline-block !important;
-    }
-    
-    .site-footer .footer-social-link i.fa-whatsapp::before {
-        content: "\f232" !important;
-        font-family: "Font Awesome 6 Brands" !important;
-        font-weight: 400 !important;
-        display: inline-block !important;
-    }
+    /* Footer social links já usam SVG inline - sem necessidade de Font Awesome */
     </style>
     
     <style>
@@ -288,7 +255,7 @@ http_response_code(404);
                     <div class="col-6 col-md-4 col-lg-3 mb-3">
                         <a href="/esmalteria/" class="service-card-404">
                             <div class="service-icon-404">
-                                <i class="fas fa-hand-sparkles"></i>
+                                <?php echo lucide_icon('sparkles', 'mr-2', 24); ?>
                             </div>
                             <h4>Esmalteria</h4>
                         </a>
@@ -296,7 +263,7 @@ http_response_code(404);
                     <div class="col-6 col-md-4 col-lg-3 mb-3">
                         <a href="/cilios/" class="service-card-404">
                             <div class="service-icon-404">
-                                <i class="fas fa-eye"></i>
+                                <?php echo lucide_icon('eye', 'mr-2', 24); ?>
                             </div>
                             <h4>Cílios e Design</h4>
                         </a>
@@ -304,7 +271,7 @@ http_response_code(404);
                     <div class="col-6 col-md-4 col-lg-3 mb-3">
                         <a href="/estetica/" class="service-card-404">
                             <div class="service-icon-404">
-                                <i class="fas fa-spa"></i>
+                                <?php echo lucide_icon('sparkles', 'mr-2', 24); ?>
                             </div>
                             <h4>Estética Corporal</h4>
                         </a>
@@ -312,7 +279,7 @@ http_response_code(404);
                     <div class="col-6 col-md-4 col-lg-3 mb-3">
                         <a href="/esteticafacial/" class="service-card-404">
                             <div class="service-icon-404">
-                                <i class="fas fa-smile"></i>
+                                <?php echo lucide_icon('smile', 'mr-2', 24); ?>
                             </div>
                             <h4>Estética Facial</h4>
                         </a>
@@ -320,7 +287,7 @@ http_response_code(404);
                     <div class="col-6 col-md-4 col-lg-3 mb-3">
                         <a href="/micropigmentacao/" class="service-card-404">
                             <div class="service-icon-404">
-                                <i class="fas fa-palette"></i>
+                                <?php echo lucide_icon('palette', 'mr-2', 24); ?>
                             </div>
                             <h4>Micropigmentação</h4>
                         </a>
@@ -328,7 +295,7 @@ http_response_code(404);
                     <div class="col-6 col-md-4 col-lg-3 mb-3">
                         <a href="/salao/" class="service-card-404">
                             <div class="service-icon-404">
-                                <i class="fas fa-cut"></i>
+                                <?php echo lucide_icon('scissors', 'mr-2', 24); ?>
                             </div>
                             <h4>Salão</h4>
                         </a>
@@ -508,6 +475,22 @@ http_response_code(404);
             text-align: center !important;
         }
     </style>
+    
+    <!-- Inicializar Lucide Icons -->
+    <script>
+        // Inicializar Lucide Icons após DOM ready
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", function() {
+                if (typeof lucide !== "undefined") {
+                    lucide.createIcons();
+                }
+            });
+        } else {
+            if (typeof lucide !== "undefined") {
+                lucide.createIcons();
+            }
+        }
+    </script>
 </body>
 </html>
 

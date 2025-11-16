@@ -62,13 +62,17 @@
  */
 
 /* FIX: Prevenir layout shift no main-content (causa 93% do CLS - 0.358 de 0.383) */
+/* CRITICAL: Desktop CLS fix - main-content causing 0.501 shift */
 #main-content {
-	contain: layout; /* Previne que mudanças dentro do main afetem layout externo */
+	contain: layout style paint; /* More aggressive containment to prevent CLS */
 	min-height: 100vh; /* Reservar espaço desde o início */
 	overflow-x: hidden; /* Prevenir scroll horizontal causar shift */
 	/* FIX: Garantir que conteúdo dinâmico não cause shift */
 	position: relative;
 	/* FIX: Garantir que seções principais tenham altura mínima desde o início */
+	/* Prevent font reflow causing layout shift */
+	font-size: inherit;
+	line-height: inherit;
 }
 
 /* FIX: Garantir altura mínima para seções principais dentro do main */
@@ -706,10 +710,10 @@ nav.footer-nav-vertical {
 	overflow: hidden;
 }
 
-/* Light mode: darker background for better text contrast */
+/* Light mode: transparent background to allow vivid image */
 [data-theme="light"] .hero-section,
 :not([data-theme]) .hero-section {
-	background-color: #2a2a2a; /* Darker background in light mode for readability */
+	background-color: transparent; /* FIX: Transparent background to allow vivid image to show through */
 }
 
 .hero-section picture {
@@ -740,11 +744,12 @@ nav.footer-nav-vertical {
 	pointer-events: none;
 }
 
-/* Light mode: lighter overlay to prevent washed out look - match production */
+/* Light mode: remove overlay completely for vivid image - use text-shadow on text instead */
 [data-theme="light"] .hero-section .hero-overlay,
 :not([data-theme]) .hero-section .hero-overlay,
 body:not([data-theme="dark"]) .hero-section .hero-overlay {
-	background-color: rgba(61, 61, 61, 0.3) !important; /* FIX: Reduced from 0.7 to 0.3 to prevent washed out look */
+	background-color: transparent !important; /* FIX: Remove overlay completely for vivid image */
+	display: none !important; /* FIX: Hide overlay completely in light mode */
 }
 
 /* Mantido para compatibilidade com outras páginas que ainda usam .bg-header */
@@ -1275,17 +1280,55 @@ body:not([data-theme="dark"]) .hero-section .hero-overlay {
 }
 
 /* CRITICAL: CLS Fix - About section col-md-7 (causes 93% of layout shift) */
+/* FIX: Make text column wider horizontally to reduce vertical length */
 #about .col-md-7 {
 	contain: layout; /* Removido 'style' - pode estar causando reflow */
 	min-height: 400px; /* Reserve space for text content */
 	font-size: inherit;
 	line-height: inherit;
+	/* Override Bootstrap col-md-7 (58.33%) to make it wider */
+	flex: 0 0 65% !important; /* 65% width instead of 58.33% */
+	max-width: 65% !important;
 }
 
-#about .col-md-7 h1,
+/* FIX: Make image column narrower to give more space to text */
+#about .col-md-5 {
+	/* Override Bootstrap col-md-5 (41.67%) to make it narrower */
+	flex: 0 0 35% !important; /* 35% width instead of 41.67% */
+	max-width: 35% !important;
+}
+
+/* CRITICAL: Desktop CLS fix - h1 in about section causing 0.501 shift */
+/* FIX: Better proportions - reduce title size, increase text size */
+#about .col-md-7 h1 {
+	min-height: 2.5em; /* Reserve space for title */
+	height: auto; /* Allow natural height but reserve minimum */
+	contain: layout style paint; /* More aggressive containment */
+	/* Prevent font reflow - reserve space even before font loads */
+	font-size: 2.8rem !important; /* Reduced from 3.5rem for better proportion */
+	line-height: 1.3 !important; /* Better line height */
+	margin-bottom: 1.5rem !important; /* Add spacing below title */
+	/* Force layout stability */
+	position: relative;
+	overflow: hidden;
+}
+
 #about .col-md-7 p {
 	min-height: 1.2em; /* Reserve space to prevent shift when fonts load */
 	contain: layout;
+}
+
+/* FIX: Better proportions - increase intro text size significantly */
+#about .col-md-7 .lead {
+	font-size: 1.35rem !important; /* Increased for better readability and proportion */
+	line-height: 1.8 !important; /* Comfortable line height for reading */
+	margin-bottom: 1.5rem !important; /* Add spacing between paragraphs */
+}
+
+/* FIX: Better proportions for tagline */
+#about .col-md-7 .hero-tagline {
+	font-size: 1.4rem !important; /* Slightly larger than intro text */
+	margin-top: 1rem !important; /* Add spacing above */
 }
 
 #about .container.row.mx-auto {
@@ -1299,14 +1342,27 @@ body:not([data-theme="dark"]) .hero-section .hero-overlay {
 }
 
 /* CLS Fix: Florzinha container (imagem lado esquerdo) */
+/* FIX: Better proportions - constrain logo image size */
 #florzinha {
 	contain: layout style paint; /* More aggressive containment */
 	min-height: 400px; /* Reservar espaço para imagem */
+	max-width: 100%; /* Prevent image from being too large */
 	position: relative; /* Force layout stability */
 	/* Explicit flex properties */
 	display: flex;
 	flex-direction: column;
+	align-items: center; /* Center the image */
+	justify-content: center; /* Center vertically */
 	overflow: hidden; /* Prevent overflow causing shifts */
+}
+
+/* FIX: Better proportions - limit logo image size */
+#florzinha img,
+#florzinha picture,
+#florzinha picture img {
+	max-width: 90% !important; /* Slightly smaller for better proportion */
+	max-height: 450px !important; /* Limit height */
+	object-fit: contain;
 }
 
 /* CLS Fix: Containers de serviço na homepage */
@@ -2149,6 +2205,157 @@ textarea {
 	/* Compensate for fixed navbar on mobile */
 	body {
 		padding-top: 70px !important;
+	}
+
+	/* CRITICAL: Mobile CLS fixes - aggressive containment for mobile-specific containers */
+	#main-content {
+		contain: layout style paint; /* More aggressive containment on mobile */
+		min-height: 100vh; /* Reserve space */
+		position: relative;
+		overflow-x: hidden;
+	}
+
+	/* Mobile: Hero section - prevent layout shift */
+	.hero-section {
+		contain: layout style paint;
+		min-height: 250px !important;
+		max-height: 400px !important;
+		position: relative;
+		overflow: hidden;
+	}
+
+	/* Mobile: About section - prevent layout shift */
+	#about {
+		contain: layout style paint;
+		min-height: 600px; /* Reserve space for mobile layout */
+		position: relative;
+		overflow: hidden;
+	}
+
+	#about .container.row.mx-auto {
+		contain: layout style paint;
+		min-height: 600px;
+		position: relative;
+		display: flex;
+		flex-wrap: wrap;
+		overflow: hidden;
+	}
+
+	/* Mobile: About section columns - prevent font reflow */
+	#about .col-md-7,
+	#about .col-md-5 {
+		contain: layout style paint;
+		min-height: 300px; /* Reserve space for mobile stacked layout */
+		position: relative;
+		overflow: hidden;
+		/* Prevent font reflow */
+		font-size: inherit;
+		line-height: inherit;
+	}
+
+	/* Mobile: About section h1 - prevent font reflow */
+	#about .col-md-7 h1 {
+		min-height: 2em; /* Reserve space for title on mobile */
+		contain: layout style paint;
+		font-size: 2rem !important; /* Smaller on mobile */
+		line-height: 1.3 !important;
+		margin-bottom: 1rem !important;
+		position: relative;
+		overflow: hidden;
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+	}
+
+	/* Mobile: About section text - prevent font reflow */
+	#about .col-md-7 p,
+	#about .col-md-7 .lead {
+		min-height: 1.2em;
+		contain: layout;
+		font-size: 1rem !important; /* Smaller on mobile */
+		line-height: 1.6 !important;
+		margin-bottom: 1rem !important;
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+	}
+
+	/* Mobile: Services section - prevent layout shift */
+	#services {
+		contain: layout style paint;
+		min-height: 800px; /* Reserve space for mobile layout */
+		position: relative;
+		overflow: hidden;
+	}
+
+	/* Mobile: Testimonials section - prevent layout shift */
+	.testimonials-section {
+		contain: layout style paint;
+		min-height: 600px; /* Reserve space for mobile layout */
+		position: relative;
+		overflow: hidden;
+	}
+
+	.testimonials-carousel {
+		contain: layout style paint;
+		min-height: 500px; /* Reserve space for carousel */
+		position: relative;
+	}
+
+	.testimonials-carousel .carousel-inner {
+		contain: layout style paint;
+		min-height: 500px; /* Reserve space for carousel items */
+		position: relative;
+	}
+
+	/* Mobile: Category grid - prevent layout shift */
+	.mobile-categories-container {
+		contain: layout style paint;
+		min-height: 400px; /* Reserve space for grid */
+		position: relative;
+		overflow: hidden;
+	}
+
+	.mobile-categories-grid {
+		contain: layout style paint;
+		min-height: 400px; /* Reserve space for grid */
+		position: relative;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 20px;
+	}
+
+	.mobile-category-item {
+		contain: layout style paint;
+		min-height: 200px; /* Reserve space for item */
+		position: relative;
+		overflow: hidden;
+	}
+
+	.mobile-category-item .img-cat {
+		aspect-ratio: 1 / 1;
+		object-fit: cover;
+		width: 100%;
+		max-width: 150px;
+		height: auto;
+	}
+
+	/* Mobile: Florzinha (logo image) - prevent layout shift */
+	#florzinha {
+		contain: layout style paint;
+		min-height: 300px; /* Reserve space for image */
+		position: relative;
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+
+	#florzinha img,
+	#florzinha picture,
+	#florzinha picture img {
+		max-width: 90% !important;
+		max-height: 300px !important; /* Smaller on mobile */
+		object-fit: contain;
 	}
 
 	.modal.show .modal-dialog {

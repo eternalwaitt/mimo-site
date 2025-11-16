@@ -25,6 +25,9 @@ require_once 'inc/security-headers.php';
 // Funções auxiliares de imagem para suporte WebP
 require_once 'inc/image-helper.php';
 
+// Helper de ícones Lucide
+require_once 'inc/icon-helper.php';
+
 // Helper de SEO
 require_once 'inc/seo-helper.php';
 
@@ -66,9 +69,8 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
     <script>loadCSS("bootstrap/bootstrap/dist/css/bootstrap.min.css?<?php echo ASSET_VERSION; ?>");</script>
     <noscript><link rel="stylesheet" href="bootstrap/bootstrap/dist/css/bootstrap.min.css?<?php echo ASSET_VERSION; ?>"></noscript>
 
-    <!-- Font Awesome - Defer -->
-    <script>loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css");</script>
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer"></noscript>
+    <!-- Lucide Icons - Lightweight replacement for Font Awesome -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.1/dist/umd/lucide.js"></script>
 
     <!-- Google Fonts - Defer -->
     <script>loadCSS("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap");</script>
@@ -100,39 +102,24 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
         height: 42px !important;
     }
     
-    .site-footer .footer-social-link i.fab {
-        font-family: "Font Awesome 6 Brands" !important;
-        font-weight: 400 !important;
-        font-size: 18px !important;
-        display: inline-block !important;
-        line-height: 1 !important;
-        width: auto !important;
-        height: auto !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        -webkit-font-smoothing: antialiased !important;
-        -moz-osx-font-smoothing: grayscale !important;
+    /* Footer social links já usam SVG inline - sem necessidade de Font Awesome */
+    
+    /* CLS Fix: Vaga cards e containers - prevenir layout shift */
+    .vaga-card {
+        contain: layout style !important; /* Prevenir layout shift */
+        min-height: 300px !important; /* Reservar espaço para conteúdo */
     }
     
-    .site-footer .footer-social-link i.fa-instagram::before {
-        content: "\f16d" !important;
-        font-family: "Font Awesome 6 Brands" !important;
-        font-weight: 400 !important;
-        display: inline-block !important;
+    .vaga-info,
+    .vaga-requirements,
+    .vaga-description {
+        contain: layout !important;
+        min-height: 50px !important; /* Reservar espaço mínimo */
     }
     
-    .site-footer .footer-social-link i.fa-facebook-f::before {
-        content: "\f39e" !important;
-        font-family: "Font Awesome 6 Brands" !important;
-        font-weight: 400 !important;
-        display: inline-block !important;
-    }
-    
-    .site-footer .footer-social-link i.fa-whatsapp::before {
-        content: "\f232" !important;
-        font-family: "Font Awesome 6 Brands" !important;
-        font-weight: 400 !important;
-        display: inline-block !important;
+    .vaga-info-item {
+        contain: layout !important;
+        min-height: 1.5em !important; /* Reservar espaço para texto */
     }
     </style>
 
@@ -218,7 +205,7 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
                     // Se não houver vagas, mostrar mensagem
                     if (empty($vagas)) {
                         echo '<div class="no-vagas">
-                                <i class="fas fa-briefcase"></i>
+                                ' . lucide_icon('briefcase', 'mr-2', 24) . '
                                 <h3>Não há vagas disponíveis no momento</h3>
                                 <p>Mas estamos sempre em busca de novos talentos! Envie seu currículo para <a href="mailto:atendimento@minhamimo.com.br">atendimento@minhamimo.com.br</a></p>
                               </div>';
@@ -229,15 +216,15 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
                             echo '<h3 class="vaga-title">' . htmlspecialchars($vaga['titulo']) . '</h3>';
                             
                             echo '<div class="vaga-info">';
-                            echo '<div class="vaga-info-item"><i class="fas fa-briefcase"></i> <strong>Tipo:</strong> ' . htmlspecialchars($vaga['tipo']) . '</div>';
-                            echo '<div class="vaga-info-item"><i class="fas fa-map-marker-alt"></i> <strong>Localização:</strong> ' . htmlspecialchars($vaga['localizacao']) . '</div>';
-                            echo '<div class="vaga-info-item"><i class="fas fa-money-bill-wave"></i> <strong>Salário:</strong> ' . htmlspecialchars($vaga['salario']) . '</div>';
+                            echo '<div class="vaga-info-item">' . lucide_icon('briefcase', 'mr-2', 18) . ' <strong>Tipo:</strong> ' . htmlspecialchars($vaga['tipo']) . '</div>';
+                            echo '<div class="vaga-info-item">' . lucide_icon('map-pin', 'mr-2', 18) . ' <strong>Localização:</strong> ' . htmlspecialchars($vaga['localizacao']) . '</div>';
+                            echo '<div class="vaga-info-item">' . lucide_icon('dollar-sign', 'mr-2', 18) . ' <strong>Salário:</strong> ' . htmlspecialchars($vaga['salario']) . '</div>';
                             echo '</div>';
                             
                             // Sobre a Mimo
                             if (!empty($vaga['sobre_mimo'])) {
                                 echo '<div class="vaga-requirements vaga-about-mimo">';
-                                echo '<h4><i class="fas fa-building"></i> Sobre a Mimo</h4>';
+                                echo '<h4>' . lucide_icon('building', 'mr-2', 18) . ' Sobre a Mimo</h4>';
                                 echo '<p>' . htmlspecialchars($vaga['sobre_mimo']) . '</p>';
                                 echo '</div>';
                             }
@@ -245,7 +232,7 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
                             // Sobre a Vaga
                             if (!empty($vaga['sobre_vaga'])) {
                                 echo '<div class="vaga-description">';
-                                echo '<h4><i class="fas fa-info-circle"></i> Sobre a Vaga</h4>';
+                                echo '<h4>' . lucide_icon('info', 'mr-2', 18) . ' Sobre a Vaga</h4>';
                                 echo '<p>' . htmlspecialchars($vaga['sobre_vaga']) . '</p>';
                                 echo '</div>';
                             }
@@ -253,7 +240,7 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
                             // Atividades Exercidas
                             if (!empty($vaga['atividades'])) {
                                 echo '<div class="vaga-requirements">';
-                                echo '<h4><i class="fas fa-tasks"></i> Atividades Exercidas</h4>';
+                                echo '<h4>' . lucide_icon('list-checks', 'mr-2', 18) . ' Atividades Exercidas</h4>';
                                 echo '<ul>';
                                 foreach ($vaga['atividades'] as $atividade) {
                                     echo '<li>' . htmlspecialchars($atividade) . '</li>';
@@ -265,7 +252,7 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
                             // Experiência e Formação
                             if (!empty($vaga['experiencia'])) {
                                 echo '<div class="vaga-requirements vaga-experiencia">';
-                                echo '<h4><i class="fas fa-graduation-cap"></i> Experiência e Formação</h4>';
+                                echo '<h4>' . lucide_icon('graduation-cap', 'mr-2', 18) . ' Experiência e Formação</h4>';
                                 echo '<ul>';
                                 foreach ($vaga['experiencia'] as $exp) {
                                     echo '<li>' . htmlspecialchars($exp) . '</li>';
@@ -277,7 +264,7 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
                             // Competências
                             if (!empty($vaga['competencias'])) {
                                 echo '<div class="vaga-requirements vaga-competencias">';
-                                echo '<h4><i class="fas fa-star"></i> Competências</h4>';
+                                echo '<h4>' . lucide_icon('star', 'mr-2', 18) . ' Competências</h4>';
                                 echo '<ul>';
                                 foreach ($vaga['competencias'] as $competencia) {
                                     echo '<li>' . htmlspecialchars($competencia) . '</li>';
@@ -289,14 +276,14 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
                             // Nosso Jeito de Trabalhar
                             if (!empty($vaga['nosso_jeito'])) {
                                 echo '<div class="vaga-requirements vaga-nosso-jeito">';
-                                echo '<h4><i class="fas fa-heart"></i> Nosso Jeito de Trabalhar</h4>';
+                                echo '<h4>' . lucide_icon('heart', 'mr-2', 18) . ' Nosso Jeito de Trabalhar</h4>';
                                 echo '<p class="italic">' . htmlspecialchars($vaga['nosso_jeito']) . '</p>';
                                 echo '</div>';
                             }
                             
                             echo '<div class="text-center mt-5">';
                             echo '<a href="mailto:atendimento@minhamimo.com.br?subject=Candidatura - ' . urlencode($vaga['titulo']) . '" class="btn-candidatar">';
-                            echo '<i class="fas fa-paper-plane"></i> Candidatar-se';
+                            echo lucide_icon('send', 'mr-2', 18) . ' Candidatar-se';
                             echo '</a>';
                             echo '</div>';
                             
@@ -312,7 +299,7 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
                             Envie seu currículo para <strong>atendimento@minhamimo.com.br</strong> com o assunto contendo o nome da vaga de interesse.
                         </p>
                         <p>
-                            <i class="fas fa-info-circle"></i> <strong>Dica:</strong> Inclua uma carta de apresentação contando por que você gostaria de fazer parte da equipe Mimo!
+                            <?php echo lucide_icon('info', 'mr-2', 18); ?> <strong>Dica:</strong> Inclua uma carta de apresentação contando por que você gostaria de fazer parte da equipe Mimo!
                         </p>
                     </div>
 
@@ -497,6 +484,22 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
         margin-top: 0 !important;
     }
     </style>
+    <!-- Inicializar Lucide Icons -->
+    <script>
+        // Inicializar Lucide Icons após DOM ready
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", function() {
+                if (typeof lucide !== "undefined") {
+                    lucide.createIcons();
+                }
+            });
+        } else {
+            if (typeof lucide !== "undefined") {
+                lucide.createIcons();
+            }
+        }
+    </script>
+
 </body>
 
 </html>

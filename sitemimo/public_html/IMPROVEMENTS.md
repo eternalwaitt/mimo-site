@@ -18,6 +18,11 @@ This document outlines potential improvements, optimizations, and modern additio
   - Expand `inc/critical-css.php` to cover more above-the-fold content
   - Automate critical CSS extraction
   - Inline critical CSS, defer non-critical
+- [ ] **PostCSS Build Process** (Inspirado em awesome-css-frameworks)
+  - Avaliar PostCSS para automatizar otimizações CSS
+  - Plugins úteis: autoprefixer, cssnano, postcss-preset-env
+  - Integrar com build pipeline existente
+  - **Prioridade**: Média (scripts atuais funcionam, mas PostCSS é mais robusto)
 
 ### 2. Image Optimization Enhancement
 **Impact**: High - Reduced bandwidth, faster loads
@@ -68,10 +73,15 @@ This document outlines potential improvements, optimizations, and modern additio
 
 ### 5. Modern UI/UX Enhancements
 **Impact**: Medium - Better user engagement
-- [ ] **Dark Mode Support**
+- [x] **Dark Mode Support**
   - Implement CSS variables for theme switching
   - Add toggle button in navigation
   - Persist preference in localStorage
+- [ ] **Expand Design Tokens** (Inspirado em awesome-css-frameworks)
+  - Adicionar mais variáveis CSS ao `css/modules/_variables.css`
+  - Inspirar-se em Open Props para tokens úteis (spacing scale, typography scale)
+  - Criar escala tipográfica formal (h1-h6, body, small, etc)
+  - **Prioridade**: Média (melhora consistência, facilita manutenção)
 - [ ] **Smooth Animations**
   - Add CSS transitions for interactive elements
   - Implement scroll-triggered animations (AOS, GSAP)

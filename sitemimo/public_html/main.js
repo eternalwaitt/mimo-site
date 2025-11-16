@@ -46,38 +46,75 @@
  * 
  * @returns {void}
  */
+// CRITICAL: Desktop optimization - batch DOM reads/writes to prevent forced reflows (1939ms)
+// Cache DOM elements to avoid repeated queries
+var $navbar = null;
+var $navbarNav = null;
+var $navbarBrand = null;
+var hasPageHero = null;
+var lastScrollState = null; // Cache last state to avoid unnecessary DOM writes
+
 function navbar(){
-        // Verificar se a página tem .page-hero (páginas internas)
-        const hasPageHero = $('.page-hero').length > 0;
+        // Initialize cached elements on first call
+        if ($navbar === null) {
+            $navbar = $('.navbar');
+            $navbarNav = $('.navbar-nav');
+            $navbarBrand = $('.navbar-brand');
+            hasPageHero = $('.page-hero').length > 0;
+        }
         
         // Em páginas internas, SEMPRE manter o fundo escuro (nunca remover)
         if (hasPageHero) {
-            $('.navbar').addClass('compressed');
-            $('.navbar-nav').addClass('changecolormenu');
-            $('.navbar-brand').addClass('changecolorlogo');
+            // Only write if state changed
+            if (lastScrollState !== 'compressed') {
+                requestAnimationFrame(function() {
+                    $navbar.addClass('compressed');
+                    $navbarNav.addClass('changecolormenu');
+                    $navbarBrand.addClass('changecolorlogo');
+                });
+                lastScrollState = 'compressed';
+            }
             return; // Sair da função para não executar a lógica da homepage
         }
         
-        // FIX: Usar requestAnimationFrame para evitar forced reflow
-        requestAnimationFrame(function() {
-            // Lógica apenas para homepage (sem .page-hero)
-            if ($(window).scrollTop() >= 20) {
-                // Na homepage, só aplicar quando scrollar
-                $('.navbar').addClass('compressed');
-                $('.navbar-nav').addClass('changecolormenu');
-                $('.navbar-brand').addClass('changecolorlogo');
-            } else {
-                // Na homepage no topo, remover classes
-                $('.navbar').removeClass('compressed');
-                $('.navbar-nav').removeClass('changecolormenu');
-                $('.navbar-brand').removeClass('changecolorlogo');
-            }
-        });
+        // FIX: Batch DOM reads first, then batch writes to prevent forced reflow
+        // Read scroll position once
+        var scrollTop = $(window).scrollTop();
+        var shouldBeCompressed = scrollTop >= 20;
+        var newState = shouldBeCompressed ? 'compressed' : 'expanded';
+        
+        // Only write if state changed (prevents unnecessary reflows)
+        if (lastScrollState !== newState) {
+            requestAnimationFrame(function() {
+                if (shouldBeCompressed) {
+                    // Na homepage, só aplicar quando scrollar
+                    $navbar.addClass('compressed');
+                    $navbarNav.addClass('changecolormenu');
+                    $navbarBrand.addClass('changecolorlogo');
+                } else {
+                    // Na homepage no topo, remover classes
+                    $navbar.removeClass('compressed');
+                    $navbarNav.removeClass('changecolormenu');
+                    $navbarBrand.removeClass('changecolorlogo');
+                }
+            });
+            lastScrollState = newState;
+        }
     }
 
     $(document).ready(function() {
+        // Debounce scroll handler to reduce forced reflows
+        var scrollTimeout = null;
         $(window).on('scroll', function() {
-            navbar();
+            // Cancel previous timeout
+            if (scrollTimeout) {
+                cancelAnimationFrame(scrollTimeout);
+            }
+            // Batch scroll handling with requestAnimationFrame
+            scrollTimeout = requestAnimationFrame(function() {
+                navbar();
+                scrollTimeout = null;
+            });
         });
         navbar();
     });
@@ -442,7 +479,11 @@ function navbar(){
                                 // Scroll suave até o formulário (defer to avoid blocking)
                                 setTimeout(function() {
                                     $('html, body').animate({
-                                        scrollTop: $formContainer.offset().top - 100
+                                        scrollTop: (function() {
+                                            // Batch DOM read to prevent forced reflow
+                                            var offset = $formContainer.offset();
+                                            return offset ? offset.top - 100 : 0;
+                                        })()
                                     }, 500);
                                 }, 0);
                             });

@@ -907,9 +907,9 @@ function render_google_reviews($reviews, $showSchema = true) {
         $stars = '';
         for ($i = 1; $i <= 5; $i++) {
             if ($i <= $review['rating']) {
-                $stars .= '<i class="fas fa-star text-warning"></i>';
+                $stars .= '<i data-lucide="star" class="text-warning" style="width: 16px; height: 16px; fill: currentColor;"></i>';
             } else {
-                $stars .= '<i class="far fa-star text-muted"></i>';
+                $stars .= '<i data-lucide="star" class="text-muted" style="width: 16px; height: 16px;"></i>';
             }
         }
         

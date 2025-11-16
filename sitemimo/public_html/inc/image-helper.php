@@ -257,6 +257,26 @@ function picture_webp($src, $alt = '', $class = '', $attributes = [], $lazy = tr
     $srcsetWebp = [];
     $srcsetOriginal = [];
     
+    // CRITICAL: Desktop optimization - detect category images and use proper sizes
+    // Category images are always 150x150px, so use fixed sizes instead of 100vw
+    $isCategoryImage = (strpos($src, 'categoria') !== false || strpos($src, 'menu_') !== false || strpos($src, 'micro.png') !== false);
+    if ($isCategoryImage && $sizes === '100vw') {
+        $sizes = '150px'; // Category images are always 150px wide
+    }
+    
+    // CRITICAL: Mobile optimization - detect service images and use proper sizes
+    // Service images are displayed at different sizes on mobile vs desktop
+    // Desktop: ~500-600px wide, Mobile: ~100vw (full width)
+    $isServiceImage = (strpos($src, 'esmalteria.png') !== false || 
+                      strpos($src, 'corporal.png') !== false || 
+                      strpos($src, 'facial.png') !== false || 
+                      strpos($src, 'cilios.png') !== false || 
+                      strpos($src, 'salao.png') !== false);
+    if ($isServiceImage && $sizes === '100vw') {
+        // Service images: full width on mobile, ~600px on desktop
+        $sizes = '(max-width: 768px) 100vw, 600px';
+    }
+    
     if ($generateSrcset) {
         // Get image dimensions for responsive srcset
         $imagePath = $rootPath . '/' . ltrim($src, '/');
@@ -268,49 +288,110 @@ function picture_webp($src, $alt = '', $class = '', $attributes = [], $lazy = tr
             }
         }
         
-        // Try to find multiple sizes (1x, 2x, 3x)
-        // Pattern: filename-1x.ext, filename-2x.ext, filename-3x.ext
-        $basePath = preg_replace('/\.(jpg|jpeg|png)$/i', '', $src);
-        $ext = preg_replace('/^.*\.(jpg|jpeg|png)$/i', '$1', $src);
+        // For category images (150x150 displayed), generate srcset with width descriptors
+        // This allows browser to choose appropriate size based on device pixel ratio
+        if ($isCategoryImage && $imageWidth) {
+            // Generate srcset with width descriptors: 150w, 300w, 450w (for 1x, 2x, 3x displays)
+            $targetWidths = [150, 300, 450]; // 1x, 2x, 3x for 150px display
+            foreach ($targetWidths as $targetWidth) {
+                // Use original image if it's large enough, browser will scale down
+                // This is better than downloading oversized images
+                if ($imageWidth >= $targetWidth) {
+                    $descriptor = $targetWidth . 'w';
+                    $srcsetOriginal[] = $src . ' ' . $descriptor;
+                    if ($webpExists) {
+                        $srcsetWebp[] = $webpSrc . ' ' . $descriptor;
+                    }
+                    if ($avifExists) {
+                        $srcsetAvif[] = $avifSrc . ' ' . $descriptor;
+                    }
+                }
+            }
+            // If no srcset generated, use original with width descriptor
+            if (empty($srcsetOriginal) && $imageWidth) {
+                $descriptor = min($imageWidth, 450) . 'w'; // Cap at 450w for category images
+                $srcsetOriginal[] = $src . ' ' . $descriptor;
+                if ($webpExists) {
+                    $srcsetWebp[] = $webpSrc . ' ' . $descriptor;
+                }
+                if ($avifExists) {
+                    $srcsetAvif[] = $avifSrc . ' ' . $descriptor;
+                }
+            }
+        } elseif ($isServiceImage && $imageWidth) {
+            // For service images (500x400 or 600x400), generate srcset with width descriptors
+            // Desktop: 600px max, Mobile: full width
+            // Generate srcset: 300w (mobile 1x), 600w (mobile 2x), 900w (mobile 3x), 1200w (desktop 2x)
+            $targetWidths = [300, 600, 900, 1200]; // Cover mobile and desktop needs
+            foreach ($targetWidths as $targetWidth) {
+                // Use original image if it's large enough, browser will scale down
+                if ($imageWidth >= $targetWidth) {
+                    $descriptor = $targetWidth . 'w';
+                    $srcsetOriginal[] = $src . ' ' . $descriptor;
+                    if ($webpExists) {
+                        $srcsetWebp[] = $webpSrc . ' ' . $descriptor;
+                    }
+                    if ($avifExists) {
+                        $srcsetAvif[] = $avifSrc . ' ' . $descriptor;
+                    }
+                }
+            }
+            // If no srcset generated, use original with width descriptor
+            if (empty($srcsetOriginal) && $imageWidth) {
+                $descriptor = min($imageWidth, 1200) . 'w'; // Cap at 1200w for service images
+                $srcsetOriginal[] = $src . ' ' . $descriptor;
+                if ($webpExists) {
+                    $srcsetWebp[] = $webpSrc . ' ' . $descriptor;
+                }
+                if ($avifExists) {
+                    $srcsetAvif[] = $avifSrc . ' ' . $descriptor;
+                }
+            }
+        } else {
+            // For other images, try to find multiple sizes (1x, 2x, 3x)
+            // Pattern: filename-1x.ext, filename-2x.ext, filename-3x.ext
+            $basePath = preg_replace('/\.(jpg|jpeg|png)$/i', '', $src);
+            $ext = preg_replace('/^.*\.(jpg|jpeg|png)$/i', '$1', $src);
+                
+            for ($multiplier = 1; $multiplier <= 3; $multiplier++) {
+                $sizePath = $basePath . ($multiplier > 1 ? '-' . $multiplier . 'x' : '') . '.' . $ext;
+                $sizeWebp = preg_replace('/\.(jpg|jpeg|png)$/i', '.webp', $sizePath);
+                $sizeAvif = preg_replace('/\.(jpg|jpeg|png)$/i', '.avif', $sizePath);
+                
+                // Check if this size exists
+                if (image_file_exists($sizePath, $rootPath)) {
+                    // Use width descriptor if we have image dimensions, otherwise use density descriptor
+                    if ($imageWidth && $multiplier > 1) {
+                        $descriptor = ($imageWidth * $multiplier) . 'w';
+                    } else {
+                        $descriptor = $multiplier . 'x';
+                    }
+                    $srcsetOriginal[] = $sizePath . ' ' . $descriptor;
+                    
+                    if (image_file_exists($sizeWebp, $rootPath)) {
+                        $srcsetWebp[] = $sizeWebp . ' ' . $descriptor;
+                    }
+                    
+                    if (image_file_exists($sizeAvif, $rootPath)) {
+                        $srcsetAvif[] = $sizeAvif . ' ' . $descriptor;
+                    }
+                }
+            }
             
-        for ($multiplier = 1; $multiplier <= 3; $multiplier++) {
-            $sizePath = $basePath . ($multiplier > 1 ? '-' . $multiplier . 'x' : '') . '.' . $ext;
-            $sizeWebp = preg_replace('/\.(jpg|jpeg|png)$/i', '.webp', $sizePath);
-            $sizeAvif = preg_replace('/\.(jpg|jpeg|png)$/i', '.avif', $sizePath);
-            
-            // Check if this size exists
-            if (image_file_exists($sizePath, $rootPath)) {
-                // Use width descriptor if we have image dimensions, otherwise use density descriptor
-                if ($imageWidth && $multiplier > 1) {
-                    $descriptor = ($imageWidth * $multiplier) . 'w';
+            // If no multiple sizes found, use original with 1x descriptor or width if available
+            if (empty($srcsetOriginal)) {
+                if ($imageWidth) {
+                    $descriptor = $imageWidth . 'w';
                 } else {
-                    $descriptor = $multiplier . 'x';
+                    $descriptor = '1x';
                 }
-                $srcsetOriginal[] = $sizePath . ' ' . $descriptor;
-                
-                if (image_file_exists($sizeWebp, $rootPath)) {
-                    $srcsetWebp[] = $sizeWebp . ' ' . $descriptor;
+                $srcsetOriginal[] = $src . ' ' . $descriptor;
+                if ($webpExists) {
+                    $srcsetWebp[] = $webpSrc . ' ' . $descriptor;
                 }
-                
-                if (image_file_exists($sizeAvif, $rootPath)) {
-                    $srcsetAvif[] = $sizeAvif . ' ' . $descriptor;
+                if ($avifExists) {
+                    $srcsetAvif[] = $avifSrc . ' ' . $descriptor;
                 }
-            }
-        }
-        
-        // If no multiple sizes found, use original with 1x descriptor or width if available
-        if (empty($srcsetOriginal)) {
-            if ($imageWidth) {
-                $descriptor = $imageWidth . 'w';
-            } else {
-                $descriptor = '1x';
-            }
-            $srcsetOriginal[] = $src . ' ' . $descriptor;
-            if ($webpExists) {
-                $srcsetWebp[] = $webpSrc . ' ' . $descriptor;
-            }
-            if ($avifExists) {
-                $srcsetAvif[] = $avifSrc . ' ' . $descriptor;
             }
         }
     }

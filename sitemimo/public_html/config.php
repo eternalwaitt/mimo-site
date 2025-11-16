@@ -75,21 +75,21 @@ define('GOOGLE_PLACE_ID', getenv('GOOGLE_PLACE_ID') ?: 'ChIJkVYWuB1XzpQRjbjBjyb4
 // MAJOR: Breaking changes
 // MINOR: New features, backwards compatible
 // PATCH: Bug fixes, backwards compatible
-define('APP_VERSION', '2.6.11');
+define('APP_VERSION', '2.6.12');
 define('APP_VERSION_MAJOR', 2);
 define('APP_VERSION_MINOR', 6);
-define('APP_VERSION_PATCH', 11);
+define('APP_VERSION_PATCH', 12);
 
 // Asset version for cache busting (update this when deploying changes)
 // Format: YYYYMMDD (date-based for easy tracking)
 // IMPORTANTE: Atualizar sempre que houver mudanças em CSS/JS para forçar reload do cache
-define('ASSET_VERSION', '20251116-2');
+define('ASSET_VERSION', '20251116-3');
 
 // Use minified assets in production
 // IMPORTANTE: Ative apenas DEPOIS de rodar os scripts de build:
 //   - build/minify-css.sh
 //   - build/minify-js.sh
 // Isso garante que os arquivos .min.css e .min.js existam na pasta minified/
-// FIX: Ativado após verificar que arquivos minificados existem
-define('USE_MINIFIED', true);
+// FIX: Temporarily disabled for local development - re-enable for production
+define('USE_MINIFIED', false);
 

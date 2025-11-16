@@ -5,6 +5,43 @@ All notable changes to the Mimo Site project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.12] - 2025-11-16
+
+### Performance - Desktop Optimization
+- **Desktop CLS Fixes (0.625 → <0.1 target)**:
+  - Enhanced `#main-content` with `contain: layout style paint` for aggressive containment
+  - Fixed about section h1 layout shift (0.501) with explicit font-size, min-height, and containment
+  - Added font reflow prevention with explicit font-size and line-height
+- **Forced Reflow Optimization (1939ms → reduced)**:
+  - Batched DOM reads/writes in navbar scroll handler
+  - Cached DOM elements to avoid repeated queries
+  - Used `requestAnimationFrame` for scroll handling with state caching
+  - Prevented unnecessary DOM writes by tracking scroll state
+- **Image Optimization**:
+  - Added responsive srcset for category images with proper `sizes` attribute (150px instead of 100vw)
+  - Generated width descriptors (150w, 300w, 450w) for better browser selection
+- **Network Optimization**:
+  - Added preconnect for `lh3.googleusercontent.com` (240ms LCP savings)
+  - Added dns-prefetch for Google user images domain
+
+### Changed
+- **Layout Proportions**:
+  - Adjusted about section column widths (65%/35% split instead of 58.33%/41.67%)
+  - Reduced h1 title size from 3.5rem to 2.8rem for better proportion
+  - Increased intro text from 1.2rem to 1.35rem for better readability
+  - Added proper spacing (margins) between elements
+  - Constrained logo image size (max-width 90%, max-height 450px)
+- **Main.js**: Optimized navbar function with DOM caching and batched operations
+- **Product.css**: Enhanced containment and proportion adjustments for about section
+- **Critical CSS**: Updated to match product.css changes
+- **Image Helper**: Added category image detection and proper sizes attribute
+
+### Technical
+- **Desktop Performance Target**: 66 → 90+ (desktop)
+- **CLS Target**: 0.625 → <0.1 (desktop)
+- **Forced Reflows**: 1939ms → significantly reduced
+- **Column Proportions**: Optimized for better horizontal text flow
+
 ## [2.6.11] - 2025-11-16
 
 ### Performance - Comprehensive Optimization for 90+ Score

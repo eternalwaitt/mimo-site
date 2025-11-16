@@ -63,12 +63,33 @@ body {
     padding-bottom: 2px;
     margin: 0;
     z-index: 9999;
-    position: relative;
+    position: fixed; /* Fixed navbar - persistent at top */
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
     contain: layout;
     min-height: 70px;
     /* Set transparent as default - product.css will override if needed */
     background-color: transparent;
-    transition: all .3s;
+    transition: background-color .3s ease, padding .3s ease;
+    /* GPU acceleration */
+    will-change: background-color, transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+/* Compensate for fixed navbar - add padding to main-content, not body */
+/* Removed body padding-top to prevent white rectangle above navbar */
+
+/* Light mode: darker navbar background for better text readability - CRITICAL CSS */
+[data-theme="light"] .navbar,
+:not([data-theme]) .navbar,
+body:not([data-theme="dark"]) .navbar {
+    background-color: rgba(42, 42, 42, 0.85) !important; /* Dark semi-transparent background in light mode */
+    backdrop-filter: blur(10px); /* Add blur for better contrast */
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .navbar-brand {
@@ -92,13 +113,19 @@ body {
 .hero-section {
     position: relative;
     width: 100%;
-    min-height: 350px;
-    max-height: 500px;
+    min-height: 250px; /* Reduced to match production */
+    max-height: 350px; /* Reduced to match production */
     aspect-ratio: 16 / 9;
     contain: layout;
     background-color: #3d3d3d;
     overflow: hidden;
     display: block;
+}
+
+/* Light mode: transparent background to allow vivid image */
+[data-theme="light"] .hero-section,
+:not([data-theme]) .hero-section {
+    background-color: transparent; /* FIX: Transparent background to allow vivid image to show through */
 }
 
 .hero-section picture {
@@ -124,9 +151,17 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(61, 61, 61, 0.3);
+    background-color: rgba(61, 61, 61, 0.5); /* Increased opacity for better text readability */
     z-index: 1;
     pointer-events: none;
+}
+
+/* Light mode: remove overlay completely for vivid image - use text-shadow on text instead */
+[data-theme="light"] .hero-section .hero-overlay,
+:not([data-theme]) .hero-section .hero-overlay,
+body:not([data-theme="dark"]) .hero-section .hero-overlay {
+    background-color: transparent !important; /* FIX: Remove overlay completely for vivid image */
+    display: none !important; /* FIX: Hide overlay completely in light mode */
 }
 
 /* Mobile hero section */
@@ -196,6 +231,21 @@ picture img {
     height: auto;
 }
 
+/* About section - Above the fold on mobile, critical for FCP */
+#about {
+    contain: layout style paint; /* Prevent CLS */
+    min-height: 500px; /* Reserve space */
+    position: relative;
+}
+
+#about .container.row.mx-auto {
+    contain: layout style paint; /* Prevent CLS */
+    min-height: 600px; /* Reserve space */
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+}
+
 /* Mobile optimizations - CRITICAL for LCP */
 @media only screen and (max-width: 750px) {
     .bg-header {
@@ -227,6 +277,63 @@ picture img {
         transform: translateZ(0);
         backface-visibility: hidden;
         -webkit-backface-visibility: hidden;
+    }
+    
+    /* Mobile: Optimize about section for faster FCP */
+    #about {
+        min-height: 400px; /* Smaller on mobile */
+    }
+    
+    #about .container.row.mx-auto {
+        min-height: 400px; /* Smaller on mobile */
+    }
+    
+    /* CRITICAL: Mobile hero section - above the fold, critical for FCP */
+    .hero-section {
+        contain: layout style paint;
+        min-height: 250px !important;
+        max-height: 400px !important;
+        position: relative;
+        overflow: hidden;
+        background-color: #3d3d3d;
+    }
+    
+    .hero-section picture,
+    .hero-section img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+    }
+    
+    /* CRITICAL: Mobile hero content - ensure text is visible immediately */
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        color: #fff;
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .hero-content h1 {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        line-height: 1.3;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    
+    .hero-content p {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        line-height: 1.6;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+    
+    /* CRITICAL: Mobile main-content padding for fixed navbar */
+    #main-content {
+        padding-top: 70px; /* Compensate for fixed navbar */
     }
     
     /* Mobile categories grid - prevent layout shift */
@@ -413,14 +520,18 @@ section {
 }
 
 /* Main content - prevent layout shift (CRÍTICO - 93% do CLS) */
+/* CRITICAL: Desktop CLS fix - main-content causing 0.501 shift */
 #main-content {
     min-height: 100vh; /* Reserve space to prevent layout shift */
     position: relative;
     /* Garantir que conteúdo não cause shift */
-    contain: layout; /* Removido 'style' - pode estar causando reflow */
+    contain: layout style paint; /* More aggressive containment to prevent CLS */
     /* FIX: Prevenir que conteúdo dinâmico cause shift */
     overflow-x: hidden;
     /* FIX: Garantir que seções principais tenham altura mínima desde o início */
+    /* Prevent font reflow causing layout shift */
+    font-size: inherit;
+    line-height: inherit;
 }
 
 /* FIX: Garantir altura mínima para seções principais dentro do main */
@@ -456,12 +567,17 @@ section {
 #about .container.row.mx-auto {
     min-height: 600px; /* Reserve space for content */
     /* Prevenir layout shift durante carregamento */
-    contain: layout;
+    contain: layout style paint; /* More aggressive containment */
+    position: relative; /* Force layout stability */
+    display: flex; /* Explicit flex container */
+    flex-wrap: wrap; /* Allow wrapping */
+    overflow: hidden; /* Prevent overflow causing shifts */
 }
 
 /* CRITICAL: col-md-7 causing 93% of CLS (0.375) - prevent layout shift */
+/* FIX: Make text column wider horizontally to reduce vertical length */
 #about .col-md-7 {
-    contain: layout; /* Removido 'style' - pode estar causando reflow */
+    contain: layout style paint; /* More aggressive containment */
     min-height: 400px; /* Reserve space for text content */
     /* Prevent font reflow */
     font-size: inherit;
@@ -469,10 +585,40 @@ section {
     /* Force layout stability */
     position: relative;
     overflow: hidden;
+    /* Explicit flex properties */
+    display: flex;
+    flex-direction: column;
+    /* Override Bootstrap col-md-7 (58.33%) to make it wider */
+    flex: 0 0 65% !important; /* 65% width instead of 58.33% */
+    max-width: 65% !important;
 }
 
-/* Prevent layout shift in about section text */
-#about .col-md-7 h1,
+/* FIX: Make image column narrower to give more space to text */
+#about .col-md-5 {
+    /* Override Bootstrap col-md-5 (41.67%) to make it narrower */
+    flex: 0 0 35% !important; /* 35% width instead of 41.67% */
+    max-width: 35% !important;
+}
+
+/* CRITICAL: Desktop CLS fix - h1 in about section causing 0.501 shift */
+/* FIX: Better proportions - reduce title size, increase text size */
+#about .col-md-7 h1 {
+    /* Reserve space for title */
+    min-height: 2.5em;
+    height: auto; /* Allow natural height but reserve minimum */
+    contain: layout style paint; /* More aggressive containment */
+    /* Prevent font reflow - reserve space even before font loads */
+    font-size: 2.8rem !important; /* Reduced from 3.5rem for better proportion */
+    line-height: 1.3 !important; /* Better line height */
+    margin-bottom: 1.5rem !important; /* Add spacing below title */
+    /* Force layout stability */
+    position: relative;
+    overflow: hidden;
+    /* Prevent text reflow */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
 #about .col-md-7 p {
     /* Reserve space to prevent shift when fonts load */
     min-height: 1.2em;
@@ -482,10 +628,180 @@ section {
     overflow-wrap: break-word;
 }
 
-/* Additional CLS prevention for about section */
+/* FIX: Better proportions - increase intro text size significantly */
 #about .col-md-7 .lead {
     min-height: 1.5em;
     contain: layout;
+    font-size: 1.35rem !important; /* Increased for better readability and proportion */
+    line-height: 1.8 !important; /* Comfortable line height for reading */
+    margin-bottom: 1.5rem !important; /* Add spacing between paragraphs */
+}
+
+/* FIX: Better proportions for tagline */
+#about .col-md-7 .hero-tagline {
+    font-size: 1.4rem !important; /* Slightly larger than intro text */
+    margin-top: 1rem !important; /* Add spacing above */
+}
+
+/* ============================================
+   CRITICAL: Mobile CLS Fixes
+   Mobile-specific containment and min-heights
+   ============================================ */
+
+@media (max-width: 750px) {
+    /* CRITICAL: Mobile CLS fix - main-content causing layout shifts */
+    #main-content {
+        contain: layout style paint; /* More aggressive containment on mobile */
+        min-height: 100vh; /* Reserve space */
+        position: relative;
+        overflow-x: hidden;
+        /* Prevent font reflow */
+        font-size: inherit;
+        line-height: inherit;
+    }
+
+    /* Mobile: Hero section - prevent layout shift */
+    .hero-section {
+        contain: layout style paint;
+        min-height: 250px !important;
+        max-height: 400px !important;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Mobile: About section - prevent layout shift */
+    #about {
+        contain: layout style paint;
+        min-height: 600px; /* Reserve space for mobile layout */
+        position: relative;
+        overflow: hidden;
+    }
+
+    #about .container.row.mx-auto {
+        contain: layout style paint;
+        min-height: 600px;
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        overflow: hidden;
+    }
+
+    /* Mobile: About section columns - prevent font reflow */
+    #about .col-md-7,
+    #about .col-md-5 {
+        contain: layout style paint;
+        min-height: 300px; /* Reserve space for mobile stacked layout */
+        position: relative;
+        overflow: hidden;
+        /* Prevent font reflow */
+        font-size: inherit;
+        line-height: inherit;
+    }
+
+    /* Mobile: About section h1 - prevent font reflow */
+    #about .col-md-7 h1 {
+        min-height: 2em; /* Reserve space for title on mobile */
+        contain: layout style paint;
+        font-size: 2rem !important; /* Smaller on mobile */
+        line-height: 1.3 !important;
+        margin-bottom: 1rem !important;
+        position: relative;
+        overflow: hidden;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
+    /* Mobile: About section text - prevent font reflow */
+    #about .col-md-7 p,
+    #about .col-md-7 .lead {
+        min-height: 1.2em;
+        contain: layout;
+        font-size: 1rem !important; /* Smaller on mobile */
+        line-height: 1.6 !important;
+        margin-bottom: 1rem !important;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
+    /* Mobile: Services section - prevent layout shift */
+    #services {
+        contain: layout style paint;
+        min-height: 800px; /* Reserve space for mobile layout */
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Mobile: Testimonials section - prevent layout shift */
+    .testimonials-section {
+        contain: layout style paint;
+        min-height: 600px; /* Reserve space for mobile layout */
+        position: relative;
+        overflow: hidden;
+    }
+
+    .testimonials-carousel {
+        contain: layout style paint;
+        min-height: 500px; /* Reserve space for carousel */
+        position: relative;
+    }
+
+    .testimonials-carousel .carousel-inner {
+        contain: layout style paint;
+        min-height: 500px; /* Reserve space for carousel items */
+        position: relative;
+    }
+
+    /* Mobile: Category grid - prevent layout shift */
+    .mobile-categories-container {
+        contain: layout style paint;
+        min-height: 400px; /* Reserve space for grid */
+        position: relative;
+        overflow: hidden;
+    }
+
+    .mobile-categories-grid {
+        contain: layout style paint;
+        min-height: 400px; /* Reserve space for grid */
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .mobile-category-item {
+        contain: layout style paint;
+        min-height: 200px; /* Reserve space for item */
+        position: relative;
+        overflow: hidden;
+    }
+
+    .mobile-category-item .img-cat {
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        width: 100%;
+        max-width: 150px;
+        height: auto;
+    }
+
+    /* Mobile: Florzinha (logo image) - prevent layout shift */
+    #florzinha {
+        contain: layout style paint;
+        min-height: 300px; /* Reserve space for image */
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #florzinha img,
+    #florzinha picture,
+    #florzinha picture img {
+        max-width: 90% !important;
+        max-height: 300px !important; /* Smaller on mobile */
+        object-fit: contain;
+    }
 }
 
 /* Services section - prevent layout shift */

@@ -9,7 +9,7 @@
 ?>
 <!-- Botão Voltar ao Topo -->
 <button id="backToTop" class="back-to-top" aria-label="Voltar ao topo" title="Voltar ao topo">
-    <i class="fas fa-chevron-up"></i>
+    <i data-lucide="chevron-up" style="width: 20px; height: 20px; color: #fff;"></i>
 </button>
 
 <style>
@@ -51,7 +51,9 @@
 }
 
 .back-to-top i {
-    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 @media (max-width: 768px) {
@@ -63,7 +65,8 @@
     }
     
     .back-to-top i {
-        font-size: 18px;
+        width: 18px !important;
+        height: 18px !important;
     }
 }
 </style>

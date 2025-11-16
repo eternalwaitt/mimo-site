@@ -263,42 +263,43 @@ if ($_POST) {
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     <link rel="dns-prefetch" href="https://www.google-analytics.com">
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://lh3.googleusercontent.com">
     
     <!-- Preconnect para recursos críticos (mais rápido que dns-prefetch) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- CRITICAL: Desktop optimization - preconnect for Google user images (240ms LCP savings) -->
+    <link rel="preconnect" href="https://lh3.googleusercontent.com" crossorigin>
     <!-- Preload critical images with fetchpriority - prefer WebP/AVIF -->
     <?php
     // Preload mobile header (LCP element no mobile) - prefer AVIF/WebP
     // CRITICAL: Esta é a imagem LCP no mobile, precisa ser carregada o mais rápido possível
     // IMPORTANTE: Preload deve vir ANTES de qualquer outro recurso para máxima prioridade
+    // FIX: Usar caminhos absolutos (/img/...) em vez de relativos (img/...)
     if (file_exists(__DIR__ . '/img/header_dezembro_mobile.avif')) {
-        echo '<link rel="preload" href="img/header_dezembro_mobile.avif" as="image" type="image/avif" fetchpriority="high" media="(max-width: 750px)">';
+        echo '<link rel="preload" href="/img/header_dezembro_mobile.avif" as="image" type="image/avif" fetchpriority="high" media="(max-width: 750px)">';
     } elseif (file_exists(__DIR__ . '/img/header_dezembro_mobile.webp')) {
-        echo '<link rel="preload" href="img/header_dezembro_mobile.webp" as="image" type="image/webp" fetchpriority="high" media="(max-width: 750px)">';
+        echo '<link rel="preload" href="/img/header_dezembro_mobile.webp" as="image" type="image/webp" fetchpriority="high" media="(max-width: 750px)">';
     } elseif (file_exists(__DIR__ . '/img/header_dezembro_mobile.png')) {
-        echo '<link rel="preload" href="img/header_dezembro_mobile.png" as="image" fetchpriority="high" media="(max-width: 750px)">';
+        echo '<link rel="preload" href="/img/header_dezembro_mobile.png" as="image" fetchpriority="high" media="(max-width: 750px)">';
     }
     
     // Preload desktop header (LCP element no desktop) - prefer AVIF/WebP
     if (file_exists(__DIR__ . '/img/bgheader.avif')) {
-        echo '<link rel="preload" href="img/bgheader.avif" as="image" type="image/avif" fetchpriority="high" media="(min-width: 751px)">';
+        echo '<link rel="preload" href="/img/bgheader.avif" as="image" type="image/avif" fetchpriority="high" media="(min-width: 751px)">';
     } elseif (file_exists(__DIR__ . '/img/bgheader.webp')) {
-        echo '<link rel="preload" href="img/bgheader.webp" as="image" type="image/webp" fetchpriority="high" media="(min-width: 751px)">';
+        echo '<link rel="preload" href="/img/bgheader.webp" as="image" type="image/webp" fetchpriority="high" media="(min-width: 751px)">';
     } elseif (file_exists(__DIR__ . '/img/bgheader.jpg')) {
-        echo '<link rel="preload" href="img/bgheader.jpg" as="image" fetchpriority="high" media="(min-width: 751px)">';
+        echo '<link rel="preload" href="/img/bgheader.jpg" as="image" fetchpriority="high" media="(min-width: 751px)">';
     }
-    
-    // Preconnect para domínio próprio (imagens e fontes) - melhora LCP discovery
-    echo '<link rel="preconnect" href="https://minhamimo.com.br" crossorigin>';
     
     // Preload hero image (mimo5.png) - above the fold, não lazy
     if (file_exists(__DIR__ . '/img/mimo5.avif')) {
-        echo '<link rel="preload" href="img/mimo5.avif" as="image" type="image/avif" fetchpriority="high">';
+        echo '<link rel="preload" href="/img/mimo5.avif" as="image" type="image/avif" fetchpriority="high">';
     } elseif (file_exists(__DIR__ . '/img/mimo5.webp')) {
-        echo '<link rel="preload" href="img/mimo5.webp" as="image" type="image/webp" fetchpriority="high">';
+        echo '<link rel="preload" href="/img/mimo5.webp" as="image" type="image/webp" fetchpriority="high">';
     } elseif (file_exists(__DIR__ . '/img/mimo5.png')) {
-        echo '<link rel="preload" href="img/mimo5.png" as="image" fetchpriority="high">';
+        echo '<link rel="preload" href="/img/mimo5.png" as="image" fetchpriority="high">';
     }
     ?>
     <!-- Preload fontes críticas -->
@@ -306,6 +307,10 @@ if ($_POST) {
     
     <!-- Preconnect para domínio próprio (imagens e fontes) -->
     <link rel="preconnect" href="https://minhamimo.com.br" crossorigin>
+    
+    <!-- CRITICAL: Preload critical fonts for faster FCP -->
+    <link rel="preload" href="https://fonts.gstatic.com/s/nunito/v26/XRXI3I6Li01BKofAjsOUYevI.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://fonts.gstatic.com/s/nunito/v26/XRXI3I6Li01BKofAnsOUYevI.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- Critical CSS (Above the fold) -->
     <?php include 'inc/critical-css.php'; ?>
@@ -331,10 +336,6 @@ if ($_POST) {
     <noscript><link href="https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700i&display=optional" rel="stylesheet"></noscript>
     <!-- Akrobat font loaded via CSS @font-face in product.css with font-display: optional -->
     
-    <!-- Font Awesome - Defer using loadCSS (melhor que media="print") -->
-    <script>loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css");</script>
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer"></noscript>
-
     <!-- Bootstrap core CSS - Defer using loadCSS (melhor que media="print") -->
     <script>loadCSS("https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css");</script>
     <noscript><link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"></noscript>
@@ -452,40 +453,7 @@ if ($_POST) {
         height: 42px !important;
     }
     
-    .site-footer .footer-social-link i.fab {
-        font-family: "Font Awesome 6 Brands" !important;
-        font-weight: 400 !important;
-        font-size: 18px !important;
-        display: inline-block !important;
-        line-height: 1 !important;
-        width: auto !important;
-        height: auto !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        -webkit-font-smoothing: antialiased !important;
-        -moz-osx-font-smoothing: grayscale !important;
-    }
-    
-    .site-footer .footer-social-link i.fa-instagram::before {
-        content: "\f16d" !important;
-        font-family: "Font Awesome 6 Brands" !important;
-        font-weight: 400 !important;
-        display: inline-block !important;
-    }
-    
-    .site-footer .footer-social-link i.fa-facebook-f::before {
-        content: "\f39e" !important;
-        font-family: "Font Awesome 6 Brands" !important;
-        font-weight: 400 !important;
-        display: inline-block !important;
-    }
-    
-    .site-footer .footer-social-link i.fa-whatsapp::before {
-        content: "\f232" !important;
-        font-family: "Font Awesome 6 Brands" !important;
-        font-weight: 400 !important;
-        display: inline-block !important;
-    }
+    /* Footer social links já usam SVG inline - sem necessidade de Font Awesome */
     </style>
     <!-- Form CSS - Defer (not critical for FCP) -->
     <script>loadCSS("<?php echo get_css_asset('form/main.css'); ?>");</script>
@@ -504,21 +472,41 @@ if ($_POST) {
     
     <main id="main-content" role="main">
     
-    <div class="position-relative overflow-hidden text-center bg-header" role="banner" aria-label="Hero section" style="width: 100%; padding: 0;">
-        <!-- Hero background image loaded via CSS -->
+    <div class="position-relative overflow-hidden text-center hero-section" role="banner" aria-label="Hero section">
+        <!-- FIX: Mudar LCP de background-image para <img> tag para poder usar fetchpriority -->
+        <?php
+        // Desktop LCP image
+        if (file_exists(__DIR__ . '/img/bgheader.avif')) {
+            echo '<picture class="hero-image-desktop d-none d-md-block" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;">
+                <source srcset="/img/bgheader.avif" type="image/avif">
+                <source srcset="/img/bgheader.webp" type="image/webp">
+                <img src="/img/bgheader.jpg" alt="Mimo - Centro de Beleza" fetchpriority="high" loading="eager" width="1920" height="1080" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+            </picture>';
+        }
+        // Mobile LCP image
+        if (file_exists(__DIR__ . '/img/header_dezembro_mobile.avif')) {
+            echo '<picture class="hero-image-mobile d-block d-md-none" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;">
+                <source srcset="/img/header_dezembro_mobile.avif" type="image/avif" media="(max-width: 750px)">
+                <source srcset="/img/header_dezembro_mobile.webp" type="image/webp" media="(max-width: 750px)">
+                <img src="/img/header_dezembro_mobile.png" alt="Mimo - Centro de Beleza" fetchpriority="high" loading="eager" width="750" height="422" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+            </picture>';
+        }
+        ?>
+        <!-- Overlay escuro para contraste (oculto em light mode para imagem mais vívida) -->
+        <div class="hero-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(61, 61, 61, 0.5); z-index: 1;"></div>
     </div>
 
-    <div class="row position-relative overflow-hidden pt-3 text-center backgroundGrey" id="about">
+    <!-- FIX: Adicionar content-visibility: auto para melhorar performance (seção abaixo da dobra) -->
+    <div class="row position-relative overflow-hidden pt-3 text-center backgroundGrey" id="about" style="content-visibility: auto; contain-intrinsic-size: 600px;">
         <!--<div class=" container mt-3" >&nbsp;</div>-->
-        <div class="container row mx-auto" style="display: flex; flex-wrap: wrap;">
-            <div class="col-md-5 mt-lg-5 p-0 fade-in-left" id="florzinha" style="display: flex; align-items: center; justify-content: center;">
+        <div class="container row mx-auto hero-content-wrapper">
+            <div class="col-md-5 mt-lg-5 p-0 fade-in-left hero-image-wrapper" id="florzinha">
                 <?php echo picture_webp('img/mimo5.png', 'Mimo - Beleza sem padrão', 'img-fluid img-hover', ['width' => '500', 'height' => '500', 'style' => 'width: 100%; height: auto; max-width: 100%; aspect-ratio: 1 / 1;'], false); ?>
             </div>
             <div class="col-md-7 mx-auto my-5 overflow-hidden">
-                <h1 class="display-4 font-weight-normal text-align-right text-uppercase fade-in-right"
-                    style="font-size: 43px;color:#fff">
+                <h1 class="display-4 font-weight-normal text-align-right text-uppercase fade-in-right hero-title">
                     BELEZA SEM PADRÃO</h1>
-                <p class="lead font-weight-normal textDarkGrey Akrobat text-justify fade-in-up" style="margin-bottom:0">
+                <p class="lead font-weight-normal textDarkGrey Akrobat text-justify fade-in-up hero-subtitle">
                     Acreditamos na quebra de padrões que vem se estendendo ao decorrer dos anos, e por isso trabalhamos
                     de maneira única com cada cliente, preservando suas características naturais; Oferecemos atendimento
                     e prestação de serviços de qualidade, com profissionais capacitados e que acreditam no propósito de
@@ -527,7 +515,7 @@ if ($_POST) {
                     queridos e aceitos como são; Focamos na satisfação como parâmetro de melhorias e desenvolvimentos,
                     tomando assim medidas e decisões mais assertivas.
                 </p>
-                <p class="lead font-weight-normal text-align-right text-uppercase Akrobat " style="color: #fff">Você
+                <p class="lead font-weight-normal text-align-right text-uppercase Akrobat hero-tagline">Você
                     merece esse mimo!</p>
             </div>
         </div>
@@ -538,10 +526,11 @@ if ($_POST) {
             <p class="lead text-white font-weight-normal">TODAS AS ÁREAS DE BELEZA PARA VOCÊ SE SENTIR COMPLETA</p>
         </div>
     </div>
-    <div id="services">
+    <!-- FIX: Adicionar content-visibility: auto para melhorar performance (seção abaixo da dobra) -->
+    <div id="services" style="content-visibility: auto; contain-intrinsic-size: 800px;">
         <!-- Mobile -->
         <nav class="container nav nav-pills mt-5 mb-5 d-sm-none" id="pills-tab" role="navigation" aria-label="Categorias de serviços">
-            <div class="nav-item" style="margin: auto">
+            <div class="nav-item nav-item-centered">
                 <a class="nav-link active" data-toggle="pill" role="button" id="pills-alongamentos-tab"
                     aria-label="Categorias de serviços">
                     CATEGORIAS</a>
@@ -578,7 +567,7 @@ if ($_POST) {
             <!-- Botão VAGAS separado (full-width) -->
             <a href="vagas.php" class="mobile-vagas-button fade-in-up">
                 <div class="mobile-vagas-card card-hover">
-                    <i class="fas fa-briefcase"></i>
+                    <i data-lucide="briefcase" class="lucide-icon-briefcase"></i>
                     <p class="mobile-vagas-title">VAGAS</p>
                     <p class="mobile-vagas-subtitle">Trabalhe Conosco</p>
                 </div>
@@ -656,12 +645,13 @@ if ($_POST) {
 
     </div>
     <!-- Depoimentos -->
-    <div class="position-relative overflow-hidden p-3 text-center backgroundGrey" style="margin-bottom: 0; padding-bottom: 0;">
-        <div class="col-md-12 p-lg-12 mx-auto" style="margin-top: 3rem; margin-bottom: 0;">
+    <!-- FIX: Adicionar content-visibility: auto para melhorar performance (seção abaixo da dobra) -->
+    <div class="position-relative overflow-hidden p-3 text-center backgroundGrey testimonials-section" style="content-visibility: auto; contain-intrinsic-size: 600px;">
+        <div class="col-md-12 p-lg-12 mx-auto testimonials-container">
             <div class="container">
                 <div class="row">
                     <div class="col-md-10 col-center m-auto">
-                        <h2 style="color:#fff; margin-bottom: 30px;">O QUE NOSSAS CLIENTES DIZEM</h2>
+                        <h2 class="testimonials-title">O QUE NOSSAS CLIENTES DIZEM</h2>
                         <?php
                         // Buscar reviews do Google (4 e 5 estrelas, ordenados por qualidade)
                         $googleReviews = [];
@@ -991,7 +981,8 @@ if ($_POST) {
                                                 
                                                 if (!empty($photoUrl)) {
                                                     // Usar URL completa da foto do Google
-                                                    echo '<div class="testimonial-avatar"><img src="' . htmlspecialchars($photoUrl) . '" alt="Foto de ' . htmlspecialchars($review['author']) . '" loading="lazy" width="80" height="80" onerror="this.style.display=\'none\'; this.parentElement.classList.add(\'testimonial-avatar-placeholder\'); this.parentElement.textContent=\'' . htmlspecialchars(mb_substr(mb_strtoupper($review['author']), 0, 1)) . '\';"></div>';
+                                                    // FIX: Garantir dimensões explícitas e aspect-ratio para prevenir CLS
+                                                    echo '<div class="testimonial-avatar"><img src="' . htmlspecialchars($photoUrl) . '" alt="Foto de ' . htmlspecialchars($review['author']) . '" loading="lazy" width="80" height="80" style="aspect-ratio: 1 / 1; object-fit: cover;" onerror="this.style.display=\'none\'; this.parentElement.classList.add(\'testimonial-avatar-placeholder\'); this.parentElement.textContent=\'' . htmlspecialchars(mb_substr(mb_strtoupper($review['author']), 0, 1)) . '\';"></div>';
                                                 } else {
                                                     // Placeholder com inicial do nome
                                                     $initial = mb_substr(mb_strtoupper($review['author']), 0, 1);
@@ -1008,9 +999,9 @@ if ($_POST) {
                                                         // Usar estrelas Unicode para garantir que sempre apareçam
                                                         for ($i = 1; $i <= 5; $i++): 
                                                             if ($i <= $rating): 
-                                                                echo '<span class="star-filled" style="color: #ffc107; font-size: 1.2rem;">★</span>';
+                                                                echo '<span class="star-filled">★</span>';
                                                             else: 
-                                                                echo '<span class="star-empty" style="color: #e0e0e0; font-size: 1.2rem;">☆</span>';
+                                                                echo '<span class="star-empty">☆</span>';
                                                             endif;
                                                         endfor;
                                                     endif; 
@@ -1029,11 +1020,11 @@ if ($_POST) {
                             </div>
                             <!-- Carousel controls -->
                                 <button type="button" class="carousel-control-prev testimonials-control" data-target="#testimonialsCarousel" data-slide="prev" aria-label="Anterior depoimento" aria-controls="testimonialsCarousel">
-                                    <span style="color: #3a505a; font-size: 28px; font-weight: bold;" aria-hidden="true">‹</span>
+                                    <span class="carousel-arrow" aria-hidden="true">‹</span>
                                     <span class="sr-only">Anterior</span>
                                 </button>
                                 <button type="button" class="carousel-control-next testimonials-control" data-target="#testimonialsCarousel" data-slide="next" aria-label="Próximo depoimento" aria-controls="testimonialsCarousel">
-                                    <span style="color: #3a505a; font-size: 28px; font-weight: bold;" aria-hidden="true">›</span>
+                                    <span class="carousel-arrow" aria-hidden="true">›</span>
                                     <span class="sr-only">Próximo</span>
                                 </button>
                         </div>
@@ -1043,10 +1034,10 @@ if ($_POST) {
                             if (defined('GOOGLE_PLACE_ID') && !empty(GOOGLE_PLACE_ID)) {
                                 $googleMapsUrl = 'https://www.google.com/maps/place/?q=place_id:' . urlencode(GOOGLE_PLACE_ID);
                                 ?>
-                                <div class="text-center mt-4 mb-4" style="margin-top: 20px !important; margin-bottom: 40px !important; position: relative; z-index: 10;">
+                                <div class="text-center mt-4 mb-4 google-reviews-container">
                                     <a href="<?php echo htmlspecialchars($googleMapsUrl); ?>" target="_blank" rel="noopener noreferrer" class="google-reviews-link">
-                                        <i class="fab fa-google" style="color: #4285F4; font-size: 0.9rem;"></i>
-                                        <span style="color: #fff; font-size: 0.9rem; margin-left: 5px;">Ver todos os reviews no Google</span>
+                                        <i data-lucide="chrome" class="google-reviews-icon"></i>
+                                        <span class="google-reviews-text">Ver todos os reviews no Google</span>
                                     </a>
                     </div>
                                 <?php
@@ -1071,12 +1062,12 @@ if ($_POST) {
                 <!-- Links de Navegação -->
                 <div class="col-12 col-md-4 mb-4 mb-md-0">
                     <h2 class="footer-title">Navegação</h2>
-                    <nav class="footer-nav-vertical" style="display: flex !important; flex-direction: column !important;">
-                        <a href="/#about" class="footer-link" style="display: block !important;">Sobre</a>
-                        <a href="/#services" class="footer-link" style="display: block !important;">Serviços</a>
-                        <a href="/contato.php" class="footer-link" style="display: block !important;">Contato</a>
-                        <a href="/faq/" class="footer-link" style="display: block !important;">FAQ</a>
-                        <a href="/vagas.php" class="footer-link" style="display: block !important;">Trabalhe Conosco</a>
+                    <nav class="footer-nav-vertical">
+                        <a href="/#about" class="footer-link">Sobre</a>
+                        <a href="/#services" class="footer-link">Serviços</a>
+                        <a href="/contato.php" class="footer-link">Contato</a>
+                        <a href="/faq/" class="footer-link">FAQ</a>
+                        <a href="/vagas.php" class="footer-link">Trabalhe Conosco</a>
                     </nav>
                 </div>
 
@@ -1198,13 +1189,22 @@ if ($_POST) {
     <!-- Bootstrap core JavaScript
 ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <!-- jQuery - Load synchronously to ensure it's available before Bootstrap -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- FIX: jQuery carregado com defer para não bloquear render (Bootstrap funciona com defer) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous" defer></script>
     <script>
-    // Fallback to local jQuery if CDN fails
-    if (typeof jQuery === 'undefined') {
-        document.write('<script src="bootstrap/jquery/dist/jquery.slim.min.js"><\/script>');
-    }
+    // FIX: Fallback para jQuery local se CDN falhar (executado após DOM ready)
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof jQuery === 'undefined') {
+            var script = document.createElement('script');
+            script.src = 'bootstrap/jquery/dist/jquery.slim.min.js';
+            script.defer = true;
+            document.head.appendChild(script);
+            // Aguardar jQuery carregar antes de inicializar Bootstrap
+            script.onload = function() {
+                // Bootstrap será inicializado quando seus scripts carregarem
+            };
+        }
+    });
     </script>
     <script src="bootstrap/popper.js/dist/popper.min.js" defer></script>
     <!-- Bootstrap JS - Usar completo temporariamente até corrigir build custom -->
@@ -1212,15 +1212,39 @@ if ($_POST) {
     <?php echo js_tag('form/main.js', ['defer' => true]); ?>
     <?php echo js_tag('js/bc-swipe.js', ['defer' => true]); ?>
     <?php echo js_tag('main.js', ['defer' => true]); ?>
-    <?php echo js_tag('js/dark-mode.js', ['defer' => false]); ?>
+    <?php echo js_tag('js/dark-mode.js', ['defer' => true]); // FIX: Mudado para defer ?>
     <?php echo js_tag('js/animations.js', ['defer' => true]); ?>
     <!-- jquery.touchswipe removido - bc-swipe.js já fornece funcionalidade de swipe -->
+    
+    <!-- Lucide Icons - Defer para não bloquear render (movido do <head> para melhorar FCP) -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.1/dist/umd/lucide.js" defer></script>
+    
+    <!-- Inicializar Lucide Icons após carregar -->
+    <script>
+        // Inicializar Lucide Icons após DOM ready e script carregar
+        function initLucideIcons() {
+            if (typeof lucide !== "undefined") {
+                lucide.createIcons();
+            } else {
+                // Se ainda não carregou, tentar novamente após um delay
+                setTimeout(initLucideIcons, 100);
+            }
+        }
+        
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", initLucideIcons);
+        } else {
+            initLucideIcons();
+        }
+    </script>
     <script>
         // Wait for DOM and jQuery to be ready (defer ensures scripts load after DOM)
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof jQuery !== 'undefined') {
-                // Inicializar todos os carousels
-                jQuery('.carousel').each(function() {
+                // FIX: Usar requestAnimationFrame para evitar forced reflow na inicialização
+                requestAnimationFrame(function() {
+                    // Inicializar todos os carousels
+                    jQuery('.carousel').each(function() {
                     var $carousel = jQuery(this);
                     $carousel.carousel({ 
                         interval: 7000, 
@@ -1236,10 +1260,13 @@ if ($_POST) {
                         
                         if (isMobile) {
                             // No mobile: desabilitar animações do carousel mas manter funcionalidade
-                            $carousel.removeClass('carousel-fade');
-                            $carousel.find('.carousel-item').css({
-                                'transition': 'none',
-                                'opacity': '1'
+                            // FIX: Usar requestAnimationFrame para evitar forced reflow
+                            requestAnimationFrame(function() {
+                                $carousel.removeClass('carousel-fade');
+                                $carousel.find('.carousel-item').css({
+                                    'transition': 'none',
+                                    'opacity': '1'
+                                });
                             });
                             
                             // Garantir que indicadores funcionem
@@ -1268,9 +1295,12 @@ if ($_POST) {
                             });
                             
                             // Forçar repaint para suavizar transição
+                            // FIX: Usar requestAnimationFrame para evitar forced reflow
                             $carousel.on('slid.bs.carousel', function () {
                                 var $active = jQuery(this).find('.carousel-item.active');
-                                $active.css('transform', 'translateZ(0)');
+                                requestAnimationFrame(function() {
+                                    $active.css('transform', 'translateZ(0)');
+                                });
                             });
                         }
                     }

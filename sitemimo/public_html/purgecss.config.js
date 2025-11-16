@@ -81,12 +81,9 @@ module.exports = {
     /^success/,
     /^warning/,
     /^info/,
-    // Font Awesome classes
-    /^fa-/,
-    /^fas/,
-    /^far/,
-    /^fab/,
-    /^fal/,
+    // Lucide Icons (substituiu Font Awesome)
+    /^lucide/,
+    /data-lucide/,
     // Responsive classes
     /^sm-/,
     /^md-/,

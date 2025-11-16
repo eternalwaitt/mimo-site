@@ -107,23 +107,23 @@ if (!isset($includeGTM)) {
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link rel="dns-prefetch" href="https://stackpath.bootstrapcdn.com">
-    <link rel="dns-prefetch" href="https://use.fontawesome.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
     <!-- Script loader for deferred CSS - Must come before deferred resources -->
-    <script src="<?php echo get_js_asset('js/loadcss-polyfill.js'); ?>"></script>
+    <!-- FIX: Padronizar com homepage - usar loadCSS inline em vez de arquivo externo -->
+    <script>
+    /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+    (function(w){"use strict";if(!w.loadCSS){w.loadCSS=function(href,media,rel){var ss=w.document.createElement("link");var ref;if(rel){ref=w.document.getElementsByTagName(rel)[0];}else{var refs=w.document.getElementsByTagName("script");ref=refs[refs.length-1];}ss.rel="stylesheet";ss.href=href;ss.media="only x";function onloadcssdefined(cb){for(var i=0;i<w.document.styleSheets.length;i++){if(w.document.styleSheets[i].href===ss.href){return cb();}}setTimeout(function(){onloadcssdefined(cb);});}onloadcssdefined(function(){ss.media=media||"all";});if(ref){ref.parentNode.insertBefore(ss,ref.nextSibling);}else{w.document.head.appendChild(ss);}return ss;};}})(this);
+    </script>
     
     <!-- Fonts with font-display: swap for better performance - Defer loading -->
     <script>loadCSS("https://fonts.googleapis.com/css?family=Nunito:200,300,400&display=swap");</script>
     <noscript><link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400&display=swap" rel="stylesheet"></noscript>
-    <script>loadCSS("https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700i&display=swap");</script>
-    <noscript><link href="https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700i&display=swap" rel="stylesheet"></noscript>
+    <script>loadCSS("https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700i&display=optional");</script>
+    <noscript><link href="https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700i&display=optional" rel="stylesheet"></noscript>
     <!-- Akrobat font loaded via CSS @font-face in product.css -->
-    
-    <!-- Font Awesome 6 - Defer loading (same as index.php) -->
-    <script>loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css");</script>
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer"></noscript>
     
     <!-- Bootstrap core CSS - Defer non-critical -->
     <script>loadCSS("https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css");</script>
@@ -143,7 +143,7 @@ if (!isset($includeGTM)) {
     <script>loadCSS("<?php echo get_css_asset('css/modules/mobile-ui-improvements.css'); ?>");</script>
     <noscript><link rel="stylesheet" href="<?php echo get_css_asset('css/modules/mobile-ui-improvements.css'); ?>"></noscript>
     
-    <!-- Fix para ícones Font Awesome no footer -->
+    <!-- Footer social links já usam SVG inline - sem necessidade de Font Awesome -->
     <style>
     .site-footer .footer-social-link {
         display: flex !important;
@@ -152,49 +152,12 @@ if (!isset($includeGTM)) {
         width: 42px !important;
         height: 42px !important;
     }
-    
-    .site-footer .footer-social-link i.fab {
-        font-family: "Font Awesome 6 Brands" !important;
-        font-weight: 400 !important;
-        font-size: 18px !important;
-        display: inline-block !important;
-        line-height: 1 !important;
-        width: auto !important;
-        height: auto !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        -webkit-font-smoothing: antialiased !important;
-        -moz-osx-font-smoothing: grayscale !important;
-    }
-    
-    .site-footer .footer-social-link i.fa-instagram::before {
-        content: "\f16d" !important;
-        font-family: "Font Awesome 6 Brands" !important;
-        font-weight: 400 !important;
-        display: inline-block !important;
-    }
-    
-    .site-footer .footer-social-link i.fa-facebook-f::before {
-        content: "\f39e" !important;
-        font-family: "Font Awesome 6 Brands" !important;
-        font-weight: 400 !important;
-        display: inline-block !important;
-    }
-    
-    .site-footer .footer-social-link i.fa-whatsapp::before {
-        content: "\f232" !important;
-        font-family: "Font Awesome 6 Brands" !important;
-        font-weight: 400 !important;
-        display: inline-block !important;
-    }
     </style>
     <!-- Servicos CSS - Defer para melhorar FCP -->
     <script>loadCSS("<?php echo get_css_asset('servicos.css'); ?>");</script>
     <noscript><?php echo css_tag('servicos.css'); ?></noscript>
     
     <!-- Form CSS - Defer (não crítico para FCP) -->
-    <script>loadCSS("../form/css/font-awesome.min.css");</script>
-    <noscript><link rel="stylesheet" type="text/css" href="../form/css/font-awesome.min.css"></noscript>
     <script>loadCSS("<?php echo get_css_asset('form/main.css'); ?>");</script>
     <noscript><?php echo css_tag('form/main.css'); ?></noscript>
     
@@ -396,6 +359,22 @@ if (!isset($includeGTM)) {
     echo generate_breadcrumb_schema($breadcrumbs);
     ?>
     
+    <!-- Inicializar Lucide Icons -->
+    <script>
+        // Inicializar Lucide Icons após DOM ready
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", function() {
+                if (typeof lucide !== "undefined") {
+                    lucide.createIcons();
+                }
+            });
+        } else {
+            if (typeof lucide !== "undefined") {
+                lucide.createIcons();
+            }
+        }
+    </script>
+    
     <!-- Bootstrap core JavaScript -->
     <!-- jQuery - Load synchronously to ensure it's available before Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -412,7 +391,25 @@ if (!isset($includeGTM)) {
     <?php echo js_tag('js/bc-swipe.js', ['defer' => true]); ?>
     <?php echo js_tag('main.js', ['defer' => true]); ?>
     <?php echo js_tag('js/dark-mode.js', ['defer' => false]); ?>
-    <!-- Tidio chat removido - script retorna 404 -->
+    
+    <!-- Lucide Icons - Defer para não bloquear render (padronizado com homepage) -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.1/dist/umd/lucide.js" defer></script>
+    
+    <!-- Inicializar Lucide Icons após carregar -->
+    <script>
+        function initLucideIcons() {
+            if (typeof lucide !== "undefined") {
+                lucide.createIcons();
+            } else {
+                setTimeout(initLucideIcons, 100);
+            }
+        }
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", initLucideIcons);
+        } else {
+            initLucideIcons();
+        }
+    </script>
     
     <!-- Botão Voltar ao Topo -->
     <?php include '../inc/back-to-top.php'; ?>
