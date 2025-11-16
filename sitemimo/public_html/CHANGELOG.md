@@ -5,6 +5,93 @@ All notable changes to the Mimo Site project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.10] - 2025-11-16
+
+### Fixed
+- **Production Layout Break**: Fixed completely broken layout on production site
+  - **Root Cause**: Asset helper was serving broken purged CSS file (812 bytes vs 39KB)
+  - **Fix**: Added file size validation to skip corrupted purged files (< 5KB)
+  - **Result**: Now correctly uses `minified/product.min.css` (39KB) instead of broken purged file
+- **Navbar Transparency**: Fixed navbar always being dark instead of transparent on homepage
+  - **Root Cause**: Critical CSS was overriding transparent background from product.css
+  - **Fix**: Removed conflicting navbar styles from critical CSS, kept only minimal FOUC prevention
+  - **Result**: Navbar now correctly transparent on homepage, dark when scrolled
+- **Image Layout Issues**: Fixed forced width/height attributes breaking layouts
+  - **Root Cause**: Image helper was adding hardcoded dimensions that didn't match actual images
+  - **Fix**: Removed forced width/height, now only uses `aspect-ratio` CSS (more flexible)
+  - **Result**: Images maintain correct aspect ratios without breaking layouts
+
+### Changed
+- **Asset Helper** (`inc/asset-helper.php`): Added file size validation for purged CSS files
+  - Skips purged files smaller than 5KB (likely corrupted)
+  - Falls back to minified version if purged is broken
+- **Critical CSS** (`inc/critical-css.php`): Simplified navbar styles to prevent conflicts
+  - Removed full navbar styling that conflicted with product.css
+  - Kept only minimal styles for FOUC prevention
+- **Image Helper** (`inc/image-helper.php`): Improved dimension fallback logic
+  - Removed forced width/height attributes
+  - Now only adds `aspect-ratio` CSS property for CLS prevention
+
+### Technical
+- **Performance**: Layout fixes restore proper CSS loading and prevent layout shifts
+- **CSS Loading**: Fixed broken purged CSS causing complete layout failure
+- **CLS Prevention**: Maintained aspect-ratio approach without breaking layouts
+
+## [2.6.9] - 2025-11-15
+
+### Performance - CLS Reductions
+- **CLS Fixes**: Adicionado `contain: layout style` e `min-height` em containers críticos
+  - Containers de serviço (`.service-content`, `.tab-content`, `.tab-pane`)
+  - Containers de vagas (`.vaga-card`, `.vaga-info`, `.vaga-requirements`, `.vaga-description`)
+  - Containers da homepage (`#florzinha`, `.mobile-categories-container`, `.mobile-category-item`)
+  - Containers da seção about (`#about .container.row.mx-auto`, `.col-md-7`)
+- **Impacto esperado**: Redução significativa de CLS (meta: <0.1)
+
+### Changed
+- **PurgeCSS**: Re-executado para remover CSS não utilizado
+- **Minificação**: CSS e JavaScript minificados
+- **Asset Version**: Atualizado para `20251115-7` (cache busting)
+
+### Technical
+- **Performance**: Otimizações focadas em reduzir CLS e melhorar Performance Score para 90+
+- **CLS**: Containers críticos com `contain: layout style` e `min-height` para prevenir layout shifts
+
+## [2.6.8] - 2025-11-15
+
+### Added
+- **Migração Font Awesome → Lucide Icons**:
+  - Helper function: `inc/icon-helper.php` com funções `lucide_icon()` e `lucide_icon_from_fa()`
+  - Mapeamento completo: `LUCIDE-MIGRATION-MAP.md` com todos os 30 ícones únicos
+  - Script de teste automatizado: `build/pagespeed-test-all.sh` para rodar PageSpeed Insights API em todas as páginas
+  - Checklist de testes: `TESTING-CHECKLIST.md` para verificação após cada fase
+- **Otimizações de CLS**:
+  - Dark mode toggle com `contain: layout style` para prevenir layout shift quando inserido dinamicamente
+  - Melhorias em containers problemáticos com `contain: layout` e `min-height`
+
+### Changed
+- **Ícones Substituídos**:
+  - `index.php`: Removido Font Awesome CSS, adicionado Lucide, inicialização no final
+  - `contato.php`: Substituídos ícones (map-pin, route, phone, clock, circle, share-2, mail) por Lucide
+  - `vagas.php`: Substituídos ícones (briefcase, map-pin, dollar-sign, building) por Lucide
+  - `inc/service-template.php`: Removido Font Awesome CSS, adicionado Lucide
+  - `inc/google-reviews.php`: Substituído ícone de estrela por Lucide
+  - `inc/back-to-top.php`: Substituído ícone chevron-up por Lucide
+- **PurgeCSS**:
+  - Removido Font Awesome do safelist (substituído por Lucide)
+  - Adicionado Lucide ao safelist (`/^lucide/`, `/data-lucide/`)
+- **Dark Mode**:
+  - Toggle com `contain: layout style` para prevenir layout shift
+- **Asset Version**: Atualizado para `20251115-6` (cache busting)
+
+### Removed
+- Font Awesome CSS de todas as páginas (economia: ~70 KiB)
+- CSS de estilização do Font Awesome (ícones sociais já usam SVG inline)
+
+### Technical
+- **Performance**: Economia de ~70 KiB CSS + 1 requisição HTTP a menos
+- **CLS**: Melhorias em dark mode toggle e containers dinâmicos
+- **Icons**: Lucide Icons (tree-shakable, SVG inline, sem CSS adicional)
+
 ## [2.6.7] - 2025-11-15
 
 ### Added

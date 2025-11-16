@@ -56,18 +56,19 @@ body {
 }
 
 /* Navbar - Primeiro elemento visível */
+/* CRITICAL: Minimal styles to prevent FOUC - full styles in product.css */
 .navbar {
     padding: 20px 25px;
-    background-color: #3d3d3d;
+    padding-top: 20px;
+    padding-bottom: 2px;
     margin: 0;
-    transition: all .3s;
     z-index: 9999;
     position: relative;
-}
-
-.navbar.compressed {
-    padding: 10px 25px;
-    background-color: rgba(61, 61, 61, 0.95);
+    contain: layout;
+    min-height: 70px;
+    /* Set transparent as default - product.css will override if needed */
+    background-color: transparent;
+    transition: all .3s;
 }
 
 .navbar-brand {
@@ -86,44 +87,54 @@ body {
     max-width: 100%;
 }
 
-/* Hero Section - Above the fold */
-.bg-header {
-    /* Desktop: usar AVIF/WebP com fallback JPG */
-    /* CRITICAL: LCP element - preload já configurado no <head> com fetchpriority="high" */
-    background-image: url(/img/bgheader.avif);
-    background-image: -webkit-image-set(
-        url(/img/bgheader.avif) type("image/avif"),
-        url(/img/bgheader.webp) type("image/webp"),
-        url(/img/bgheader.jpg) type("image/jpeg")
-    );
-    background-image: image-set(
-        url(/img/bgheader.avif) type("image/avif"),
-        url(/img/bgheader.webp) type("image/webp"),
-        url(/img/bgheader.jpg) type("image/jpeg")
-    );
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: 50vh;
+/* Hero Section - Above the fold (CRITICAL CSS - LCP element) */
+/* FIX: Hero section agora usa <img> tag para melhor LCP e fetchpriority */
+.hero-section {
+    position: relative;
+    width: 100%;
     min-height: 350px;
     max-height: 500px;
-    background-position: center;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* Prevent layout shift - aspect ratio + min-height */
-    aspect-ratio: 16/9;
-    width: 100%;
-    /* Garantir espaço reservado mesmo antes da imagem carregar */
+    aspect-ratio: 16 / 9;
+    contain: layout;
     background-color: #3d3d3d;
-    /* Forçar aceleração de hardware para renderização mais rápida */
-    will-change: background-image;
-    transform: translateZ(0);
-    /* Otimizar renderização */
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    /* CRITICAL: Não aplicar lazy loading - LCP element deve carregar imediatamente */
-    content-visibility: auto;
+    overflow: hidden;
+    display: block;
+}
+
+.hero-section picture {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.hero-section picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(61, 61, 61, 0.3);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Mobile hero section */
+@media screen and (max-width: 750px) {
+    .hero-section {
+        min-height: 250px;
+        max-height: 350px;
+    }
 }
 
 /* Hero Content */
@@ -146,7 +157,7 @@ body {
     text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 }
 
-/* Navigation Menu */
+/* Navigation Menu - Minimal styles only */
 .navbar-nav {
     display: flex;
     flex-direction: row;
@@ -155,20 +166,8 @@ body {
     padding: 0;
 }
 
-.navbar-nav .nav-link {
-    color: #fff;
-    padding: 0.5rem 1rem;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.navbar-nav.changecolormenu .nav-link {
-    color: #fff;
-}
-
-.navbar-nav .nav-link:hover {
-    color: #ccb7bc;
-}
+/* Don't set nav-link colors here - let product.css handle it */
+/* This prevents conflicts when product.css loads */
 
 /* Container básico */
 .container {
@@ -213,7 +212,8 @@ picture img {
             url(/img/header_dezembro_mobile.png) type("image/png")
         );
         background-position: center;
-        height: 40vh;
+        /* CRITICAL: Remover height quando aspect-ratio está presente para evitar conflito CSS */
+        /* height: 40vh; - REMOVIDO: conflito com aspect-ratio causa layout shift */
         min-height: 250px;
         max-height: 350px;
         background-size: cover;
@@ -237,7 +237,7 @@ picture img {
     }
     
     .mobile-category-item {
-        contain: layout style;
+        contain: layout; /* Removido 'style' - pode estar causando reflow */
         min-height: 200px; /* Reserve space */
     }
     
@@ -255,6 +255,7 @@ picture img {
     
     .navbar {
         padding: 15px 20px;
+        /* Don't set background-color here - let product.css handle it */
     }
     
     .hero-content h1 {
@@ -410,12 +411,44 @@ section {
     display: block;
 }
 
-/* Main content - prevent layout shift */
+/* Main content - prevent layout shift (CRÍTICO - 93% do CLS) */
 #main-content {
     min-height: 100vh; /* Reserve space to prevent layout shift */
     position: relative;
     /* Garantir que conteúdo não cause shift */
-    contain: layout style;
+    contain: layout; /* Removido 'style' - pode estar causando reflow */
+    /* FIX: Prevenir que conteúdo dinâmico cause shift */
+    overflow-x: hidden;
+    /* FIX: Garantir que seções principais tenham altura mínima desde o início */
+}
+
+/* FIX: Garantir altura mínima para seções principais dentro do main */
+#main-content > .hero-section {
+    min-height: 250px; /* Mobile */
+}
+
+@media (min-width: 751px) {
+    #main-content > .hero-section {
+        min-height: 400px; /* Desktop */
+    }
+}
+
+/* FIX: Garantir altura mínima para seção about */
+#about {
+    min-height: 500px; /* Reservar espaço desde o início */
+    contain: layout;
+}
+
+/* FIX: Garantir altura mínima para seção services */
+#services {
+    min-height: 800px; /* Reservar espaço desde o início */
+    contain: layout;
+}
+
+/* FIX: Garantir altura mínima para testimonials section */
+.testimonials-section {
+    min-height: 600px; /* Reservar espaço desde o início */
+    contain: layout;
 }
 
 /* About section container - prevent layout shift */
@@ -427,7 +460,7 @@ section {
 
 /* CRITICAL: col-md-7 causing 93% of CLS (0.375) - prevent layout shift */
 #about .col-md-7 {
-    contain: layout style;
+    contain: layout; /* Removido 'style' - pode estar causando reflow */
     min-height: 400px; /* Reserve space for text content */
     /* Prevent font reflow */
     font-size: inherit;

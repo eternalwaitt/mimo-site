@@ -1,18 +1,65 @@
 <?php
 /**
  * Funções Auxiliares de Imagem
- * Fornece utilitários para imagens WebP com fallbacks e srcsets responsivos
+ * Fornece utilitários para imagens WebP/AVIF com fallbacks e srcsets responsivos
  * 
  * Desenvolvido por: Victor Penter
  * Versão: <?php echo APP_VERSION; ?>
+ * 
+ * FUNCIONALIDADES:
+ * - Geração automática de elementos <picture> com suporte AVIF/WebP/Original
+ * - Detecção automática de dimensões de imagem (width/height) para prevenir CLS
+ * - Geração de srcset responsivo (1x, 2x, 3x) quando disponível
+ * - Fallback inteligente com aspect-ratio CSS quando dimensões não detectadas
+ * - Suporte a lazy loading configurável
+ * - Resolução inteligente de caminhos (funciona em subdiretórios)
+ * 
+ * ONDE É USADO:
+ * - index.php (homepage)
+ * - contato.php, vagas.php, 404.php
+ * - Todas as páginas de serviço (via service-template.php)
+ * - Incluído via: require_once 'inc/image-helper.php';
+ * 
+ * EXEMPLO DE USO:
+ * <?php
+ * require_once 'inc/image-helper.php';
+ * // Imagem acima da dobra (sem lazy loading)
+ * echo picture_webp('img/hero.jpg', 'Descrição', 'img-fluid', ['width' => '1200', 'height' => '630'], false);
+ * // Imagem abaixo da dobra (com lazy loading padrão)
+ * echo picture_webp('img/service.png', 'Serviço', 'img-cat');
+ * ?>
+ * 
+ * FORMATOS SUPORTADOS:
+ * - Entrada: JPG, JPEG, PNG
+ * - Saída: AVIF (prioridade) > WebP > Original (fallback)
+ * - O navegador escolhe automaticamente o melhor formato suportado
+ * 
+ * PERFORMANCE:
+ * - Previne CLS (Cumulative Layout Shift) detectando dimensões automaticamente
+ * - Reduz tamanho de arquivo usando AVIF/WebP (até 50-80% menor)
+ * - Lazy loading reduz carga inicial da página
+ * - Srcset permite servir imagens otimizadas por densidade de tela
  */
 
 /**
- * Check if a file exists (tries multiple path resolutions)
+ * Verifica se um arquivo existe tentando múltiplos caminhos
  * 
- * @param string $filePath File path to check
- * @param string $rootPath Root path for resolution
- * @return bool True if file exists
+ * Esta função resolve problemas de caminhos relativos quando chamada de
+ * diferentes contextos (homepage vs páginas de serviço em subdiretórios).
+ * 
+ * ESTRATÉGIA DE RESOLUÇÃO:
+ * 1. Caminho relativo ao script chamador (para subdiretórios como salao/)
+ * 2. Caminho relativo à raiz public_html
+ * 3. Resolução de caminhos com ../ usando realpath()
+ * 
+ * @param string $filePath Caminho do arquivo a verificar
+ * @param string|null $rootPath Caminho raiz para resolução (default: dirname(__DIR__))
+ * @return bool True se o arquivo existe em qualquer um dos caminhos tentados
+ * 
+ * @example
+ * // Funciona tanto na homepage quanto em salao/index.php
+ * image_file_exists('img/logo.png'); // true
+ * image_file_exists('../img/logo.png'); // true (em subdiretório)
  */
 function image_file_exists($filePath, $rootPath = null) {
     if ($rootPath === null) {
@@ -39,16 +86,81 @@ function image_file_exists($filePath, $rootPath = null) {
 }
 
 /**
- * Generate picture element with AVIF, WebP and fallback, with responsive srcset
+ * Gera elemento <picture> com suporte AVIF, WebP e fallback original, com srcset responsivo
  * 
- * @param string $src Original image path (jpg/png)
- * @param string $alt Alt text
- * @param string $class CSS classes
- * @param array $attributes Additional HTML attributes (can include 'width' and 'height' for explicit dimensions)
- * @param bool $lazy Use lazy loading (default: true, false for above-the-fold images)
- * @param bool $generateSrcset Generate srcset with 1x, 2x, 3x sizes (default: true)
- * @param string $sizes Sizes attribute for responsive images (default: '100vw')
- * @return string HTML picture element
+ * Esta é a função principal para exibir imagens otimizadas no site. Ela:
+ * - Detecta automaticamente dimensões da imagem para prevenir CLS
+ * - Gera múltiplos formatos (AVIF > WebP > Original) para melhor compressão
+ * - Cria srcset responsivo quando múltiplos tamanhos estão disponíveis
+ * - Adiciona lazy loading por padrão (exceto para imagens acima da dobra)
+ * - Resolve caminhos automaticamente (funciona em qualquer contexto)
+ * 
+ * DETECÇÃO DE DIMENSÕES:
+ * A função tenta detectar width/height automaticamente para prevenir CLS:
+ * 1. Verifica se width/height foram fornecidos em $attributes
+ * 2. Tenta múltiplos caminhos para encontrar o arquivo
+ * 3. Tenta diferentes extensões (AVIF, WebP, Original)
+ * 4. Usa getimagesize() quando o arquivo é encontrado
+ * 5. Se não encontrar, infere aspect-ratio baseado no nome do arquivo
+ * 
+ * FORMATOS E PRIORIDADE:
+ * O navegador escolhe automaticamente o melhor formato suportado:
+ * 1. AVIF (melhor compressão, ~50% menor que WebP)
+ * 2. WebP (boa compressão, amplo suporte)
+ * 3. Original (JPG/PNG - fallback universal)
+ * 
+ * SRCSET RESPONSIVO:
+ * Se $generateSrcset = true, a função procura por múltiplos tamanhos:
+ * - Padrão: filename.ext, filename-2x.ext, filename-3x.ext
+ * - Gera srcset com descriptors (1x, 2x, 3x ou width descriptors)
+ * - Permite servir imagens otimizadas por densidade de tela
+ * 
+ * LAZY LOADING:
+ * - Por padrão: true (imagens abaixo da dobra)
+ * - Para LCP images: false (carregar imediatamente)
+ * - Reduz carga inicial da página significativamente
+ * 
+ * @param string $src Caminho da imagem original (jpg/png) - obrigatório
+ * @param string $alt Texto alternativo para acessibilidade - opcional, mas recomendado
+ * @param string $class Classes CSS para estilização - opcional
+ * @param array $attributes Atributos HTML adicionais - opcional
+ *   - Pode incluir 'width' e 'height' para dimensões explícitas
+ *   - Pode incluir 'style' para estilos inline
+ *   - Outros atributos HTML válidos são aceitos
+ * @param bool $lazy Lazy loading - default: true
+ *   - true: Imagem carrega quando próxima do viewport (abaixo da dobra)
+ *   - false: Imagem carrega imediatamente (acima da dobra, LCP images)
+ * @param bool $generateSrcset Gerar srcset responsivo - default: true
+ *   - true: Procura por múltiplos tamanhos (1x, 2x, 3x)
+ *   - false: Usa apenas o arquivo original
+ * @param string $sizes Atributo sizes para imagens responsivas - default: '100vw'
+ *   - Define como o navegador calcula o tamanho da imagem
+ *   - Exemplo: '(max-width: 768px) 100vw, 50vw'
+ * 
+ * @return string HTML completo com elemento <picture> e <img> dentro
+ * 
+ * @example
+ * // Imagem acima da dobra (sem lazy, com dimensões explícitas)
+ * echo picture_webp(
+ *     'img/hero.jpg',
+ *     'Hero image',
+ *     'img-fluid',
+ *     ['width' => '1200', 'height' => '630'],
+ *     false // Não lazy (LCP image)
+ * );
+ * 
+ * @example
+ * // Imagem abaixo da dobra (lazy padrão, dimensões detectadas automaticamente)
+ * echo picture_webp('img/service.png', 'Serviço', 'img-cat');
+ * 
+ * @example
+ * // Imagem com estilo customizado
+ * echo picture_webp(
+ *     'img/logo.png',
+ *     'Logo',
+ *     'logo-class',
+ *     ['style' => 'max-width: 200px;', 'width' => '200', 'height' => '100']
+ * );
  */
 function picture_webp($src, $alt = '', $class = '', $attributes = [], $lazy = true, $generateSrcset = true, $sizes = '100vw') {
     $rootPath = dirname(__DIR__);
@@ -69,11 +181,21 @@ function picture_webp($src, $alt = '', $class = '', $attributes = [], $lazy = tr
             $rootPath . '/' . ltrim($src, '/'),
             __DIR__ . '/../' . ltrim($src, '/'),
             $src, // Caminho relativo direto
+            realpath($rootPath . '/' . ltrim($src, '/')), // Resolver caminho absoluto
         ];
         
         // Se src começa com ../, tentar resolver
         if (strpos($src, '../') === 0) {
             $possiblePaths[] = realpath($rootPath . '/' . $src);
+            $possiblePaths[] = realpath(__DIR__ . '/../' . $src);
+        }
+        
+        // Tentar também com diferentes extensões (AVIF, WebP, original)
+        $basePath = preg_replace('/\.(jpg|jpeg|png|webp|avif)$/i', '', $src);
+        $extensions = ['jpg', 'jpeg', 'png', 'webp', 'avif'];
+        foreach ($extensions as $ext) {
+            $possiblePaths[] = $rootPath . '/' . $basePath . '.' . $ext;
+            $possiblePaths[] = __DIR__ . '/../' . $basePath . '.' . $ext;
         }
         
         foreach ($possiblePaths as $imagePath) {
@@ -88,6 +210,44 @@ function picture_webp($src, $alt = '', $class = '', $attributes = [], $lazy = tr
                     }
                     break; // Dimensões encontradas, sair do loop
                 }
+            }
+        }
+        
+        // Se ainda não encontrou dimensões, adicionar aspect-ratio via CSS como fallback
+        // CRITICAL: Always ensure we have either width/height or aspect-ratio to prevent CLS
+        // FIX: Only add aspect-ratio CSS, don't force width/height attributes that might not match actual image
+        if (!isset($attributes['width']) || !isset($attributes['height'])) {
+            $aspectRatioStyle = '';
+            
+            // Tentar inferir aspect-ratio baseado no tipo de imagem comum
+            // Para imagens de categoria (150x150), usar aspect-ratio 1:1
+            if (strpos($src, 'categoria') !== false || strpos($src, 'menu_') !== false || strpos($src, 'micro.png') !== false) {
+                $aspectRatioStyle = 'aspect-ratio: 1 / 1;';
+            }
+            // Para imagens de serviço (500x400), usar aspect-ratio 5:4
+            elseif (strpos($src, 'esmalteria.png') !== false || strpos($src, 'corporal.png') !== false || 
+                    strpos($src, 'facial.png') !== false || strpos($src, 'cilios.png') !== false) {
+                $aspectRatioStyle = 'aspect-ratio: 5 / 4;';
+            }
+            // Para salao (600x400), usar aspect-ratio 3:2
+            elseif (strpos($src, 'salao.png') !== false) {
+                $aspectRatioStyle = 'aspect-ratio: 3 / 2;';
+            }
+            // Para hero images (mimo5), usar aspect-ratio 1:1
+            elseif (strpos($src, 'mimo5') !== false) {
+                $aspectRatioStyle = 'aspect-ratio: 1 / 1;';
+            }
+            // Default fallback: use 16:9 for unknown images
+            else {
+                $aspectRatioStyle = 'aspect-ratio: 16 / 9;';
+            }
+            
+            // Add aspect-ratio to style if not already set (don't force width/height - let CSS handle it)
+            if ($aspectRatioStyle && !isset($attributes['style'])) {
+                $attributes['style'] = $aspectRatioStyle;
+            } elseif ($aspectRatioStyle && isset($attributes['style'])) {
+                // Append aspect-ratio to existing style
+                $attributes['style'] = rtrim($attributes['style'], ';') . '; ' . $aspectRatioStyle;
             }
         }
     }
@@ -158,6 +318,9 @@ function picture_webp($src, $alt = '', $class = '', $attributes = [], $lazy = tr
     $imgClass = $class ? ' class="' . htmlspecialchars($class) . '"' : '';
     $imgAlt = $alt ? ' alt="' . htmlspecialchars($alt) . '"' : '';
     $imgLoading = $lazy ? ' loading="lazy"' : '';
+    // CRITICAL: Add fetchpriority="high" for LCP images (non-lazy images above the fold)
+    // This tells the browser to prioritize loading this image for better LCP score
+    $imgFetchPriority = !$lazy ? ' fetchpriority="high"' : '';
     
     // Extract width and height for explicit dimensions (prevents layout shift)
     $width = isset($attributes['width']) ? $attributes['width'] : '';
@@ -199,7 +362,7 @@ function picture_webp($src, $alt = '', $class = '', $attributes = [], $lazy = tr
         }
     }
     
-    $html .= '<img src="' . htmlspecialchars($imgSrc) . '"' . $imgSrcset . $imgClass . $imgAlt . $imgLoading . $widthAttr . $heightAttr . $additionalAttrs . '>';
+    $html .= '<img src="' . htmlspecialchars($imgSrc) . '"' . $imgSrcset . $imgClass . $imgAlt . $imgLoading . $imgFetchPriority . $widthAttr . $heightAttr . $additionalAttrs . '>';
     $html .= '</picture>';
     
     return $html;

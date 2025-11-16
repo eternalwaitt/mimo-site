@@ -72,7 +72,9 @@ function get_css_asset($filePath, $addVersion = true) {
         }
         
         // 1. Tentar purged + minified (melhor) - verificar ambos os caminhos
-        if (file_exists($purgedMinPath) || file_exists($purgedMinPathAlt)) {
+        // FIX: Skip purged files if they're suspiciously small (likely broken)
+        $purgedMinFile = file_exists($purgedMinPath) ? $purgedMinPath : (file_exists($purgedMinPathAlt) ? $purgedMinPathAlt : null);
+        if ($purgedMinFile && filesize($purgedMinFile) > 5000) { // Only use if > 5KB (sanity check)
             $basePath = $prefix . 'css/purged/' . $minFileName;
         }
         // 2. Tentar apenas minified
@@ -90,8 +92,8 @@ function get_css_asset($filePath, $addVersion = true) {
                 $basePath = $prefix . 'minified/' . $minFileName;
             }
         }
-        // 3. Tentar apenas purged
-        elseif (file_exists($purgedPath)) {
+        // 3. Tentar apenas purged (skip if too small - likely broken)
+        elseif (file_exists($purgedPath) && filesize($purgedPath) > 5000) {
             $basePath = $prefix . 'css/purged/' . basename($filePath);
         }
         // 4. Fallback para original
