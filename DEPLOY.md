@@ -1,8 +1,8 @@
-# Deploy Site Mimo v4
+# Deploy Site Mimo
 
 ## Opção 1: Vercel (Recomendado - Link Próprio)
 
-A forma mais fácil de mostrar para a designer é fazer deploy no Vercel. Você terá um link único tipo `sitemimo-v4.vercel.app` ou pode configurar um domínio customizado.
+A forma mais fácil de fazer deploy é usar o Vercel. Você terá um link único tipo `mimo-site.vercel.app` ou pode configurar um domínio customizado.
 
 ### Passo a Passo:
 
@@ -13,21 +13,21 @@ npm i -g vercel
 
 2. **Fazer deploy**:
 ```bash
-cd sitemimo-v4
+cd mimo-site
 vercel
 ```
 
 3. **Ou usar interface web**:
    - Acesse https://vercel.com
    - Conecte seu repositório GitHub
-   - Selecione a pasta `sitemimo-v4`
+   - Selecione o repositório `mimo-site`
    - Deploy automático!
 
-4. **Link gerado**: Você receberá um link tipo `sitemimo-v4-xxx.vercel.app`
+4. **Link gerado**: Você receberá um link tipo `mimo-site-xxx.vercel.app`
 
 5. **Configurar domínio customizado** (opcional):
    - No painel Vercel, vá em Settings → Domains
-   - Adicione `v4.minhamimo.com.br` ou `preview.minhamimo.com.br`
+   - Adicione `minhamimo.com.br` ou `www.minhamimo.com.br`
    - Configure DNS no painel da Locaweb apontando para o Vercel
 
 ## Opção 2: Build Estático no Servidor Atual
@@ -46,27 +46,27 @@ const nextConfig: NextConfig = {
 
 2. **Fazer build**:
 ```bash
-cd sitemimo-v4
+cd mimo-site
 npm run build
 ```
 
 3. **Copiar arquivos**:
 ```bash
 # A pasta out/ será criada com os arquivos estáticos
-cp -r out/* /caminho/para/mimo-site/sitemimo/public_html/v4/
+cp -r out/* /caminho/para/servidor/public_html/
 ```
 
-4. **Criar .htaccess** na pasta v4/:
+4. **Criar .htaccess** na pasta raiz:
 ```apache
 RewriteEngine On
-RewriteBase /v4/
+RewriteBase /
 RewriteRule ^index\.html$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /v4/index.html [L]
+RewriteRule . /index.html [L]
 ```
 
-5. **Acessar**: `https://minhamimo.com.br/v4`
+5. **Acessar**: `https://minhamimo.com.br`
 
 **Nota**: Build estático tem limitações (sem API routes, sem server-side rendering dinâmico).
 
@@ -76,7 +76,7 @@ Similar ao Vercel:
 1. Acesse https://netlify.com
 2. Conecte repositório
 3. Configure build: `npm run build` e publish: `.next`
-4. Link gerado tipo `sitemimo-v4.netlify.app`
+4. Link gerado tipo `mimo-site.netlify.app`
 
 ## Recomendação
 

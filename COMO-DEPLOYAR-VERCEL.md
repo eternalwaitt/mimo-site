@@ -9,13 +9,13 @@
 
 ### 2. Conecte o Repositório
 - No dashboard, clique em **"Add New Project"**
-- Selecione o repositório que tem o `sitemimo-v4`
+- Selecione o repositório `mimo-site`
 - Se o repositório não aparecer, clique em **"Adjust GitHub App Permissions"** e dê permissão
 
 ### 3. Configure o Projeto
 Na tela de configuração:
 - **Framework Preset**: Deixe **Next.js** (detecta automaticamente)
-- **Root Directory**: Se o repositório tem outras pastas, clique em **"Edit"** e digite: `sitemimo-v4`
+- **Root Directory**: Deixe vazio (raiz do repositório)
 - **Build Command**: `npm run build` (já vem preenchido)
 - **Output Directory**: `.next` (já vem preenchido)
 - **Install Command**: `npm install` (já vem preenchido)
@@ -23,11 +23,11 @@ Na tela de configuração:
 ### 4. Deploy!
 - Clique no botão **"Deploy"**
 - Aguarde 2-5 minutos enquanto faz build
-- Quando terminar, você verá um link tipo: `sitemimo-v4-xxx.vercel.app`
+- Quando terminar, você verá um link tipo: `mimo-site-xxx.vercel.app`
 
 ### 5. Pronto! 🎉
 - O link já está funcionando
-- Pode compartilhar com a designer
+- Pode compartilhar
 - Toda vez que fizer `git push`, atualiza automaticamente
 
 ---
@@ -41,7 +41,7 @@ Se preferir usar terminal:
 npm i -g vercel
 
 # 2. Entrar na pasta do projeto
-cd sitemimo-v4
+cd mimo-site
 
 # 3. Fazer login (abre navegador)
 vercel login
@@ -67,9 +67,9 @@ vercel --prod
 ## 🔗 Depois do Deploy
 
 Você terá um link tipo:
-- `https://sitemimo-v4-xxx.vercel.app`
+- `https://mimo-site-xxx.vercel.app`
 
-**Este link pode ser compartilhado com a designer!**
+**Este link pode ser compartilhado!**
 
 ### Atualizações Automáticas
 - Toda vez que você fizer `git push` para `main`, o Vercel faz deploy automático
@@ -96,8 +96,8 @@ Você terá um link tipo:
 ## 🎯 Próximos Passos (Opcional)
 
 ### Domínio Customizado
-Se quiser usar `v4.minhamimo.com.br`:
+Se quiser usar `minhamimo.com.br`:
 1. No Vercel, vá em **Settings** → **Domains**
-2. Adicione `v4.minhamimo.com.br`
+2. Adicione `minhamimo.com.br` e `www.minhamimo.com.br`
 3. Configure DNS no painel da Locaweb apontando para o Vercel
 

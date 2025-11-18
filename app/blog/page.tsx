@@ -10,8 +10,9 @@ export const metadata: Metadata = {
 /**
  * página blog - estrutura preparada (fase 2).
  * 
- * layout editorial (não lista de posts).
- * categorias: Dicas, Tendências, Bem-estar.
+ * - placeholder para futura implementação
+ * - layout editorial planejado (não lista de posts)
+ * - categorias planejadas: Dicas, Tendências, Bem-estar
  */
 export default function BlogPage() {
   return (

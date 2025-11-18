@@ -8,10 +8,11 @@ import { getWhatsAppBookingUrl, getWhatsAppContactUrl, HOME_COPY } from '@/lib/c
 /**
  * cta agendamento simplificado.
  * 
- * headline: "Pronta pra seu momento?"
- * 2 botões grandes: WhatsApp direto + "Falar com equipe"
- * background: foto ambiente + overlay
- * mobile: stack vertical
+ * - headline: "Pronta pra seu momento?"
+ * - 2 botões grandes: WhatsApp direto + "Falar com equipe"
+ * - background: foto ambiente + overlay
+ * - mobile: stack vertical
+ * - animações de entrada
  */
 export function CTAAgendamento() {
   return (

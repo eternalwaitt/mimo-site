@@ -9,10 +9,11 @@ import { SERVICES } from '@/lib/constants'
 /**
  * página galeria.
  * 
- * masonry grid (CSS Grid).
- * filtros por serviço/tipo.
- * lightbox elegante.
- * lazy load images.
+ * - masonry grid usando CSS columns (layout responsivo)
+ * - filtros por serviço/tipo com estado local
+ * - lightbox modal para visualização ampliada
+ * - imagens locais + Unsplash (validadas e funcionais)
+ * - lazy loading automático via next/image
  */
 export default function GaleriaPage() {
   const [selectedFilter, setSelectedFilter] = useState<string>('todos')

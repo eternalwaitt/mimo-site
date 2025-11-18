@@ -1,4 +1,4 @@
-# Guia de Deploy no Vercel - Site Mimo v4
+# Guia de Deploy no Vercel - Site Mimo
 
 ## Método 1: Via Interface Web (Mais Fácil) 🌐
 
@@ -6,10 +6,10 @@
 
 1. **Certifique-se que o código está no GitHub**:
    ```bash
-   cd sitemimo-v4
+   cd mimo-site
    git init  # se ainda não tiver git
    git add .
-   git commit -m "feat: site mimo v4"
+   git commit -m "feat: site mimo"
    git remote add origin SEU_REPOSITORIO_GITHUB
    git push -u origin main
    ```
@@ -24,10 +24,10 @@
 ### Passo 3: Fazer Deploy
 
 1. No dashboard do Vercel, clique em **"Add New Project"** ou **"New Project"**
-2. Selecione o repositório que contém o `sitemimo-v4`
+2. Selecione o repositório `mimo-site`
 3. Na tela de configuração:
    - **Framework Preset**: Next.js (deve detectar automaticamente)
-   - **Root Directory**: Se o repositório tem outras pastas, selecione `sitemimo-v4`
+   - **Root Directory**: Deixe vazio (raiz do repositório)
    - **Build Command**: `npm run build` (já vem preenchido)
    - **Output Directory**: `.next` (já vem preenchido)
    - **Install Command**: `npm install` (já vem preenchido)
@@ -41,8 +41,8 @@
 
 ### Passo 5: Acessar o Site
 
-- Quando terminar, você receberá um link tipo: `sitemimo-v4-xxx.vercel.app`
-- Este link já está funcionando e pode compartilhar com a designer!
+- Quando terminar, você receberá um link tipo: `mimo-site-xxx.vercel.app`
+- Este link já está funcionando e pode compartilhar!
 
 ---
 
@@ -57,7 +57,7 @@ npm i -g vercel
 ### Passo 2: Fazer Login
 
 ```bash
-cd sitemimo-v4
+cd mimo-site
 vercel login
 ```
 
@@ -73,7 +73,7 @@ O CLI vai fazer algumas perguntas:
 - **Set up and deploy?** → `Y`
 - **Which scope?** → Selecione sua conta
 - **Link to existing project?** → `N` (primeira vez)
-- **What's your project's name?** → `sitemimo-v4` (ou deixe o padrão)
+- **What's your project's name?** → `mimo-site` (ou deixe o padrão)
 - **In which directory is your code located?** → `./` (pressione Enter)
 
 ### Passo 4: Deploy em Produção
@@ -97,11 +97,11 @@ Se precisar de variáveis de ambiente:
 
 ### Domínio Customizado (Opcional)
 
-Para usar um domínio tipo `v4.minhamimo.com.br`:
+Para usar um domínio customizado:
 
 1. No dashboard, vá em **Settings** → **Domains**
 2. Clique em **"Add Domain"**
-3. Digite: `v4.minhamimo.com.br`
+3. Digite: `minhamimo.com.br` e `www.minhamimo.com.br`
 4. Siga as instruções para configurar DNS:
    - Adicione um registro CNAME no painel da Locaweb
    - Aponte para: `cname.vercel-dns.com`
@@ -146,8 +146,8 @@ Se quiser fazer deploy manual:
 ## Link Gerado
 
 Após o deploy, você terá um link tipo:
-- `https://sitemimo-v4-xxx.vercel.app`
-- Ou se configurar domínio: `https://v4.minhamimo.com.br`
+- `https://mimo-site-xxx.vercel.app`
+- Ou se configurar domínio: `https://minhamimo.com.br`
 
-**Este link pode ser compartilhado com a designer!** 🎉
+**Este link pode ser compartilhado!** 🎉
 

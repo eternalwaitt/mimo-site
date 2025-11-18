@@ -10,7 +10,10 @@ type JobCardProps = {
 /**
  * job card component - para vagas em aberto na página Trabalhe Aqui.
  * 
- * título, área, descrição, requisitos, link para página individual.
+ * - título, área, descrição
+ * - lista de requisitos (mostra 3 primeiros + contador)
+ * - link para página individual da vaga
+ * - hover com scale e shadow
  */
 export function JobCard({ job, className }: JobCardProps) {
   return (

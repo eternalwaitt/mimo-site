@@ -10,8 +10,11 @@ import { cn } from '@/lib/utils'
 /**
  * header fixo minimalista.
  * 
- * logo esquerda, menu central, CTA "Agendar" direita.
- * sticky, transparente com backdrop blur no scroll.
+ * - logo esquerda, menu central, CTA "Agendar" direita
+ * - sticky com backdrop blur no scroll
+ * - itens "em breve" com tooltip à esquerda
+ * - navegação responsiva
+ * - transições suaves
  */
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)

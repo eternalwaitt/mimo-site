@@ -12,8 +12,10 @@ type ServiceCardProps = {
 /**
  * service card component - cards grandes com foto dominante.
  * 
- * hover: revela frase curta + "Ver detalhes"
- * link para subpáginas de cada serviço.
+ * - foto com overlay gradiente no hover
+ * - revela descrição completa e botão "Ver detalhes" no hover
+ * - link para subpáginas de cada serviço
+ * - animações suaves com scale e opacity
  */
 export function ServiceCard({ service, className }: ServiceCardProps) {
   return (
@@ -30,6 +32,7 @@ export function ServiceCard({ service, className }: ServiceCardProps) {
           alt={service.imageAlt}
           width={800}
           height={600}
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="transition-transform duration-500 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 transition-opacity duration-400 group-hover:opacity-100" />

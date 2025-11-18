@@ -12,9 +12,10 @@ export const metadata: Metadata = {
 /**
  * página sobre.
  * 
- * história em fotos + frases curtas.
- * valores visuais (diversidade, acolhimento, qualidade).
- * time (fotos + especialidade).
+ * - hero com missão da empresa
+ * - história em texto narrativo
+ * - valores em cards visuais (diversidade, acolhimento, qualidade)
+ * - seção de time (placeholder para futuro)
  */
 export default function SobrePage() {
   return (

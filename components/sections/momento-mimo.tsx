@@ -5,10 +5,12 @@ import { CelebrityCard } from '@/components/ui/celebrity-card'
 import { CELEBRITIES } from '@/lib/constants'
 
 /**
- * #MomentoMIMO - grid/carrossel celebridades.
+ * #MomentoMIMO - grid de celebridades.
  * 
- * foto + nome + serviço.
- * estilo editorial (não testemunhal genérico).
+ * - grid responsivo de cards de celebridades
+ * - estilo editorial (não testemunhal genérico)
+ * - suporta imagens estáticas ou Instagram Reels
+ * - animações de entrada escalonadas
  */
 export function MomentoMimo() {
   return (

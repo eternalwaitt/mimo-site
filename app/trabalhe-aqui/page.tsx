@@ -13,11 +13,12 @@ export const metadata: Metadata = {
 /**
  * página trabalhe aqui - carreiras completa.
  * 
- * hero: missão da empresa + descrição breve sobre cultura/valores.
- * vagas em aberto: grid de cards (JobCard).
- * por que trabalhar na Mimo: seção com benefícios.
- * como se candidatar: instruções + contatos.
- * CTA final: "Tem dúvidas? Fale com a gente"
+ * - hero: missão da empresa + descrição breve sobre cultura/valores
+ * - vagas em aberto: grid de cards (JobCard)
+ * - por que trabalhar na Mimo: seção com benefícios
+ * - como se candidatar: instruções + contatos (email/WhatsApp)
+ * - CTA final: "Tem dúvidas? Fale com a gente"
+ * - server component com metadata para SEO
  */
 export default function TrabalheAquiPage() {
   return (

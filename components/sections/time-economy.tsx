@@ -7,12 +7,13 @@ import { HOME_COPY } from '@/lib/constants'
 /**
  * economia de tempo visualizada.
  * 
- * visual editorial (não tabela/infográfico corporativo).
- * ícones minimalistas + números grandes.
- * formas orgânicas de fundo (blobs).
- * cálculo: "Unhas 40min + Lashes 30min + Cabelo 1h = Xh totais"
- * punchline: "Economize Xh/mês"
- * inspiração: Notion/Canva moderno.
+ * - visual editorial (não tabela/infográfico corporativo)
+ * - ícones minimalistas + números grandes
+ * - formas orgânicas de fundo (blobs)
+ * - cálculo dinâmico: "Unhas 40min + Lashes 30min + Cabelo 1h = Xh totais"
+ * - punchline: "Economize Xh/mês"
+ * - inspiração: Notion/Canva moderno
+ * - animações suaves com framer-motion
  */
 export function TimeEconomy() {
   const { unhas, lashes, cabelo } = HOME_COPY.timeEconomy.calculation

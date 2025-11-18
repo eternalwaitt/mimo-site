@@ -12,9 +12,11 @@ type CelebrityCardProps = {
 /**
  * celebrity card component - para #MomentoMIMO.
  * 
- * estilo editorial (não testemunhal genérico).
- * foto + nome + serviço + quote (se tiver).
- * se tiver reelUrl, mostra embed do Instagram Reel diretamente.
+ * - estilo editorial (não testemunhal genérico)
+ * - suporta imagem estática ou embed de Instagram Reel
+ * - reel embed com transformações CSS para remover header/footer do Instagram
+ * - overlay com informações (nome, serviço, quote, link Instagram)
+ * - link para perfil Instagram quando disponível
  */
 export function CelebrityCard({ celebrity, className }: CelebrityCardProps) {
   // Extrair shortcode do reel URL

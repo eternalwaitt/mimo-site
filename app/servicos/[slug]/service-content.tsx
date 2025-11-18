@@ -10,6 +10,17 @@ type ServiceContentProps = {
   whatsappUrl: string
 }
 
+/**
+ * conteúdo da página de serviço (client component).
+ * 
+ * - hero com imagem de fundo e overlay
+ * - descrição principal destacada
+ * - grid de procedimentos com imagens (se disponível)
+ * - seção de benefícios em cards visuais
+ * - portfolio em grid (se disponível)
+ * - CTA final com botões de agendamento
+ * - animações com framer-motion
+ */
 export function ServiceContent({ service, whatsappUrl }: ServiceContentProps) {
   return (
     <main className="pt-20">

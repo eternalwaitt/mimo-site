@@ -1,3 +1,9 @@
+/**
+ * tipos typescript para o site mimo.
+ * 
+ * definições de dados para serviços, celebridades e vagas.
+ */
+
 export type Service = {
   id: string
   slug: string

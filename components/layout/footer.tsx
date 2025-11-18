@@ -6,8 +6,11 @@ import { getWhatsAppContactUrl } from '@/lib/constants'
 /**
  * footer minimalista e humano.
  * 
- * endereço + mapa integrado, links essenciais, redes sociais,
- * teaser "Em breve: HUB Mimo - Clube de Benefícios".
+ * - endereço completo + mapa integrado (Google Maps via API key)
+ * - links essenciais (serviços, sobre, galeria, etc)
+ * - redes sociais com ícones
+ * - teaser "Em breve: HUB Mimo - Clube de Benefícios"
+ * - copyright dinâmico
  */
 export function Footer() {
   const footerLinks = [

@@ -1,5 +1,5 @@
 /**
- * constantes do site mimo v4.
+ * constantes do site mimo.
  * informações reais coletadas do site minhamimo.com.br
  */
 

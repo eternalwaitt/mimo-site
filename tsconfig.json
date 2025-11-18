@@ -1,3 +1,11 @@
+/**
+ * configuração typescript.
+ * 
+ * - strict mode habilitado
+ * - paths alias (@/*) para imports limpos
+ * - target ES2017 para compatibilidade
+ * - module resolution bundler (Next.js)
+ */
 {
   "compilerOptions": {
     "target": "ES2017",

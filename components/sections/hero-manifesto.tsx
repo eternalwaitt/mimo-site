@@ -14,11 +14,12 @@ type HeroManifestoProps = {
 /**
  * hero + manifesto integrado.
  * 
- * full-screen image com overlay marrom 20% opacity.
- * headline BUENO (4-6 palavras), subheadline Satoshi (1 linha).
- * CTA primário WhatsApp + CTA secundário ghost.
- * parallax sutil no scroll (foto move mais devagar).
- * mobile: 70vh, texto centralizado.
+ * - full-screen image com overlay marrom 20% opacity
+ * - headline BUENO (4-6 palavras), subheadline Satoshi (1 linha)
+ * - CTA primário WhatsApp + CTA secundário ghost
+ * - parallax sutil no scroll (foto move mais devagar)
+ * - mobile: 70vh, texto centralizado
+ * - animações de entrada com framer-motion
  */
 export function HeroManifesto({
   imageSrc = '/images/hero-bg.webp',

@@ -10,14 +10,17 @@ type Props = {
 }
 
 /**
- * página individual de serviço melhorada.
+ * página individual de serviço.
  * 
- * hero visual com overlay
- * descrição destacada
- * procedimentos em grid (se houver)
- * benefícios em cards visuais
- * portfolio em grid destacado
- * CTA duplo (agendar + conhecer outros serviços)
+ * - server component com metadata dinâmica
+ * - gera páginas estáticas para todos os serviços
+ * - hero visual com overlay
+ * - descrição destacada
+ * - procedimentos em grid (se houver)
+ * - benefícios em cards visuais
+ * - portfolio em grid destacado (se houver)
+ * - CTA duplo (agendar + conhecer outros serviços)
+ * - mensagem WhatsApp personalizada por serviço
  */
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params

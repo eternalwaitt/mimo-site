@@ -101,6 +101,27 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`${bueno.variable} ${satoshi.variable}`}>
       <head>
+        {/* Preload fontes críticas */}
+        <link
+          rel="preload"
+          href="/fonts/bueno-regular.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/satoshi-regular.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        {/* Preload hero image */}
+        <link
+          rel="preload"
+          href="/images/hero-bg.webp"
+          as="image"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}

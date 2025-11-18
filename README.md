@@ -1,4 +1,4 @@
-# Site Mimo v4
+# Site Mimo
 
 Site institucional da Mimo - Salão de Beleza em São Paulo.
 
@@ -33,7 +33,7 @@ O site estará disponível em `http://localhost:3000`
 ## 📁 Estrutura de Pastas
 
 ```
-sitemimo-v4/
+mimo-site/
 ├── app/                    # Next.js App Router
 │   ├── layout.tsx         # Root layout com metadata e fontes
 │   ├── page.tsx           # Home page
