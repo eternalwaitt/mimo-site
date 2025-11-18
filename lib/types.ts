@@ -8,6 +8,11 @@ export type Service = {
   image: string
   imageAlt: string
   benefits: Array<string>
+  procedures?: Array<{
+    name: string
+    image: string
+    imageAlt: string
+  }>
   portfolio?: Array<{
     image: string
     imageAlt: string
