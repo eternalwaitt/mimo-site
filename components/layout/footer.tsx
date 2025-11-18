@@ -108,18 +108,20 @@ export function Footer() {
         </div>
 
         {/* Mapa */}
-        <div className="mb-8 rounded-lg overflow-hidden">
-          <iframe
-            src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBHKeuRbKzA_ehEXmBvxAceghhpJw6ND6g&q=${encodeURIComponent(MIMO_CONTACT.address.street + ', ' + MIMO_CONTACT.address.city)}`}
-            width="100%"
-            height="300"
-            style={{ border: 0 }}
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            title="Localização Mimo"
-          />
-        </div>
+        {process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY && (
+          <div className="mb-8 rounded-lg overflow-hidden">
+            <iframe
+              src={`https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&q=${encodeURIComponent(MIMO_CONTACT.address.street + ', ' + MIMO_CONTACT.address.city)}`}
+              width="100%"
+              height="300"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Localização Mimo"
+            />
+          </div>
+        )}
 
         {/* Copyright */}
         <div className="border-t border-white/20 pt-8 text-center">

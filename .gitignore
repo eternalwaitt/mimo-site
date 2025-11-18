@@ -28,6 +28,13 @@ yarn-error.log*
 # local env files
 .env*.local
 .env
+.env.*
+*API*.md
+*api*.md
+*API-SETUP*
+*api-setup*
+*GOOGLE-API*
+*google-api*
 
 # vercel
 .vercel
