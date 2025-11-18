@@ -74,10 +74,10 @@ export function ServiceContent({ service, whatsappUrl }: ServiceContentProps) {
               className="text-center mb-12"
             >
               <h2 className="font-bueno text-4xl md:text-5xl font-bold text-mimo-brown mb-4">
-                Procedimentos
+                O que oferecemos
               </h2>
               <p className="font-satoshi text-lg text-mimo-blue max-w-2xl mx-auto">
-                Conheça os procedimentos disponíveis em {service.title}
+                Cada detalhe pensado para você se sentir incrível
               </p>
             </motion.div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
@@ -123,7 +123,7 @@ export function ServiceContent({ service, whatsappUrl }: ServiceContentProps) {
             className="text-center mb-12"
           >
             <h2 className="font-bueno text-4xl md:text-5xl font-bold text-mimo-brown mb-4">
-              Por que escolher {service.title}?
+              O que faz a diferença
             </h2>
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -162,10 +162,10 @@ export function ServiceContent({ service, whatsappUrl }: ServiceContentProps) {
               className="text-center mb-12"
             >
               <h2 className="font-bueno text-4xl md:text-5xl font-bold text-mimo-brown mb-4">
-                Nosso Trabalho
+                Alguns dos nossos trabalhos
               </h2>
               <p className="font-satoshi text-lg text-mimo-blue max-w-2xl mx-auto">
-                Veja alguns dos nossos resultados
+                Resultados reais de clientes que confiam na gente
               </p>
             </motion.div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -215,7 +215,7 @@ export function ServiceContent({ service, whatsappUrl }: ServiceContentProps) {
               Pronta para se sentir completa?
             </h2>
             <p className="font-satoshi text-xl text-white/90 mb-8">
-              Agende seu horário e venha conhecer nossos serviços de {service.title}
+              Vem fazer parte da nossa história de cuidado e beleza
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button

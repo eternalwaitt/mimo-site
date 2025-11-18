@@ -23,11 +23,42 @@ export default function GaleriaPage() {
     ...SERVICES.map((service) => ({ id: service.slug, label: service.title })),
   ]
 
-  // Placeholder images - em produção, viriam de uma API ou arquivo
+  // Galeria de imagens - combinando imagens locais com Unsplash
   const galleryImages = [
-    { src: '/images/servicos/salao/categoria-salao.webp', alt: 'Salão', category: 'salao' },
-    { src: '/images/servicos/esmalteria/categoria-esmalteria.webp', alt: 'Esmalteria', category: 'esmalteria' },
-    { src: '/images/servicos/cilios/categoria-cilios.webp', alt: 'Cílios', category: 'cilios' },
+    // Imagens locais
+    { src: '/images/servicos/salao/categoria-salao.webp', alt: 'Salão Mimo', category: 'salao' },
+    { src: '/images/servicos/esmalteria/categoria-esmalteria.webp', alt: 'Esmalteria Mimo', category: 'esmalteria' },
+    { src: '/images/servicos/cilios/categoria-cilios.webp', alt: 'Cílios Mimo', category: 'cilios' },
+    
+    // Salão - Unsplash (URLs validadas)
+    { src: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80&auto=format&fit=crop', alt: 'Corte de cabelo profissional', category: 'salao' },
+    { src: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80&auto=format&fit=crop', alt: 'Coloração de cabelo', category: 'salao' },
+    { src: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80&auto=format&fit=crop', alt: 'Estilo de cabelo', category: 'salao' },
+    { src: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80&auto=format&fit=crop', alt: 'Tratamento capilar', category: 'salao' },
+    
+    // Esmalteria - Unsplash (URLs validadas)
+    { src: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=800&q=80&auto=format&fit=crop', alt: 'Unhas decoradas', category: 'esmalteria' },
+    { src: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&q=80&auto=format&fit=crop', alt: 'Manicure profissional', category: 'esmalteria' },
+    { src: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=800&q=80&auto=format&fit=crop&crop=center', alt: 'Esmaltação em gel', category: 'esmalteria' },
+    { src: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=800&q=80&auto=format&fit=crop&crop=top', alt: 'Design de unhas', category: 'esmalteria' },
+    
+    // Cílios - Unsplash (URLs validadas)
+    { src: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=800&q=80&auto=format&fit=crop', alt: 'Cílios postiços', category: 'cilios' },
+    { src: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=800&q=80&auto=format&fit=crop', alt: 'Design de sobrancelhas', category: 'cilios' },
+    { src: 'https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=800&q=80&auto=format&fit=crop&crop=face', alt: 'Extensão de cílios', category: 'cilios' },
+    
+    // Micropigmentação - Unsplash (URLs validadas)
+    { src: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=800&q=80&auto=format&fit=crop', alt: 'Microblading de sobrancelhas', category: 'micropigmentacao' },
+    { src: 'https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=800&q=80&auto=format&fit=crop&crop=face', alt: 'Micropigmentação', category: 'micropigmentacao' },
+    
+    // Estética Facial - Unsplash (URLs validadas)
+    { src: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&q=80&auto=format&fit=crop', alt: 'Tratamento facial', category: 'estetica-facial' },
+    { src: 'https://images.unsplash.com/photo-1571875257727-256c39da42af?w=800&q=80&auto=format&fit=crop', alt: 'Skincare profissional', category: 'estetica-facial' },
+    { src: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&q=80&auto=format&fit=crop&crop=face', alt: 'Cuidados com a pele', category: 'estetica-facial' },
+    
+    // Estética Corporal - Unsplash (URLs validadas)
+    { src: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&q=80&auto=format&fit=crop', alt: 'Massagem relaxante', category: 'estetica-corporal' },
+    { src: 'https://images.unsplash.com/photo-1571875257727-256c39da42af?w=800&q=80&auto=format&fit=crop', alt: 'Tratamento corporal', category: 'estetica-corporal' },
   ]
 
   const filteredImages =
