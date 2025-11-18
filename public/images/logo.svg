@@ -1,0 +1,17 @@
+<!-- 
+  LOGO MIMO
+  substituir este arquivo com a logo do brand book PDF.
+  formato recomendado: SVG para escalabilidade e performance.
+  
+  instruções:
+  1. extrair logo do PDF "Minha Mimo Rebrand.pdf"
+  2. converter para SVG (ou usar PNG/WebP se necessário)
+  3. substituir este arquivo
+  4. atualizar referências no código se necessário
+-->
+
+<svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- placeholder - substituir com logo real -->
+  <text x="10" y="25" font-family="var(--font-bueno)" font-size="24" font-weight="bold" fill="#1F2A3E">mimo</text>
+</svg>
+

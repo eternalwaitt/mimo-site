@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * fontes mimo.
+ * 
+ * fontes carregadas via next/font/local em layout.tsx.
+ * fallback para system fonts caso fontes não carreguem.
+ */
+:root {
+  --font-bueno: 'Bueno', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-satoshi: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-mimo-neutral-light text-mimo-blue font-satoshi antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bueno;
+  }
+
+  /* focus visível para acessibilidade */
+  *:focus-visible {
+    @apply outline-2 outline-mimo-gold outline-offset-2;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* formas orgânicas - blobs e círculos decorativos */
+@layer components {
+  .organic-blob {
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  }
+
+  .organic-circle {
+    border-radius: 50%;
+  }
+
+  .organic-ellipse {
+    border-radius: 50% / 60%;
+  }
+}
+
