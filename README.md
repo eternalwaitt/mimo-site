@@ -246,6 +246,40 @@ Documentação técnica completa disponível em [`docs/`](./docs/):
 
 Veja [`docs/README.md`](./docs/README.md) para índice completo.
 
+## ⚡ Performance First
+
+Este projeto mantém **Performance ≥95** e **LCP <2.5s** em todas as páginas.
+
+### Quick Checklist
+
+Antes de criar uma nova página:
+- [ ] Li `docs/ADDING-NEW-PAGES.md`
+- [ ] Usei template de `docs/templates/`
+- [ ] Validei com `npm run pre-deploy`
+
+### Performance Budget
+
+- **Home JS Bundle**: ≤150 KiB (first load, mobile)
+- **Other Pages**: ≤200 KiB (first load, mobile)
+- **Hero Image**: ≤200 KiB (mobile, WebP/AVIF)
+- **LCP**: <2.5s (Lighthouse Slow 4G)
+- **FCP**: <1.5s
+- **TBT**: <200ms
+- **CLS**: <0.1
+
+### Validação Automática
+
+- **Pre-commit**: Valida lint e type-check automaticamente
+- **CI/CD**: Valida build e Lighthouse em cada PR
+- **Quality Gates**: Performance ≥95, LCP <2.5s
+
+### Recursos
+
+- 📖 **Guia Completo**: [`docs/ADDING-NEW-PAGES.md`](./docs/ADDING-NEW-PAGES.md)
+- ✅ **Checklist Rápido**: [`docs/PERFORMANCE-CHECKLIST.md`](./docs/PERFORMANCE-CHECKLIST.md)
+- 🎯 **Performance Guide**: [`docs/performance-guide-mimo.md`](./docs/performance-guide-mimo.md)
+- 📝 **Templates**: [`docs/templates/`](./docs/templates/)
+
 ## 🧪 Scripts Disponíveis
 
 ```bash
@@ -255,8 +289,17 @@ npm run type-check
 # Lint
 npm run lint
 
+# Validação pré-deploy (recomendado antes de push)
+npm run pre-deploy
+
 # PageSpeed Insights (requer .env.local com API key)
 npm run pagespeed
+
+# Lighthouse CI (requer .env.local com API key)
+npm run lighthouse:home
+
+# Análise de bundle
+npm run analyze
 
 # Otimizar imagens (requer sharp instalado)
 node scripts/optimize-images.js

@@ -11,7 +11,14 @@
     "pagespeed": "node scripts/pagespeed-test.js",
     "analyze": "ANALYZE=true next build",
     "lighthouse:home": "node scripts/lighthouse-ci.js",
-    "lighthouse:ci": "CI=true node scripts/lighthouse-ci.js"
+    "lighthouse:ci": "CI=true node scripts/lighthouse-ci.js",
+    "pre-deploy": "node scripts/pre-deploy-check.js",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "next lint --fix --file"
+    ]
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -29,6 +36,8 @@
     "autoprefixer": "^10.4.20",
     "eslint": "^9",
     "eslint-config-next": "^15.1.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7"
