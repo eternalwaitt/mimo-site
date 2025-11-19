@@ -11,6 +11,20 @@ const https = require('https')
 const fs = require('fs')
 const path = require('path')
 
+// Carregar variáveis de ambiente do .env.local
+const envPath = path.join(__dirname, '../.env.local')
+if (fs.existsSync(envPath)) {
+  const envContent = fs.readFileSync(envPath, 'utf8')
+  envContent.split('\n').forEach(line => {
+    const match = line.match(/^([^=]+)=(.*)$/)
+    if (match) {
+      const key = match[1].trim()
+      const value = match[2].trim().replace(/^["']|["']$/g, '')
+      process.env[key] = value
+    }
+  })
+}
+
 const API_KEY = process.env.GOOGLE_PAGESPEED_API_KEY
 if (!API_KEY) {
   console.error('❌ GOOGLE_PAGESPEED_API_KEY não encontrada!')

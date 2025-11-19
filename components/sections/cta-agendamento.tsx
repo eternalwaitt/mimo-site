@@ -19,8 +19,15 @@ import { getWhatsAppBookingUrl, getWhatsAppContactUrl, HOME_COPY } from '@/lib/c
 export function CTAAgendamento() {
   return (
     <section className="relative py-20 md:py-32 overflow-hidden">
-      {/* Background Image - Container com background para evitar CLS */}
-      <div className="absolute inset-0 z-0 bg-mimo-neutral-light" style={{ minHeight: '400px' }}>
+      {/* Background Image - Container com background e altura fixa para evitar CLS */}
+      <div 
+        className="absolute inset-0 z-0 bg-mimo-neutral-light" 
+        style={{ 
+          minHeight: '400px',
+          height: '100%',
+          width: '100%',
+        }}
+      >
         <div className="absolute inset-0 bg-mimo-brown/40 z-10" />
         <ImageWithFallback
           src="/images/cta-ambiente.jpg"

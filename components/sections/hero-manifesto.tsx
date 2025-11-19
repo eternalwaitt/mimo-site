@@ -36,7 +36,14 @@ export function HeroManifesto({
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image com Parallax - Container fixo para evitar CLS */}
-      <div className="absolute inset-0 z-0 bg-mimo-neutral-light" style={{ minHeight: '100vh' }}>
+      <div 
+        className="absolute inset-0 z-0 bg-mimo-neutral-light" 
+        style={{ 
+          minHeight: '100vh',
+          height: '100vh', // Altura fixa para prevenir CLS
+          width: '100%',
+        }}
+      >
         <motion.div
           className="absolute inset-0"
           initial={{ scale: 1.1 }}

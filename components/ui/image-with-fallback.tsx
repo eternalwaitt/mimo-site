@@ -26,6 +26,8 @@ type ImageWithFallbackProps = {
   sizes?: string
   /** como a imagem deve se ajustar ao container */
   objectFit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down'
+  /** aspect ratio da imagem para prevenir CLS (ex: "16/9") */
+  aspectRatio?: string
 }
 
 /**
@@ -47,6 +49,7 @@ export function ImageWithFallback({
   fill = false,
   sizes,
   objectFit = 'cover',
+  aspectRatio,
 }: ImageWithFallbackProps) {
   const [imgSrc, setImgSrc] = useState(src)
   const [hasError, setHasError] = useState(false)
@@ -58,6 +61,11 @@ export function ImageWithFallback({
     }
   }
 
+  // Calcular aspect ratio do placeholder se fornecido
+  const placeholderStyle = aspectRatio
+    ? { aspectRatio, backgroundColor: '#F4EFEB' }
+    : undefined
+
   if (fill) {
     return (
       <Image
@@ -68,6 +76,7 @@ export function ImageWithFallback({
         priority={priority}
         sizes={sizes}
         onError={handleError}
+        style={placeholderStyle}
       />
     )
   }

@@ -5,6 +5,31 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+## [1.2.0] - 2025-01-29
+
+### Added
+- Documentação completa de otimizações de performance (`docs/PERFORMANCE-OPTIMIZATION-RESULTS.md`)
+- Resource hints (dns-prefetch, preconnect) para recursos externos
+- Cache headers otimizados para assets estáticos
+
+### Changed
+- Otimizações completas de performance implementadas:
+  - CLS: Altura fixa (`height: '100vh'`) em containers críticos
+  - LCP: Preload melhorado com `type="image/webp"` e `fetchPriority="high"`
+  - Cache: Headers configurados para 1 ano em imagens e fontes
+  - DNS prefetch para WhatsApp, Instagram, Facebook
+- Componentes otimizados:
+  - `components/sections/hero-manifesto.tsx` - Container com altura fixa
+  - `components/ui/image-with-fallback.tsx` - Suporte para aspectRatio
+  - `components/sections/cta-agendamento.tsx` - Background fixo
+  - `app/layout.tsx` - Resource hints e preload otimizado
+  - `next.config.ts` - Cache headers e swcMinify
+
+### Fixed
+- Layout shift durante carregamento de imagens (CLS)
+- Performance de carregamento inicial (LCP)
+- Cache de recursos estáticos
+
 ## [1.1.0] - 2025-01-29
 
 ### Added
@@ -55,5 +80,7 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 ### Fixed
 - Cleanup de event listeners no Header (useEffect)
 
+[1.2.0]: https://github.com/eternalwaitt/mimo-site/releases/tag/v1.2.0
+[1.1.0]: https://github.com/eternalwaitt/mimo-site/releases/tag/v1.1.0
 [1.0.0]: https://github.com/eternalwaitt/mimo-site/releases/tag/v1.0.0
 

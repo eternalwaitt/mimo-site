@@ -103,6 +103,14 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`${bueno.variable} ${satoshi.variable}`}>
       <head>
+        {/* DNS prefetch para recursos externos */}
+        <link rel="dns-prefetch" href="https://wa.me" />
+        <link rel="dns-prefetch" href="https://www.instagram.com" />
+        <link rel="dns-prefetch" href="https://www.facebook.com" />
+        
+        {/* Preconnect para recursos críticos */}
+        <link rel="preconnect" href="https://wa.me" crossOrigin="anonymous" />
+        
         {/* Preload fontes críticas */}
         <link
           rel="preload"
@@ -118,12 +126,13 @@ export default function RootLayout({
           type="font/woff2"
           crossOrigin="anonymous"
         />
-        {/* Preload hero image com fetchpriority */}
+        {/* Preload hero image com fetchpriority - crítico para LCP */}
         <link
           rel="preload"
           href="/images/hero-bg.webp"
           as="image"
           fetchPriority="high"
+          type="image/webp"
         />
         <script
           type="application/ld+json"

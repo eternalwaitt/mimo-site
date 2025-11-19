@@ -6,6 +6,10 @@ const config: Config = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  // Otimizações de performance
+  corePlugins: {
+    // Desabilitar plugins não utilizados se necessário
+  },
   theme: {
     extend: {
       colors: {
