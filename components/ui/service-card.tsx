@@ -4,8 +4,13 @@ import { Button } from './button'
 import { cn } from '@/lib/utils'
 import type { Service } from '@/lib/types'
 
+/**
+ * props do componente service-card.
+ */
 type ServiceCardProps = {
+  /** dados do serviço a ser exibido */
   service: Service
+  /** classes CSS adicionais */
   className?: string
 }
 
@@ -26,7 +31,7 @@ export function ServiceCard({ service, className }: ServiceCardProps) {
         className
       )}
     >
-      <div className="relative aspect-[4/3] overflow-hidden">
+      <div className="relative aspect-[4/3] overflow-hidden bg-mimo-neutral-light">
         <ImageWithFallback
           src={service.image}
           alt={service.imageAlt}

@@ -1,0 +1,127 @@
+#!/bin/bash
+# CSS Minification Script for Production
+# Usage: ./minify-css.sh
+
+# Check if required tools are installed
+if ! command -v npx &> /dev/null; then
+    echo "Error: npx is required. Install Node.js first."
+    exit 1
+fi
+
+# Create minified directory if it doesn't exist
+mkdir -p minified
+
+# Minify product.css
+# CRITICAL: Switch to cssnano (91% benchmark score vs 78% for csso)
+if [ -f "product.css" ]; then
+    echo "Minifying product.css with cssnano..."
+    npx --yes cssnano-cli product.css --output minified/product.min.css || {
+        echo "Warning: Failed to minify product.css with cssnano, trying csso fallback..."
+        npx --yes csso-cli product.css --output minified/product.min.css || {
+            echo "Warning: Failed to minify product.css, continuing..."
+        }
+    }
+else
+    echo "Warning: product.css not found, skipping..."
+fi
+
+# Minify servicos.css
+# CRITICAL: Switch to cssnano (better compression)
+if [ -f "servicos.css" ]; then
+    echo "Minifying servicos.css with cssnano..."
+    npx --yes cssnano-cli servicos.css --output minified/servicos.min.css || {
+        echo "Warning: Failed to minify servicos.css with cssnano, trying csso fallback..."
+        npx --yes csso-cli servicos.css --output minified/servicos.min.css || {
+            echo "Warning: Failed to minify servicos.css, continuing..."
+        }
+    }
+else
+    echo "Warning: servicos.css not found, skipping..."
+fi
+
+# Minify form/main.css if it exists
+# CRITICAL: Switch to cssnano
+if [ -f "form/main.css" ]; then
+    echo "Minifying form/main.css with cssnano..."
+    npx --yes cssnano-cli form/main.css --output minified/form-main.min.css || {
+        echo "Warning: Failed to minify form/main.css with cssnano, trying csso fallback..."
+        npx --yes csso-cli form/main.css --output minified/form-main.min.css || {
+            echo "Warning: Failed to minify form/main.css, continuing..."
+        }
+    }
+fi
+
+# Minify purged CSS files (prioridade: usar versões purgadas)
+# CRITICAL: Switch to cssnano for better compression
+if [ -f "css/purged/product.css" ]; then
+    echo "Minifying css/purged/product.css with cssnano..."
+    npx --yes cssnano-cli css/purged/product.css --output css/purged/product.min.css || {
+        echo "Warning: Failed to minify purged product.css with cssnano, trying csso fallback..."
+        npx --yes csso-cli css/purged/product.css --output css/purged/product.min.css || {
+            echo "Warning: Failed to minify purged product.css, continuing..."
+        }
+    }
+fi
+
+if [ -f "css/purged/dark-mode.css" ]; then
+    echo "Minifying css/purged/dark-mode.css with cssnano..."
+    npx --yes cssnano-cli css/purged/dark-mode.css --output css/purged/dark-mode.min.css || {
+        npx --yes csso-cli css/purged/dark-mode.css --output css/purged/dark-mode.min.css || {
+            echo "Warning: Failed to minify purged dark-mode.css, continuing..."
+        }
+    }
+fi
+
+if [ -f "css/purged/animations.css" ]; then
+    echo "Minifying css/purged/animations.css with cssnano..."
+    npx --yes cssnano-cli css/purged/animations.css --output css/purged/animations.min.css || {
+        npx --yes csso-cli css/purged/animations.css --output css/purged/animations.min.css || {
+            echo "Warning: Failed to minify purged animations.css, continuing..."
+        }
+    }
+fi
+
+if [ -f "css/purged/mobile-ui-improvements.css" ]; then
+    echo "Minifying css/purged/mobile-ui-improvements.css with cssnano..."
+    npx --yes cssnano-cli css/purged/mobile-ui-improvements.css --output css/purged/mobile-ui-improvements.min.css || {
+        npx --yes csso-cli css/purged/mobile-ui-improvements.css --output css/purged/mobile-ui-improvements.min.css || {
+            echo "Warning: Failed to minify purged mobile-ui-improvements.css, continuing..."
+        }
+    }
+fi
+
+if [ -f "css/purged/accessibility-fixes.css" ]; then
+    echo "Minifying css/purged/accessibility-fixes.css with cssnano..."
+    npx --yes cssnano-cli css/purged/accessibility-fixes.css --output css/purged/accessibility-fixes.min.css || {
+        npx --yes csso-cli css/purged/accessibility-fixes.css --output css/purged/accessibility-fixes.min.css || {
+            echo "Warning: Failed to minify purged accessibility-fixes.css, continuing..."
+        }
+    }
+fi
+
+# Minify CSS modules (fallback se não houver versão purgada)
+# CRITICAL: Switch to cssnano
+if [ -f "css/modules/mobile-ui-improvements.css" ] && [ ! -f "css/purged/mobile-ui-improvements.css" ]; then
+    echo "Minifying css/modules/mobile-ui-improvements.css with cssnano..."
+    npx --yes cssnano-cli css/modules/mobile-ui-improvements.css --output minified/mobile-ui-improvements.min.css || {
+        npx --yes csso-cli css/modules/mobile-ui-improvements.css --output minified/mobile-ui-improvements.min.css || {
+            echo "Warning: Failed to minify mobile-ui-improvements.css, continuing..."
+        }
+    }
+fi
+
+if [ -f "css/modules/accessibility-fixes.css" ] && [ ! -f "css/purged/accessibility-fixes.css" ]; then
+    echo "Minifying css/modules/accessibility-fixes.css with cssnano..."
+    npx --yes cssnano-cli css/modules/accessibility-fixes.css --output minified/accessibility-fixes.min.css || {
+        npx --yes csso-cli css/modules/accessibility-fixes.css --output minified/accessibility-fixes.min.css || {
+            echo "Warning: Failed to minify accessibility-fixes.css, continuing..."
+        }
+    }
+fi
+
+echo "CSS minification complete! Files saved in minified/ directory."
+echo "Remember to update your PHP files to use .min.css files in production."
+
+# Exit with success even if some files failed (non-blocking)
+exit 0
+

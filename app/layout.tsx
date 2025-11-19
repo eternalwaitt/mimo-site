@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
 import { MIMO_COMPANY, MIMO_CONTACT } from '@/lib/constants'
+import { APP_VERSION } from '@/lib/version'
 
 /**
  * configuração de fontes usando next/font/local.
@@ -42,6 +43,7 @@ export const metadata: Metadata = {
   },
   description: 'salão de beleza inclusivo e acolhedor. serviços personalizados que cabem na sua vida real. agende seu mimo!',
   keywords: ['salão de beleza', 'beleza sem padrão', 'corte de cabelo', 'coloração', 'alongamento de cílios', 'manicure', 'pedicure', 'São Paulo', 'Vila Madalena'],
+  generator: `Mimo Site v${APP_VERSION}`,
   openGraph: {
     type: 'website',
     locale: 'pt_BR',
@@ -116,11 +118,12 @@ export default function RootLayout({
           type="font/woff2"
           crossOrigin="anonymous"
         />
-        {/* Preload hero image */}
+        {/* Preload hero image com fetchpriority */}
         <link
           rel="preload"
           href="/images/hero-bg.webp"
           as="image"
+          fetchPriority="high"
         />
         <script
           type="application/ld+json"

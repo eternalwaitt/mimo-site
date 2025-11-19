@@ -1,0 +1,1101 @@
+/**
+ * Mobile UI Improvements
+ * 
+ * Melhorias específicas para UI mobile:
+ * - Contraste de cores (WCAG AA)
+ * - Espaçamento e padding
+ * - Tipografia mobile
+ * - Ícones e alinhamento
+ * - Cards e componentes
+ * 
+ * @version 2.6.0
+ */
+
+/* ============================================
+   CONTRASTE DE CORES - WCAG AA
+   ============================================ */
+
+/* Texto principal - garantir contraste mínimo 4.5:1 */
+@media (max-width: 768px) {
+	/* Texto em fundo claro */
+	body,
+	.container,
+	.page-section,
+	.page-section-white {
+		color: #1a1a1a !important; /* Preto quase puro para máximo contraste */
+	}
+
+	/* Texto secundário - contraste 4.5:1 */
+	p,
+	span,
+	li,
+	.vaga-info-item,
+	.vaga-description p,
+	.vaga-requirements p,
+	.vaga-requirements li {
+		color: #2a2a2a !important; /* Cinza escuro para legibilidade */
+		line-height: 1.7 !important; /* Melhor espaçamento entre linhas */
+	}
+
+	/* Títulos - contraste 3:1 (grande texto) */
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	.vaga-title,
+	.page-hero h1,
+	.page-hero h2 {
+		color: #1a1a1a !important; /* Preto para máximo contraste */
+		font-weight: 600 !important;
+	}
+
+	/* Strong tags - contraste 4.5:1 */
+	strong,
+	.vaga-info-item strong,
+	.vaga-requirements strong,
+	.vaga-description strong {
+		color: #1a1a1a !important;
+		font-weight: 700 !important;
+	}
+
+	/* Links - contraste 4.5:1 */
+	a:not(.btn):not(.action-btn):not(.btn-candidatar) {
+		color: #3a505a !important; /* Cinza escuro da marca */
+		text-decoration: underline;
+	}
+
+	a:not(.btn):not(.action-btn):not(.btn-candidatar):hover {
+		color: #2a3a42 !important; /* Mais escuro no hover */
+	}
+
+	/* Cards - fundo branco para melhor contraste */
+	.vaga-card,
+	.info-card {
+		background: #ffffff !important;
+		border: 1px solid rgba(58, 80, 90, 0.2) !important; /* Borda mais visível */
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+	}
+
+	/* Ícones - cor mais escura para melhor visibilidade */
+	.vaga-info-item i,
+	.vaga-requirements h4 i,
+	.vaga-description h4 i,
+	.info-card h3 i {
+		color: #3a505a !important; /* Cinza escuro ao invés de rosa claro */
+		font-size: 1.1rem !important;
+		width: 22px !important;
+		text-align: center !important;
+		flex-shrink: 0 !important;
+		margin-right: 10px !important;
+	}
+}
+
+/* ============================================
+   ESPAÇAMENTO E PADDING MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+	/* Container principal */
+	.container {
+		padding-left: 20px !important;
+		padding-right: 20px !important;
+	}
+
+	/* Cards - padding aumentado */
+	.vaga-card,
+	.info-card {
+		padding: 24px 20px !important;
+		margin-bottom: 24px !important;
+		border-radius: 12px !important;
+	}
+
+	/* Vaga info items - gap aumentado */
+	.vaga-info {
+		gap: 14px !important;
+		margin-bottom: 24px !important;
+	}
+
+	.vaga-info-item {
+		margin-bottom: 12px !important;
+		gap: 12px !important;
+		padding: 8px 0 !important;
+	}
+
+	/* Títulos - margin bottom aumentado */
+	.vaga-title {
+		margin-bottom: 20px !important;
+		padding-bottom: 12px !important;
+		border-bottom: 2px solid rgba(58, 80, 90, 0.1) !important;
+	}
+
+	/* Seções de descrição/requisitos */
+	.vaga-description,
+	.vaga-requirements {
+		margin-bottom: 24px !important;
+		padding: 20px 16px !important;
+		border-radius: 8px !important;
+		background: #f8f9fa !important; /* Fundo sutil para separação */
+	}
+
+	/* Listas - padding left aumentado */
+	.vaga-requirements ul {
+		padding-left: 32px !important;
+		margin-top: 12px !important;
+	}
+
+	.vaga-requirements li {
+		margin-bottom: 12px !important;
+		padding-left: 4px !important;
+	}
+
+	/* H4 com ícones - gap aumentado */
+	.vaga-requirements h4,
+	.vaga-description h4 {
+		gap: 12px !important;
+		margin-bottom: 16px !important;
+		padding-bottom: 8px !important;
+		border-bottom: 1px solid rgba(58, 80, 90, 0.1) !important;
+	}
+
+	/* Botões - padding aumentado */
+	.action-btn,
+	.btn-candidatar {
+		padding: 16px 24px !important;
+		font-size: 16px !important;
+		margin-top: 20px !important;
+	}
+
+	/* Page sections - padding vertical */
+	.page-section,
+	.page-section-white {
+		padding: 50px 0 !important;
+	}
+
+	/* Page hero */
+	.page-hero {
+		padding: 40px 20px !important;
+	}
+}
+
+/* ============================================
+   TIPOGRAFIA MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+	/* Tamanhos de fonte otimizados */
+	body {
+		font-size: 16px !important; /* Base 16px para melhor legibilidade */
+		line-height: 1.6 !important;
+	}
+
+	h1 {
+		font-size: 2rem !important;
+		line-height: 1.3 !important;
+		margin-bottom: 20px !important;
+	}
+
+	h2 {
+		font-size: 1.75rem !important;
+		line-height: 1.4 !important;
+		margin-bottom: 18px !important;
+	}
+
+	h3 {
+		font-size: 1.5rem !important;
+		line-height: 1.4 !important;
+		margin-bottom: 16px !important;
+	}
+
+	h4 {
+		font-size: 1.25rem !important;
+		line-height: 1.5 !important;
+		margin-bottom: 14px !important;
+	}
+
+	.vaga-title {
+		font-size: 1.4rem !important;
+		line-height: 1.4 !important;
+	}
+
+	p {
+		font-size: 1rem !important;
+		line-height: 1.7 !important;
+		margin-bottom: 16px !important;
+	}
+
+	.vaga-info-item {
+		font-size: 0.95rem !important;
+		line-height: 1.7 !important;
+	}
+
+	.vaga-requirements li,
+	.vaga-description p {
+		font-size: 0.95rem !important;
+		line-height: 1.8 !important;
+	}
+}
+
+/* ============================================
+   ÍCONES E ALINHAMENTO
+   ============================================ */
+
+@media (max-width: 768px) {
+	/* Vaga info items - flexbox melhorado */
+	.vaga-info-item {
+		display: flex !important;
+		align-items: flex-start !important;
+		gap: 12px !important;
+		flex-wrap: nowrap !important; /* Evitar quebra de linha */
+	}
+
+	.vaga-info-item i {
+		margin-top: 4px !important; /* Alinhar com primeira linha do texto */
+		flex-shrink: 0 !important;
+		width: 22px !important;
+		height: 22px !important;
+		display: flex !important;
+		align-items: center !important;
+		justify-content: center !important;
+	}
+
+	/* H4 com ícones */
+	.vaga-requirements h4,
+	.vaga-description h4 {
+		display: flex !important;
+		align-items: center !important;
+		gap: 12px !important;
+		flex-wrap: nowrap !important;
+	}
+
+	.vaga-requirements h4 i,
+	.vaga-description h4 i {
+		margin-top: 0 !important; /* Alinhar com texto */
+		flex-shrink: 0 !important;
+	}
+
+	/* Info cards - ícones */
+	.info-card h3 {
+		display: flex !important;
+		align-items: center !important;
+		gap: 12px !important;
+	}
+
+	.info-card h3 i {
+		flex-shrink: 0 !important;
+		width: 24px !important;
+		text-align: center !important;
+	}
+}
+
+/* ============================================
+   CARDS E COMPONENTES
+   ============================================ */
+
+@media (max-width: 768px) {
+	/* Cards - sombra e borda melhoradas */
+	.vaga-card,
+	.info-card {
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+		transition: box-shadow 0.3s ease !important;
+	}
+
+	.vaga-card:hover,
+	.info-card:hover {
+		box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12) !important;
+	}
+
+	/* Vaga card especial (candidatar) */
+	.vaga-card.vaga-candidatar {
+		background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%) !important;
+		border: 2px solid #3a505a !important;
+	}
+
+	/* Botões - melhor contraste */
+	.action-btn,
+	.btn-candidatar {
+		border-radius: 8px !important;
+		font-weight: 600 !important;
+		letter-spacing: 0.5px !important;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+		transition: all 0.3s ease !important;
+	}
+
+	.action-btn:hover,
+	.btn-candidatar:hover {
+		transform: translateY(-2px) !important;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+	}
+}
+
+/* ============================================
+   FOOTER MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+	/* Footer - layout otimizado para mobile */
+	.site-footer {
+		background: linear-gradient(135deg, rgb(37, 37, 39) 0%, rgb(26, 26, 28) 100%) !important; /* Match production: dark gray gradient */
+		color: #ffffff !important;
+		padding: 40px 20px 30px !important;
+	}
+
+	.site-footer .container {
+		padding: 0 !important;
+	}
+
+	/* Layout em coluna única */
+	.site-footer .row {
+		flex-direction: column !important;
+		margin: 0 !important;
+	}
+
+	.site-footer .col-12,
+	.site-footer .col-md-4 {
+		width: 100% !important;
+		max-width: 100% !important;
+		flex: 0 0 100% !important;
+		margin-bottom: 30px !important;
+		padding: 0 !important;
+	}
+
+	.site-footer .col-12:last-child,
+	.site-footer .col-md-4:last-child {
+		margin-bottom: 0 !important;
+	}
+
+	/* Títulos do footer */
+	.footer-title {
+		color: rgb(184, 149, 160) !important; /* Match production: darker pink/beige */
+		font-weight: 700 !important;
+		font-size: 1.1rem !important;
+		margin-bottom: 20px !important; /* Consistent with product.css */
+		margin-top: 0 !important;
+		padding-bottom: 10px !important;
+		border-bottom: 2px solid rgba(184, 149, 160, 0.3) !important; /* Match production border */
+		text-align: left !important; /* Left align on mobile for better readability */
+	}
+	
+	/* Mobile: Navigation and Contact columns left-aligned */
+	.site-footer .col-md-4:first-child,
+	.site-footer .col-md-4:nth-child(2),
+	.site-footer .col-12.col-md-4:first-child,
+	.site-footer .col-12.col-md-4:nth-child(2) {
+		text-align: left !important;
+	}
+	
+	/* Mobile: Social media column centered */
+	.site-footer .footer-social-col {
+		text-align: center !important;
+	}
+
+	/* Links de navegação - touch targets 44x44px */
+	.footer-nav-vertical {
+		display: flex !important;
+		flex-direction: column !important;
+		gap: 12px !important;
+	}
+
+	.footer-link {
+		display: block !important;
+		color: rgba(255, 255, 255, 0.85) !important; /* Match production: white with 85% opacity */
+		text-decoration: none !important;
+		font-size: 1rem !important;
+		padding: 12px 0 !important; /* Touch target mínimo 44px altura */
+		min-height: 44px !important; /* Touch target WCAG */
+		display: flex !important;
+		align-items: center !important;
+		transition: color 0.3s ease, padding-left 0.3s ease !important;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+	}
+
+	.footer-link:hover,
+	.footer-link:focus {
+		color: rgb(184, 149, 160) !important; /* Match production: darker pink/beige on hover */
+		padding-left: 10px !important;
+		background: rgba(255, 255, 255, 0.05) !important;
+	}
+
+	/* Footer contact items - melhor legibilidade */
+	.footer-contact {
+		display: flex !important;
+		flex-direction: column !important;
+		gap: 16px !important;
+	}
+
+	.footer-contact-item {
+		display: flex !important;
+		align-items: flex-start !important;
+		gap: 12px !important;
+		color: #ffffff !important; /* White text */
+		margin-bottom: 0 !important;
+		padding: 12px 0 !important;
+		min-height: 44px !important; /* Touch target */
+		line-height: 1.6 !important;
+	}
+
+	.footer-icon {
+		color: var(--color-brand-pink, #d9c2bd) !important; /* Brand pink icons */
+		flex-shrink: 0 !important;
+		width: 24px !important;
+		height: 24px !important;
+		margin-top: 2px !important;
+	}
+
+	.footer-contact-item span {
+		flex: 1 !important;
+		font-size: 0.95rem !important;
+		line-height: 1.6 !important;
+	}
+
+	.footer-contact-item strong {
+		color: #ffffff !important;
+		font-weight: 700 !important;
+		margin-right: 6px !important;
+	}
+
+	/* Redes sociais - horizontal com touch targets */
+	.footer-social-col {
+		text-align: center !important;
+	}
+
+	.footer-social {
+		display: flex !important;
+		justify-content: center !important;
+		align-items: center !important;
+		gap: 20px !important;
+		flex-wrap: wrap !important;
+	}
+
+	.footer-social-link {
+		display: flex !important;
+		align-items: center !important;
+		justify-content: center !important;
+		width: 48px !important; /* Touch target 44x44px + padding */
+		height: 48px !important;
+		min-width: 48px !important;
+		min-height: 48px !important;
+		border-radius: 50% !important;
+		background: rgba(255, 255, 255, 0.1) !important;
+		color: #ffffff !important;
+		text-decoration: none !important;
+		transition: all 0.3s ease !important;
+		padding: 0 !important;
+	}
+
+	.footer-social-link:hover,
+	.footer-social-link:focus {
+		background: var(--color-brand-pink, #d9c2bd) !important; /* Brand pink on hover */
+		transform: scale(1.1) !important;
+		box-shadow: 0 4px 12px rgba(217, 194, 189, 0.4) !important; /* Brand pink shadow */
+	}
+
+	.footer-social-link svg {
+		width: 24px !important;
+		height: 24px !important;
+	}
+
+	/* Copyright */
+	.footer-copyright {
+		text-align: center !important;
+		padding-top: 20px !important;
+		margin-top: 20px !important;
+		border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+	}
+
+	.footer-copyright p {
+		color: rgba(255, 255, 255, 0.5) !important; /* Match production: white with 50% opacity */
+		font-size: 0.85rem !important;
+		margin: 0 !important;
+		line-height: 1.6 !important;
+	}
+}
+
+/* ============================================
+   DARK MODE TOGGLE MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+	/* Dark mode toggle no menu mobile */
+	.navbar-nav .dark-mode-toggle {
+		width: 48px !important; /* Touch target 44x44px + padding */
+		height: 48px !important;
+		min-width: 48px !important;
+		min-height: 48px !important;
+		display: flex !important;
+		align-items: center !important;
+		justify-content: center !important;
+		border-radius: 8px !important;
+		background: rgba(204, 183, 188, 0.15) !important; /* Fundo rosa sutil para contraste */
+		border: 2px solid #ccb7bc !important; /* Borda rosa da marca */
+		margin: 8px 0 !important;
+		padding: 0 !important;
+		transition: all 0.3s ease !important;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+	}
+
+	.navbar-nav .dark-mode-toggle:hover,
+	.navbar-nav .dark-mode-toggle:focus {
+		background: rgba(204, 183, 188, 0.3) !important;
+		border-color: #ccb7bc !important;
+		transform: scale(1.05) !important;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+	}
+
+	.navbar-nav .dark-mode-toggle .dark-mode-icon {
+		width: 24px !important;
+		height: 24px !important;
+		color: #3a505a !important; /* Cinza escuro da marca */
+		stroke-width: 2.5 !important;
+		filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1)) !important;
+	}
+
+	/* Dark mode ativo no mobile */
+	[data-theme="dark"] .navbar-nav .dark-mode-toggle {
+		background: rgba(212, 165, 176, 0.25) !important; /* Fundo rosa claro para contraste */
+		border-color: #d4a5b0 !important; /* Rosa claro da marca */
+	}
+
+	[data-theme="dark"] .navbar-nav .dark-mode-toggle .dark-mode-icon {
+		color: #d4a5b0 !important; /* Rosa claro da marca */
+		filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3)) !important;
+	}
+
+	[data-theme="dark"] .navbar-nav .dark-mode-toggle:hover,
+	[data-theme="dark"] .navbar-nav .dark-mode-toggle:focus {
+		background: rgba(212, 165, 176, 0.4) !important;
+		border-color: #d4a5b0 !important;
+	}
+
+	/* Garantir que o toggle apareça no menu colapsado */
+	.navbar-collapse .navbar-nav .nav-item:last-child {
+		margin-top: 10px !important;
+		padding-top: 10px !important;
+		border-top: 1px solid rgba(58, 80, 90, 0.2) !important;
+	}
+
+	[data-theme="dark"] .navbar-collapse .navbar-nav .nav-item:last-child {
+		border-top-color: rgba(204, 183, 188, 0.2) !important;
+	}
+}
+
+/* ============================================
+   BOAS PRÁTICAS UX MOBILE - TOUCH TARGETS E ESPAÇAMENTO
+   ============================================ */
+
+@media (max-width: 768px) {
+	/* Touch targets mínimos 44x44px (WCAG) */
+	button,
+	.btn,
+	.nav-link,
+	.footer-link,
+	.footer-social-link,
+	.mobile-category-item,
+	.mobile-vagas-button,
+	.action-btn,
+	.btn-candidatar,
+	.google-reviews-link {
+		min-height: 44px !important;
+		min-width: 44px !important;
+		padding: 12px 16px !important; /* Espaçamento interno adequado */
+	}
+
+	/* Espaçamento entre elementos clicáveis (mínimo 8px) */
+	.mobile-categories-grid {
+		gap: 20px !important; /* Espaçamento entre cards de categoria */
+	}
+
+	.mobile-category-item {
+		margin-bottom: 0 !important;
+	}
+
+	.mobile-vagas-button {
+		margin-top: 30px !important; /* Espaçamento antes do botão VAGAS */
+		margin-bottom: 20px !important;
+	}
+
+	/* Links de navegação - espaçamento vertical */
+	.navbar-nav .nav-item {
+		margin-bottom: 8px !important;
+	}
+
+	.navbar-nav .nav-link {
+		padding: 14px 16px !important; /* Touch target + espaçamento */
+		border-radius: 8px !important;
+		margin: 4px 0 !important;
+		transition: all 0.3s ease !important;
+	}
+
+	.navbar-nav .nav-link:hover,
+	.navbar-nav .nav-link:focus,
+	.navbar-nav .nav-link.active {
+		background: rgba(58, 80, 90, 0.1) !important;
+		transform: translateX(5px) !important; /* Feedback visual */
+	}
+
+	/* Botões - feedback visual em interações */
+	.btn,
+	.action-btn,
+	.btn-candidatar,
+	.btn-rosa {
+		transition: all 0.3s ease !important;
+		position: relative !important;
+		overflow: hidden !important;
+	}
+
+	.btn:active,
+	.action-btn:active,
+	.btn-candidatar:active,
+	.btn-rosa:active {
+		transform: scale(0.98) !important; /* Feedback tátil */
+	}
+
+	/* Cards - hierarquia visual clara */
+	.mobile-category-item,
+	.mobile-vagas-card,
+	.vaga-card,
+	.info-card {
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+		transition: all 0.3s ease !important;
+	}
+
+	.mobile-category-item:active,
+	.mobile-vagas-card:active {
+		transform: scale(0.97) !important; /* Feedback ao tocar */
+	}
+
+	/* Hierarquia visual - tamanhos de fonte */
+	body {
+		font-size: 16px !important; /* Tamanho mínimo para legibilidade */
+		line-height: 1.6 !important;
+	}
+
+	h1 {
+		font-size: 2rem !important;
+		margin-bottom: 20px !important;
+	}
+
+	h2 {
+		font-size: 1.75rem !important;
+		margin-bottom: 18px !important;
+	}
+
+	h3 {
+		font-size: 1.5rem !important;
+		margin-bottom: 16px !important;
+	}
+
+	h4 {
+		font-size: 1.25rem !important;
+		margin-bottom: 14px !important;
+	}
+
+	/* Espaçamento entre seções */
+	.page-section,
+	.page-section-white {
+		padding: 40px 20px !important;
+		margin-bottom: 30px !important;
+	}
+
+	/* Espaçamento entre elementos relacionados */
+	.vaga-info {
+		gap: 16px !important;
+	}
+
+	.vaga-info-item {
+		margin-bottom: 12px !important;
+		padding: 8px 0 !important;
+	}
+
+	/* Feedback visual em inputs */
+	.input100,
+	.wrap-input100 input,
+	.wrap-input100 textarea,
+	.wrap-input100 select {
+		min-height: 48px !important; /* Touch target para inputs */
+		padding: 14px 16px !important;
+		font-size: 16px !important; /* Previne zoom no iOS */
+		border-radius: 8px !important;
+		transition: all 0.3s ease !important;
+	}
+
+	.input100:focus,
+	.wrap-input100 input:focus,
+	.wrap-input100 textarea:focus,
+	.wrap-input100 select:focus {
+		transform: scale(1.02) !important; /* Feedback visual sutil */
+		box-shadow: 0 0 0 3px rgba(204, 183, 188, 0.2) !important;
+	}
+
+	/* Melhorar legibilidade de texto */
+	p,
+	span,
+	li {
+		line-height: 1.7 !important; /* Espaçamento entre linhas */
+		margin-bottom: 12px !important;
+	}
+
+	/* Espaçamento em listas */
+	ul,
+	ol {
+		padding-left: 24px !important;
+		margin-bottom: 20px !important;
+	}
+
+	li {
+		margin-bottom: 10px !important;
+		padding-left: 8px !important;
+	}
+
+	/* Melhorar contraste de links */
+	a:not(.btn):not(.action-btn):not(.btn-candidatar) {
+		text-decoration: underline !important;
+		text-underline-offset: 3px !important;
+		transition: color 0.3s ease !important;
+	}
+
+	a:not(.btn):not(.action-btn):not(.btn-candidatar):hover,
+	a:not(.btn):not(.action-btn):not(.btn-candidatar):focus {
+		text-decoration-thickness: 2px !important;
+	}
+
+	/* Navbar mobile - estilos adicionais */
+	.navbar {
+		background-color: #1a1a1a !important; /* Preto para melhor contraste */
+		padding: 15px 20px !important;
+	}
+
+	.navbar-light .navbar-nav .nav-link {
+		color: #ffffff !important;
+		font-weight: 500 !important;
+		font-size: 16px !important;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+	}
+
+	.navbar-light .navbar-nav .nav-link:hover {
+		color: #ccb7bc !important; /* Rosa da marca no hover */
+		background-color: rgba(204, 183, 188, 0.1) !important;
+	}
+}
+
+/* ============================================
+   FORMULÁRIOS MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+	/* Inputs - melhor contraste */
+	.input100,
+	.wrap-input100 input,
+	.wrap-input100 textarea,
+	.wrap-input100 select {
+		background-color: #ffffff !important;
+		color: #1a1a1a !important;
+		border: 2px solid #d0d0d0 !important;
+		border-radius: 8px !important;
+		padding: 14px 16px !important;
+		font-size: 16px !important; /* Evitar zoom no iOS */
+	}
+
+	.input100:focus,
+	.wrap-input100 input:focus,
+	.wrap-input100 textarea:focus,
+	.wrap-input100 select:focus {
+		border-color: #3a505a !important;
+		box-shadow: 0 0 0 3px rgba(58, 80, 90, 0.1) !important;
+		outline: none !important;
+	}
+
+	.wrap-input100 label {
+		color: #2a2a2a !important;
+		font-weight: 500 !important;
+		margin-bottom: 8px !important;
+	}
+
+	/* Botão de submit */
+	.contact100-form-btn {
+		background-color: #3a505a !important;
+		color: #ffffff !important;
+		border: none !important;
+		border-radius: 8px !important;
+		padding: 16px 32px !important;
+		font-size: 16px !important;
+		font-weight: 600 !important;
+		box-shadow: 0 4px 12px rgba(58, 80, 90, 0.3) !important;
+	}
+
+	.contact100-form-btn:hover {
+		background-color: #2a3a42 !important;
+		box-shadow: 0 6px 16px rgba(58, 80, 90, 0.4) !important;
+	}
+}
+
+/* ============================================
+   HOMEPAGE MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+	/* Hero section */
+	.bg-header {
+		position: relative !important;
+	}
+
+	.hero-content h1 {
+		color: #ffffff !important;
+		text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+		font-size: 2rem !important;
+	}
+
+	.hero-content p {
+		color: #f5f5f5 !important;
+		text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) !important;
+	}
+
+	/* About section */
+	#about {
+		background: #ffffff !important;
+		color: #1a1a1a !important;
+		padding: 50px 20px !important;
+	}
+
+	#about h1,
+	#about h2 {
+		color: #1a1a1a !important;
+	}
+
+	#about p {
+		color: #2a2a2a !important;
+	}
+
+	/* Services section */
+	#services {
+		background: #f8f9fa !important;
+		padding: 50px 20px !important;
+	}
+
+	/* Testimonials */
+	.testimonials-carousel {
+		background: #ffffff !important;
+		padding: 40px 20px !important;
+	}
+
+	.testimonial-card {
+		background: #ffffff !important;
+		color: #1a1a1a !important;
+		padding: 30px 20px !important;
+		border-radius: 12px !important;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+	}
+
+	.testimonial-card strong {
+		color: #1a1a1a !important;
+	}
+
+	.testimonial-card blockquote {
+		color: #2a2a2a !important;
+		line-height: 1.7 !important;
+	}
+
+	/* Google reviews link */
+	.google-reviews-link {
+		background: #ffffff !important;
+		color: #3a505a !important;
+		border: 2px solid #3a505a !important;
+		padding: 14px 24px !important;
+		border-radius: 8px !important;
+		font-weight: 600 !important;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+	}
+
+	.google-reviews-link:hover {
+		background: #3a505a !important;
+		color: #ffffff !important;
+	}
+
+	/* Info cards - melhor contraste */
+	.info-card {
+		background: #ffffff !important;
+		color: #1a1a1a !important;
+		border: 1px solid rgba(58, 80, 90, 0.2) !important;
+	}
+
+	.info-card h3 {
+		color: #1a1a1a !important;
+	}
+
+	.info-card p {
+		color: #2a2a2a !important;
+	}
+
+	.info-card p strong {
+		color: #1a1a1a !important;
+	}
+}
+
+/* ============================================
+   GRID DE CATEGORIAS MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+	/* Container de categorias mobile */
+	.mobile-categories-container {
+		font-weight: 600;
+		font-size: 12px;
+		padding: 0 15px;
+	}
+
+	/* Grid de categorias - 2 colunas */
+	.mobile-categories-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 20px;
+		margin-bottom: 30px;
+		max-width: 100%;
+		/* Prevent layout shift */
+		contain: layout;
+	}
+
+	/* Item de categoria */
+	.mobile-category-item {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-decoration: none;
+		transition: transform 0.3s ease;
+		/* Prevent layout shift */
+		contain: layout style;
+		min-height: 200px;
+	}
+
+	.mobile-category-item:hover {
+		transform: translateY(-5px);
+	}
+
+	.mobile-category-item .img-cat {
+		width: 100%;
+		max-width: 150px;
+		height: auto;
+		margin-bottom: 10px;
+		/* Prevent layout shift */
+		aspect-ratio: 1 / 1;
+		object-fit: cover;
+	}
+
+	.mobile-category-label {
+		margin-top: 10px !important;
+		font-size: 12px !important;
+		text-align: center;
+		line-height: 1.4;
+	}
+
+	/* Botão VAGAS - full width separado */
+	.mobile-vagas-button {
+		display: block;
+		width: 100%;
+		max-width: 100%;
+		text-decoration: none;
+		margin-top: 20px;
+		/* Prevent layout shift */
+		contain: layout;
+		min-height: 160px;
+	}
+
+	.mobile-vagas-card {
+		background: linear-gradient(135deg, rgba(204, 183, 188, 0.95), rgba(58, 80, 90, 0.95));
+		border-radius: 15px;
+		padding: 30px 20px;
+		text-align: center;
+		min-height: 160px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+	}
+
+	.mobile-vagas-card:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+	}
+
+	.mobile-vagas-card i {
+		font-size: 2.5rem;
+		color: white;
+		margin-bottom: 12px;
+	}
+
+	.mobile-vagas-title {
+		color: white;
+		font-size: 1.3rem;
+		font-weight: 700;
+		margin: 0;
+		margin-bottom: 5px;
+	}
+
+	.mobile-vagas-subtitle {
+		color: white;
+		font-size: 0.95rem;
+		margin: 0;
+		opacity: 0.95;
+	}
+
+	/* Melhorar contraste dos labels de categoria */
+	.mobile-category-label,
+	.textPink.mobile-category-label {
+		color: #3a505a !important; /* Cinza escuro da marca - contraste 4.5:1 */
+		font-weight: 600 !important;
+	}
+
+	/* Cards de categoria - melhor contraste visual */
+	.mobile-category-item {
+		padding: 10px;
+		border-radius: 12px;
+		background: rgba(255, 255, 255, 0.5);
+		transition: background 0.3s ease, transform 0.3s ease;
+	}
+
+	.mobile-category-item:hover {
+		background: rgba(255, 255, 255, 0.8);
+		transform: translateY(-5px);
+	}
+
+	/* Hero section - melhor contraste */
+	.bg-header h1,
+	.bg-header h2,
+	.bg-header p {
+		color: #ffffff !important;
+		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5) !important; /* Sombra para melhor legibilidade */
+	}
+
+	/* Seção "TODAS AS ÁREAS" - melhor contraste */
+	.text-center p {
+		color: #1a1a1a !important;
+		font-weight: 600 !important;
+	}
+
+	/* Navbar mobile - melhor contraste */
+	.navbar-light .navbar-nav .nav-link {
+		color: #1a1a1a !important;
+		font-weight: 600 !important;
+	}
+
+	.navbar-light .navbar-nav .nav-link:hover {
+		color: #3a505a !important;
+	}
+
+	/* Botões de ação - melhor contraste */
+	.btn-rosa {
+		background: linear-gradient(135deg, #ccb7bc, #b8a3a8) !important;
+		color: #ffffff !important;
+		font-weight: 600 !important;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+	}
+
+	.btn-rosa:hover {
+		background: linear-gradient(135deg, #b8a3a8, #ccb7bc) !important;
+		color: #ffffff !important;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+	}
+}
+

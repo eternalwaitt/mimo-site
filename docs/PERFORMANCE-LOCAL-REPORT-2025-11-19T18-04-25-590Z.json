@@ -1,0 +1,54 @@
+{
+  "timestamp": "2025-11-19T18:04:25.591Z",
+  "duration": "2.66s",
+  "pages": [
+    {
+      "page": "Home",
+      "path": "/",
+      "url": "http://localhost:3000/",
+      "error": "Command failed: lighthouse \"http://localhost:3000/\" --only-categories=performance --preset=mobile --output=json --output-path=\"/Users/victorpenter/Documents/Github/mimo/websites/mimo-site/docs/lighthouse-1763575462929.json\" --chrome-flags=\"--headless --no-sandbox\" --quiet"
+    },
+    {
+      "page": "Serviços",
+      "path": "/servicos",
+      "url": "http://localhost:3000/servicos",
+      "error": "Command failed: lighthouse \"http://localhost:3000/servicos\" --only-categories=performance --preset=mobile --output=json --output-path=\"/Users/victorpenter/Documents/Github/mimo/websites/mimo-site/docs/lighthouse-1763575463264.json\" --chrome-flags=\"--headless --no-sandbox\" --quiet"
+    },
+    {
+      "page": "Serviço: Salão",
+      "path": "/servicos/salao",
+      "url": "http://localhost:3000/servicos/salao",
+      "error": "Command failed: lighthouse \"http://localhost:3000/servicos/salao\" --only-categories=performance --preset=mobile --output=json --output-path=\"/Users/victorpenter/Documents/Github/mimo/websites/mimo-site/docs/lighthouse-1763575463594.json\" --chrome-flags=\"--headless --no-sandbox\" --quiet"
+    },
+    {
+      "page": "Serviço: Esmalteria",
+      "path": "/servicos/esmalteria",
+      "url": "http://localhost:3000/servicos/esmalteria",
+      "error": "Command failed: lighthouse \"http://localhost:3000/servicos/esmalteria\" --only-categories=performance --preset=mobile --output=json --output-path=\"/Users/victorpenter/Documents/Github/mimo/websites/mimo-site/docs/lighthouse-1763575463930.json\" --chrome-flags=\"--headless --no-sandbox\" --quiet"
+    },
+    {
+      "page": "Serviço: Cílios",
+      "path": "/servicos/cilios",
+      "url": "http://localhost:3000/servicos/cilios",
+      "error": "Command failed: lighthouse \"http://localhost:3000/servicos/cilios\" --only-categories=performance --preset=mobile --output=json --output-path=\"/Users/victorpenter/Documents/Github/mimo/websites/mimo-site/docs/lighthouse-1763575464258.json\" --chrome-flags=\"--headless --no-sandbox\" --quiet"
+    },
+    {
+      "page": "Galeria",
+      "path": "/galeria",
+      "url": "http://localhost:3000/galeria",
+      "error": "Command failed: lighthouse \"http://localhost:3000/galeria\" --only-categories=performance --preset=mobile --output=json --output-path=\"/Users/victorpenter/Documents/Github/mimo/websites/mimo-site/docs/lighthouse-1763575464591.json\" --chrome-flags=\"--headless --no-sandbox\" --quiet"
+    },
+    {
+      "page": "Sobre",
+      "path": "/sobre",
+      "url": "http://localhost:3000/sobre",
+      "error": "Command failed: lighthouse \"http://localhost:3000/sobre\" --only-categories=performance --preset=mobile --output=json --output-path=\"/Users/victorpenter/Documents/Github/mimo/websites/mimo-site/docs/lighthouse-1763575464922.json\" --chrome-flags=\"--headless --no-sandbox\" --quiet"
+    },
+    {
+      "page": "Trabalhe Aqui",
+      "path": "/trabalhe-aqui",
+      "url": "http://localhost:3000/trabalhe-aqui",
+      "error": "Command failed: lighthouse \"http://localhost:3000/trabalhe-aqui\" --only-categories=performance --preset=mobile --output=json --output-path=\"/Users/victorpenter/Documents/Github/mimo/websites/mimo-site/docs/lighthouse-1763575465255.json\" --chrome-flags=\"--headless --no-sandbox\" --quiet"
+    }
+  ]
+}

@@ -5,11 +5,14 @@ import { ServiceCard } from '@/components/ui/service-card'
 import { SERVICES } from '@/lib/constants'
 
 /**
- * serviços grid - cards grandes com foto dominante.
+ * grid de serviços - cards grandes com foto dominante.
  * 
- * nome BUENO, preço sutil.
- * hover: revela frase curta + "Ver detalhes"
- * link para subpáginas.
+ * - nome BUENO, preço sutil
+ * - hover: revela frase curta + "Ver detalhes"
+ * - link para subpáginas de cada serviço
+ * - animações de entrada escalonadas com framer-motion
+ * 
+ * @returns {JSX.Element} seção com grid de serviços
  */
 export function ServicesGrid() {
   return (

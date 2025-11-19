@@ -1,0 +1,1137 @@
+<!doctype html>
+
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="description" content="Oferecendo o que há de melhor no mundo da Estética com preços acessíveis.
+
+    Você merece esse mimo.">
+
+    <meta name="author" content="Michelle Fernandes">
+
+
+
+    <title>MINHA MIMO - FAQ</title>
+
+
+
+    <!-- Fonts -->
+
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=EB+Garamond:400,400i" rel="stylesheet">
+
+    <link href="../Akrobat-Regular.woff" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+
+
+
+
+    <!-- Bootstrap core CSS -->
+
+    <link href="../bootstrap/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+
+    <!-- CSS Variables (deve vir antes de product.css) -->
+    <link rel="stylesheet" href="../css/modules/_variables.css">
+
+    <!-- Custom styles for this template -->
+    <link href="../product.css" rel="stylesheet">
+    <link href="../servicos.css" rel="stylesheet">
+    
+    <!-- Dark Mode Styles -->
+    <link rel="stylesheet" href="../css/modules/dark-mode.css">
+    
+    <!-- Mobile UI Improvements -->
+    <link rel="stylesheet" href="../css/modules/mobile-ui-improvements.css">
+    
+    <!-- Force footer social container width consistency -->
+    <style>
+        /* Force consistent footer social container width */
+        .site-footer .footer-social,
+        footer .footer-social,
+        .footer-social-col .footer-social {
+            width: 100% !important;
+            min-width: 100% !important;
+            max-width: 100% !important;
+            flex-basis: 100% !important;
+            flex-grow: 1 !important;
+            flex-shrink: 0 !important;
+            box-sizing: border-box !important;
+            align-self: stretch !important;
+        }
+        
+        /* Force footer social col to use full width */
+        .site-footer .footer-social-col,
+        footer .footer-social-col,
+        .footer-social-col {
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+    </style>
+
+    <!-- Form -->
+
+    <link rel="stylesheet" type="text/css" href="../form/css/font-awesome.min.css">
+
+    <link rel="stylesheet" type="text/css" href="../form/main.css">
+
+
+
+    <link rel="apple-touch-icon" sizes="57x57" href="../favicon/apple-icon-57x57.png">
+
+    <link rel="apple-touch-icon" sizes="60x60" href="../favicon/apple-icon-60x60.png">
+
+    <link rel="apple-touch-icon" sizes="72x72" href="../favicon/apple-icon-72x72.png">
+
+    <link rel="apple-touch-icon" sizes="76x76" href="../favicon/apple-icon-76x76.png">
+
+    <link rel="apple-touch-icon" sizes="114x114" href="../favicon/apple-icon-114x114.png">
+
+    <link rel="apple-touch-icon" sizes="120x120" href="../favicon/apple-icon-120x120.png">
+
+    <link rel="apple-touch-icon" sizes="144x144" href="../favicon/apple-icon-144x144.png">
+
+    <link rel="apple-touch-icon" sizes="152x152" href="../favicon/apple-icon-152x152.png">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-icon-180x180.png">
+
+    <link rel="icon" type="image/png" sizes="192x192"  href="../favicon/android-icon-192x192.png">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
+
+    <link rel="icon" type="image/png" sizes="96x96" href="../favicon/favicon-96x96.png">
+
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
+
+    <link rel="manifest" href="../favicon/manifest.json">
+
+    <meta name="msapplication-TileColor" content="#ffffff">
+
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Critical CSS for header - Always compact, only logo animates -->
+    <style>
+    /* Header sempre compacto - apenas logo anima */
+    .navbar {
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+        background-color: rgba(45, 45, 45, 0.95) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+        box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 4px 0px !important;
+        transition: background-color 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease !important;
+    }
+    .navbar.compressed {
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+        background-color: rgba(45, 45, 45, 0.95) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+        box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 4px 0px !important;
+    }
+    /* Logo inicial - maior */
+    .logonav {
+        height: 55px !important;
+        max-width: 150px !important;
+        transition: height 0.3s ease, max-width 0.3s ease, transform 0.3s ease !important;
+    }
+    /* Logo comprimido - menor */
+    .navbar.compressed .logonav {
+        height: 28px !important;
+        max-width: 100px !important;
+    }
+    .navbar-nav .nav-link {
+        color: #ffffff !important;
+    }
+    </style>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-sm fixed-top navbar-light">
+
+        <div class="container">
+
+           <a class="navbar-brand" href="https://minhamimo.com.br"><img class="logonav" src="https://minhamimo.com.br/img/logobranco1.png" alt="logo-mimo"/></a>
+
+           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar1">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbar1">
+
+            <ul class="navbar-nav ml-auto  ">
+
+                <li class="nav-item active">
+
+                    <a class="nav-link" href="https://minhamimo.com.br/">HOME</a>
+
+                </li>
+
+                <li class="nav-item ml-md-2">
+
+                    <a class="nav-link" href="../#about">SOBRE</a>
+
+                </li>
+
+                <li class="nav-item ml-md-2">
+
+                    <a class="nav-link" href="../#services">SERVIÇOS</a>
+
+                </li>
+
+    <!--                 <li class="nav-item ml-md-2">
+
+                        <a class="nav-link" href="../#promo">PROMOÇÕES</a>
+
+                    </li> -->
+
+                    <li class="nav-item ml-md-2">
+
+                        <a class="nav-link" href="../#contact">CONTATO</a>
+
+                    </li>
+
+                    <li class="nav-item ml-md-2">
+
+                        <a class="nav-link" href="../faq/">FAQ</a>
+
+                    </li>
+
+                    <!-- <li class="nav-item ml-md-3">
+
+                        <a class="btn btn-rosa" data-toggle="modal" data-target="#exampleModalCenterNav" style="letter-spacing: 1.3px; color:white;">AGENDAR</a>
+
+                    </li> -->
+
+                    <li class="nav-item ml-md-3">
+
+                        <a class="btn btn-rosa" target="_blank" href="https://api.whatsapp.com/send/?phone=5511994781012&text=Ol%C3%A1,+vim+pelo+site+e+queria+mais+informa%C3%A7%C3%B5es" style="letter-spacing: 1.3px; color:white;">WHATSAPP</a>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- Modal Impedimento -->
+
+    <div class="modal fade" id="exampleModalCenterNav" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered" role="document">
+
+            <div class="modal-content">
+
+                <div class="modal-body">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                        <span aria-hidden="true">&times;</span>
+
+                    </button>
+
+                    <h3 class="textPink text-center my-3">ATENÇÃO!</h3>
+
+                    <p class="textDarkGrey text-center">
+                        Para concluir o agendamento é necessário depósito de <b>R$20</b> para cada procedimento agendado, a fim de evitar segurarmos vagas na agenda e haver falta no dia. Solicitamos que seja depositado em até <b>48 horas</b> após o pré-agendamento para confirmar seu horário. Caso não seja efetuado o agendamento é cancelado para não segurar vaga na agenda.<br/>
+                        <span class="textPink font-weight-bold">
+                            O restante do valor deverá ser pago no dia do atendimento. Aceitamos dinheiro ou cartão débito/crédito.
+                        </span><br/>
+                        Pedimos por gentileza que se atente ao horário agendado, pois atrasos superiores a 10 minutos podem ocasionar o cancelamento do seu atendimento sem a possibilidade de novo agendamento.<br/>
+                        Obs. O não comparecimento com aviso prévio de 48hrs acarretará na perda integral do valor depositado. Caso não possa comparecer nos comunique com 48hrs de antecedência e o valor será creditado para reagendar uma nova visita.
+                        <br/><br/>
+                        <span class="textPink font-weight-bold">
+                            Dados bancários:<br/>
+                        </span>
+                        MIMO CENTRO DE BELEZA LTDA<br/>
+                        28.038.663/0001-14<br/>
+                        BANCO ITAÚ: 341<br/>
+                        AGÊNCIA VILLA LOBOS: 2954<br/>
+                        CONTA CORRENTE: 17793-3<br>
+                        PIX: 28.038.663/0001-14
+                    </p>
+
+                </div>
+                <button data-dismiss="modal" class="d-none d-sm-block">
+                    <a class="btn btnAgendamento" href="https://api.whatsapp.com/send?1=pt_BR&phone=5511994781012" target="_blank" data-target="#exampleModalCenterNav2" style="width: 100%">ENTENDI E QUERO AGENDAR</a>
+                </button>
+                <button class="d-sm-none">
+                    <a class="btn btnAgendamento" href="https://api.whatsapp.com/send?1=pt_BR&phone=5511994781012" target="_blank" style="width: 100%">ENTENDI E QUERO AGENDAR</a>
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Modal -->
+
+    <div class="modal fade" id="exampleModalCenterNav2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered" role="document">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                        <span aria-hidden="true">&times;</span>
+
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+                    <!-- Modal removido - agendamento via WhatsApp -->
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+    <!-- Banner / Hero -->
+    <div class="position-relative overflow-hidden faqheader text-center text-white" role="banner" aria-label="FAQ Hero section">
+        <!-- Background image with gradient overlay -->
+        <?php
+        // Desktop image
+        if (file_exists(__DIR__ . '/../img/bgheader.avif')) {
+            echo '<picture class="faq-hero-image-desktop d-none d-md-block" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;">
+                <source srcset="/img/bgheader.avif" type="image/avif">
+                <source srcset="/img/bgheader.webp" type="image/webp">
+                <img src="/img/bgheader.jpg" alt="Mimo - FAQ" loading="eager" width="1920" height="1080" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+            </picture>';
+        }
+        // Mobile image
+        if (file_exists(__DIR__ . '/../img/header_dezembro_mobile.avif')) {
+            echo '<picture class="faq-hero-image-mobile d-block d-md-none" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;">
+                <source srcset="/img/header_dezembro_mobile.avif" type="image/avif" media="(max-width: 750px)">
+                <source srcset="/img/header_dezembro_mobile.webp" type="image/webp" media="(max-width: 750px)">
+                <img src="/img/header_dezembro_mobile.png" alt="Mimo - FAQ" loading="eager" width="750" height="422" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+            </picture>';
+        }
+        ?>
+        <!-- Gradient overlay for better text readability -->
+        <div class="faq-hero-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(217, 194, 189, 0.85), rgba(49, 38, 91, 0.85)); z-index: 1;"></div>
+        <!-- Hero content -->
+        <div class="faq-hero-content" style="position: relative; z-index: 2; padding: 100px 20px 60px; display: flex; align-items: center; justify-content: center; min-height: 300px;">
+            <h2 style="font-size: 60px; font-weight: 700; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); margin: 0;">FAQ</h2>
+        </div>
+    </div>
+
+
+
+    <!-- Navegacao -->
+
+    <ul class="container nav nav-pills mt-5 mb-5  " id="pills-tab" role="tablist">
+
+        <li class="nav-item" style="margin: auto">
+
+            <a class="nav-link active" id="pills-esteticaa" data-toggle="pill" href="#pills-estetica" role="tab" aria-controls="pills-estetica" aria-selected="true">
+
+            Estética</a>
+
+        </li>
+
+        <li class="nav-item" style="margin: auto">
+
+            <a class="nav-link" id="pills-microbb" data-toggle="pill" href="#pills-microb" role="tab" aria-controls="pills-microb" aria-selected="false">
+
+                Nanopigmentação 
+
+            </a>
+
+        </li>
+
+        <li class="nav-item" style="margin: auto">
+
+            <a class="nav-link" id="pills-cilioss" data-toggle="pill" href="#pills-cilios" role="tab" aria-controls="pills-cilios" aria-selected="false">
+
+                Cílios
+
+            </a>
+
+        </li>
+
+        <li class="nav-item" style="margin: auto">
+
+            <a class="nav-link" id="pills-unhass" data-toggle="pill" href="#pills-unhas" role="tab" aria-controls="pills-unhass" aria-selected="true">
+
+            Unhas</a>
+
+        </li>
+
+        <li class="nav-item" style="margin: auto">
+
+            <a class="nav-link" id="pills-clinicaa" data-toggle="pill" href="#pills-clinica" role="tab" aria-controls="pills-clinica" aria-selected="false">
+
+                Clínica
+
+            </a>
+
+        </li>
+
+    </ul>
+
+    <!--Content-->
+
+    <div class="tab-content" id="pills-tabContent">
+
+        <div class="tab-pane fade show active" id="pills-estetica" role="tabpanel" aria-labelledby="pills-microblanding">
+
+            <div class="col-md-12 mt-4 position-relative">
+
+                <div class="text-left  ">
+
+                    <div class="col-md-12 container">
+
+                        <div class="col-md-10 m-auto">
+
+                            <p style="letter-spacing: 0.8px">
+
+                                <b>Qual melhor procedimento para tratar a celulite?</b><br/>
+
+                                Os procedimentos mais indicados para tratar a celulite é a Radiofrequência e a Criofrequência. Ambos os procedimentos, com o auxílio da Massagem Modeladora, ajudam a desinflamar a gordura que causa a celulite, estimulando também o colágeno fazendo com que a pele fique mais firme, extinguindo assim a celulite.<br/><br/>
+
+
+                                <b>Depilação a laser tem alguma contraindicação? Serve para todos os tipos de pele?</b><br/>
+
+                                Sim, há contraindicações, sendo elas:<br/>
+
+                                • Diabetes não controlada, que leva à alterações de sensibilidade na pele;<br/>
+
+                                • Hipertensão descontrolada porque pode haver um pico de pressão;<br/>
+
+                                • Epilepsia, porque pode dar origem a uma crise epilética;<br/>
+
+                                • Gravidez, sobre a área da barriga ou virilha;<br/>
+
+                                • Vitiligo, porque podem surgir novas áreas afetadas, onde o laser for utilizado;<br/>
+
+                                • Doenças de pele, como a psoríase, que a área que for tratada estiver com psoríase ativa;<br/>
+
+                                • Feridas abertas no local da exposição ao laser;<br/>
+
+                                • Em caso de câncer, durante o tratamento.<br/><br/>
+
+
+
+                                <b>Preciso fazer uma avaliação antes da depilação a laser?</b><br/>
+
+                                Caso não haja nenhuma contraindicação, a avaliação pode ser realizada no dia da sessão da depilação, para as profissionais indicarem o número mínimo de sessões necessárias.<br/><br/>
+
+                                <b>Quantas sessões são necessárias?</b><br/>
+
+                                A quantidade, o crescimento e a melanina dos pêlos influenciam muito para saber quantas sessões serão necessárias. Por isso essa informação só é passada após avaliação das profissionais.<br/><br/>
+
+                                <b>Como funciona o microagulhamento? Qualquer pessoa pode fazer?</b><br/>
+
+                                O microagulhamento nada mais é que um instrumento com microagulhas que é passado na região contratada, trabalhando com a renovação celular, dando ótimos resultados para peles acneicas, oleosas, com poros muito aberto, estimulando o rejuvenescimento facial e clareamento de manchas.<br/>
+
+                                Contraindicações: Em casos de cicatrizes com quelóide, doença vascular, distúrbio hemorrágico, diabetes, uso de anticoagulantes, câncer de pele, alergia ao metal, ceratose solar, verrugas, infecção cutânea, pele sensível, gravidez, acne, herpes ativa, rosácea ativa, pele queimada do sol, uso de Roacutan inferior a 6 meses (a pele está fina e reativa).<br/><br/>
+
+                                <b> Qual tratamento é indicado para pele com acne e manchas?</b><br/>
+
+                                Para pele acneica, além de limpeza de pele, indicamos o tratamento de microagulhamento e peeling. Ambos os procedimentos auxiliam no controle da oleosidade da pele, desestimulando o crescimento de acnes. Além disso, ajudam na suavização de manchas.
+
+                                Importante: É necessário avaliação de nossas profissionais.<br/><br/>
+
+
+
+                                <b>Qual idade mínima para os procedimentos?</b><br/>
+
+                                Para cada caso, um caso. Quando menores de idade, pedimos que um maior responsável acompanhe a paciente até o local para ler os termos e conversar com a profissional a respeito do procedimento.<br/><br/>
+
+                                <b>Quais os efeitos da Drenagem linfática?</b><br/>
+
+                                A Drenagem Linfática ajuda a perder o excesso de líquido do corpo, fazendo com que haja uma redução no inchaço. O procedimento é indicado também em casos pré e pós-operatório, para regeneração de tecido, circulação sanguínea e desintoxicação.<br/><br/>
+
+                                <b>Drenagem linfática emagrece?</b><br/>
+
+                                A Drenagem Linfática não é um procedimento indicado para perda de medidas quando há gordura localizada, somente para inchaço devido a retenção de liquido.<br/><br/>
+
+                                <b> Drenagem é indicada para quem não precisa emagrecer?</b><br/>
+
+                                Sim, a Drenagem Linfática não está ligada à perda de medida.<br/><br/>
+
+                                <b>Tratamentos para rugas, qual é o mais indicado?</b><br/>
+
+                                Alguns tratamentos que a Mimo oferece para rugas é microagulhamento e radiofrequência. Porém, é indicado uma avaliação facial para saber qual o procedimento mais adequado.<br/><br/>
+
+
+
+
+
+
+
+                                <b>Qual tratamento mais indicado para perda de medida?</b><br/>
+
+                                Trabalhamos com diversas massagens e aparelhos aqui na Mimo que podem auxiliar na redução de medidas. Para gordura localizada é indicado Massagem Modeladora, Drenomodeladora, MimoDetox e DrenoDetox Power. Além de auxiliar na redução de medidas, também ajudam com o inchaço devido a retenção de líquido, modelam o corpo e ajudam com a circulação sanguínea. Alguns aparelhos que fazem com que o resultado seja mais rápido é a Corrente Russa, Radiofrequência, Endermoterapia e Criofrequência. Cada aparelho tem uma função específica, auxiliando na redução de celulite e flacidez.<br/><br/>
+
+
+
+                                <b>Como funciona o tratamento de endermoterapia?</b><br/>
+
+
+
+                                O tratamento consiste em "sugar" a pele promovendo um deslizamento e descolamento da pele e da camada de gordura, da fáscia que recobre os músculos para melhorar a circulação sanguínea, eliminando a retenção de líquidos, moldando o corpo e tornando a pele mais brilhante e macia.
+
+                                • Tratamento da celulite;<br/>
+
+                                •  Gordura localizada;<br/>
+
+                                •  Tonificação da pele;<br/>
+
+                                • Silhueta mais delgada;<br/>
+
+                                •  Útil para descolar uma cicatriz aderida, como exemplo, a cicatriz da cesariana.<br/><br/>
+
+
+
+
+
+                                <b>Quais os benefícios da corrente russa?</b><br/>
+
+
+
+                                • Fortalece o abdômen, pernas e glúteos;<br/>
+
+                                • Combate a flacidez;<br/>
+
+                                • Modela o corpo e o rosto;<br/>
+
+                                • Diminui as rugas do rosto e do pescoço;<br/>
+
+                                • Reduz espasmos musculares e edemas;<br/>
+
+                                • Define os músculos e ajuda na hipertrofia;<br/>
+
+                                • Reduz medidas;<br/>
+
+                                • Ajuda a relaxar a musculatura após treinamentos mais intensos;<br/>
+
+                                • Diminui a retenção de líquidos;<br/>
+
+                                • Recupera o tônus muscular pré e pós-lipoaspiração, pós-parto e pós-emagrecimento.<br/><br/>
+
+                                <b>Existe contraindicação para corrente russa?</b><br/>
+
+
+
+                                Sim. Apesar de não precisar de indicação médica para fazer (nos casos de tratamento estético), é importante dizer que nem todo mundo pode fazer a corrente russa, como:<br/>
+
+                                • Portadores de marca-passo.<br/>
+
+                                • Quem tem varizes, embolias, trombose e outras patologias circulatórias;<br/>
+
+                                • Pacientes com doenças cardiovasculares;<br/>
+
+                                • Pessoas com problemas de pressão (hipertensão ou hipotensão);<br/>
+
+                                • Quem tem problemas renais crônicos;<br/>
+
+                                • Quem sofre de epilepsia;<br/>
+
+                                • Pessoas com doenças pulmonares.<br/><br/>
+
+
+
+                                <b>Quais os benefícios do Peeling de Diamante?</b><br/>
+
+                                • Remover manchas presentes na camada mais superficial da pele, conhecidas como melanoses;<br/>
+
+                                • Tratar cicatrizes de acne;<br/>
+
+                                • Suavizar e remover rugas;<br/>
+
+                                • Desobstruir os poros;<br/>
+
+                                • Tratar estrias;<br/>
+
+                                • Diminuir a oleosidade da pele.<br/>
+
+                                • Durante todo o Tratamento: muito protetor solar e evitar ao máximo exposição ao sol!<br/><br/>
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="tab-pane fade show" id="pills-microb" role="tabpanel" aria-labelledby="pills-microblanding">
+
+            <div class="col-md-12 mt-4 position-relative">
+
+                <div class="text-left  ">
+
+                    <div class="col-md-12 container">
+
+                        <div class="col-md-10 m-auto">
+
+                            <p style="letter-spacing: 0.8px">
+
+                                <b>Qual o tom utilizado na minha sobrancelha?</b><br/>
+
+                                Utilizamos sempre o tom do seu pelo natural. Se você tem o costume de passar tinta de cabelo na sobrancelha, é necessário aguardar a renovação dos pelos.<br/><br/>
+
+
+
+                                <b>Sou ruiva, posso fazer a sobrancelha no tom que pinto o meu cabelo?</b><br/>
+
+                                A Mimo visa a naturalidade de cada sobrancelha, então sempre seguiremos o tom natural do seu pelo.<br/><br/>
+
+
+
+                                <b>Nanopigmentação  é a mesma coisa que tatuagem?</b><br/>
+
+                                Não! As tatuagens precisam alcançar a terceira camada de pele, e precisam de pigmentos inorgânicos, ou seja, pigmentos que nosso corpo não consegue absorver.<br/>
+
+                                Na técnica de Nanopigmentação  trabalhamos com primeira camada de pele, e com pigmentos orgânicos. Por isso sua durabilidade é menor, e o efeito natural, não dando deterioração de pigmento para cores azuladas, acinzentadas ou avermelhada.<br/><br/>
+
+
+
+                                <b>Minha pele é oleosa, posso realizar esse procedimento?</b><br/>
+                                Sim. Porém, a duração pode ser menor, ou pode ser necessário um terceiro retoque. Durante o procedimento os profissionais dão dicas de cuidado com a pele, e com a micro no período de cicatrização.<br/><br/>
+
+                                <b> Pode tomar sol após fazer a Nanopigmentação ?</b><br/>
+                                O procedimento de Nanopigmentação  leva aproximadamente 30 dias para sua cicatrização total. Por isso, é contraindicado a exposição ao sol antes deste período; <br/><br/>
+
+
+
+                                <b>Quem já fez algum procedimento nas sobrancelhas pode fazer?</b><br/>
+
+                                Se o procedimento anterior estiver quase que imperceptível, sim. Como a Nanopigmentação  é um método extremamente realista, não é possível fazê-lo com resquícios de outro procedimento para manter a naturalidade no olhar. <br/><br/>
+
+                                <b>A técnica usa pelinhos para preencher a sobrancelha?</b><br>
+
+                                A Mimo utiliza apenas o tebori, um indutor manual, instrumento em que é acoplado uma lâmina descartável. Essa lâmina, por sua vez, é molhada no pigmento e após, é desenhada uma trama de fios na sua pele. No feed do instragram da Mimo temos vídeos do procedimento. <br><br>
+
+
+
+                                <b>Com o tempo há alteração de tom para verde, vermelho, cinza ou azul?</b><br>
+
+                                A Mimo utiliza apenas pigmentos orgânicos na tentativa de minimizar tais alterações. Assim, com o passar do tempo a Nanopigmentação  apaga, sendo o pigmento absorvido pela pele. Porém, é importante seguir corretamente todos os cuidados passados durante o procedimento para que tais alterações também não acorram.<br><br>
+
+
+
+                                <b>Quanto tempo dura?</b><br>
+
+                                A Nanopigmentação  pode durar de 06 meses à 01 ano, uma vez que a penetração do pigmento é feita na camada mais superficial da pele, o que faz a coloração ser absorvida com o tempo.  A variação de tempo depende muito do tipo de pele de cada pessoa e dos cuidados durante e após a cicatrização. Após o procedimento é feito um retoque no período compreendido entre 30 (trinta) a 45 (quarenta e cinco) dias.<br><br>
+
+
+
+                                <b>Como é a cicatrização da sobrancelha?</b><br>
+
+                                A cicatrização é um período extremamente delicado e importante. Como cuidados, durante os primeiros 15 (quinze) dias deverá ser utilizada uma pomada cicatrizante indicada pelas profissionais, não deverá ter exposição solar, assim como não é permitido o uso de maquiagem e protetor solar na sobrancelha. Ainda, aconselhamos que nos primeiros dias não seja praticado exercícios físicos, não entre na piscina, mar e que tenha uma alimentação leve, saudável e que se mantenha hidratada.
+
+                                No entanto, a parte mais difícil da cicatrização é a parte emocional. Sobrancelha é emoção e qualquer alteração feita nela, por mais natural que seja, possui reflexos. O seu olhar muda, a mensagem que você passa para o mundo muda e isso pode, por vezes, nos assustar um pouco. <br>
+
+                                A sobrancelha fica muito escura e inchada nos primeiros dias e depois, devido ao processo de cicatrização chamado fagocitose, ela apaga, causando grande desconforto. Todas essas fases são muito bem explicadas no procedimento e as profissionais conversam muito sobre essa nova identificação de você com você mesma. <br>
+
+                                As peles mistas e oleosas demandam um cuidado maior, pois a oleosidade expulsa muito o pigmento da pele. Assim, as profissionais passam todas as dicas e a Mimo possui um corpo de esteticistas que também podem auxiliar caso necessário. <br>
+
+                                No retoque as clientes sempre reportam como foi esse período e os ajustes necessários na sobrancelha são adotados, caso seja necessário.<br><br>
+
+
+
+                                <b>Se eu fizer a Nanopigmentação , depois que cicatrizar, pode pintar a sobrancelha?</b><br>
+
+                                Sim, após o período de cicatrização é permitido o uso de maquiagem, tintura específica para a sobrancelha, henna e lift.<br><br>
+
+
+
+                                <b>Qualquer pessoa pode fazer? </b><br>
+
+                                Não havendo nenhuma das contraindicações, todas pessoas estão aptas a realizarem o procedimento.  No entanto, indicamos a Nanopigmentação  para aquelas que estão bem consigo mesma e que queiram se sentir apenas mais bonitas e com o olhar realçado, ou que queiram cobrir falhas e deixar de usar maquiagem constantemente. <br>
+
+                                A Nanopigmentação  não é indicada para quem não está bem consigo mesma e que procura com o procedimento uma mudança de vida que é apenas interior, pois o processo de cicatrização emocional é delicado e pode haver problemas de transtorno de imagem. <br>
+
+                                Lembramos que a Mimo não realiza nenhuma transformação, apenas realça uma beleza que você já tem, mantendo o olhar sempre muito natural e personalizado para você. <br><br>
+
+
+
+                                <b>Quais as contraindicações do procedimento?</b><br>
+
+                                É imprescindível dizer que uma pessoa está apta a realizar o procedimento na Mimo somente após a análise da profissional da ficha de anamnese preenchida. No entanto, seguem algumas contraindicações: <br>
+
+                                 Impeditivos: <br>
+
+                                - Fez bronzeamento artificial nos últimos 30 (trinta) dias; <br>
+
+                                - Fez uso de ácidos nos últimos 21 (vinte e um) dias; <br>
+
+                                - Fez uso de aspirina e antibiótico nos últimos 5 (cinco) dias; <br>
+
+                                - Fez/faz uso de Roacutan, podendo o procedimento ser realizado após 6 (seis) meses do término de uso do remédio. <br>
+
+                                Necessitam de análise da profissional e/ou autorização médica: <br>
+
+                                - Micropigmentação antiga (obrigatório o envio prévio de foto visível para análise da profissional); <br>
+
+                                - Depressão; <br>
+
+                                - Peles oleosas e problemas hormonais; <br>
+
+                                - Dermatite, psoríase, alergias ou doenças de pele agudas e crônicas (por vezes podem necessitar autorização médica); <br>
+
+                                - Hemofílicos, próteses faciais, hanseníase, HIV, herpes, anemia, glaucoma, problemas cardíacos (por vezes podem necessitar autorização médica); <br>
+
+                                - Queloides (por vezes podem necessitar autorização médica); <br>
+
+                                - Estar grávida ou amamentando (necessária autorização médica); <br>
+
+                                - Diabetes, hepatite e câncer (necessária autorização médica). <br><br>
+
+
+
+                                <b>Se eu gostar mais marcado, vocês também fazem?</b><br>
+
+                                Não! A única técnica realizada pela Mimo é a da Nanopigmentação  fio a fio, sendo esta uma técnica que corrige imperfeições e que proporciona um resultado muito natural. <br>
+
+                                É importante dizer que o resultado se difere do olhar marcado e das sobrancelhas extremamente desenhadas, não sendo este o nosso perfil. <br><br>
+
+
+
+                                <b>O pelo para de crescer após realizar o procedimento?</b><br>
+
+                                A Nanopigmentação  não causa nenhum dano ao pelo. Pelo contrário, muitas clientes sentem nascer bastante pelo após o procedimento.
+
+                                Inclusive, é importante lembrar que limpeza dos pelos deve continuar sendo feita da mesma forma, mensalmente ou quando for mais conveniente à cliente. <br><br>
+
+                                <b>O procedimento pode ser feito até por pessoas que não tem pelo algum?</b><br>
+                                Sim! Já fizemos várias reconstruções de sobrancelhas. Para esses casos é interessante levar uma foto de como a sobrancelha era antigamente e conversamos muito para chegar em um design perfeito para você. É importante lembrar apenas que é uma técnica muito natural e leve. <br><br>
+
+                                <b>Posso fazer limpeza de pele após o procedimento?</b><br>
+                                Deve-se aguardar um período de no mínimo 15 (quinze) dias após a realização da Nanopigmentação  para se fazer a limpeza de pele, pois o uso de ácidos, clareadores de manchas ou peelings, podem causar um clareamento/alteração da cor.<br>
+                                Esse clareamento/alteração da cora acontece inclusive após a Nanopigmentação  cicatrizada. Então, sempre avise à profissional de estética que você tem Nanopigmentação  e peça para que ela cubra a região com algodão e não passe produtos próximos a sobrancelha. <br>
+                                O mesmo vale para os produtos de skin care que possuem ácidos clareadores. <br><br>
+
+                                <b>Qual a idade mínima e máxima para se fazer o procedimento?</b><br>
+                                Realizamos o procedimento em clientes a partir dos 18 (dezoito) anos, não existindo idade máxima. <br><br>
+
+                                <b>Há reação alérgica?</b><br>
+                                Os pigmentos orgânicos causam poucas reações alérgicas, porém a Mimo realiza testes alérgico para as clientes que assim desejarem, devendo aguardar o período de 72h para a realização do procedimento. <br><br>
+
+
+
+                                <b>Quem tem queloide pode realizar o procedimento?</b><br>
+
+                                Pessoas com tendência a formar queloides ou que estão sob alguns tratamentos médicos devem ter maior cuidado. Nesses casos específicos, uma avaliação prévia e autorização médica podem ser necessárias. <br><br>
+
+
+
+                                <b>É possível engrossar o formato da sobrancelha?</b><br>
+
+                                Depende. As profissionais analisam o formato da sua sobrancelha e rosto e, sendo possível, a sobrancelha será engrossada. No entanto, é importante dizer que a cliente deverá aprovar o desenho de design proposto pela profissional para a realização do procedimento. Nada é feito sem a autorização da cliente e avaliação da profissional. <br><br>
+
+
+
+                                <b>Tem risco de a tinta “estourar”, deixando o risco mais grosso do que deveria, igual tatuagem?</b><br>
+
+                                Sim! Para que isso não ocorra, as profissionais nunca desenham a totalidade dos fios possíveis de serem feitos no procedimento, aguardando a cicatrização para ver como o seu organismo funciona. No retoque, após a verificação da expansão dos fios, sendo possível, complementa-se a sobrancelha. No entanto, para que a expansão também não ocorra é importantíssimo seguir os cuidados passados pelas profissionais, sendo imprescindível o uso da pomada cicatrizante. <br><br>
+
+
+
+                                <b>Vocês utilizam anestésico?</b><br>
+
+                                Os primeiros fios (esqueleto da sobrancelha) são feitos sem o uso de anestésico para que a pele não fique tão rígida, porém são fios rápidos de serem desenhados. Após, poderá ser utilizado o anestésico e a cliente não sente mais dor.
+
+                                A percepção de dor, por sua vez, é relativa. Várias clientes realizam todo o procedimento sem anestésico, algumas dormem, outras sentem muita dor, porém a maioria relata a dor como um incômodo suportável. <br><br>
+
+
+
+                                <b>Vocês utilizam algum instrumento de medida?</b><br>
+
+                                Não! A Mimo não acredita em padrões de beleza, de forma que personalizamos a sobrancelha para você. Respeitamos a individualidade de cada um, sendo o desenho feito à mão, considerando a harmonia, formato do rosto e personalidade. <br><br>
+
+
+
+                                <b>Tenho uma sobrancelha mais alta que a outra, vocês corrigem?</b><br>
+
+                                Após vários estudos em conjunto com dermatologistas, optamos por não corrigir assimetrias nas sobrancelhas, realizando apenas leves harmonizações. Nosso corpo é naturalmente assimétrico e isso deve ser respeitado para o alcance de um resultado natural. Ademais, corrigir apenas sua sobrancelha, pode, em uma visão geral, te deixar muito mais desarmônico e dependente de um procedimento de Nanopigmentação  devido a extração exagerada de pelos. <br><br>
+
+
+
+                                <b>Existem casos que demandam um terceiro retoque? Ele é pago?</b><br>
+
+                                Por vezes a pele expulsa o pigmento não havendo uma fixação satisfatória, sendo necessário, portanto, um terceiro retoque. No entanto, são casos atípicos que ocorrem geralmente em peles oleosas, pessoas com problemas hormonais e/ou de cicatrização. 
+
+                                O terceiro retoque é pago, devendo o valor ser consultado na tabela vigente da Mimo à época do procedimento. Tal informação também se faz constante na ficha de anamnese da Mimo, estando a cliente previamente cientificada.
+
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="tab-pane fade show" id="pills-cilios" role="tabpanel">
+
+            <div class="col-md-12 mt-4 position-relative">
+
+                <div class="text-left  ">
+
+                    <div class="col-md-12 container">
+
+                        <div class="col-md-10 m-auto">
+
+                            <p style="letter-spacing: 0.8px">
+
+                                <b>O que é o lash lift?</b><br/>
+
+                                O Mimo Lift veio para aposentar o rímel e curvex sem usar cola e fios sintéticos. É um procedimento que usa produtos específicos para acentuar a curvatura dos seus cílios, e realçar a cor, além de hidratar o seu pêlo. Lembrando que não têm o volume que a extensão de cílios proporciona, e preserva a naturalidade do olhar.<br/><br/>
+
+                                <b>Posso fazer extensão de cílios tendo feito o lash lift?</b><br/>
+
+                                Sim! Não há contraindicação para o procedimento.<br/><br/>
+
+                                <b>Posso usar rímel?</b><br/>
+
+                                Pedimos uma pausa de 24h após o procedimento, e depois o uso é livre. Indicamos sempre água micelar para remoção do produto.<br/><br/>
+
+                                <b>Quanto tempo dura o procedimento?</b><br/>
+
+                                Até 01 hora.<br/><br/>
+
+                                <b>Quanto tempo dura o lash lift nos meus cílios?</b><br/>
+
+                                O lash lift tende a acompanhar o ciclo de vida dos seus cílios naturais. Mas garantimos a curvatura acentuada em até 1 mês!<br/><br/>
+
+                                <b>O que são extensões de cílios? </b><br/>
+
+                                As extensões de cílios são fios sintéticos cuidadosamente colados nos cílios naturais. A proposta desse procedimento é aposentar o rímel, por isso o seu resultado pode ser longo, volumoso, levantar o olhar, disfarçar flacidez nas pálpebras, e até mesmo criar aquele efeito curvado do rímel! <br/><br/>
+
+                                <b>Quanto tempo as extensões de cílios duram? </b><br/>
+
+                                A durabilidade média é de até 4 semanas, sendo <b>opcional</b> realizar manutenções entre a segunda ou quarta semana para mantê-los cheios. <br/><br/>
+
+                                <b>Quanto tempo demora o procedimento? </b><br/>
+
+                                Este tipo de procedimento demora em torno de 2 a 3 horas, pois a quantidade de cílios pode variar de acordo com cada cliente, e o método escolhido. <br/><br/>
+
+                                <b>Em quanto tempo preciso fazer a manutenção? </b><br/>
+
+                                A durabilidade das extensões de cílios varia muito de seus cuidados. No entanto, realizamos uma manutenção após 03 (três) semanas da realização do procedimento. <br>
+                                Para o modelo fio a fio Mimo, recomentamos a manutenção após 02 (duas) semanas da realização do procedimento.
+                                <br/><br/>
+
+                                <b> Quais as contraindicações? </b><br/>
+
+                                • Pessoas que fez/fazem uso de colírio para latisse em menos de seis meses; <br/>
+
+                                • Pessoas que possuem blefarite; <br/>
+
+                                • Pessoas alérgicas a estes componentes: cianocrilato, formaldeído, hidroquinonea, carbono e poly isocyante. <br/><br/>
+
+                                <b>Preciso fazer uma pausa entre um alongamento e outro? </b><br/>
+
+                                Não é necessário fazer pausa, mas caso o cliente queira, indicamos uma pausa de pelo menos 03 meses que é o tempo de renovação do ciclo nos nossos cílios. Nesse período você pode fazer o Lash Lift que é um tratamento para hidratação, fortalecimento e crescimento dos fios, que também os curva e pigmenta.<br/><br/>
+
+
+
+                                <b>As extensões de cílios podem prejudicar os meus cílios naturais? </b><br/>
+
+                                Não! Respeitamos a raiz dos cílios, sempre colando os fios sintéticos a 1mm de distência, para não obstruir seu crescimento. Além disso, o método consiste em diversas etapas de higienização, esfoliação, hidratação profunda, isolamento, realinhamento dos seus fios, separação das extensões, análise de espessuras e tamanhos. <br>
+                                A saúde dos seus fios também vai depender dos cuidados que você tem em casa, devendo seguir todas as orientações passadas pelos profissionais.<br/><br/>
+
+
+
+                                <b>Posso usar máscara (rímel) nas minhas extensões de cílios? </b><br/>
+
+                                Normalmente o uso da máscara não é necessário, pois buscamos entender e atender o desejo visual de cada cliente. Mas, caso seja usada, não pode ser à prova d’água e é importante salientar que vai encurtar o tempo de vida da extensão. O uso da máscara pode encurtar a vida útil das extensões. <br/><br/>
+
+
+
+                                <b>Quais os cuidados que devo ter no pós-procedimento? </b><br/>
+
+                                No geral o que craqueja a cola é oleosidade, por isso indicamos não usar demaquilantes, evitar que caia resíduos de shampoo e condicionador durante o banho, e pentear os cílios cuidadosamente duas vezes ao dia, no mínimo. <br/><br/>
+
+
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="tab-pane fade show" id="pills-unhas" role="tabpanel" aria-labelledby="pills-microblanding">
+
+            <div class="col-md-12 mt-4 position-relative">
+
+                <div class="text-left  ">
+
+                    <div class="col-md-12 container">
+
+                        <div class="col-md-10 m-auto">
+
+                            <p style="letter-spacing: 0.8px">
+
+
+
+                                <b>Os alongamentos podem prejudicar minhas unhas? </b><br/>
+
+                                Não! São utilizados produtos e técnicas de excelente qualidade para uma aplicação efetiva dos alongamentos para que não danifique as unhas naturais. Na hora da remoção, os cuidados das nossas profissionais são redobrados para que ao remover a prótese, não retirem também a camada de queratina que faz com que as unhas cresçam saudavelmente. <br/><br/>
+
+
+
+                                <b>Quais os cuidados que devo ter no pós-procedimento?</b><br/>
+
+                                Em geral, o que altera um alongamento do outro é a resistência a impactos. Então, apesar de utilizar técnicas mais resistentes, é importante ter cuidado ao forçar muito os dedos para que não danifique as próteses. É importante lembrar que até mesmo a técnica mais resistente pode se danificar esforços muito brutos. <br/><br/>
+
+
+
+                                <b>Quanto tempo dura o procedimento? </b><br/>
+
+
+
+                                O procedimento pode levar até 03 horas para ser finalizado, pois cada unha é feita minuciosamente por nossas manicures para que tenha o resultado mais natural possível. <br/><br/>
+
+
+
+                                <b> As extensões tratam as unhas? </b><br/>
+
+                                O Alongamento ou Banho de Gel nas unhas não é um tratamento. São procedimentos que alongam e deixam as unhas mais fortes somente enquanto os produtos estiverem aplicados sobre as unhas naturais. <br/><br/>
+
+                                <b>Minhas unhas ficarão fracas após o alongamento? </b><br/>
+
+                                Quando o procedimento é realizado com produtos de qualidades e removidos corretamente, não prejudicam suas unhas naturais. <br/><br/>
+
+                                <b> Pode ser feito em unhas curtas e roídas? </b><br/>
+
+                                Para casos específicos de unhas roídas, o alongamento que tem melhor fixação e durabilidade é o de Porcelana. Os demais, além de ter técnicas que não poderão ser aplicadas se a unha for muito curta, terão a durabilidade comprometida. <br/><br/>
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="tab-pane fade show" id="pills-clinica" role="tabpanel" aria-labelledby="pills-microblanding">
+
+            <div class="col-md-12 mt-4 position-relative">
+
+                <div class="text-left  ">
+
+                    <div class="col-md-12 container">
+
+                        <div class="col-md-10 m-auto">
+
+                            <p style="letter-spacing: 0.8px">
+
+                                <b>Como chegar na Mimo? Quais os pontos de referência? </b><br/>
+
+                                A Mimo está localizada na Rua heitor Penteado, 626 - Próximo ao metrô Vila Madalena. <br/><br/>
+
+                                <b> Preciso desmarcar meu horário: com quantas horas de antecêdencia devo infomar? </b><br/>
+
+                                Pedimos pelo menos 48 horas de antecedência para cancelamento de horário através do Whatsapp. Caso seja feito em um período inferior ao informado, o valor depositado não será reembolsado. <br/><br/>
+
+                                <b>Quais as formas de pagamento? </b><br/>
+
+                                A Mimo aceita Dinheiro e Cartão de Débito de Crédito. <br/><br/>
+
+                                <b> A partir de qual valor posso parcelar? </b><br/>
+
+                                Parcelamentos a partir de <b>R$300</b>. <br/><br/>
+
+                                <b>Qual a forma de pagamento? </b><br/>
+
+                                Primeiro passo, a fim de garantir o seu comparecimento, pedimos um adiantamento de <b>R$20</b> em conta bancária, via transferência ou depósito. Só após recebermos o comprovante seu horário é efetivado. O restante pode ser pago na hora por cartão de crédito ou débito.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="tab-pane fade show" id="pills-micropig" role="tabpanel" aria-labelledby="pills-micropig">
+
+            <div class="col-md-12 mt-4 position-relative">
+
+                <div class="text-left  ">
+
+                    <div class="col-md-12 container">
+
+                        <div class="col-md-10 m-auto">
+
+                            <p style="letter-spacing: 0.8px">
+
+
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="tab-pane fade show" id="pills-microblanding" role="tabpanel" aria-labelledby="pills-microblanding">
+
+            <div class="col-md-12 mt-4 position-relative">
+
+                <div class="text-left  ">
+
+                    <div class="col-md-12 container" style="height: 300px;">
+
+                        <div class="col-md-10 m-auto">
+
+                            <p style="letter-spacing: 0.8px">
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Footer -->
+    <?php include '../inc/footer.php'; ?>
+
+
+
+
+
+<!-- Bootstrap core JavaScript
+
+    ================================================== -->
+
+    <!-- Placed at the end of the document so the pages load faster -->
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+    <script>window.jQuery || document.write('<script src="../bootstrap/jquery/dist/jquery.slim.min.js"><\/script>')</script>
+
+    <script src="../bootstrap/popper.js/dist/popper.min.js"></script>
+
+    <script src="../bootstrap/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <script src="../form/main.js"></script>
+
+    <script src="../main.js"></script>
+    <!-- Fallback navbar scroll handler - ensures animation works even if main.js fails -->
+    <script>
+    (function() {
+        function handleNavbarScroll() {
+            var navbar = document.querySelector('.navbar');
+            if (!navbar) return;
+            
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+            var shouldBeCompressed = scrollTop >= 20;
+            
+            if (shouldBeCompressed && !navbar.classList.contains('compressed')) {
+                navbar.classList.add('compressed');
+            } else if (!shouldBeCompressed && navbar.classList.contains('compressed')) {
+                navbar.classList.remove('compressed');
+            }
+        }
+
+        // Initial call
+        handleNavbarScroll();
+
+        // Listen to scroll events
+        window.addEventListener('scroll', handleNavbarScroll, { passive: true });
+        window.addEventListener('DOMContentLoaded', handleNavbarScroll);
+        window.addEventListener('load', handleNavbarScroll);
+
+        // Polling fallback for programmatic scrolls or if events are missed
+        var lastScrollTop = 0;
+        var checkInterval = setInterval(function() {
+            var currentScroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+            if (Math.abs(currentScroll - lastScrollTop) > 0) { // Only trigger if scroll position actually changed
+                lastScrollTop = currentScroll;
+                handleNavbarScroll();
+            }
+        }, 50); // Check every 50ms for responsiveness
+
+        // Clear interval on page unload to prevent memory leaks
+        window.addEventListener('beforeunload', function() {
+            clearInterval(checkInterval);
+        });
+    })();
+    </script>
+    
+    <!-- Dark Mode JavaScript -->
+    <script src="../js/dark-mode.js"></script>
+
+    <!-- Tidio chat removido - script retorna 404 -->
+
+
+
+</body>
+
+</html>
+

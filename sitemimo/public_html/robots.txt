@@ -1,0 +1,30 @@
+# robots.txt para MIMO Estética
+# Desenvolvido por: Victor Penter
+
+User-agent: *
+Allow: /
+
+# Bloquear acesso a arquivos sensíveis
+Disallow: /x6f7689/
+Disallow: /.env
+Disallow: /vendor/
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /wp-content/plugins/
+Disallow: /wp-content/themes/
+Disallow: /wp-*.php
+Disallow: /xmlrpc.php
+Disallow: /readme.html
+Disallow: /license.txt
+
+# Bloquear arquivos de backup e temporários
+Disallow: /*.bak$
+Disallow: /*.tmp$
+Disallow: /*~$
+
+# Permitir acesso a sitemap
+Sitemap: https://minhamimo.com.br/sitemap.xml
+
+# Crawl-delay (opcional, remover se não necessário)
+# Crawl-delay: 1
+

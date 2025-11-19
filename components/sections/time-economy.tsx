@@ -5,7 +5,7 @@ import { OrganicShape } from '@/components/ui/organic-shape'
 import { HOME_COPY } from '@/lib/constants'
 
 /**
- * economia de tempo visualizada.
+ * seção de economia de tempo visualizada.
  * 
  * - visual editorial (não tabela/infográfico corporativo)
  * - ícones minimalistas + números grandes
@@ -14,6 +14,8 @@ import { HOME_COPY } from '@/lib/constants'
  * - punchline: "Economize Xh/mês"
  * - inspiração: Notion/Canva moderno
  * - animações suaves com framer-motion
+ * 
+ * @returns {JSX.Element} seção de economia de tempo
  */
 export function TimeEconomy() {
   const { unhas, lashes, cabelo } = HOME_COPY.timeEconomy.calculation

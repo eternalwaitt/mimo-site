@@ -1,0 +1,25 @@
+# Cache directories
+cache/
+img_backup_*/
+
+# Environment files
+.env
+
+# Minified files (generated)
+minified/
+
+# Backup directories
+img_backup_*
+
+# Development emails (saved in dev mode)
+dev-emails/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo

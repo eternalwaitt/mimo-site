@@ -97,7 +97,7 @@ export function CelebrityCard({ celebrity, className }: CelebrityCardProps) {
         </div>
       ) : (
         <>
-          <div className="relative aspect-[9/16] overflow-hidden">
+          <div className="relative aspect-[9/16] overflow-hidden bg-mimo-neutral-light">
             <ImageWithFallback
               src={celebrity.image}
               alt={celebrity.imageAlt}

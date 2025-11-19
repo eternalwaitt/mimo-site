@@ -4,23 +4,38 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 
+/**
+ * props do componente image-with-fallback.
+ */
 type ImageWithFallbackProps = {
+  /** url da imagem */
   src: string
+  /** texto alternativo para acessibilidade */
   alt: string
+  /** largura da imagem (obrigatório se fill=false) */
   width?: number
+  /** altura da imagem (obrigatório se fill=false) */
   height?: number
+  /** classes CSS adicionais */
   className?: string
+  /** se true, imagem é carregada com prioridade (above-the-fold) */
   priority?: boolean
+  /** se true, imagem preenche container pai (requer position relative no pai) */
   fill?: boolean
+  /** atributo sizes para otimização responsiva */
   sizes?: string
+  /** como a imagem deve se ajustar ao container */
   objectFit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down'
 }
 
 /**
- * image component com fallback para placeholder.
+ * componente de imagem com fallback para placeholder.
  * 
- * usa next/image para otimização automática (webp/avif).
- * mostra placeholder se imagem não carregar.
+ * usa next/image para otimização automática (webp/avif, lazy loading, etc).
+ * se a imagem falhar ao carregar, mostra um placeholder SVG com gradiente.
+ * 
+ * @param {ImageWithFallbackProps} props - propriedades do componente
+ * @returns {JSX.Element} componente de imagem otimizado
  */
 export function ImageWithFallback({
   src,

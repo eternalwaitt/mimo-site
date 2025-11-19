@@ -1,0 +1,1 @@
+@keyframes skeleton-loading{0%{background-position:200%0}to{background-position:-200%0}}@keyframes pulse{0%,to{opacity:1}50%{opacity:.7}}@media (prefers-reduced-motion:reduce){@keyframes skeleton-loading{0%,to{background-position:0 0}}*,::after,::before{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}

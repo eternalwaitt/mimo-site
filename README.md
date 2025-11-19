@@ -235,6 +235,33 @@ O projeto usa `output: 'standalone'` no `next.config.ts`, facilitando deploy em 
 - **Framer Motion**: Animações
 - **Next/Image**: Otimização de imagens
 
+## 📖 Documentação
+
+Documentação técnica completa disponível em [`docs/`](./docs/):
+- Revisão de código e qualidade
+- Estratégia de imagens
+- Pesquisa UX/UI mobile
+- Comparação de frameworks e tecnologias
+- Relatórios de performance
+
+Veja [`docs/README.md`](./docs/README.md) para índice completo.
+
+## 🧪 Scripts Disponíveis
+
+```bash
+# Type checking
+npm run type-check
+
+# Lint
+npm run lint
+
+# PageSpeed Insights (requer .env.local com API key)
+npm run pagespeed
+
+# Otimizar imagens (requer sharp instalado)
+node scripts/optimize-images.js
+```
+
 ## 📞 Suporte
 
 Para dúvidas ou problemas, entre em contato com a equipe de desenvolvimento.

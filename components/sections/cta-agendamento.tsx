@@ -6,19 +6,21 @@ import { ImageWithFallback } from '@/components/ui/image-with-fallback'
 import { getWhatsAppBookingUrl, getWhatsAppContactUrl, HOME_COPY } from '@/lib/constants'
 
 /**
- * cta agendamento simplificado.
+ * cta de agendamento simplificado.
  * 
  * - headline: "Pronta pra seu momento?"
  * - 2 botões grandes: WhatsApp direto + "Falar com equipe"
- * - background: foto ambiente + overlay
+ * - background: foto ambiente + overlay marrom
  * - mobile: stack vertical
- * - animações de entrada
+ * - animações de entrada com framer-motion
+ * 
+ * @returns {JSX.Element} seção de CTA de agendamento
  */
 export function CTAAgendamento() {
   return (
     <section className="relative py-20 md:py-32 overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0">
+      {/* Background Image - Container com background para evitar CLS */}
+      <div className="absolute inset-0 z-0 bg-mimo-neutral-light" style={{ minHeight: '400px' }}>
         <div className="absolute inset-0 bg-mimo-brown/40 z-10" />
         <ImageWithFallback
           src="/images/cta-ambiente.jpg"

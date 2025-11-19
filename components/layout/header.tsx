@@ -10,22 +10,29 @@ import { cn } from '@/lib/utils'
 /**
  * header fixo minimalista.
  * 
- * - logo esquerda, menu central, CTA "Agendar" direita
+ * - logo central, menu esquerda/direita, CTA "Agendar" direita
  * - sticky com backdrop blur no scroll
- * - itens "em breve" com tooltip à esquerda
- * - navegação responsiva
+ * - itens "em breve" com tooltip
+ * - navegação responsiva (menu mobile pendente de implementação)
  * - transições suaves
+ * 
+ * @returns {JSX.Element} componente de header
  */
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
+    /**
+     * handler para detectar scroll e aplicar backdrop blur.
+     */
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20)
     }
 
     window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
   }, [])
 
   const menuItemsLeft = [

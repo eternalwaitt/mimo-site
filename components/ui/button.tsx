@@ -2,14 +2,26 @@ import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import type { ReactNode } from 'react'
 
+/**
+ * variantes de botão disponíveis.
+ */
 type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'whatsapp'
 
+/**
+ * props do componente button.
+ */
 type ButtonProps = {
+  /** variante visual do botão */
   variant?: ButtonVariant
+  /** url de destino (se fornecido, renderiza como link) */
   href?: string
+  /** callback executado ao clicar (se fornecido sem href, renderiza como button) */
   onClick?: () => void
+  /** conteúdo do botão */
   children: ReactNode
+  /** classes CSS adicionais */
   className?: string
+  /** se true e href fornecido, abre link em nova aba */
   external?: boolean
 }
 

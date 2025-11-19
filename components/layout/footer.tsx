@@ -9,8 +9,9 @@ import { getWhatsAppContactUrl } from '@/lib/constants'
  * - endereço completo + mapa integrado (Google Maps via API key)
  * - links essenciais (serviços, sobre, galeria, etc)
  * - redes sociais com ícones
- * - teaser "Em breve: HUB Mimo - Clube de Benefícios"
  * - copyright dinâmico
+ * 
+ * @returns {JSX.Element} componente de footer
  */
 export function Footer() {
   const footerLinks = [
