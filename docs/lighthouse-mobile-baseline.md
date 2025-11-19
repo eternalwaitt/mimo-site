@@ -62,12 +62,38 @@ After removing Framer Motion from LCP element and optimizing image loading:
 - **Performance Score**: ≥ 90 (from 59)
 - **LCP Element**: Same (hero-bg.webp) but rendered without JS blocking
 
-## Next Steps
+## Optimization Changes Applied
 
-1. Remove Framer Motion from hero image container
-2. Convert hero animations to CSS
-3. Make hero component server-rendered
-4. Optimize image sizes attribute for mobile
-5. Remove redundant preload
-6. Validate with 3+ Lighthouse runs
+### 1. Removed Framer Motion from LCP Element ✅
+- Removed `motion.div` wrapper around hero image
+- Converted scale animation to CSS (`animate-hero-image-scale`)
+- Removed Framer Motion import from hero component
+
+### 2. Converted Animations to CSS ✅
+- Hero image scale: CSS animation (1.1 → 1 over 1.2s)
+- Hero content fade: CSS animation (opacity 0→1, translateY 30px→0)
+- Added to Tailwind config: `hero-image-scale`, `hero-content-fade`
+
+### 3. Made Hero Server Component ✅
+- Removed `'use client'` directive
+- Hero now server-rendered, no JS hydration required for LCP element
+
+### 4. Optimized Image Sizes ✅
+- Changed from `sizes="100vw"` to `sizes="(max-width: 768px) 100vw, 1920px"`
+- Mobile downloads ~768px width instead of full viewport
+
+### 5. Removed Redundant Preload ✅
+- Removed manual `<link rel="preload">` from layout.tsx
+- Next.js Image with `priority` handles this automatically
+
+## Expected Results After Deployment
+
+- **LCP**: < 2.5s (from 13.65s)
+- **FCP**: < 1.8s (from 6.26s)
+- **Mobile Performance**: ≥ 90 (from 59)
+- **LCP Element**: Same (hero-bg.webp) but rendered without JS blocking
+
+## Note on Production Testing
+
+Production URL still shows old code (LCP 13.45s) because changes need to be deployed to Vercel. After deployment, re-run Lighthouse tests to validate improvements.
 
