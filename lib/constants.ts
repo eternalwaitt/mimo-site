@@ -289,7 +289,9 @@ export const CELEBRITIES: Array<{
   {
     id: 'brunahuli',
     name: 'Bruna Huli',
-    image: '/images/placeholder.svg', // TODO: adicionar brunahuli.webp
+    // Se tiver reelUrl, o CelebrityCard vai buscar thumbnail automático
+    // Fallback para placeholder se não conseguir
+    image: '/images/placeholder.svg',
     imageAlt: 'Bruna Huli - influencer Mimo',
     service: 'Salão',
     instagram: 'https://www.instagram.com/brunahuli/',

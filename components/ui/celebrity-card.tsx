@@ -1,5 +1,6 @@
 import { ImageWithFallback } from './image-with-fallback'
 import { cn } from '@/lib/utils'
+import { getReelThumbnail } from '@/lib/get-reel-thumbnail'
 import type { Celebrity } from '@/lib/types'
 
 type CelebrityCardProps = {
@@ -22,10 +23,20 @@ type CelebrityCardProps = {
  * - imagens otimizadas com next/image
  * - link direto abre no app Instagram (melhor UX mobile)
  */
-export function CelebrityCard({ celebrity, className }: CelebrityCardProps) {
+export async function CelebrityCard({ celebrity, className }: CelebrityCardProps) {
   // Usar reelUrl se disponível, senão instagram, senão #
   const linkUrl = celebrity.reelUrl || celebrity.instagram || '#'
   const hasReel = !!celebrity.reelUrl
+
+  // Se tiver reelUrl, buscar thumbnail automático via oEmbed API
+  // Fallback para image estática se não conseguir
+  let imageSrc = celebrity.image
+  if (hasReel && celebrity.reelUrl) {
+    const thumbnailUrl = await getReelThumbnail(celebrity.reelUrl)
+    if (thumbnailUrl) {
+      imageSrc = thumbnailUrl
+    }
+  }
 
   return (
     <a
@@ -38,17 +49,14 @@ export function CelebrityCard({ celebrity, className }: CelebrityCardProps) {
       )}
     >
       <div className="relative aspect-[9/16] overflow-hidden bg-black">
-        <div className="absolute inset-0">
-          <ImageWithFallback
-            src={celebrity.image}
-            alt={celebrity.imageAlt}
-            width={400}
-            height={711}
-            sizes="(max-width: 768px) 50vw, 25vw"
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-            fill
-          />
-        </div>
+        <ImageWithFallback
+          src={imageSrc}
+          alt={celebrity.imageAlt}
+          width={400}
+          height={711}
+          sizes="(max-width: 768px) 50vw, 25vw"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        />
         
         {/* Play overlay apenas se tiver reel */}
         {hasReel && (

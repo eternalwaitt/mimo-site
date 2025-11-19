@@ -13,7 +13,23 @@ import { CELEBRITIES } from '@/lib/constants'
  * 
  * @returns {JSX.Element} seção com grid de celebridades
  */
-export function MomentoMimo() {
+export async function MomentoMimo() {
+  // Renderizar cards em paralelo para melhor performance
+  const cards = await Promise.all(
+    CELEBRITIES.map(async (celebrity, index) => (
+      <div
+        key={celebrity.id}
+        className="animate-fade-in-scale"
+        style={{ 
+          animationDelay: `${index * 0.1}s`,
+          animationFillMode: 'both'
+        }}
+      >
+        <CelebrityCard celebrity={celebrity} />
+      </div>
+    ))
+  )
+
   return (
     <section className="py-20 md:py-32 bg-mimo-neutral-light" style={{ contentVisibility: 'auto' }}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -27,18 +43,7 @@ export function MomentoMimo() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-          {CELEBRITIES.map((celebrity, index) => (
-            <div
-              key={celebrity.id}
-              className="animate-fade-in-scale"
-              style={{ 
-                animationDelay: `${index * 0.1}s`,
-                animationFillMode: 'both'
-              }}
-            >
-              <CelebrityCard celebrity={celebrity} />
-            </div>
-          ))}
+          {cards}
         </div>
       </div>
     </section>
