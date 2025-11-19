@@ -97,3 +97,64 @@ After removing Framer Motion from LCP element and optimizing image loading:
 
 Production URL still shows old code (LCP 13.45s) because changes need to be deployed to Vercel. After deployment, re-run Lighthouse tests to validate improvements.
 
+---
+
+## Latest Optimization Round (2025-01-29)
+
+### Current State (From Latest PageSpeed Insights)
+- **Performance**: 74/100
+- **LCP**: 13.4s ❌ (target: <2.5s)
+- **FCP**: 1.8s ✅
+- **TBT**: 0ms ✅
+- **CLS**: 0 ✅
+- **Diagnostics**: 
+  - "Improve image delivery" (~49 KiB savings)
+  - "Reduce unused JavaScript" (~42 KiB)
+  - Preconnect candidates: `scontent-lax7-1.cdninstagram.com`, `scontent-lax3-2.cdninstagram.com`
+
+### Identified LCP Issue
+Based on diagnostics and code analysis, the LCP delay is likely caused by:
+1. **Instagram Reel iframes** in `#MomentoMIMO` section loading from `cdninstagram.com`
+2. Iframes loading synchronously even when below fold
+3. Large images from Instagram CDN blocking LCP measurement
+
+### Changes Applied
+
+#### 1. Lazy-Load Instagram Iframes ✅
+- Added `IntersectionObserver` to `CelebrityCard` component
+- Iframes only load when card is visible (50px before viewport)
+- Show static image placeholder until iframe loads
+- Added `loading="lazy"` attribute to iframes
+
+#### 2. Optimized Gallery Images ✅
+- Added proper `sizes="(max-width: 768px) 50vw, 25vw"` to all `CelebrityCard` images
+- Ensures mobile devices download appropriate image sizes
+
+#### 3. Removed Framer Motion from MomentoMimo ✅
+- Replaced Framer Motion animations with CSS animations
+- Reduces JavaScript bundle size (~40 KiB savings)
+- Section uses `content-visibility: auto` for better performance
+
+#### 4. Optimized Hero Image Sizes ✅
+- Changed hero `sizes` from `"(max-width: 768px) 100vw, 1920px"` to `"100vw"`
+- Simplifies sizes calculation for better mobile performance
+
+#### 5. Ensured Below-Fold Loading ✅
+- `MomentoMimo` section is below initial viewport
+- All Instagram iframes are lazy-loaded
+- No preconnect needed for Instagram CDN (not used above fold)
+
+### Expected Results After Deployment
+
+- **LCP**: < 2.5s (from 13.4s) - hero image should be LCP element
+- **Performance**: ≥ 90 (from 74)
+- **Unused JS**: Reduced by ~40 KiB
+- **LCP Element**: Hero image (`hero-bg.webp`), not Instagram iframes
+
+### Next Steps
+
+1. Deploy changes to Vercel
+2. Run Lighthouse mobile 3+ times to verify improvements
+3. Document actual LCP element from Lighthouse report
+4. Update this doc with before/after metrics
+

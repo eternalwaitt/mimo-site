@@ -162,6 +162,23 @@ npm run analyze
 **Implementation**: Server component, CSS animation, optimized `sizes` attribute  
 **Target LCP**: < 2.5s
 
+### LCP Quality Gate Rules
+
+**Critical Rules for Home Page**:
+1. **LCP must be the hero image/section**, not galleries or remote embeds
+2. **Any new large images near the top of the page must**:
+   - Use `next/image` with proper `sizes` attribute
+   - Be reasonably small in file size (<200 KiB for mobile)
+   - Not be larger than the hero element in the initial viewport
+3. **Remote embeds (Instagram, YouTube, etc.) must**:
+   - Be lazy-loaded with `IntersectionObserver`
+   - Only load when visible (below fold)
+   - Not interfere with LCP measurement
+4. **Gallery sections must**:
+   - Be below the initial viewport on mobile
+   - Use `content-visibility: auto` for performance
+   - Lazy-load all images and iframes
+
 ## Performance Checklist
 
 Before adding new features:

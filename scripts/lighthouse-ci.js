@@ -39,6 +39,7 @@ const BASE_URL = 'https://mimo-site.vercel.app'
 const API_ENDPOINT = 'https://pagespeedonline.googleapis.com/pagespeedonline/v5/runPagespeed'
 const CATEGORIES = ['PERFORMANCE', 'ACCESSIBILITY', 'BEST_PRACTICES', 'SEO']
 const MIN_SCORE = 90
+const MAX_LCP = 2500 // 2.5s in milliseconds
 
 /**
  * faz requisição à api do pagespeed insights.
@@ -152,9 +153,16 @@ async function main() {
       
       if (mobileScores.performanceMetrics) {
         const pm = mobileScores.performanceMetrics
-        console.log(`   📈 LCP: ${(pm.lcp / 1000).toFixed(2)}s`)
+        const lcpSeconds = (pm.lcp / 1000).toFixed(2)
+        console.log(`   📈 LCP: ${lcpSeconds}s`)
         console.log(`   📈 CLS: ${pm.cls.toFixed(3)}`)
         console.log(`   📈 TBT: ${(pm.tbt / 1000).toFixed(2)}s`)
+        
+        // Validate LCP
+        if (pm.lcp > MAX_LCP) {
+          console.error(`   ❌ LCP: ${lcpSeconds}s > ${(MAX_LCP / 1000).toFixed(1)}s (target)`)
+          hasFailures = true
+        }
       }
       
       if (mobileScores.opportunities && mobileScores.opportunities.length > 0) {

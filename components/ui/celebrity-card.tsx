@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect, useRef } from 'react'
 import { ImageWithFallback } from './image-with-fallback'
 import { cn } from '@/lib/utils'
 import type { Celebrity } from '@/lib/types'
@@ -17,8 +18,12 @@ type CelebrityCardProps = {
  * - reel embed com transformações CSS para remover header/footer do Instagram
  * - overlay com informações (nome, serviço, quote, link Instagram)
  * - link para perfil Instagram quando disponível
+ * - lazy loads Instagram iframes only when visible
  */
 export function CelebrityCard({ celebrity, className }: CelebrityCardProps) {
+  const [shouldLoadIframe, setShouldLoadIframe] = useState(false)
+  const cardRef = useRef<HTMLDivElement>(null)
+
   // Extrair shortcode do reel URL
   const getReelEmbedUrl = (url: string) => {
     const match = url.match(/\/reel\/([^\/]+)/)
@@ -31,8 +36,32 @@ export function CelebrityCard({ celebrity, className }: CelebrityCardProps) {
 
   const reelEmbedUrl = celebrity.reelUrl ? getReelEmbedUrl(celebrity.reelUrl) : null
 
+  // Lazy load iframe only when card is visible
+  useEffect(() => {
+    if (!reelEmbedUrl || shouldLoadIframe) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setShouldLoadIframe(true)
+            observer.disconnect()
+          }
+        })
+      },
+      { rootMargin: '50px' } // Start loading 50px before visible
+    )
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [reelEmbedUrl, shouldLoadIframe])
+
   return (
     <div
+      ref={cardRef}
       className={cn(
         'group relative overflow-hidden rounded-xl bg-white shadow-md transition-all duration-400 hover:shadow-lg',
         className
@@ -46,25 +75,40 @@ export function CelebrityCard({ celebrity, className }: CelebrityCardProps) {
               overflow: 'hidden'
             }}
           >
-            <iframe
-              src={reelEmbedUrl}
-              width="100%"
-              height="100%"
-              scrolling="no"
-              allow="encrypted-media"
-              className="absolute"
-              style={{ 
-                width: '100%',
-                height: '140%',
-                top: '-20%',
-                left: 0,
-                pointerEvents: 'auto',
-                border: 'none',
-                transform: 'scale(1.4)',
-                transformOrigin: 'center center'
-              }}
-              title={`Instagram Reel - ${celebrity.name}`}
-            />
+            {shouldLoadIframe ? (
+              <iframe
+                src={reelEmbedUrl}
+                width="100%"
+                height="100%"
+                scrolling="no"
+                allow="encrypted-media"
+                loading="lazy"
+                className="absolute"
+                style={{ 
+                  width: '100%',
+                  height: '140%',
+                  top: '-20%',
+                  left: 0,
+                  pointerEvents: 'auto',
+                  border: 'none',
+                  transform: 'scale(1.4)',
+                  transformOrigin: 'center center'
+                }}
+                title={`Instagram Reel - ${celebrity.name}`}
+              />
+            ) : (
+              // Placeholder while iframe loads
+              <div className="absolute inset-0 flex items-center justify-center bg-mimo-neutral-light">
+                <ImageWithFallback
+                  src={celebrity.image}
+                  alt={celebrity.imageAlt}
+                  width={400}
+                  height={711}
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            )}
           </div>
           <div className="absolute bottom-0 left-0 right-0 p-5 text-white bg-gradient-to-t from-black via-black/90 to-transparent backdrop-blur-sm">
             <h3 className="font-bueno text-2xl font-bold mb-2 drop-shadow-lg">
@@ -102,6 +146,7 @@ export function CelebrityCard({ celebrity, className }: CelebrityCardProps) {
               alt={celebrity.imageAlt}
               width={400}
               height={711}
+              sizes="(max-width: 768px) 50vw, 25vw"
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/90 to-transparent" />
