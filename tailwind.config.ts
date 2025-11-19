@@ -38,6 +38,8 @@ const config: Config = {
         'fade-in': 'fade-in 0.5s ease-out',
         'fade-in-up': 'fade-in-up 0.6s ease-out',
         'fade-in-scale': 'fade-in-scale 0.5s ease-out',
+        'hero-image-scale': 'hero-image-scale 1.2s ease-out',
+        'hero-content-fade': 'hero-content-fade 0.8s ease-out 0.2s both',
       },
       keyframes: {
         'fade-in': {
@@ -68,6 +70,24 @@ const config: Config = {
           to: {
             opacity: '1',
             transform: 'scale(1)',
+          },
+        },
+        'hero-image-scale': {
+          from: {
+            transform: 'scale(1.1)',
+          },
+          to: {
+            transform: 'scale(1)',
+          },
+        },
+        'hero-content-fade': {
+          from: {
+            opacity: '0',
+            transform: 'translateY(30px)',
+          },
+          to: {
+            opacity: '1',
+            transform: 'translateY(0)',
           },
         },
       },

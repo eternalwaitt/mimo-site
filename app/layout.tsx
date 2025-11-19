@@ -127,14 +127,7 @@ export default function RootLayout({
         {/* Preconnect para recursos críticos */}
         <link rel="preconnect" href="https://wa.me" crossOrigin="anonymous" />
         
-        {/* Preload hero image - crítico para LCP (Next.js Image já otimiza, mas preload ajuda) */}
-        <link
-          rel="preload"
-          href="/images/hero-bg.webp"
-          as="image"
-          fetchPriority="high"
-          type="image/webp"
-        />
+        {/* Note: Hero image preload removed - Next.js Image with priority and fetchPriority handles this automatically */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}

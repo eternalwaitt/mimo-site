@@ -1,10 +1,6 @@
-'use client'
-
-import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { ImageWithFallback } from '@/components/ui/image-with-fallback'
 import { getWhatsAppBookingUrl, HOME_COPY } from '@/lib/constants'
-import Link from 'next/link'
 
 /**
  * props do componente hero-manifesto.
@@ -35,7 +31,7 @@ export function HeroManifesto({
 }: HeroManifestoProps) {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image com Parallax - Container fixo para evitar CLS */}
+      {/* Background Image - Container fixo para evitar CLS */}
       <div 
         className="absolute inset-0 z-0 bg-mimo-neutral-light" 
         style={{ 
@@ -44,13 +40,7 @@ export function HeroManifesto({
           width: '100%',
         }}
       >
-        <motion.div
-          className="absolute inset-0"
-          initial={{ scale: 1.1 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 1.2, ease: 'easeOut' }}
-          style={{ willChange: 'transform' }}
-        >
+        <div className="absolute inset-0 animate-hero-image-scale">
           <div className="absolute inset-0 bg-mimo-brown/20 z-10" />
           <ImageWithFallback
             src={imageSrc}
@@ -58,21 +48,16 @@ export function HeroManifesto({
             fill
             priority
             fetchPriority="high"
-            sizes="100vw"
+            sizes="(max-width: 768px) 100vw, 1920px"
             className="object-cover"
             quality={85}
           />
-        </motion.div>
+        </div>
       </div>
 
       {/* Content - Min height para evitar CLS */}
       <div className="relative z-20 container mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left min-h-[60vh] flex items-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="max-w-3xl mx-auto md:mx-0 w-full"
-        >
+        <div className="max-w-3xl mx-auto md:mx-0 w-full animate-hero-content-fade">
           <h1 className="font-bueno text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-white mb-8 text-balance">
             {HOME_COPY.hero.headline}
           </h1>
@@ -97,7 +82,7 @@ export function HeroManifesto({
               {HOME_COPY.hero.ctaSecondary}
             </Button>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   )
