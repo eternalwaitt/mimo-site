@@ -11,7 +11,13 @@ const https = require('https')
 const fs = require('fs')
 const path = require('path')
 
-const API_KEY = process.env.GOOGLE_PAGESPEED_API_KEY || 'AIzaSyD7xs6VJDEUwm9m4LCXbtUTvFKNOHBG3iU'
+const API_KEY = process.env.GOOGLE_PAGESPEED_API_KEY
+if (!API_KEY) {
+  console.error('❌ GOOGLE_PAGESPEED_API_KEY não encontrada!')
+  console.error('   Configure no arquivo .env.local:')
+  console.error('   GOOGLE_PAGESPEED_API_KEY=sua_chave_aqui')
+  process.exit(1)
+}
 const BASE_URL = 'https://minhamimo.com.br'
 const API_ENDPOINT = 'https://pagespeedonline.googleapis.com/pagespeedonline/v5/runPagespeed'
 

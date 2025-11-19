@@ -18,7 +18,7 @@ Data: 2025-01-29
 
 2. **Verificar API key**:
    - Arquivo `.env.local` deve conter `GOOGLE_PAGESPEED_API_KEY`
-   - Key fornecida: `AIzaSyD7xs6VJDEUwm9m4LCXbtUTvFKNOHBG3iU`
+   - Key deve ser configurada em `.env.local` (não commitada)
 
 3. **Executar script**:
    ```bash
