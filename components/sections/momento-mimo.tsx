@@ -1,5 +1,3 @@
-'use client'
-
 import { CelebrityCard } from '@/components/ui/celebrity-card'
 import { CELEBRITIES } from '@/lib/constants'
 
@@ -8,9 +6,10 @@ import { CELEBRITIES } from '@/lib/constants'
  * 
  * - grid responsivo de cards de celebridades
  * - estilo editorial (não testemunhal genérico)
- * - suporta imagens estáticas ou Instagram Reels
- * - animações de entrada escalonadas com CSS (replaced framer-motion for performance)
+ * - thumbnails com links diretos para Instagram (sem iframes)
+ * - animações de entrada escalonadas com CSS
  * - section is below fold to prevent LCP interference
+ * - server component para melhor performance
  * 
  * @returns {JSX.Element} seção com grid de celebridades
  */

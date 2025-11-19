@@ -1,6 +1,3 @@
-'use client'
-
-import { useState, useEffect, useRef } from 'react'
 import { ImageWithFallback } from './image-with-fallback'
 import { cn } from '@/lib/utils'
 import type { Celebrity } from '@/lib/types'
@@ -14,173 +11,83 @@ type CelebrityCardProps = {
  * celebrity card component - para #MomentoMIMO.
  * 
  * - estilo editorial (não testemunhal genérico)
- * - suporta imagem estática ou embed de Instagram Reel
- * - reel embed com transformações CSS para remover header/footer do Instagram
- * - overlay com informações (nome, serviço, quote, link Instagram)
- * - link para perfil Instagram quando disponível
- * - lazy loads Instagram iframes only when visible
+ * - thumbnail com link direto para Instagram Reel ou perfil
+ * - overlay com play button quando tem reel
+ * - footer customizado com informações (nome, serviço, quote, link Instagram)
+ * - server component para melhor performance (zero JS)
+ * 
+ * performance:
+ * - sem iframes (remove ~50-100 KiB de JS)
+ * - sem IntersectionObserver ou hooks
+ * - imagens otimizadas com next/image
+ * - link direto abre no app Instagram (melhor UX mobile)
  */
 export function CelebrityCard({ celebrity, className }: CelebrityCardProps) {
-  const [shouldLoadIframe, setShouldLoadIframe] = useState(false)
-  const cardRef = useRef<HTMLDivElement>(null)
-
-  // Extrair shortcode do reel URL
-  const getReelEmbedUrl = (url: string) => {
-    const match = url.match(/\/reel\/([^\/]+)/)
-    if (match) {
-      // adicionar parâmetros para tentar reduzir header/footer
-      return `https://www.instagram.com/reel/${match[1]}/embed/?cr=1&v=14&wp=1080`
-    }
-    return null
-  }
-
-  const reelEmbedUrl = celebrity.reelUrl ? getReelEmbedUrl(celebrity.reelUrl) : null
-
-  // Lazy load iframe only when card is visible
-  useEffect(() => {
-    if (!reelEmbedUrl || shouldLoadIframe) return
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setShouldLoadIframe(true)
-            observer.disconnect()
-          }
-        })
-      },
-      { rootMargin: '50px' } // Start loading 50px before visible
-    )
-
-    if (cardRef.current) {
-      observer.observe(cardRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [reelEmbedUrl, shouldLoadIframe])
+  // Usar reelUrl se disponível, senão instagram, senão #
+  const linkUrl = celebrity.reelUrl || celebrity.instagram || '#'
+  const hasReel = !!celebrity.reelUrl
 
   return (
-    <div
-      ref={cardRef}
+    <a
+      href={linkUrl}
+      target="_blank"
+      rel="noopener noreferrer"
       className={cn(
-        'group relative overflow-hidden rounded-xl bg-white shadow-md transition-all duration-400 hover:shadow-lg',
+        'group block overflow-hidden rounded-xl bg-white shadow-md transition-all duration-400 hover:shadow-lg',
         className
       )}
     >
-      {reelEmbedUrl ? (
-        <div className="relative aspect-[9/16] overflow-hidden bg-black">
-          <div 
-            className="absolute inset-0 w-full h-full"
-            style={{ 
-              overflow: 'hidden'
-            }}
-          >
-            {shouldLoadIframe ? (
-              <iframe
-                src={reelEmbedUrl}
-                width="100%"
-                height="100%"
-                scrolling="no"
-                allow="encrypted-media"
-                loading="lazy"
-                className="absolute"
-                style={{ 
-                  width: '100%',
-                  height: '140%',
-                  top: '-20%',
-                  left: 0,
-                  pointerEvents: 'auto',
-                  border: 'none',
-                  transform: 'scale(1.4)',
-                  transformOrigin: 'center center'
-                }}
-                title={`Instagram Reel - ${celebrity.name}`}
-              />
-            ) : (
-              // Placeholder while iframe loads
-              <div className="absolute inset-0 flex items-center justify-center bg-mimo-neutral-light">
-                <ImageWithFallback
-                  src={celebrity.image}
-                  alt={celebrity.imageAlt}
-                  width={400}
-                  height={711}
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            )}
-          </div>
-          <div className="absolute bottom-0 left-0 right-0 p-5 text-white bg-gradient-to-t from-black via-black/90 to-transparent backdrop-blur-sm">
-            <h3 className="font-bueno text-2xl font-bold mb-2 drop-shadow-lg">
-              {celebrity.name}
-            </h3>
-            <p className="font-satoshi text-base opacity-95 mb-3 drop-shadow-md">
-              {celebrity.service}
-            </p>
-            {celebrity.instagram && (
-              <a
-                href={celebrity.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 hover:opacity-80 transition-opacity mt-2 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-white/20"
-                onClick={(e) => e.stopPropagation()}
+      <div className="relative aspect-[9/16] overflow-hidden bg-black">
+        <ImageWithFallback
+          src={celebrity.image}
+          alt={celebrity.imageAlt}
+          width={400}
+          height={711}
+          sizes="(max-width: 768px) 50vw, 25vw"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        />
+        
+        {/* Play overlay apenas se tiver reel */}
+        {hasReel && (
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+            <div className="rounded-full bg-black/60 backdrop-blur-sm p-4 transition-transform duration-300 group-hover:scale-110 group-hover:bg-black/70">
+              <svg 
+                className="w-12 h-12 text-white ml-1" 
+                fill="currentColor" 
+                viewBox="0 0 24 24"
+                aria-hidden="true"
               >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.98-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.98-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                </svg>
-                <span className="font-satoshi text-sm font-semibold">Instagram</span>
-              </a>
-            )}
-            {celebrity.quote && (
-              <p className="font-satoshi text-sm italic opacity-90 line-clamp-2 mt-3 drop-shadow-md">
-                &quot;{celebrity.quote}&quot;
-              </p>
-            )}
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            </div>
           </div>
-        </div>
-      ) : (
-        <>
-          <div className="relative aspect-[9/16] overflow-hidden bg-mimo-neutral-light">
-            <ImageWithFallback
-              src={celebrity.image}
-              alt={celebrity.imageAlt}
-              width={400}
-              height={711}
-              sizes="(max-width: 768px) 50vw, 25vw"
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/90 to-transparent" />
-          </div>
+        )}
 
-          <div className="absolute bottom-0 left-0 right-0 p-5 text-white bg-gradient-to-t from-black via-black/90 to-transparent backdrop-blur-sm">
-            <h3 className="font-bueno text-2xl font-bold mb-2 drop-shadow-lg">
-              {celebrity.name}
-            </h3>
-            <p className="font-satoshi text-base opacity-95 mb-3 drop-shadow-md">
-              {celebrity.service}
+        {/* Footer customizado */}
+        <div className="absolute bottom-0 left-0 right-0 p-5 text-white bg-gradient-to-t from-black via-black/90 to-transparent backdrop-blur-sm">
+          <h3 className="font-bueno text-2xl font-bold mb-2 drop-shadow-lg">
+            {celebrity.name}
+          </h3>
+          <p className="font-satoshi text-base opacity-95 mb-3 drop-shadow-md">
+            {celebrity.service}
+          </p>
+          {celebrity.instagram && (
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-white/20">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.98-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.98-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+              </svg>
+              <span className="font-satoshi text-sm font-semibold">
+                {hasReel ? 'Ver Reel' : 'Instagram'}
+              </span>
+            </div>
+          )}
+          {celebrity.quote && (
+            <p className="font-satoshi text-sm italic opacity-90 line-clamp-2 mt-3 drop-shadow-md">
+              &quot;{celebrity.quote}&quot;
             </p>
-            {celebrity.instagram && (
-              <a
-                href={celebrity.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 hover:opacity-80 transition-opacity mt-2 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-white/20"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.98-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.98-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                </svg>
-                <span className="font-satoshi text-sm font-semibold">Instagram</span>
-              </a>
-            )}
-            {celebrity.quote && (
-              <p className="font-satoshi text-sm italic opacity-90 line-clamp-2 mt-3 drop-shadow-md">
-                &quot;{celebrity.quote}&quot;
-              </p>
-            )}
-          </div>
-        </>
-      )}
-    </div>
+          )}
+        </div>
+      </div>
+    </a>
   )
 }
