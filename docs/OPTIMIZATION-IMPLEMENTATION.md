@@ -99,11 +99,43 @@
 - Hero parallax: ✅ Still using Framer Motion (complex animation)
 - Below-fold components: ✅ Already code-split
 
+## Production Test Results (2025-01-29)
+
+### Desktop ✅
+- **Performance**: 90/100 ✅
+- **Accessibility**: 100/100 ✅
+- **Best Practices**: 92/100 ✅
+- **SEO**: 100/100 ✅
+- **LCP**: 2.11s ✅
+- **CLS**: 0.000 ✅
+- **TBT**: 0.00s ✅
+
+### Mobile ⚠️
+- **Performance**: 59/100 ⚠️ (LCP: 13.65s)
+- **Accessibility**: 100/100 ✅
+- **Best Practices**: 96/100 ✅
+- **SEO**: 100/100 ✅
+- **CLS**: 0.000 ✅
+- **TBT**: 0.03s ✅
+
+**Mobile LCP Issue**: The mobile LCP is still high (13.65s). This is likely due to:
+- Network conditions (mobile throttling in Lighthouse)
+- CDN cache warm-up needed
+- Possible need for further image optimization (responsive images, smaller mobile variants)
+
+**Unused JavaScript**: Both mobile and desktop show 21 KiB unused JavaScript. This is likely from:
+- Framer Motion (still used in HeroManifesto)
+- Other dependencies that could be further optimized
+
 ## Next Steps
 
-1. **Test Performance**: Run Lighthouse to measure improvements
+1. **Mobile LCP Investigation**: 
+   - Test with real mobile device
+   - Consider responsive image variants for mobile
+   - Check CDN cache headers
 2. **Font Optimization**: Implement subfont for font subsetting
-3. **Monitor**: Track bundle size and performance metrics
+3. **Unused JavaScript**: Further analyze and optimize bundle
+4. **Monitor**: Track bundle size and performance metrics
 
 ## Files Changed
 
