@@ -236,10 +236,68 @@ Based on diagnostics and code analysis, the LCP delay is likely caused by:
 - `display: 'swap'` active
 - No redundant @font-face declarations
 
-### Expected Results
+#### 4. Enhanced CI/CD Quality Gates ✅
+- Updated `lighthouse-ci.js` with environment variable support
+- Improved logging with FCP and clearer success/failure messages
+- Enhanced GitHub Actions workflow (lint → type-check → build → lighthouse)
+- Configurable thresholds via `LIGHTHOUSE_MIN_PERFORMANCE` and `LIGHTHOUSE_MAX_LCP`
 
-After removing Framer Motion from CTA:
-- **Performance**: 100/100 (from 99)
-- **Unused JS**: Reduced by ~10-15 KiB
-- **LCP**: Should remain <2.5s
+#### 5. Performance Budget and Maintenance Rules ✅
+- Added Performance Budget section to `performance-guide-mimo.md`
+- Established rules for adding new pages/content
+- Documented monthly performance check process
+- CI/CD now enforces Performance ≥95 and LCP <2.5s
+
+### Results After Deployment (2025-11-19)
+
+**Tested 3+ times after deployment - consistent results:**
+
+#### Mobile Performance
+- **Performance**: 99/100 ✅ (from 99, target: ≥95)
+- **LCP**: 1.95-2.25s ✅ (target: <2.5s)
+- **FCP**: 0.90-1.21s ✅
+- **CLS**: 0.000 ✅
+- **TBT**: 0.00-0.01s ✅
+- **Accessibility**: 100/100 ✅
+- **Best Practices**: 100/100 ✅
+- **SEO**: 100/100 ✅
+
+#### Desktop Performance
+- **Performance**: 100/100 ✅
+- **LCP**: 0.49-0.54s ✅
+- All other metrics: 100/100 ✅
+
+### Final Analysis
+
+**Performance: 99/100** - Consistently achieved across multiple test runs.
+
+**Why not 100/100?**
+- Remaining ~10-15 KiB unused JavaScript (down from ~27 KiB)
+- This is likely from:
+  - React/Next.js runtime overhead (unavoidable)
+  - Some utility functions that are tree-shakeable but not critical
+  - Minor polyfills for browser compatibility
+
+**Decision**: We intentionally do not pursue the final 1 point because:
+1. The remaining unused JS is minimal (~10-15 KiB) and would require:
+   - Aggressive code splitting that could hurt maintainability
+   - Removing useful utilities that may be needed
+   - Micro-optimizations that don't meaningfully impact real users
+2. Performance at 99/100 is excellent and meets all quality gates
+3. All Core Web Vitals are excellent (LCP <2.5s, CLS=0, TBT≈0)
+4. Desktop performance is already 100/100
+5. Real-world user experience is optimal
+
+**What Moved the Needle**:
+1. ✅ Removing Framer Motion from CTAAgendamento (~10-15 KiB savings)
+2. ✅ Converting CTA to server component (faster initial render)
+3. ✅ Optimizing CTA image sizes attribute
+4. ✅ Enhanced CI/CD prevents future regressions
+
+### Maintenance System Established
+
+✅ **CI/CD Quality Gates**: Performance ≥95, LCP <2.5s enforced automatically  
+✅ **Performance Budget**: Documented targets for JS bundle, images, metrics  
+✅ **Rules for New Content**: Clear guidelines prevent regression  
+✅ **Monthly Checks**: Process documented for ongoing monitoring
 
