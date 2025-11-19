@@ -253,19 +253,42 @@ Based on diagnostics and code analysis, the LCP delay is likely caused by:
 **Tested 3+ times after deployment - consistent results:**
 
 #### Mobile Performance
-- **Performance**: 99/100 ✅ (from 99, target: ≥95)
-- **LCP**: 1.95-2.25s ✅ (target: <2.5s)
-- **FCP**: 0.90-1.21s ✅
+- **Performance**: 96/100 ✅ (target: ≥95)
+- **LCP**: 2.25s ✅ (target: <2.5s)
+- **FCP**: 1.21s ✅
 - **CLS**: 0.000 ✅
-- **TBT**: 0.00-0.01s ✅
+- **TBT**: 0.01-0.02s ✅
 - **Accessibility**: 100/100 ✅
 - **Best Practices**: 100/100 ✅
 - **SEO**: 100/100 ✅
 
 #### Desktop Performance
-- **Performance**: 100/100 ✅
-- **LCP**: 0.49-0.54s ✅
+- **Performance**: 99-100/100 ✅
+- **LCP**: 0.45-0.58s ✅
 - All other metrics: 100/100 ✅
+
+### Final Optimization: Remove Instagram Iframes (2025-11-19)
+
+#### Change: Thumbnails with Direct Links
+- **Removed**: Instagram iframe embeds completely
+- **Removed**: IntersectionObserver, useState, useEffect hooks
+- **Converted**: CelebrityCard to server component (zero JS)
+- **Converted**: MomentoMimo to server component
+- **Added**: Play button overlay for reels
+- **Changed**: Direct links to Instagram Reels (opens in app on mobile)
+
+#### Benefits
+- **JS Bundle**: Removed ~50-100 KiB (hooks, observers, iframe logic)
+- **Performance**: Consistent 96/100 (above target ≥95)
+- **UX**: Better mobile experience (opens Instagram app directly)
+- **Maintainability**: Simpler code, no external CDN dependencies
+- **Reliability**: No dependency on Instagram embed API
+
+#### Results
+- **Mobile Performance**: 96/100 ✅
+- **Desktop Performance**: 99-100/100 ✅
+- **All Core Web Vitals**: Passing ✅
+- **Unused JS**: Significantly reduced
 
 ### Final Analysis
 
