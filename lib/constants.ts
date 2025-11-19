@@ -289,7 +289,7 @@ export const CELEBRITIES: Array<{
   {
     id: 'brunahuli',
     name: 'Bruna Huli',
-    image: '/images/depo/brunahuli.webp',
+    image: '/images/placeholder.svg', // TODO: adicionar brunahuli.webp
     imageAlt: 'Bruna Huli - influencer Mimo',
     service: 'Salão',
     instagram: 'https://www.instagram.com/brunahuli/',

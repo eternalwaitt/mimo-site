@@ -38,14 +38,17 @@ export function CelebrityCard({ celebrity, className }: CelebrityCardProps) {
       )}
     >
       <div className="relative aspect-[9/16] overflow-hidden bg-black">
-        <ImageWithFallback
-          src={celebrity.image}
-          alt={celebrity.imageAlt}
-          width={400}
-          height={711}
-          sizes="(max-width: 768px) 50vw, 25vw"
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-        />
+        <div className="absolute inset-0">
+          <ImageWithFallback
+            src={celebrity.image}
+            alt={celebrity.imageAlt}
+            width={400}
+            height={711}
+            sizes="(max-width: 768px) 50vw, 25vw"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            fill
+          />
+        </div>
         
         {/* Play overlay apenas se tiver reel */}
         {hasReel && (

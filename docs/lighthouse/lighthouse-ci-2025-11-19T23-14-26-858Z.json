@@ -1,0 +1,40 @@
+{
+  "timestamp": "2025-11-19T23:14:26.860Z",
+  "baseUrl": "https://mimo-site.vercel.app",
+  "minScore": 95,
+  "results": {
+    "mobile": {
+      "scores": {
+        "performance": 96,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "performanceMetrics": {
+        "lcp": 2251,
+        "cls": 0,
+        "tbt": 22,
+        "fcp": 1210,
+        "tti": 2266
+      },
+      "opportunities": []
+    },
+    "desktop": {
+      "scores": {
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "performanceMetrics": {
+        "lcp": 583,
+        "cls": 0,
+        "tbt": 85.5,
+        "fcp": 251,
+        "tti": 640.6500000000001
+      },
+      "opportunities": []
+    }
+  },
+  "passed": true
+}
