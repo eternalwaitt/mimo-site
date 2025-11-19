@@ -1,6 +1,10 @@
 'use client'
 
+/* eslint-disable no-restricted-imports */
+// Framer Motion usado aqui para animações complexas em página de serviço (não home)
+// Hero usa whileInView para animar apenas quando visível (não bloqueia LCP)
 import { motion } from 'framer-motion'
+/* eslint-enable no-restricted-imports */
 import { Button } from '@/components/ui/button'
 import { ImageWithFallback } from '@/components/ui/image-with-fallback'
 import type { Service } from '@/lib/types'
