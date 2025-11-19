@@ -1,6 +1,3 @@
-'use client'
-
-import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { ImageWithFallback } from '@/components/ui/image-with-fallback'
 import { getWhatsAppBookingUrl, getWhatsAppContactUrl, HOME_COPY } from '@/lib/constants'
@@ -12,7 +9,7 @@ import { getWhatsAppBookingUrl, getWhatsAppContactUrl, HOME_COPY } from '@/lib/c
  * - 2 botões grandes: WhatsApp direto + "Falar com equipe"
  * - background: foto ambiente + overlay marrom
  * - mobile: stack vertical
- * - animações de entrada com framer-motion
+ * - animações de entrada com CSS (replaced framer-motion for performance)
  * 
  * @returns {JSX.Element} seção de CTA de agendamento
  */
@@ -33,20 +30,15 @@ export function CTAAgendamento() {
           src="/images/cta-ambiente.jpg"
           alt="Ambiente acolhedor Mimo"
           fill
-          sizes="100vw"
+          sizes="(max-width: 768px) 100vw, 1920px"
           className="object-cover"
+          quality={85}
         />
       </div>
 
       {/* Content */}
       <div className="relative z-20 container mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="max-w-3xl mx-auto text-center"
-        >
+        <div className="max-w-3xl mx-auto text-center animate-fade-in-up">
           <h2 className="font-bueno text-4xl md:text-5xl font-bold text-white mb-6">
             {HOME_COPY.ctaAgendamento.headline}
           </h2>
@@ -69,7 +61,7 @@ export function CTAAgendamento() {
               {HOME_COPY.ctaAgendamento.ctaEquipe}
             </Button>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

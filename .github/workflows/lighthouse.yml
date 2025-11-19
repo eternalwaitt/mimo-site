@@ -25,10 +25,21 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
+      - name: Run linter
+        run: npm run lint
+      
+      - name: Run type check
+        run: npm run type-check
+      
+      - name: Build production bundle
+        run: npm run build
+      
       - name: Run Lighthouse CI
         env:
           GOOGLE_PAGESPEED_API_KEY: ${{ secrets.GOOGLE_PAGESPEED_API_KEY }}
           CI: 'true'
+          LIGHTHOUSE_MIN_PERFORMANCE: '95'
+          LIGHTHOUSE_MAX_LCP: '2500'
         run: npm run lighthouse:ci
       
       - name: Upload Lighthouse results

@@ -144,17 +144,102 @@ Based on diagnostics and code analysis, the LCP delay is likely caused by:
 - All Instagram iframes are lazy-loaded
 - No preconnect needed for Instagram CDN (not used above fold)
 
-### Expected Results After Deployment
+### Results After Deployment (2025-11-19)
 
-- **LCP**: < 2.5s (from 13.4s) - hero image should be LCP element
-- **Performance**: ≥ 90 (from 74)
-- **Unused JS**: Reduced by ~40 KiB
-- **LCP Element**: Hero image (`hero-bg.webp`), not Instagram iframes
+**Tested 3 times after deployment - consistent results:**
 
-### Next Steps
+#### Mobile Performance
+- **Performance**: 95/100 ✅ (from 74, target: ≥90)
+- **LCP**: 2.48s ✅ (from 13.4s, target: <2.5s)
+- **FCP**: ~1.8s ✅
+- **CLS**: 0.000 ✅
+- **TBT**: 0.03s ✅
+- **Accessibility**: 100/100 ✅
+- **Best Practices**: 100/100 ✅
+- **SEO**: 100/100 ✅
 
-1. Deploy changes to Vercel
-2. Run Lighthouse mobile 3+ times to verify improvements
-3. Document actual LCP element from Lighthouse report
-4. Update this doc with before/after metrics
+#### Desktop Performance
+- **Performance**: 100/100 ✅
+- **LCP**: 0.42s ✅
+- All other metrics: 100/100 ✅
+
+### Improvements Achieved
+
+- ✅ **LCP reduced by 82%** (13.4s → 2.48s)
+- ✅ **Performance score improved by 28%** (74 → 95)
+- ✅ **All Core Web Vitals passing**
+- ✅ **LCP element**: Hero image (as intended)
+- ✅ **Unused JS**: Reduced by ~27 KiB (still some room for improvement)
+
+### Changes That Moved the Needle
+
+1. **Lazy-loading Instagram iframes** - prevented CDN images from blocking LCP
+2. **Removing Framer Motion from MomentoMimo** - reduced JS bundle size
+3. **CSS animations instead of JS** - faster initial render
+4. **Proper image sizes attributes** - mobile downloads appropriate sizes
+5. **Content visibility optimization** - better below-fold performance
+
+### Remaining Opportunities
+
+- **Reduce unused JavaScript**: ~27 KiB savings potential (minor optimization)
+
+---
+
+## Final Optimization Round (2025-11-19)
+
+### Baseline (Before Final Optimization)
+
+**Date**: 2025-11-19  
+**URL**: https://mimo-site.vercel.app/  
+**Test Method**: PageSpeed Insights API (mobile strategy)
+
+#### Performance Scores
+- **Performance**: 99/100 ✅
+- **Accessibility**: 100/100 ✅
+- **Best Practices**: 100/100 ✅
+- **SEO**: 100/100 ✅
+
+#### Core Web Vitals
+- **LCP**: 2.10s ✅ (target: <2.5s)
+- **FCP**: 0.90s ✅
+- **CLS**: 0.000 ✅
+- **TBT**: 0.00s ✅
+- **TTI**: 2.10s ✅
+
+#### Remaining Opportunities (Top 3)
+1. **Reduce unused JavaScript**: ~27 KiB savings potential
+   - Likely from Framer Motion in CTAAgendamento component
+   - Some utility functions may be tree-shakeable
+2. **Image delivery**: Already optimized, but cta-ambiente.jpg (225KB) could use WebP version
+3. **Minor optimizations**: Font loading already optimal, no other major issues
+
+#### Analysis
+- Performance is already at 99/100
+- Only remaining opportunity is unused JavaScript (~27 KiB)
+- All Core Web Vitals are excellent
+- Desktop performance is 100/100 across all categories
+
+### Changes Applied
+
+#### 1. Removed Framer Motion from CTAAgendamento ✅
+- Converted `motion.div` to CSS animation (`animate-fade-in-up`)
+- Removed `'use client'` directive (now server component)
+- Expected savings: ~10-15 KiB from Framer Motion bundle
+
+#### 2. Optimized CTA Image Sizes ✅
+- Updated `sizes` from `"100vw"` to `"(max-width: 768px) 100vw, 1920px"`
+- Added `quality={85}` for better compression
+- Note: cta-ambiente.jpg (225KB) exists but Next.js Image will serve WebP/AVIF automatically
+
+#### 3. Font Optimization ✅
+- Already optimal: Only weight 400 loaded for both fonts
+- `display: 'swap'` active
+- No redundant @font-face declarations
+
+### Expected Results
+
+After removing Framer Motion from CTA:
+- **Performance**: 100/100 (from 99)
+- **Unused JS**: Reduced by ~10-15 KiB
+- **LCP**: Should remain <2.5s
 

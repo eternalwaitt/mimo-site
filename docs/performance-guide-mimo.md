@@ -189,16 +189,93 @@ Before adding new features:
 - [ ] Is it heavy? → Use dynamic import
 - [ ] Does it require JS? → Only if absolutely necessary
 
+## Performance Budget
+
+**Targets for Home Page (Mobile)**:
+- **Initial JS Bundle**: ≤ 150 KiB (first load, gzipped)
+- **Hero Image**: ≤ 200 KiB (mobile, WebP/AVIF)
+- **LCP**: < 2.5s (Lighthouse Slow 4G)
+- **FCP**: < 1.5s
+- **TBT**: < 200ms
+- **CLS**: < 0.1
+
+**Guidelines**:
+- Any new hero-level section must respect these numbers
+- Any new third-party script must be justified in documentation
+- New images must use `next/image` with proper `sizes`
+- Large libraries must be dynamically imported if not critical
+
+## Adding New Pages and Content
+
+### Rules for New Pages
+
+**Before merging any new page**:
+1. Run `npm run lighthouse:home` (or test the specific page)
+2. Verify Performance ≥ 95 on mobile
+3. Verify LCP < 2.5s
+4. Check bundle size impact (`npm run analyze`)
+
+**New page with heavy imagery**:
+- Must use `<Image>` with proper `sizes` attribute
+- Should not introduce a new massive LCP candidate without testing
+- Images should be optimized (WebP/AVIF via Next.js)
+
+**New sections on home**:
+- Must be tested with `npm run lighthouse:home` before merging
+- Must not change the LCP element or push Performance below threshold (≥95)
+- Below-fold sections should use `content-visibility: auto`
+
+**Reuse existing patterns**:
+- Lazy loading for off-screen content
+- Placeholders for embeds (social media, etc.)
+- CSS animations instead of JS for simple effects
+
 ## Monitoring
 
 ### CI/CD
-- Lighthouse CI runs on PRs (`.github/workflows/lighthouse.yml`)
-- Fails if Performance < 90 on mobile or desktop
+- Lighthouse CI runs on PRs and pushes to main (`.github/workflows/lighthouse.yml`)
+- Steps: lint → type-check → build → lighthouse
+- **Fails if**:
+  - Performance < 95 on mobile (configurable via `LIGHTHOUSE_MIN_PERFORMANCE`)
+  - LCP > 2.5s (configurable via `LIGHTHOUSE_MAX_LCP`)
+  - Other categories < 90
+- Results stored as artifacts for 30 days
+
+**Environment Variables** (optional):
+- `LIGHTHOUSE_MIN_PERFORMANCE`: Minimum performance score (default: 95)
+- `LIGHTHOUSE_MAX_LCP`: Maximum LCP in ms (default: 2500)
+- `LIGHTHOUSE_BASE_URL`: URL to test (default: https://mimo-site.vercel.app)
+
+**Running locally**:
+```bash
+# Test against production
+npm run lighthouse:home
+
+# Test with custom thresholds
+LIGHTHOUSE_MIN_PERFORMANCE=98 LIGHTHOUSE_MAX_LCP=2000 npm run lighthouse:home
+```
 
 ### Manual Testing
 - Run `npm run lighthouse:home` before deploying
 - Check bundle size: `npm run analyze`
 - Test on real mobile device
+- Review Lighthouse reports in `docs/lighthouse/`
+
+### Monthly Performance Checks
+
+**Schedule**: Once per month, or before major campaigns
+
+**Pages to test**:
+- `/` (home) - **Required**
+- `/servicos` - If high traffic
+- `/sobre` - If high traffic
+- Any new high-traffic pages
+
+**Process**:
+1. Run PageSpeed Insights on each page
+2. Append results to `docs/lighthouse-mobile-baseline.md` as historical log
+3. Note any regressions and investigate
+4. Update performance budget if needed
 
 ## Troubleshooting
 

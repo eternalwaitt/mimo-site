@@ -35,11 +35,11 @@ if (!API_KEY) {
   process.exit(1)
 }
 
-const BASE_URL = 'https://mimo-site.vercel.app'
+const BASE_URL = process.env.LIGHTHOUSE_BASE_URL || 'https://mimo-site.vercel.app'
 const API_ENDPOINT = 'https://pagespeedonline.googleapis.com/pagespeedonline/v5/runPagespeed'
 const CATEGORIES = ['PERFORMANCE', 'ACCESSIBILITY', 'BEST_PRACTICES', 'SEO']
-const MIN_SCORE = 90
-const MAX_LCP = 2500 // 2.5s in milliseconds
+const MIN_SCORE = parseInt(process.env.LIGHTHOUSE_MIN_PERFORMANCE || '95', 10)
+const MAX_LCP = parseInt(process.env.LIGHTHOUSE_MAX_LCP || '2500', 10) // 2.5s in milliseconds
 
 /**
  * faz requisição à api do pagespeed insights.
@@ -128,7 +128,13 @@ async function main() {
   
   console.log('🚀 Lighthouse CI - Validando scores...\n')
   console.log(`Base URL: ${BASE_URL}`)
-  console.log(`Score mínimo: ${MIN_SCORE}/100\n`)
+  console.log(`Score mínimo: ${MIN_SCORE}/100`)
+  console.log(`LCP máximo: ${MAX_LCP}ms (${(MAX_LCP / 1000).toFixed(1)}s)`)
+  if (process.env.LIGHTHOUSE_MIN_PERFORMANCE || process.env.LIGHTHOUSE_MAX_LCP) {
+    console.log(`(Thresholds configurados via env vars)\n`)
+  } else {
+    console.log(`(Usar LIGHTHOUSE_MIN_PERFORMANCE e LIGHTHOUSE_MAX_LCP para customizar)\n`)
+  }
   
   const results = {
     mobile: null,
@@ -154,14 +160,18 @@ async function main() {
       if (mobileScores.performanceMetrics) {
         const pm = mobileScores.performanceMetrics
         const lcpSeconds = (pm.lcp / 1000).toFixed(2)
+        const fcpSeconds = (pm.fcp / 1000).toFixed(2)
         console.log(`   📈 LCP: ${lcpSeconds}s`)
+        console.log(`   📈 FCP: ${fcpSeconds}s`)
         console.log(`   📈 CLS: ${pm.cls.toFixed(3)}`)
         console.log(`   📈 TBT: ${(pm.tbt / 1000).toFixed(2)}s`)
         
         // Validate LCP
         if (pm.lcp > MAX_LCP) {
-          console.error(`   ❌ LCP: ${lcpSeconds}s > ${(MAX_LCP / 1000).toFixed(1)}s (target)`)
+          console.error(`   ❌ LCP: ${lcpSeconds}s > ${(MAX_LCP / 1000).toFixed(1)}s (target: <${(MAX_LCP / 1000).toFixed(1)}s)`)
           hasFailures = true
+        } else {
+          console.log(`   ✅ LCP: ${lcpSeconds}s (target: <${(MAX_LCP / 1000).toFixed(1)}s)`)
         }
       }
       
@@ -176,9 +186,16 @@ async function main() {
       const categories = ['performance', 'accessibility', 'best-practices', 'seo']
       categories.forEach(cat => {
         const score = scores[cat]
-        if (score !== undefined && score < MIN_SCORE) {
-          console.error(`   ❌ ${cat}: ${score} < ${MIN_SCORE}`)
-          hasFailures = true
+        if (score !== undefined) {
+          if (cat === 'performance' && score < MIN_SCORE) {
+            console.error(`   ❌ ${cat}: ${score} < ${MIN_SCORE} (target: ≥${MIN_SCORE})`)
+            hasFailures = true
+          } else if (cat !== 'performance' && score < 90) {
+            console.error(`   ❌ ${cat}: ${score} < 90`)
+            hasFailures = true
+          } else if (cat === 'performance') {
+            console.log(`   ✅ ${cat}: ${score} (target: ≥${MIN_SCORE})`)
+          }
         }
       })
     }
@@ -222,9 +239,16 @@ async function main() {
       const categories = ['performance', 'accessibility', 'best-practices', 'seo']
       categories.forEach(cat => {
         const score = scores[cat]
-        if (score !== undefined && score < MIN_SCORE) {
-          console.error(`   ❌ ${cat}: ${score} < ${MIN_SCORE}`)
-          hasFailures = true
+        if (score !== undefined) {
+          if (cat === 'performance' && score < MIN_SCORE) {
+            console.error(`   ❌ ${cat}: ${score} < ${MIN_SCORE} (target: ≥${MIN_SCORE})`)
+            hasFailures = true
+          } else if (cat !== 'performance' && score < 90) {
+            console.error(`   ❌ ${cat}: ${score} < 90`)
+            hasFailures = true
+          } else if (cat === 'performance') {
+            console.log(`   ✅ ${cat}: ${score} (target: ≥${MIN_SCORE})`)
+          }
         }
       })
     }
