@@ -20,6 +20,8 @@ type ImageWithFallbackProps = {
   className?: string
   /** se true, imagem é carregada com prioridade (above-the-fold) */
   priority?: boolean
+  /** fetchPriority para LCP optimization ('high' | 'low' | 'auto') */
+  fetchPriority?: 'high' | 'low' | 'auto'
   /** se true, imagem preenche container pai (requer position relative no pai) */
   fill?: boolean
   /** atributo sizes para otimização responsiva */
@@ -28,6 +30,8 @@ type ImageWithFallbackProps = {
   objectFit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down'
   /** aspect ratio da imagem para prevenir CLS (ex: "16/9") */
   aspectRatio?: string
+  /** qualidade da imagem (1-100, padrão 75) */
+  quality?: number
 }
 
 /**
@@ -46,10 +50,12 @@ export function ImageWithFallback({
   height,
   className,
   priority = false,
+  fetchPriority,
   fill = false,
   sizes,
   objectFit = 'cover',
   aspectRatio,
+  quality,
 }: ImageWithFallbackProps) {
   const [imgSrc, setImgSrc] = useState(src)
   const [hasError, setHasError] = useState(false)
@@ -74,7 +80,9 @@ export function ImageWithFallback({
         fill
         className={cn('object-cover', className)}
         priority={priority}
+        fetchPriority={fetchPriority}
         sizes={sizes}
+        quality={quality}
         onError={handleError}
         style={placeholderStyle}
       />
@@ -93,7 +101,9 @@ export function ImageWithFallback({
       height={height}
       className={cn(`object-${objectFit}`, className)}
       priority={priority}
+      fetchPriority={fetchPriority}
       sizes={sizes}
+      quality={quality}
       onError={handleError}
     />
   )

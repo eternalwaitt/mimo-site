@@ -44,11 +44,27 @@ export const metadata: Metadata = {
   description: 'salão de beleza inclusivo e acolhedor. serviços personalizados que cabem na sua vida real. agende seu mimo!',
   keywords: ['salão de beleza', 'beleza sem padrão', 'corte de cabelo', 'coloração', 'alongamento de cílios', 'manicure', 'pedicure', 'São Paulo', 'Vila Madalena'],
   generator: `Mimo Site v${APP_VERSION}`,
+  alternates: {
+    canonical: 'https://mimo-site.vercel.app',
+  },
   openGraph: {
     type: 'website',
     locale: 'pt_BR',
-    url: 'https://minhamimo.com.br',
+    url: 'https://mimo-site.vercel.app',
     siteName: 'Mimo Salão',
+    title: 'beleza sem padrão | mimo salão',
+    description: 'salão de beleza inclusivo e acolhedor. serviços personalizados que cabem na sua vida real.',
+    images: [
+      {
+        url: 'https://mimo-site.vercel.app/images/hero-bg.webp',
+        width: 1920,
+        height: 1080,
+        alt: 'Mimo Salão - Beleza sem padrão',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
     title: 'beleza sem padrão | mimo salão',
     description: 'salão de beleza inclusivo e acolhedor. serviços personalizados que cabem na sua vida real.',
   },
@@ -111,22 +127,7 @@ export default function RootLayout({
         {/* Preconnect para recursos críticos */}
         <link rel="preconnect" href="https://wa.me" crossOrigin="anonymous" />
         
-        {/* Preload fontes críticas */}
-        <link
-          rel="preload"
-          href="/fonts/bueno-regular.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/fonts/satoshi-regular.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-        {/* Preload hero image com fetchpriority - crítico para LCP */}
+        {/* Preload hero image - crítico para LCP (Next.js Image já otimiza, mas preload ajuda) */}
         <link
           rel="preload"
           href="/images/hero-bg.webp"

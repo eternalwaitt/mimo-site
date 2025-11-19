@@ -1,6 +1,3 @@
-'use client'
-
-import { motion } from 'framer-motion'
 import { OrganicShape } from '@/components/ui/organic-shape'
 import { HOME_COPY } from '@/lib/constants'
 
@@ -36,26 +33,17 @@ export function TimeEconomy() {
       />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
+        <div className="text-center mb-12 animate-fade-in-up">
           <h2 className="font-bueno text-4xl md:text-5xl font-bold text-mimo-brown mb-4">
             {HOME_COPY.timeEconomy.title}
           </h2>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 max-w-5xl mx-auto">
           {/* Unhas */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-center"
+          <div
+            className="text-center animate-fade-in-scale"
+            style={{ animationDelay: '0.1s', animationFillMode: 'both' }}
           >
             <div className="mb-4">
               <div className="w-16 h-16 mx-auto bg-mimo-gold rounded-full flex items-center justify-center mb-4">
@@ -66,15 +54,12 @@ export function TimeEconomy() {
               </div>
               <p className="font-satoshi text-mimo-blue">Unhas</p>
             </div>
-          </motion.div>
+          </div>
 
           {/* Lashes */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-center"
+          <div
+            className="text-center animate-fade-in-scale"
+            style={{ animationDelay: '0.2s', animationFillMode: 'both' }}
           >
             <div className="mb-4">
               <div className="w-16 h-16 mx-auto bg-mimo-gold rounded-full flex items-center justify-center mb-4">
@@ -85,15 +70,12 @@ export function TimeEconomy() {
               </div>
               <p className="font-satoshi text-mimo-blue">Cílios</p>
             </div>
-          </motion.div>
+          </div>
 
           {/* Cabelo */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="text-center"
+          <div
+            className="text-center animate-fade-in-scale"
+            style={{ animationDelay: '0.3s', animationFillMode: 'both' }}
           >
             <div className="mb-4">
               <div className="w-16 h-16 mx-auto bg-mimo-gold rounded-full flex items-center justify-center mb-4">
@@ -104,16 +86,13 @@ export function TimeEconomy() {
               </div>
               <p className="font-satoshi text-mimo-blue">Cabelo</p>
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Total */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-center mt-12"
+        <div
+          className="text-center mt-12 animate-fade-in-up"
+          style={{ animationDelay: '0.4s', animationFillMode: 'both' }}
         >
           <div className="inline-block bg-white rounded-2xl p-8 shadow-lg">
             <p className="font-satoshi text-mimo-blue mb-2">
@@ -123,7 +102,7 @@ export function TimeEconomy() {
               {HOME_COPY.timeEconomy.punchline.replace('{hours}', hoursPerMonth.toString())}
             </p>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

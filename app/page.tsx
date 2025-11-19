@@ -16,12 +16,14 @@ import { CTAAgendamento } from '@/components/sections/cta-agendamento'
  * 5. #MomentoMIMO
  * 6. CTA Agendamento
  * 7. Footer
+ * 
+ * Note: Client components are automatically code-split by Next.js.
  */
 export default function HomePage() {
   return (
     <>
       <Header />
-      <main>
+      <main id="main-content">
         <HeroManifesto />
         <TimeEconomy />
         <ServicesGrid />

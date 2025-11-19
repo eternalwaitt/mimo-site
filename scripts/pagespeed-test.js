@@ -3,7 +3,8 @@
 /**
  * script para testar pagespeed insights api.
  * 
- * testa performance mobile de todas as páginas principais.
+ * testa todas as categorias do lighthouse (performance, accessibility, best practices, seo)
+ * em mobile e desktop para páginas principais.
  * requer: GOOGLE_PAGESPEED_API_KEY no .env.local
  */
 
@@ -32,27 +33,27 @@ if (!API_KEY) {
   console.error('   GOOGLE_PAGESPEED_API_KEY=sua_chave_aqui')
   process.exit(1)
 }
-const BASE_URL = 'https://minhamimo.com.br'
+const BASE_URL = 'https://mimo-site.vercel.app'
 const API_ENDPOINT = 'https://pagespeedonline.googleapis.com/pagespeedonline/v5/runPagespeed'
 
-// Páginas a testar
+// Páginas a testar para baseline
 const PAGES = [
   { path: '/', name: 'Home' },
   { path: '/servicos', name: 'Serviços' },
-  { path: '/servicos/salao', name: 'Serviço: Salão' },
-  { path: '/servicos/esmalteria', name: 'Serviço: Esmalteria' },
-  { path: '/servicos/cilios', name: 'Serviço: Cílios' },
-  { path: '/galeria', name: 'Galeria' },
   { path: '/sobre', name: 'Sobre' },
-  { path: '/trabalhe-aqui', name: 'Trabalhe Aqui' },
 ]
+
+// Todas as categorias do lighthouse
+const CATEGORIES = ['PERFORMANCE', 'ACCESSIBILITY', 'BEST_PRACTICES', 'SEO']
+const STRATEGIES = ['MOBILE', 'DESKTOP']
 
 /**
  * faz requisição à api do pagespeed insights.
  */
-function runPageSpeedTest(url) {
+function runPageSpeedTest(url, strategy = 'MOBILE', categories = CATEGORIES) {
   return new Promise((resolve, reject) => {
-    const apiUrl = `${API_ENDPOINT}?url=${encodeURIComponent(url)}&strategy=MOBILE&category=PERFORMANCE&key=${API_KEY}`
+    const categoryParam = categories.map(c => `category=${c}`).join('&')
+    const apiUrl = `${API_ENDPOINT}?url=${encodeURIComponent(url)}&strategy=${strategy}&${categoryParam}&key=${API_KEY}`
     
     https.get(apiUrl, (res) => {
       let data = ''
@@ -64,7 +65,11 @@ function runPageSpeedTest(url) {
       res.on('end', () => {
         try {
           const result = JSON.parse(data)
-          resolve(result)
+          if (result.error) {
+            reject(new Error(result.error.message || 'API Error'))
+          } else {
+            resolve(result)
+          }
         } catch (error) {
           reject(new Error(`Failed to parse response: ${error.message}`))
         }
@@ -85,26 +90,55 @@ function extractMetrics(result) {
   
   const lhr = result.lighthouseResult
   const categories = lhr.categories || {}
-  const performance = categories.performance || {}
-  
   const audits = lhr.audits || {}
   
-  return {
-    score: Math.round((performance.score || 0) * 100),
+  // Extrair scores de todas as categorias
+  const categoryScores = {}
+  Object.keys(categories).forEach(key => {
+    categoryScores[key] = Math.round((categories[key].score || 0) * 100)
+  })
+  
+  // Extrair métricas de performance
+  const performanceMetrics = {
     lcp: audits['largest-contentful-paint']?.numericValue || 0,
     fid: audits['max-potential-fid']?.numericValue || 0,
     cls: audits['cumulative-layout-shift']?.numericValue || 0,
     tbt: audits['total-blocking-time']?.numericValue || 0,
     tti: audits['interactive']?.numericValue || 0,
-    opportunities: Object.values(audits)
-      .filter(audit => audit.details?.type === 'opportunity')
-      .map(audit => ({
-        id: audit.id,
-        title: audit.title,
-        description: audit.description,
-        score: audit.score,
-        numericValue: audit.numericValue,
-      })),
+    fcp: audits['first-contentful-paint']?.numericValue || 0,
+  }
+  
+  // Extrair top issues por categoria
+  const topIssues = {}
+  Object.keys(categories).forEach(categoryKey => {
+    const category = categories[categoryKey]
+    const auditRefs = category.auditRefs || []
+    const failedAudits = auditRefs
+      .filter(ref => {
+        const audit = audits[ref.id]
+        return audit && audit.score !== null && audit.score < 0.9
+      })
+      .map(ref => {
+        const audit = audits[ref.id]
+        return {
+          id: ref.id,
+          title: audit.title,
+          description: audit.description,
+          score: Math.round((audit.score || 0) * 100),
+          displayValue: audit.displayValue,
+        }
+      })
+      .slice(0, 5) // Top 5 issues
+    
+    if (failedAudits.length > 0) {
+      topIssues[categoryKey] = failedAudits
+    }
+  })
+  
+  return {
+    categoryScores,
+    performanceMetrics,
+    topIssues,
   }
 }
 
@@ -112,82 +146,135 @@ function extractMetrics(result) {
  * função principal.
  */
 async function main() {
-  console.log('🚀 Iniciando testes de PageSpeed Insights...\n')
+  console.log('🚀 Iniciando testes de Lighthouse (PageSpeed Insights)...\n')
   console.log(`API Key: ${API_KEY.substring(0, 10)}...`)
   console.log(`Base URL: ${BASE_URL}\n`)
   
-  const results = []
+  const allResults = {
+    mobile: [],
+    desktop: [],
+  }
   const startTime = Date.now()
   
-  for (const page of PAGES) {
-    const url = `${BASE_URL}${page.path}`
-    console.log(`📊 Testando: ${page.name} (${url})...`)
+  // Testar cada estratégia (mobile e desktop)
+  for (const strategy of STRATEGIES) {
+    console.log(`\n${'='.repeat(60)}`)
+    console.log(`📱 Testando em ${strategy}`)
+    console.log('='.repeat(60))
     
-    try {
-      const result = await runPageSpeedTest(url)
-      const metrics = extractMetrics(result)
+    const results = []
+    
+    for (const page of PAGES) {
+      const url = `${BASE_URL}${page.path}`
+      console.log(`\n📊 Testando: ${page.name} (${url})...`)
       
-      if (metrics) {
+      try {
+        const result = await runPageSpeedTest(url, strategy, CATEGORIES)
+        const metrics = extractMetrics(result)
+        
+        if (metrics) {
+          const pageResult = {
+            page: page.name,
+            path: page.path,
+            url,
+            strategy,
+            ...metrics,
+          }
+          results.push(pageResult)
+          
+          console.log(`   ✅ Performance: ${metrics.categoryScores.performance || 'N/A'}/100`)
+          console.log(`   ✅ Accessibility: ${metrics.categoryScores.accessibility || 'N/A'}/100`)
+          console.log(`   ✅ Best Practices: ${metrics.categoryScores['best-practices'] || 'N/A'}/100`)
+          console.log(`   ✅ SEO: ${metrics.categoryScores.seo || 'N/A'}/100`)
+          
+          if (metrics.performanceMetrics) {
+            const pm = metrics.performanceMetrics
+            console.log(`   📈 LCP: ${(pm.lcp / 1000).toFixed(2)}s`)
+            console.log(`   📈 CLS: ${pm.cls.toFixed(3)}`)
+            console.log(`   📈 TBT: ${(pm.tbt / 1000).toFixed(2)}s`)
+          }
+        } else {
+          console.log(`   ⚠️  Não foi possível extrair métricas`)
+        }
+        
+        // Rate limiting: aguardar 1.5 segundos entre requisições
+        await new Promise(resolve => setTimeout(resolve, 1500))
+      } catch (error) {
+        console.error(`   ❌ Erro: ${error.message}`)
         results.push({
           page: page.name,
           path: page.path,
           url,
-          ...metrics,
+          strategy,
+          error: error.message,
         })
-        
-        console.log(`   ✅ Score: ${metrics.score}/100`)
-        console.log(`   📈 LCP: ${(metrics.lcp / 1000).toFixed(2)}s`)
-        console.log(`   📈 CLS: ${metrics.cls.toFixed(3)}`)
-        console.log(`   📈 TBT: ${(metrics.tbt / 1000).toFixed(2)}s`)
-      } else {
-        console.log(`   ⚠️  Não foi possível extrair métricas`)
       }
-      
-      // Rate limiting: aguardar 1 segundo entre requisições
-      await new Promise(resolve => setTimeout(resolve, 1000))
-    } catch (error) {
-      console.error(`   ❌ Erro: ${error.message}`)
-      results.push({
-        page: page.name,
-        path: page.path,
-        url,
-        error: error.message,
-      })
     }
     
-    console.log('')
+    allResults[strategy.toLowerCase()] = results
   }
   
   const endTime = Date.now()
   const duration = ((endTime - startTime) / 1000).toFixed(2)
   
-  // Salvar resultados
-  const outputDir = path.join(__dirname, '../docs')
+  // Criar diretório de lighthouse reports
+  const outputDir = path.join(__dirname, '../docs/lighthouse')
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true })
   }
   
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-')
-  const outputFile = path.join(outputDir, `PERFORMANCE-MOBILE-REPORT-${timestamp}.json`)
+  
+  // Salvar resultados separados por estratégia
+  const mobileFile = path.join(outputDir, `lighthouse-baseline-mobile.json`)
+  const desktopFile = path.join(outputDir, `lighthouse-baseline-desktop.json`)
   
   fs.writeFileSync(
-    outputFile,
+    mobileFile,
     JSON.stringify({
       timestamp: new Date().toISOString(),
-      duration: `${duration}s`,
-      pages: results,
+      strategy: 'MOBILE',
+      baseUrl: BASE_URL,
+      pages: allResults.mobile,
     }, null, 2)
   )
   
-  console.log(`\n✅ Testes concluídos em ${duration}s`)
-  console.log(`📄 Resultados salvos em: ${outputFile}`)
+  fs.writeFileSync(
+    desktopFile,
+    JSON.stringify({
+      timestamp: new Date().toISOString(),
+      strategy: 'DESKTOP',
+      baseUrl: BASE_URL,
+      pages: allResults.desktop,
+    }, null, 2)
+  )
   
-  // Resumo
-  const validResults = results.filter(r => r.score !== undefined)
-  if (validResults.length > 0) {
-    const avgScore = validResults.reduce((sum, r) => sum + r.score, 0) / validResults.length
-    console.log(`\n📊 Score médio: ${avgScore.toFixed(1)}/100`)
+  console.log(`\n${'='.repeat(60)}`)
+  console.log(`✅ Testes concluídos em ${duration}s`)
+  console.log(`📄 Resultados salvos em:`)
+  console.log(`   - ${mobileFile}`)
+  console.log(`   - ${desktopFile}`)
+  
+  // Resumo por categoria
+  console.log(`\n${'='.repeat(60)}`)
+  console.log('📊 Resumo de Scores')
+  console.log('='.repeat(60))
+  
+  const calculateAverage = (results, category) => {
+    const valid = results
+      .filter(r => r.categoryScores && r.categoryScores[category] !== undefined)
+      .map(r => r.categoryScores[category])
+    return valid.length > 0
+      ? (valid.reduce((a, b) => a + b, 0) / valid.length).toFixed(1)
+      : 'N/A'
   }
+  
+  const categories = ['performance', 'accessibility', 'best-practices', 'seo']
+  categories.forEach(cat => {
+    const mobileAvg = calculateAverage(allResults.mobile, cat)
+    const desktopAvg = calculateAverage(allResults.desktop, cat)
+    console.log(`${cat.toUpperCase().padEnd(20)} Mobile: ${mobileAvg.padStart(5)} | Desktop: ${desktopAvg.padStart(5)}`)
+  })
 }
 
 // Executar

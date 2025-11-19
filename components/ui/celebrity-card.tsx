@@ -50,7 +50,6 @@ export function CelebrityCard({ celebrity, className }: CelebrityCardProps) {
               src={reelEmbedUrl}
               width="100%"
               height="100%"
-              frameBorder="0"
               scrolling="no"
               allow="encrypted-media"
               className="absolute"

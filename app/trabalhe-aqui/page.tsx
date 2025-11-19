@@ -8,6 +8,15 @@ import { JOB_OPENINGS, JOB_BENEFITS, MIMO_COMPANY, MIMO_CONTACT, getWhatsAppCont
 export const metadata: Metadata = {
   title: 'trabalhe aqui',
   description: 'Venha fazer parte da equipe Mimo! Estamos sempre em busca de profissionais talentosos e apaixonados por beleza e bem-estar.',
+  alternates: {
+    canonical: 'https://mimo-site.vercel.app/trabalhe-aqui',
+  },
+  openGraph: {
+    title: 'Trabalhe Aqui | Mimo Salão',
+    description: 'Venha fazer parte da equipe Mimo! Estamos sempre em busca de profissionais talentosos e apaixonados por beleza e bem-estar.',
+    url: 'https://mimo-site.vercel.app/trabalhe-aqui',
+    type: 'website',
+  },
 }
 
 /**

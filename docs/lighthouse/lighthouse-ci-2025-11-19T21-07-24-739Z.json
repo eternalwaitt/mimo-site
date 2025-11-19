@@ -1,0 +1,20 @@
+{
+  "timestamp": "2025-11-19T21:07:24.742Z",
+  "baseUrl": "https://mimo-site.vercel.app",
+  "minScore": 90,
+  "results": {
+    "mobile": {
+      "performance": 74,
+      "accessibility": 100,
+      "best-practices": 96,
+      "seo": 100
+    },
+    "desktop": {
+      "performance": 87,
+      "accessibility": 100,
+      "best-practices": 92,
+      "seo": 100
+    }
+  },
+  "passed": false
+}

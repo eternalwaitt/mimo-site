@@ -57,8 +57,10 @@ export function HeroManifesto({
             alt={imageAlt}
             fill
             priority
+            fetchPriority="high"
             sizes="100vw"
             className="object-cover"
+            quality={85}
           />
         </motion.div>
       </div>

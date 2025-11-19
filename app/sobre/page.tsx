@@ -7,6 +7,15 @@ import { MIMO_COMPANY } from '@/lib/constants'
 export const metadata: Metadata = {
   title: 'sobre',
   description: 'Conheça a história da Mimo, nossos valores e nossa missão de simplificar o cuidado e devolver tempo.',
+  alternates: {
+    canonical: 'https://mimo-site.vercel.app/sobre',
+  },
+  openGraph: {
+    title: 'Sobre | Mimo Salão',
+    description: 'Conheça a história da Mimo, nossos valores e nossa missão de simplificar o cuidado e devolver tempo.',
+    url: 'https://mimo-site.vercel.app/sobre',
+    type: 'website',
+  },
 }
 
 /**
@@ -21,7 +30,7 @@ export default function SobrePage() {
   return (
     <>
       <Header />
-      <main className="pt-20">
+      <main id="main-content" className="pt-20">
         {/* Hero */}
         <section className="relative h-[50vh] min-h-[300px] flex items-center justify-center bg-mimo-neutral-light">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">

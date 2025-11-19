@@ -1,5 +1,10 @@
 import type { NextConfig } from 'next'
 
+// Bundle analyzer (only when ANALYZE env var is set)
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
+
 /**
  * configuração do next.js.
  * 
@@ -8,14 +13,14 @@ import type { NextConfig } from 'next'
  * - remotePatterns: permite imagens externas do Unsplash
  * - compress: compressão gzip/brotli habilitada
  * - poweredByHeader: remove header X-Powered-By para segurança
+ * - bundle analyzer: ativado com ANALYZE=true
  */
 const nextConfig: NextConfig = {
   output: 'standalone',
   compress: true,
   poweredByHeader: false,
   
-  // Otimizações de performance
-  swcMinify: true,
+  // Otimizações de performance (swcMinify é padrão no Next.js 15)
   
   // Headers de cache e compressão
   async headers() {
@@ -78,5 +83,5 @@ const nextConfig: NextConfig = {
   },
 }
 
-export default nextConfig
+export default withBundleAnalyzer(nextConfig)
 

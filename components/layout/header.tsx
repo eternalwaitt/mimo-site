@@ -57,7 +57,14 @@ export function Header() {
           : 'bg-transparent'
       )}
     >
-      <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Skip to main content link for keyboard navigation */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-mimo-brown focus:text-white focus:rounded-lg"
+      >
+        Pular para conteúdo principal
+      </a>
+      <nav className="container mx-auto px-4 sm:px-6 lg:px-8" aria-label="Navegação principal">
         <div className="flex items-center justify-between h-20">
           {/* Menu Esquerda */}
           <div className="hidden lg:flex items-center space-x-8 flex-1">

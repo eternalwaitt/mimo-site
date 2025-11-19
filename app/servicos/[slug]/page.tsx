@@ -35,6 +35,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${service.title} | Mimo Salão`,
     description: service.description,
+    alternates: {
+      canonical: `https://mimo-site.vercel.app/servicos/${slug}`,
+    },
+    openGraph: {
+      title: `${service.title} | Mimo Salão`,
+      description: service.description,
+      url: `https://mimo-site.vercel.app/servicos/${slug}`,
+      type: 'website',
+    },
   }
 }
 
