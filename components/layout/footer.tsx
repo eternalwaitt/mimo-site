@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { MIMO_CONTACT, MIMO_SOCIAL, MIMO_COMPANY } from '@/lib/constants'
 import { Button } from '@/components/ui/button'
 import { getWhatsAppContactUrl } from '@/lib/constants'
+import { APP_VERSION } from '@/lib/version'
 
 /**
  * footer minimalista e humano.
@@ -131,6 +132,9 @@ export function Footer() {
         <div className="border-t border-white/20 pt-8 text-center">
           <p className="font-satoshi text-xs text-white/60">
             © {new Date().getFullYear()} {MIMO_COMPANY.name}. Todos os direitos reservados.
+          </p>
+          <p className="font-satoshi text-xs text-white/40 mt-2">
+            v{APP_VERSION}
           </p>
         </div>
       </div>
