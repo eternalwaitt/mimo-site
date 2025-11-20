@@ -1,9 +1,11 @@
 name: Deploy to Locaweb
 
+# DISABLED: This workflow is for the legacy site (sitemimo/public_html)
+# which is not tracked in git. The current site is deployed via Vercel.
 on:
-  push:
-    branches: [ "main", "master" ]  # Deploy quando push em main ou master
-  workflow_dispatch:  # Permite deploy manual via GitHub UI
+  workflow_dispatch:  # Only manual runs allowed (legacy workflow)
+  # push:
+  #   branches: [ "main", "master" ]  # Disabled - legacy site not in repo
 
 jobs:
   deploy:
@@ -23,6 +25,13 @@ jobs:
           pwd
           ls -la
           echo "--- Checking sitemimo directory ---"
+          if [ ! -d "sitemimo/public_html" ]; then
+            echo "❌ ERROR: sitemimo/public_html directory does not exist"
+            echo "This workflow is for the legacy site which is not tracked in git."
+            echo "The current site is deployed via Vercel."
+            echo "If you need to deploy the legacy site, ensure sitemimo/public_html exists in the repository."
+            exit 1
+          fi
           ls -la sitemimo/ 2>&1 || echo "sitemimo directory not found"
           echo "--- Checking public_html directory ---"
           ls -la sitemimo/public_html/ 2>&1 | head -20 || echo "public_html directory not found"
