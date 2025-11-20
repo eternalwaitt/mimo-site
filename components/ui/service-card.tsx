@@ -3,6 +3,7 @@ import { ImageWithFallback } from './image-with-fallback'
 import { Button } from './button'
 import { cn } from '@/lib/utils'
 import type { Service } from '@/lib/types'
+import { MAX_HEIGHTS } from '@/lib/ui-constants'
 
 /**
  * props do componente service-card.
@@ -26,11 +27,13 @@ export function ServiceCard({ service, className }: ServiceCardProps) {
   return (
     <Link
       href={`/servicos/${service.slug}`}
+      aria-label={`Ver detalhes de ${service.title}`}
       className={cn(
         'group relative block overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-400 hover:shadow-xl hover:scale-[1.02]',
         className
       )}
     >
+      {/* aspect-[4/3] - ASPECT_RATIOS.serviceCard */}
       <div className="relative aspect-[4/3] overflow-hidden bg-mimo-neutral-light">
         <ImageWithFallback
           src={service.image}
@@ -53,7 +56,8 @@ export function ServiceCard({ service, className }: ServiceCardProps) {
           {service.price}
         </p>
 
-        <div className="opacity-0 max-h-0 overflow-hidden transition-all duration-400 group-hover:opacity-100 group-hover:max-h-32">
+        {/* max-h-[500px] - MAX_HEIGHTS.serviceCardHover */}
+        <div className="opacity-0 max-h-0 overflow-hidden transition-all duration-400 group-hover:opacity-100 group-hover:max-h-[500px]">
           <p className="font-satoshi text-mimo-blue text-sm mb-3">
             {service.description}
           </p>

@@ -1,8 +1,7 @@
 import { ImageWithFallback } from './image-with-fallback'
 import { CelebrityCardLink } from './celebrity-card-link'
 import { cn } from '@/lib/utils'
-import { getReelThumbnail } from '@/lib/get-reel-thumbnail'
-import { getCachedThumbnailPath } from '@/lib/reel-thumbnail-cache'
+import { getCelebrityImage } from '@/lib/get-celebrity-image'
 import type { Celebrity } from '@/lib/types'
 
 type CelebrityCardProps = {
@@ -30,47 +29,8 @@ export async function CelebrityCard({ celebrity, className }: CelebrityCardProps
   const linkUrl = celebrity.reelUrl || celebrity.instagram || '#'
   const hasReel = !!celebrity.reelUrl
 
-  // estratégia de fallback em camadas (mais confiável primeiro):
-  // 1. reelThumbnail explícito (se configurado manualmente)
-  // 2. cache local (/public/images/reels/)
-  // 3. oEmbed API (com retry)
-  // 4. image estática do celebrity
-  // 5. placeholder genérico
-  
-  let imageSrc = celebrity.image || '/images/placeholder.svg'
-  
-  // Garantir que imageSrc sempre seja uma string válida
-  if (!imageSrc || typeof imageSrc !== 'string') {
-    imageSrc = '/images/placeholder.svg'
-  }
-
-  // Camada 1: reelThumbnail explícito (configurado manualmente)
-  if (celebrity.reelThumbnail) {
-    imageSrc = celebrity.reelThumbnail
-  }
-  // Camada 2: cache local (mais confiável que API)
-  else if (hasReel && celebrity.reelUrl) {
-    const cachedPath = getCachedThumbnailPath(celebrity.reelUrl)
-    if (cachedPath) {
-      imageSrc = cachedPath
-    }
-    // Camada 3: oEmbed API (pode falhar, mas tentamos)
-    else {
-      try {
-        const thumbnailUrl = await getReelThumbnail(celebrity.reelUrl)
-        // Só usar thumbnail se for uma URL válida (http/https ou caminho local)
-        if (thumbnailUrl) {
-          if (thumbnailUrl.startsWith('http://') || thumbnailUrl.startsWith('https://') || thumbnailUrl.startsWith('/')) {
-            imageSrc = thumbnailUrl
-          }
-        }
-        // Se thumbnail falhar, manter imageSrc atual (já tem fallback)
-      } catch (error) {
-        // Em caso de erro, manter imageSrc atual (já tem fallback)
-        // Não logar em server component para evitar problemas
-      }
-    }
-  }
+  // Obter imagem usando estratégia de fallback em camadas
+  const imageSrc = await getCelebrityImage(celebrity)
 
   return (
     <CelebrityCardLink
@@ -84,10 +44,9 @@ export async function CelebrityCard({ celebrity, className }: CelebrityCardProps
         <ImageWithFallback
           src={imageSrc}
           alt={celebrity.imageAlt}
-          width={400}
-          height={711}
+          fill
           sizes="(max-width: 768px) 50vw, 25vw"
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          className="object-cover transition-transform duration-500 group-hover:scale-110"
         />
         
         {/* Play overlay apenas se tiver reel */}

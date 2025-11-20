@@ -1,5 +1,6 @@
 import { ServiceCard } from '@/components/ui/service-card'
 import { SERVICES } from '@/lib/constants'
+import { ANIMATION_DELAYS } from '@/lib/ui-constants'
 
 /**
  * grid de serviços - cards grandes com foto dominante.
@@ -13,7 +14,7 @@ import { SERVICES } from '@/lib/constants'
  */
 export function ServicesGrid() {
   return (
-    <section className="py-20 md:py-32 bg-white">
+    <section className="py-20 md:py-32 bg-white" style={{ contentVisibility: 'auto' }}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12 animate-fade-in-up">
           <h2 className="font-bueno text-4xl md:text-5xl font-bold text-mimo-brown mb-4">
@@ -30,7 +31,7 @@ export function ServicesGrid() {
               key={service.id}
               className="animate-fade-in-up"
               style={{ 
-                animationDelay: `${index * 0.1}s`,
+                animationDelay: `${index * ANIMATION_DELAYS.stagger}s`,
                 animationFillMode: 'both'
               }}
             >

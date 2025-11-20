@@ -5,6 +5,7 @@ import { TimeEconomy } from '@/components/sections/time-economy'
 import { ServicesGrid } from '@/components/sections/services-grid'
 import { MomentoMimo } from '@/components/sections/momento-mimo'
 import { CTAAgendamento } from '@/components/sections/cta-agendamento'
+import { ErrorBoundary } from '@/components/error-boundary'
 
 /**
  * home page - integra todas as seções na ordem especificada.
@@ -24,11 +25,21 @@ export default function HomePage() {
     <>
       <Header />
       <main id="main-content">
-        <HeroManifesto />
-        <TimeEconomy />
-        <ServicesGrid />
-        <MomentoMimo />
-        <CTAAgendamento />
+        <ErrorBoundary>
+          <HeroManifesto />
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <TimeEconomy />
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <ServicesGrid />
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <MomentoMimo />
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <CTAAgendamento />
+        </ErrorBoundary>
       </main>
       <Footer />
     </>

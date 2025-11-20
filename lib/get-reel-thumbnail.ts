@@ -2,11 +2,12 @@
  * busca thumbnail de Instagram Reel via oEmbed API com retry e fallbacks.
  * 
  * estratégia de múltiplas camadas:
- * 1. verifica cache local primeiro (mais confiável)
- * 2. tenta oEmbed API oficial com retry e backoff exponencial
- * 3. tenta variações de URL do oEmbed
+ * 1. verifica cache em memória (durante o mesmo request)
+ * 2. verifica cache local (arquivos em /public/images/reels/)
+ * 3. tenta oEmbed API oficial com retry e backoff exponencial
+ * 4. tenta variações de URL do oEmbed
  * 
- * usa cache do Next.js para evitar múltiplas requisições.
+ * usa cache do Next.js para evitar múltiplas requisições entre requests.
  * 
  * @param reelUrl - URL completa do reel
  * @returns URL do thumbnail ou null
@@ -15,6 +16,9 @@ import { getCachedThumbnailPath } from './reel-thumbnail-cache'
 
 const MAX_RETRIES = 3
 const INITIAL_DELAY = 1000 // 1 segundo
+
+// Cache em memória para o mesmo request (evita múltiplas chamadas durante SSR)
+const memoryCache = new Map<string, Promise<string | null>>()
 
 /**
  * delay com backoff exponencial.
@@ -83,11 +87,18 @@ async function tryOEmbed(
 }
 
 export async function getReelThumbnail(reelUrl: string): Promise<string | null> {
-  // Camada 1: Verificar cache local primeiro (mais confiável)
-  const cachedPath = getCachedThumbnailPath(reelUrl)
-  if (cachedPath) {
-    return cachedPath
+  // Camada 0: Verificar cache em memória (durante o mesmo request)
+  if (memoryCache.has(reelUrl)) {
+    return memoryCache.get(reelUrl)!
   }
+
+  // Criar promise e adicionar ao cache antes de executar
+  const promise = (async () => {
+    // Camada 1: Verificar cache local primeiro (mais confiável)
+    const cachedPath = getCachedThumbnailPath(reelUrl)
+    if (cachedPath) {
+      return cachedPath
+    }
 
   // Camada 2: Tentar oEmbed API padrão com retry
   const thumbnail1 = await tryOEmbed(
@@ -116,8 +127,19 @@ export async function getReelThumbnail(reelUrl: string): Promise<string | null> 
     return thumbnail3
   }
 
-  // Se todos os métodos falharem, retornar null
-  // O CelebrityCard vai usar o fallback (imagem estática ou placeholder)
-  return null
+    // Se todos os métodos falharem, retornar null
+    // O CelebrityCard vai usar o fallback (imagem estática ou placeholder)
+    return null
+  })()
+
+  // Adicionar ao cache em memória
+  memoryCache.set(reelUrl, promise)
+
+  // Limpar cache após 5 minutos (evitar memory leak em long-running processes)
+  setTimeout(() => {
+    memoryCache.delete(reelUrl)
+  }, 5 * 60 * 1000)
+
+  return promise
 }
 

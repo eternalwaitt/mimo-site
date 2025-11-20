@@ -59,6 +59,7 @@ export function ImageWithFallback({
 }: ImageWithFallbackProps) {
   const [imgSrc, setImgSrc] = useState(src)
   const [hasError, setHasError] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   const handleError = () => {
     if (!hasError) {
@@ -74,18 +75,24 @@ export function ImageWithFallback({
 
   if (fill) {
     return (
-      <Image
-        src={imgSrc}
-        alt={alt}
-        fill
-        className={cn('object-cover', className)}
-        priority={priority}
-        fetchPriority={fetchPriority}
-        sizes={sizes}
-        quality={quality}
-        onError={handleError}
-        style={placeholderStyle}
-      />
+      <div className="relative w-full h-full">
+        {isLoading && !hasError && (
+          <div className="absolute inset-0 bg-mimo-neutral-light animate-pulse" />
+        )}
+        <Image
+          src={imgSrc}
+          alt={alt}
+          fill
+          className={cn('object-cover', isLoading && !hasError && 'opacity-0', className)}
+          priority={priority}
+          fetchPriority={fetchPriority}
+          sizes={sizes}
+          quality={quality}
+          onError={handleError}
+          onLoad={() => setIsLoading(false)}
+          style={placeholderStyle}
+        />
+      </div>
     )
   }
 
@@ -94,18 +101,24 @@ export function ImageWithFallback({
   }
 
   return (
-    <Image
-      src={imgSrc}
-      alt={alt}
-      width={width}
-      height={height}
-      className={cn(`object-${objectFit}`, className)}
-      priority={priority}
-      fetchPriority={fetchPriority}
-      sizes={sizes}
-      quality={quality}
-      onError={handleError}
-    />
+    <div className="relative" style={{ width, height }}>
+      {isLoading && !hasError && (
+        <div className="absolute inset-0 bg-mimo-neutral-light animate-pulse rounded" />
+      )}
+      <Image
+        src={imgSrc}
+        alt={alt}
+        width={width}
+        height={height}
+        className={cn(`object-${objectFit}`, isLoading && !hasError && 'opacity-0', className)}
+        priority={priority}
+        fetchPriority={fetchPriority}
+        sizes={sizes}
+        quality={quality}
+        onError={handleError}
+        onLoad={() => setIsLoading(false)}
+      />
+    </div>
   )
 }
 

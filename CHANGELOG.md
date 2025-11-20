@@ -5,6 +5,46 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+## [1.4.0] - 2025-01-20
+
+### Added
+- Menu mobile completo com drawer animado no Header
+- ErrorBoundary component para capturar erros em componentes filhos
+- Skeleton loaders para imagens durante carregamento
+- Cache em memória para thumbnails de reels (evita múltiplas chamadas durante SSR)
+- Rate limiting na API route de thumbnails do Instagram
+- Metadata dinâmica rica para páginas de serviço (Open Graph, Twitter Cards, keywords)
+- Structured data (Service schema.org) para páginas de serviço
+- Constantes de UI centralizadas (`lib/ui-constants.ts`) para aspect ratios, delays de animação, etc
+- Helper function `getCelebrityImage` para lógica de fallback de imagens tipada
+
+### Changed
+- `CelebrityCard` otimizado para usar `fill` ao invés de dimensões fixas (melhor responsividade)
+- `ServicesGrid` com `content-visibility: auto` para melhor performance
+- `ServiceCard` com max-height aumentado (500px) para não cortar conteúdo no hover
+- `constants.ts` dividido em módulos menores:
+  - `lib/constants/contact.ts` - informações de contato e empresa
+  - `lib/constants/home.ts` - copy da home
+  - `lib/constants/services.ts` - serviços
+  - `lib/constants/celebrities.ts` - celebridades/influencers
+  - `lib/constants/jobs.ts` - vagas e benefícios
+  - `lib/constants/index.ts` - re-exporta tudo (mantém compatibilidade)
+- Lógica de fallback de imagens extraída para função helper reutilizável
+- API route de thumbnails com cache headers (24h) e rate limiting (10 req/min)
+- Animações usando constantes centralizadas ao invés de magic numbers
+
+### Fixed
+- Imagem de Esmalteria agora preenche container corretamente (usando `fill`)
+- ServiceCard não corta mais conteúdo no hover (max-h aumentado)
+- Links externos auditados - todos já tinham `rel="noopener noreferrer"` corretamente
+- Acessibilidade melhorada com aria-labels em ServiceCard
+
+### Performance
+- Otimização de imagens com skeleton loaders (melhor UX durante carregamento)
+- Cache em memória reduz chamadas duplicadas durante SSR
+- Content-visibility em seções abaixo do fold para melhor performance de scroll
+- Documentado code-split automático do framer-motion pelo Next.js
+
 ## [1.3.0] - 2025-01-19
 
 ### Added

@@ -3,6 +3,8 @@
 /* eslint-disable no-restricted-imports */
 // Framer Motion usado aqui para animações complexas em página de serviço (não home)
 // Hero usa whileInView para animar apenas quando visível (não bloqueia LCP)
+// Next.js faz code-split automático deste client component, então framer-motion
+// só é carregado quando esta página é acessada (não na home)
 import { motion } from 'framer-motion'
 /* eslint-enable no-restricted-imports */
 import { Button } from '@/components/ui/button'

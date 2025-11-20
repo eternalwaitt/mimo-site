@@ -20,6 +20,7 @@ import { cn } from '@/lib/utils'
  */
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     /**
@@ -164,26 +165,99 @@ export function Header() {
 
               <button
                 className="p-2 text-mimo-brown"
-                aria-label="Menu"
+                aria-label={isMobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
+                aria-expanded={isMobileMenuOpen}
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
+                {isMobileMenuOpen ? (
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 6h16M4 12h16M4 18h16"
+                    />
+                  </svg>
+                )}
               </button>
             </div>
           </div>
         </div>
       </nav>
+
+      {/* Mobile Menu Drawer */}
+      {isMobileMenuOpen && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+            onClick={() => setIsMobileMenuOpen(false)}
+            aria-hidden="true"
+          />
+          {/* Drawer */}
+          <div
+            className={cn(
+              'fixed top-20 left-0 right-0 bg-white z-50 lg:hidden shadow-xl transform transition-transform duration-300 ease-in-out',
+              isMobileMenuOpen ? 'translate-y-0' : '-translate-y-full'
+            )}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menu de navegação"
+          >
+            <nav className="container mx-auto px-4 py-6">
+              <div className="space-y-4">
+                {menuItemsLeft.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="block font-satoshi text-lg text-mimo-blue hover:text-mimo-brown transition-colors py-2"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+                {menuItemsRight.map((item) => (
+                  <div key={item.href} className="py-2">
+                    {item.comingSoon ? (
+                      <span className="font-satoshi text-lg text-mimo-blue/50 flex items-center gap-2">
+                        {item.label}
+                        <span className="text-xs text-mimo-gold">👀 Em breve</span>
+                      </span>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        className="block font-satoshi text-lg text-mimo-blue hover:text-mimo-brown transition-colors"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        {item.label}
+                      </Link>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </nav>
+          </div>
+        </>
+      )}
     </header>
   )
 }

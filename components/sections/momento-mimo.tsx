@@ -1,5 +1,6 @@
 import { CelebrityCard } from '@/components/ui/celebrity-card'
 import { CELEBRITIES } from '@/lib/constants'
+import { ANIMATION_DELAYS } from '@/lib/ui-constants'
 
 /**
  * seção #MomentoMIMO - grid de celebridades e influencers.
@@ -21,7 +22,7 @@ export async function MomentoMimo() {
         key={celebrity.id}
         className="animate-fade-in-scale"
         style={{ 
-          animationDelay: `${index * 0.1}s`,
+          animationDelay: `${index * ANIMATION_DELAYS.stagger}s`,
           animationFillMode: 'both'
         }}
       >
