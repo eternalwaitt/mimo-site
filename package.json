@@ -1,6 +1,6 @@
 {
   "name": "mimo-site",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -13,6 +13,7 @@
     "lighthouse:home": "node scripts/lighthouse-ci.js",
     "lighthouse:ci": "CI=true node scripts/lighthouse-ci.js",
     "pre-deploy": "node scripts/pre-deploy-check.js",
+    "download-reels": "node scripts/download-reel-thumbnails.js --all",
     "prepare": "husky"
   },
   "lint-staged": {

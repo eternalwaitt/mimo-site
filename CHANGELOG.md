@@ -5,6 +5,25 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+## [1.3.0] - 2025-01-19
+
+### Added
+- Suporte para thumbnails de posts do Instagram (além de reels)
+- Thumbnails locais para influencers:
+  - Bruna Huli (DBACXKPOvd0.webp)
+  - Karol Queiroz (C9h0HUXxDth.webp)
+  - Let Vasconcelos (DElH799vrV5.webp)
+- Sistema de cache local de thumbnails (`lib/reel-thumbnail-cache.ts`)
+- Script de download de thumbnails (`scripts/download-reel-thumbnails.js`)
+
+### Changed
+- `extractReelId` agora suporta tanto `/reel/` quanto `/p/` (posts)
+- Lista de celebridades atualizada: removidos clientes, mantidos apenas influencers
+- `CelebrityCard` prioriza cache local antes de tentar API oEmbed
+
+### Fixed
+- Thumbnail da Let Vasconcelos agora funciona corretamente (suporte a posts)
+
 ## [1.2.0] - 2025-01-29
 
 ### Added

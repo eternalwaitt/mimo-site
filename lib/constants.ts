@@ -284,18 +284,20 @@ export const CELEBRITIES: Array<{
   service: string
   instagram?: string
   reelUrl?: string
+  reelThumbnail?: string // caminho local para thumbnail (ex: /images/reels/DBACXKPOvd0.webp)
   quote?: string
 }> = [
   {
     id: 'brunahuli',
     name: 'Bruna Huli',
-    // Se tiver reelUrl, o CelebrityCard vai buscar thumbnail automático
-    // Fallback para placeholder se não conseguir
+    // reelUrl pode ser usado para buscar thumbnail via API ou cache local
+    // reelThumbnail pode ser configurado manualmente se já tiver a imagem baixada
     image: '/images/placeholder.svg',
     imageAlt: 'Bruna Huli - influencer Mimo',
     service: 'Salão',
     instagram: 'https://www.instagram.com/brunahuli/',
     reelUrl: 'https://www.instagram.com/reel/DBACXKPOvd0/',
+    // reelThumbnail: '/images/reels/DBACXKPOvd0.webp', // descomente quando tiver a imagem baixada
   },
   {
     id: 'tainacosta',
@@ -308,18 +310,20 @@ export const CELEBRITIES: Array<{
   {
     id: 'karolqueiroz',
     name: 'Karol Queiroz',
-    image: '/images/depo/karolqueiroz.webp',
+    image: '/images/placeholder.svg',
     imageAlt: 'Karol Queiroz - influencer Mimo',
     service: 'Salão',
     instagram: 'https://www.instagram.com/karolqueiroz/',
+    reelUrl: 'https://www.instagram.com/reel/C9h0HUXxDth/',
   },
   {
     id: 'letvasconcelos',
     name: 'Let Vasconcelos',
-    image: '/images/depo/letvasconcelos.webp',
+    image: '/images/placeholder.svg',
     imageAlt: 'Let Vasconcelos - influencer Mimo',
     service: 'Salão',
     instagram: 'https://www.instagram.com/letvasconcelos/',
+    reelUrl: 'https://www.instagram.com/p/DElH799vrV5/',
   },
   {
     id: 'pathydosreis',
@@ -336,48 +340,6 @@ export const CELEBRITIES: Array<{
     imageAlt: 'Fred Nicacio - influencer Mimo',
     service: 'Salão',
     instagram: 'https://www.instagram.com/frednicacio/',
-  },
-  {
-    id: 'amanda',
-    name: 'Amanda',
-    image: '/images/depo/amanda.webp',
-    imageAlt: 'Amanda - cliente Mimo',
-    service: 'Salão',
-  },
-  {
-    id: 'barbara',
-    name: 'Bárbara',
-    image: '/images/depo/barbara.webp',
-    imageAlt: 'Bárbara - cliente Mimo',
-    service: 'Esmalteria',
-  },
-  {
-    id: 'cathamendonca',
-    name: 'Cath Mendonça',
-    image: '/images/depo/cathamendonca.webp',
-    imageAlt: 'Cath Mendonça - cliente Mimo',
-    service: 'Salão',
-  },
-  {
-    id: 'livcordeiro',
-    name: 'Liv Cordeiro',
-    image: '/images/depo/livcordeiro.webp',
-    imageAlt: 'Liv Cordeiro - cliente Mimo',
-    service: 'Cílios',
-  },
-  {
-    id: 'mamoderoso',
-    name: 'Mamó de Roso',
-    image: '/images/depo/mamoderoso.webp',
-    imageAlt: 'Mamó de Roso - cliente Mimo',
-    service: 'Salão',
-  },
-  {
-    id: 'pdamora',
-    name: 'P. D\'Amora',
-    image: '/images/depo/pdamora.webp',
-    imageAlt: 'P. D\'Amora - cliente Mimo',
-    service: 'Esmalteria',
   },
 ]
 

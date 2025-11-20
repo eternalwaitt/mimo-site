@@ -34,6 +34,7 @@ export type Celebrity = {
   service: string
   instagram?: string
   reelUrl?: string
+  reelThumbnail?: string // caminho local para thumbnail (ex: /images/reels/DBACXKPOvd0.webp)
   quote?: string
 }
 
