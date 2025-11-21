@@ -10,12 +10,12 @@ Se você está vendo essa mensagem no Google Analytics, siga estes passos:
 1. Acesse o dashboard do Vercel
 2. Vá em Settings > Environment Variables
 3. Verifique se `NEXT_PUBLIC_GA_MEASUREMENT_ID` está configurado
-4. Valor deve ser: `G-H4JTDSJPSQ` (sem aspas)
+4. Valor deve ser: `G-KN32FXHXW8` (sem aspas)
 5. Se não estiver, adicione e faça um novo deploy
 
 **Localmente:**
 1. Verifique se `.env.local` existe na raiz do projeto
-2. Deve conter: `NEXT_PUBLIC_GA_MEASUREMENT_ID=G-H4JTDSJPSQ`
+2. Deve conter: `NEXT_PUBLIC_GA_MEASUREMENT_ID=G-KN32FXHXW8`
 3. Reinicie o servidor (`npm run dev`)
 
 ### 2. Verificar se o Script Está Carregando
@@ -47,8 +47,8 @@ Se não aparecer, o script não está carregando.
 2. View Source (Ctrl+U ou Cmd+Option+U)
 3. Procure por "G-H4JTDSJPSQ" no HTML
 4. Deve aparecer em dois lugares:
-   - No script src: `https://www.googletagmanager.com/gtag/js?id=G-H4JTDSJPSQ`
-   - No script inline com `gtag('config', 'G-H4JTDSJPSQ')`
+- No script src: `https://www.googletagmanager.com/gtag/js?id=G-KN32FXHXW8`
+- No script inline com `gtag('config', 'G-KN32FXHXW8')`
 
 ### 5. Testar em Produção
 

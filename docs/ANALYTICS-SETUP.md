@@ -10,7 +10,7 @@ Crie um arquivo `.env.local` na raiz do projeto com as seguintes variáveis:
 # Google Analytics 4 (GA4)
 # Obtenha seu Measurement ID em https://analytics.google.com
 # Formato: G-XXXXXXXXXX
-NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-KN32FXHXW8
 
 # Microsoft Clarity
 # Obtenha seu project ID em https://clarity.microsoft.com
@@ -35,7 +35,8 @@ NEXT_PUBLIC_CLARITY_PROJECT_ID=your_project_id_here
    - URL do site: `https://minhamimo.com.br`
    - Nome do fluxo: "Mimo Site"
 5. Copie o **Measurement ID** (formato: `G-XXXXXXXXXX`)
-6. Adicione `NEXT_PUBLIC_GA_MEASUREMENT_ID` no `.env.local`
+   - ID atual: `G-KN32FXHXW8`
+6. Adicione `NEXT_PUBLIC_GA_MEASUREMENT_ID=G-KN32FXHXW8` no `.env.local` ou nas variáveis de ambiente do Vercel
 
 **⚠️ Importante - Banner de Consentimento (LGPD/GDPR):**
 
@@ -147,6 +148,7 @@ A API de eventos (`trackEvent`, `trackCTAClick`, etc) foi projetada para ser pro
 
 ### Eventos não aparecem no Google Analytics
 - Verifique se `NEXT_PUBLIC_GA_MEASUREMENT_ID` está configurado corretamente (formato: `G-XXXXXXXXXX`)
+- ID atual: `G-KN32FXHXW8`
 - Verifique se o script está carregando (Network tab no DevTools)
 - Verifique o console do browser por erros
 - No GA4, vá em Relatórios > Tempo Real para ver eventos imediatamente
