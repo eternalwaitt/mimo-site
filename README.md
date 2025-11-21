@@ -49,7 +49,13 @@ mimo-site/
 │   ├── sections/          # Seções da home
 │   └── ui/                # Componentes reutilizáveis
 ├── lib/
-│   ├── constants.ts       # Dados e constantes
+│   ├── constants/         # Constantes organizadas por módulo
+│   │   ├── index.ts      # Re-exporta todos os módulos
+│   │   ├── services.ts   # Serviços
+│   │   ├── celebrities.ts # Celebridades/influencers
+│   │   ├── jobs.ts       # Vagas
+│   │   ├── contact.ts    # Contato e empresa
+│   │   └── home.ts       # Copy da home
 │   ├── utils.ts           # Funções utilitárias
 │   └── types.ts           # Tipos TypeScript
 └── public/
@@ -83,7 +89,7 @@ Componente `OrganicShape` com variants:
 
 ### Adicionar Novo Serviço
 
-1. Editar `lib/constants.ts` e adicionar ao array `SERVICES`:
+1. Editar `lib/constants/services.ts` e adicionar ao array `SERVICES`:
 
 ```typescript
 {
@@ -106,7 +112,7 @@ Componente `OrganicShape` com variants:
 
 ### Adicionar Celebridade ao #MomentoMIMO
 
-1. Editar `lib/constants.ts` e adicionar ao array `CELEBRITIES`:
+1. Editar `lib/constants/celebrities.ts` e adicionar ao array `CELEBRITIES`:
 
 ```typescript
 {
@@ -121,7 +127,7 @@ Componente `OrganicShape` com variants:
 
 ### Adicionar Vaga em Aberto
 
-1. Editar `lib/constants.ts` e adicionar ao array `JOB_OPENINGS`:
+1. Editar `lib/constants/jobs.ts` e adicionar ao array `JOB_OPENINGS`:
 
 ```typescript
 {
@@ -250,6 +256,34 @@ Veja [`docs/README.md`](./docs/README.md) para índice completo.
 
 Este projeto mantém **Performance ≥95** e **LCP <2.5s** em todas as páginas.
 
+### 🎯 Performance Budget
+
+- **Performance Score**: ≥95 (Lighthouse mobile)
+- **LCP**: <2.5s
+- **FCP**: <1.8s
+- **TBT**: <200ms
+- **CLS**: <0.1
+- **Unused JS**: <60 KiB
+- **Home JS Bundle**: ≤125 KiB (first load, mobile)
+- **Hero Image**: ≤30 KiB (mobile, WebP/AVIF)
+
+### 🚀 Otimização de Performance para Novos Projetos
+
+**Para garantir que futuros projetos sigam os mesmos padrões de performance:**
+
+1. **Use o template de prompt**: [`docs/performance/PERFORMANCE-PROMPT-TEMPLATE.md`](./docs/performance/PERFORMANCE-PROMPT-TEMPLATE.md)
+   - Copie o prompt completo para o início da conversa com Cursor/AI
+   - O prompt guia todo o processo de otimização passo a passo
+   - Garante que todas as metas sejam atingidas antes de encerrar
+
+2. **Siga o processo documentado**:
+   - Baseline local → Bundle analysis → Server/Client islands → Reduzir JS → Otimizar LCP → Analytics → CI guardrails
+   - Cada etapa tem comandos específicos e critérios de sucesso
+
+3. **Use `.cursorrules`**: Este projeto já tem regras de performance configuradas
+   - Cursor automaticamente sugere otimizações baseadas nessas regras
+   - Metas e padrões estão documentados no arquivo
+
 ### Quick Checklist
 
 Antes de criar uma nova página:
@@ -257,27 +291,21 @@ Antes de criar uma nova página:
 - [ ] Usei template de `docs/templates/`
 - [ ] Validei com `npm run pre-deploy`
 
-### Performance Budget
-
-- **Home JS Bundle**: ≤150 KiB (first load, mobile)
-- **Other Pages**: ≤200 KiB (first load, mobile)
-- **Hero Image**: ≤200 KiB (mobile, WebP/AVIF)
-- **LCP**: <2.5s (Lighthouse Slow 4G)
-- **FCP**: <1.5s
-- **TBT**: <200ms
-- **CLS**: <0.1
-
 ### Validação Automática
 
 - **Pre-commit**: Valida lint e type-check automaticamente
 - **CI/CD**: Valida build e Lighthouse em cada PR
 - **Quality Gates**: Performance ≥95, LCP <2.5s
+- **Lighthouse Local**: `DISABLE_ANALYTICS=true npm run lighthouse:local`
 
-### Recursos
+### 📚 Recursos de Performance
 
-- 📖 **Guia Completo**: [`docs/ADDING-NEW-PAGES.md`](./docs/ADDING-NEW-PAGES.md)
+- 🎯 **Performance Guide**: [`docs/performance/PERFORMANCE-GUIDE.md`](./docs/performance/PERFORMANCE-GUIDE.md)
+- 📋 **Prompt Template**: [`docs/performance/PERFORMANCE-PROMPT-TEMPLATE.md`](./docs/performance/PERFORMANCE-PROMPT-TEMPLATE.md) ⭐ **Use para novos projetos**
+- 📊 **Relatório de Otimização**: [`docs/performance/PERFORMANCE-OPTIMIZATION-REPORT.md`](./docs/performance/PERFORMANCE-OPTIMIZATION-REPORT.md)
+- 📈 **Baseline Atual**: [`docs/perf-baseline.md`](./docs/perf-baseline.md)
 - ✅ **Checklist Rápido**: [`docs/PERFORMANCE-CHECKLIST.md`](./docs/PERFORMANCE-CHECKLIST.md)
-- 🎯 **Performance Guide**: [`docs/performance-guide-mimo.md`](./docs/performance-guide-mimo.md)
+- 📖 **Guia Completo**: [`docs/ADDING-NEW-PAGES.md`](./docs/ADDING-NEW-PAGES.md)
 - 📝 **Templates**: [`docs/templates/`](./docs/templates/)
 
 ## 🧪 Scripts Disponíveis

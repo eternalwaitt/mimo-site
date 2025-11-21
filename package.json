@@ -1,6 +1,6 @@
 {
   "name": "mimo-site",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -11,9 +11,14 @@
     "pagespeed": "node scripts/pagespeed-test.js",
     "analyze": "ANALYZE=true next build",
     "lighthouse:home": "node scripts/lighthouse-ci.js",
+    "lighthouse:local": "node scripts/lighthouse-local.js",
     "lighthouse:ci": "CI=true node scripts/lighthouse-ci.js",
     "pre-deploy": "node scripts/pre-deploy-check.js",
     "download-reels": "node scripts/download-reel-thumbnails.js --all",
+    "check-bundle": "node scripts/check-bundle-size.js",
+    "pagespeed:local": "node scripts/pagespeed-local.js",
+    "optimize-images": "node scripts/optimize-images.js",
+    "download-gallery": "node scripts/download-gallery-images.js",
     "prepare": "husky"
   },
   "lint-staged": {

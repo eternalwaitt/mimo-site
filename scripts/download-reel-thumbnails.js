@@ -300,15 +300,26 @@ async function main() {
     // Baixar todos os reels configurados
     try {
       // Importar constants (precisa ser dinâmico pois é TypeScript)
-      const constantsPath = path.join(__dirname, '../lib/constants.ts')
-      const constantsContent = fs.readFileSync(constantsPath, 'utf-8')
+      // Tenta celebrities.ts primeiro, depois constants/index.ts como fallback
+      const celebritiesPath = path.join(__dirname, '../lib/constants/celebrities.ts')
+      const constantsPath = path.join(__dirname, '../lib/constants/index.ts')
+      
+      let constantsContent = ''
+      if (fs.existsSync(celebritiesPath)) {
+        constantsContent = fs.readFileSync(celebritiesPath, 'utf-8')
+      } else if (fs.existsSync(constantsPath)) {
+        constantsContent = fs.readFileSync(constantsPath, 'utf-8')
+      } else {
+        console.log('❌ Arquivo de constants não encontrado')
+        return
+      }
 
       // Extrair reelUrls do arquivo (hack simples, mas funciona)
       const reelUrlMatches = constantsContent.matchAll(/reelUrl:\s*['"]([^'"]+)['"]/g)
       const reelUrls = Array.from(reelUrlMatches).map(m => m[1])
 
       if (reelUrls.length === 0) {
-        console.log('ℹ️  Nenhum reelUrl encontrado em constants.ts')
+        console.log('ℹ️  Nenhum reelUrl encontrado em constants/celebrities.ts')
         return
       }
 

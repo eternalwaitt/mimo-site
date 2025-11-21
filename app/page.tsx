@@ -1,12 +1,40 @@
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
 import { HeroManifesto } from '@/components/sections/hero-manifesto'
-import { TimeEconomy } from '@/components/sections/time-economy'
-import { ServicesGrid } from '@/components/sections/services-grid'
-import { MomentoMimo } from '@/components/sections/momento-mimo'
-import { CTAAgendamento } from '@/components/sections/cta-agendamento'
-import { ErrorBoundary } from '@/components/error-boundary'
-import { AnalyticsPageTracker } from '@/components/analytics-page-tracker'
+import dynamic from 'next/dynamic'
+
+// Lazy load AnalyticsPageTracker (não crítico para LCP)
+const AnalyticsPageTracker = dynamic(
+  () => import('@/components/analytics-page-tracker').then(mod => ({ default: mod.AnalyticsPageTracker })),
+  { ssr: true } // SSR mantido para melhor SEO
+)
+
+// Lazy load ErrorBoundary (não crítico para LCP)
+const ErrorBoundary = dynamic(
+  () => import('@/components/error-boundary').then(mod => ({ default: mod.ErrorBoundary })),
+  { ssr: true }
+)
+
+// Lazy load componentes abaixo do fold para melhorar LCP e reduzir bundle inicial
+const TimeEconomy = dynamic(
+  () => import('@/components/sections/time-economy').then(mod => ({ default: mod.TimeEconomy })),
+  { ssr: true }
+)
+
+const ServicesGrid = dynamic(
+  () => import('@/components/sections/services-grid').then(mod => ({ default: mod.ServicesGrid })),
+  { ssr: true }
+)
+
+const MomentoMimo = dynamic(
+  () => import('@/components/sections/momento-mimo').then(mod => ({ default: mod.MomentoMimo })),
+  { ssr: true }
+)
+
+const CTAAgendamento = dynamic(
+  () => import('@/components/sections/cta-agendamento').then(mod => ({ default: mod.CTAAgendamento })),
+  { ssr: true }
+)
 
 /**
  * home page - integra todas as seções na ordem especificada.

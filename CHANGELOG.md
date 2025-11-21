@@ -5,6 +5,27 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+## [1.5.1] - 2025-01-30
+
+### Fixed
+- Menu mobile não abria (timeout ao clicar) - refatorado HeaderClient para injetar controles via DOM
+- Imagens quebradas sem fallback adequado - melhorado fallback para usar placeholder.svg
+- Texto muito pequeno em mobile (< 14px) - adicionado CSS para garantir mínimo de 14px
+- Área de toque pequena em botões mobile (< 44x44px) - adicionado CSS para garantir mínimo de 44x44px
+- Favicon 404 - criado favicon.ico e adicionado links no layout
+
+### Changed
+- `components/layout/header-client.tsx` - Refatorado para injetar controles mobile via DOM (sem portal)
+- `components/ui/image-with-fallback.tsx` - Fallback melhorado usando placeholder.svg
+- `app/globals.css` - Adicionadas regras de acessibilidade mobile (texto min 14px, touch targets min 44x44px)
+- `app/layout.tsx` - Favicon adicionado e preloads otimizados com media queries
+- `docs/UX-TEST-REPORT.md` - Relatório completo de testes e correções
+
+### Technical
+- Menu mobile agora funciona corretamente com z-index adequado e event listeners corretos
+- Acessibilidade melhorada conforme WCAG 2.1 (tamanho de texto e área de toque)
+- Preloads otimizados com media queries para mobile/desktop separados
+
 ## [1.5.0] - 2025-01-29
 
 ### Added

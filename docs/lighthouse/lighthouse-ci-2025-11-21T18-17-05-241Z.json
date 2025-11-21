@@ -1,0 +1,56 @@
+{
+  "timestamp": "2025-11-21T18:17:05.242Z",
+  "baseUrl": "https://mimo-site.vercel.app",
+  "minScore": 95,
+  "results": {
+    "mobile": {
+      "scores": {
+        "performance": 84,
+        "accessibility": 96,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "performanceMetrics": {
+        "lcp": 4079.8848126943126,
+        "cls": 0,
+        "tbt": 85,
+        "fcp": 1218.894304760367,
+        "tti": 4094.3838634877075
+      },
+      "opportunities": [
+        {
+          "id": "unused-javascript",
+          "title": "Reduce unused JavaScript",
+          "score": 0,
+          "numericValue": 600,
+          "displayValue": "Est savings of 60 KiB"
+        }
+      ]
+    },
+    "desktop": {
+      "scores": {
+        "performance": 98,
+        "accessibility": 96,
+        "best-practices": 96,
+        "seo": 100
+      },
+      "performanceMetrics": {
+        "lcp": 1033.1640791994969,
+        "cls": 0,
+        "tbt": 31,
+        "fcp": 246.561609223411,
+        "tti": 1033.1640791994969
+      },
+      "opportunities": [
+        {
+          "id": "unused-javascript",
+          "title": "Reduce unused JavaScript",
+          "score": 0,
+          "numericValue": 70,
+          "displayValue": "Est savings of 60 KiB"
+        }
+      ]
+    }
+  },
+  "passed": false
+}

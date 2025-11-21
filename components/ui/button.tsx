@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { cn } from '@/lib/utils'
 import type { ReactNode } from 'react'
 
 /**
@@ -50,7 +49,9 @@ export function Button({
     whatsapp: 'bg-mimo-brown text-white hover:bg-[#3a2519] active:scale-95',
   }
 
-  const styles = cn(baseStyles, variants[variant], className)
+  // Concatenação simples de classes - remove dependência de cn/clsx/tailwind-merge
+  // Reduz bundle em ~2-5 KB
+  const styles = [baseStyles, variants[variant], className].filter(Boolean).join(' ')
 
   if (href) {
     if (external) {

@@ -2,15 +2,16 @@
 
 import { useEffect } from 'react'
 import { usePathname } from 'next/navigation'
+import { trackPageView } from '@/lib/analytics'
 
 /**
- * provider de analytics que inicializa google analytics 4 (ga4).
+ * provider de analytics que inicializa plausible.
  * 
- * - carrega gtag apenas se NEXT_PUBLIC_GA_MEASUREMENT_ID estiver configurado
+ * - script do plausible é carregado via Next.js Script component em layout.tsx
  * - tracking automático de pageviews (atualiza quando rota muda)
  * - eventos customizados via trackEvent()
  * 
- * nota: google analytics requer banner de consentimento (lgpd/gdpr).
+ * nota: plausible é privacy-friendly e não requer banner de consentimento (lgpd/gdpr).
  * 
  * @returns {null} componente não renderiza nada
  */
@@ -18,37 +19,30 @@ export function AnalyticsProvider() {
   const pathname = usePathname()
 
   useEffect(() => {
-    const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
-
-    if (!gaId || typeof window === 'undefined') {
+    // não carregar se analytics estiver desabilitado
+    if (process.env.DISABLE_ANALYTICS === 'true') {
       return
     }
 
-    // inicializa dataLayer se não existir
-    if (!window.dataLayer) {
-      window.dataLayer = []
+    const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN
+
+    if (!plausibleDomain || typeof window === 'undefined') {
+      return
     }
 
-    // pega query string do window.location (não precisa de useSearchParams)
-    const search = typeof window !== 'undefined' ? window.location.search : ''
-
-    // inicializa gtag se não existir
-    if (!window.gtag) {
-      window.gtag = function (...args: Array<unknown>) {
-        window.dataLayer?.push(args as unknown as Record<string, unknown>)
+    // aguarda script do plausible carregar (carregado via Next.js Script em layout.tsx)
+    const checkPlausible = () => {
+      if (window.plausible) {
+        // tracka pageview quando rota muda
+        trackPageView(pathname)
+      } else {
+        // tenta novamente após um delay se plausible ainda não estiver disponível
+        setTimeout(checkPlausible, 100)
       }
-      window.gtag('js', new Date())
-      window.gtag('config', gaId, {
-        page_path: pathname + search,
-      })
-    } else {
-      // atualiza pageview quando rota muda
-      window.gtag('config', gaId, {
-        page_path: pathname + search,
-      })
     }
+
+    checkPlausible()
   }, [pathname])
 
   return null
 }
-

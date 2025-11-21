@@ -1,7 +1,6 @@
 import Link from 'next/link'
-import { MIMO_CONTACT, MIMO_SOCIAL, MIMO_COMPANY } from '@/lib/constants'
+import { MIMO_CONTACT, MIMO_SOCIAL, MIMO_COMPANY, getWhatsAppContactUrl } from '@/lib/constants/index'
 import { Button } from '@/components/ui/button'
-import { getWhatsAppContactUrl } from '@/lib/constants'
 import { APP_VERSION } from '@/lib/version'
 
 /**

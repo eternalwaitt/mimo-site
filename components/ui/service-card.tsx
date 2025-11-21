@@ -22,6 +22,28 @@ type ServiceCardProps = {
  * - revela descrição completa e botão "Ver detalhes" no hover
  * - link para subpáginas de cada serviço
  * - animações suaves com scale e opacity
+ * 
+ * @param {ServiceCardProps} props - props do componente
+ * @param {Service} props.service - dados do serviço a ser exibido
+ * @param {string} [props.className] - classes CSS adicionais
+ * @returns {JSX.Element} card de serviço com imagem, título, preço e link
+ * 
+ * @example
+ * ```tsx
+ * <ServiceCard 
+ *   service={{
+ *     id: 'salao',
+ *     slug: 'salao',
+ *     title: 'Salão',
+ *     description: 'Cortes e coloração...',
+ *     shortDescription: 'Cortes personalizados',
+ *     price: 'A partir de R$ 80',
+ *     image: '/images/servicos/salao/categoria.webp',
+ *     imageAlt: 'Salão Mimo',
+ *     benefits: ['Benefício 1', 'Benefício 2']
+ *   }}
+ * />
+ * ```
  */
 export function ServiceCard({ service, className }: ServiceCardProps) {
   return (

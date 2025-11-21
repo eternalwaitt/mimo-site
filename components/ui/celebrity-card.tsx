@@ -23,6 +23,26 @@ type CelebrityCardProps = {
  * - sem IntersectionObserver ou hooks
  * - imagens otimizadas com next/image
  * - link direto abre no app Instagram (melhor UX mobile)
+ * 
+ * @param {CelebrityCardProps} props - props do componente
+ * @param {Celebrity} props.celebrity - dados da celebridade/influencer
+ * @param {string} [props.className] - classes CSS adicionais
+ * @returns {Promise<JSX.Element>} card de celebridade com imagem e informações
+ * 
+ * @example
+ * ```tsx
+ * <CelebrityCard 
+ *   celebrity={{
+ *     id: 'bruna-huli',
+ *     name: 'Bruna Huli',
+ *     service: 'Coloração',
+ *     image: '/images/depo/bruna.webp',
+ *     imageAlt: 'Bruna Huli - cliente Mimo',
+ *     reelUrl: 'https://instagram.com/reel/...',
+ *     instagram: 'https://instagram.com/brunahuli'
+ *   }}
+ * />
+ * ```
  */
 export async function CelebrityCard({ celebrity, className }: CelebrityCardProps) {
   // Usar reelUrl se disponível, senão instagram, senão #

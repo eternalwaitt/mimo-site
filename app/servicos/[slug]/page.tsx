@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
-import { SERVICES, getWhatsAppBookingUrl, MIMO_COMPANY, MIMO_CONTACT } from '@/lib/constants'
+import { SERVICES, getWhatsAppBookingUrl, MIMO_COMPANY, MIMO_CONTACT } from '@/lib/constants/index'
 import { ServiceContent } from './service-content'
 import type { Service } from '@/lib/types'
 

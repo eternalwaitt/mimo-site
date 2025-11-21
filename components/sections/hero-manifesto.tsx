@@ -1,6 +1,6 @@
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
-import { ImageWithFallback } from '@/components/ui/image-with-fallback'
-import { getWhatsAppBookingUrl, HOME_COPY } from '@/lib/constants'
+import { getWhatsAppBookingUrl, HOME_COPY } from '@/lib/constants/index'
 
 /**
  * props do componente hero-manifesto.
@@ -20,7 +20,7 @@ type HeroManifestoProps = {
  * - CTA primário WhatsApp + CTA secundário ghost
  * - parallax sutil (foto com scale animation)
  * - mobile: min-h-screen, texto centralizado
- * - animações de entrada com framer-motion
+ * - animações de entrada com CSS (não framer-motion para melhor performance)
  * 
  * @param {HeroManifestoProps} props - propriedades do componente
  * @returns {JSX.Element} seção hero com manifesto
@@ -42,15 +42,29 @@ export function HeroManifesto({
       >
         <div className="absolute inset-0 animate-hero-image-scale">
           <div className="absolute inset-0 bg-mimo-brown/20 z-10" />
-          <ImageWithFallback
+          {/* Mobile: usar versão menor (28KB) - next/image direto para melhor LCP */}
+          <Image
+            src="/images/hero-bg-mobile.webp"
+            alt={imageAlt}
+            fill
+            priority
+            fetchPriority="high"
+            sizes="100vw"
+            className="object-cover md:hidden"
+            quality={90}
+            unoptimized={false}
+          />
+          {/* Desktop: usar versão completa */}
+          <Image
             src={imageSrc}
             alt={imageAlt}
             fill
             priority
             fetchPriority="high"
-            sizes="(max-width: 768px) 100vw, 1920px"
-            className="object-cover"
-            quality={85}
+            sizes="100vw"
+            className="object-cover hidden md:block"
+            quality={90}
+            unoptimized={false}
           />
         </div>
       </div>

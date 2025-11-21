@@ -1,9 +1,17 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
+import Script from 'next/script'
 import './globals.css'
-import { MIMO_COMPANY, MIMO_CONTACT } from '@/lib/constants'
+import { MIMO_COMPANY, MIMO_CONTACT } from '@/lib/constants/index'
 import { APP_VERSION } from '@/lib/version'
-import { AnalyticsProvider } from '@/components/analytics-provider'
+import dynamic from 'next/dynamic'
+
+// Analytics apenas se configurado e não desabilitado - dynamic import para não bloquear bundle inicial
+const AnalyticsProvider = process.env.DISABLE_ANALYTICS !== 'true' && process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN
+  ? dynamic(() => import('@/components/analytics-provider').then(mod => ({ default: mod.AnalyticsProvider })), {
+      ssr: true, // SSR permitido - componente é leve
+    })
+  : () => null
 
 /**
  * configuração de fontes usando next/font/local.
@@ -20,8 +28,10 @@ const bueno = localFont({
     },
   ],
   variable: '--font-bueno',
-  display: 'swap',
+  display: 'optional', // Optional para não bloquear renderização - fallback mostra imediatamente
+  preload: true, // Preload para melhorar LCP
   fallback: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+  adjustFontFallback: false, // Não ajustar fallback para melhor performance
 })
 
 const satoshi = localFont({
@@ -33,8 +43,10 @@ const satoshi = localFont({
     },
   ],
   variable: '--font-satoshi',
-  display: 'swap',
+  display: 'optional', // Optional para não bloquear renderização - fallback mostra imediatamente
+  preload: true, // Preload para melhorar LCP
   fallback: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+  adjustFontFallback: false, // Não ajustar fallback para melhor performance
 })
 
 export const metadata: Metadata = {
@@ -120,15 +132,40 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`${bueno.variable} ${satoshi.variable}`}>
       <head>
-        {/* DNS prefetch para recursos externos */}
+        {/* Favicon */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/images/MIMO Icon.svg" type="image/svg+xml" />
+        
+        {/* DNS prefetch para recursos externos (não críticos) */}
         <link rel="dns-prefetch" href="https://wa.me" />
         <link rel="dns-prefetch" href="https://www.instagram.com" />
         <link rel="dns-prefetch" href="https://www.facebook.com" />
         
-        {/* Preconnect para recursos críticos */}
-        <link rel="preconnect" href="https://wa.me" crossOrigin="anonymous" />
+        {/* Preconnect para Plausible - apenas se configurado e não desabilitado */}
+        {process.env.DISABLE_ANALYTICS !== 'true' && process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN && (
+          <link rel="dns-prefetch" href="https://plausible.io" />
+        )}
         
-        {/* Note: Hero image preload removed - Next.js Image with priority and fetchPriority handles this automatically */}
+        {/* Preload hero image mobile para melhorar LCP - crítico para performance */}
+        {/* Mobile first: carregar versão menor primeiro (28KB vs 135KB) */}
+        {/* Nota: Warning sobre preload não usado pode aparecer se next/image usar srcset diferente,
+            mas o preload ainda ajuda o browser a priorizar o recurso */}
+        <link
+          rel="preload"
+          as="image"
+          href="/images/hero-bg-mobile.webp"
+          type="image/webp"
+          fetchPriority="high"
+          media="(max-width: 768px)"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/images/hero-bg.webp"
+          type="image/webp"
+          fetchPriority="high"
+          media="(min-width: 769px)"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
@@ -136,38 +173,13 @@ export default function RootLayout({
       </head>
       <body className={`${bueno.variable} ${satoshi.variable}`} suppressHydrationWarning>
         <AnalyticsProvider />
-        {/* Google Analytics 4 */}
-        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
-          <>
-            <script
-              async
-              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
-            />
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `
-                  window.dataLayer = window.dataLayer || [];
-                  function gtag(){dataLayer.push(arguments);}
-                  gtag('js', new Date());
-                  gtag('config', '${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}');
-                `,
-              }}
-            />
-          </>
-        )}
-        {/* Microsoft Clarity */}
-        {process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID && (
-          <script
-            type="text/javascript"
-            dangerouslySetInnerHTML={{
-              __html: `
-                (function(c,l,a,r,i,t,y){
-                  c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-                })(window, document, "clarity", "script", "${process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID}");
-              `,
-            }}
+        {/* Plausible Analytics - carregado com lazyOnload para não bloquear FCP/LCP */}
+        {process.env.DISABLE_ANALYTICS !== 'true' && process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN && (
+          <Script
+            defer
+            data-domain={process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN}
+            src="https://plausible.io/js/script.js"
+            strategy="lazyOnload"
           />
         )}
         {children}

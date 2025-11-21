@@ -1,47 +1,71 @@
 /**
  * utilitários de analytics e tracking de eventos.
  * 
- * wrapper type-safe para google analytics 4 (ga4) com helpers para eventos comuns.
+ * wrapper type-safe para plausible analytics com helpers para eventos comuns.
  * todos os eventos são opcionais - analytics só funciona se provider estiver configurado.
  * 
- * nota: mantém api compatível para facilitar migração futura para plausible/outros providers.
+ * nota: api compatível com a anterior para facilitar migração.
  */
 
 type EventProperties = Record<string, string | number | boolean | null | undefined>
 
 /**
- * declaração de tipo para gtag no window.
+ * declaração de tipo para plausible no window.
  */
 declare global {
   interface Window {
-    gtag?: (
-      command: 'config' | 'event' | 'js' | 'set',
-      targetId: string | Date,
-      config?: EventProperties | { [key: string]: unknown }
+    plausible?: (
+      eventName: string,
+      options?: { props?: EventProperties; callback?: () => void }
     ) => void
-    dataLayer?: Array<Record<string, unknown>>
   }
+}
+
+/**
+ * verifica se analytics está habilitado.
+ */
+function isAnalyticsEnabled(): boolean {
+  if (typeof window === 'undefined') return false
+  if (process.env.DISABLE_ANALYTICS === 'true') return false
+  return typeof window.plausible === 'function'
 }
 
 /**
  * tracka um evento customizado.
  * 
- * @param eventName - nome do evento (ex: "cta_click", "service_view")
- * @param properties - propriedades opcionais do evento
+ * @param {string} eventName - nome do evento (ex: "cta_click", "service_view")
+ * @param {EventProperties} [properties] - propriedades opcionais do evento
+ * @returns {void}
+ * 
+ * @example
+ * ```ts
+ * trackEvent('custom_event', {
+ *   category: 'engagement',
+ *   value: 100
+ * })
+ * ```
  */
 export function trackEvent(eventName: string, properties?: EventProperties): void {
-  if (typeof window === 'undefined') return
+  if (!isAnalyticsEnabled()) return
 
-  if (window.gtag) {
-    window.gtag('event', eventName, properties)
+  if (window.plausible) {
+    window.plausible(eventName, {
+      props: properties,
+    })
   }
 }
 
 /**
  * tracka clique em cta (whatsapp, agendamento, etc).
  * 
- * @param ctaType - tipo de cta ("whatsapp_booking", "whatsapp_contact", "agendamento")
- * @param location - onde o cta foi clicado (ex: "header", "cta_section", "service_page")
+ * @param {string} ctaType - tipo de cta ("whatsapp_booking", "whatsapp_contact", "agendamento")
+ * @param {string} [location] - onde o cta foi clicado (ex: "header", "cta_section", "service_page")
+ * @returns {void}
+ * 
+ * @example
+ * ```ts
+ * trackCTAClick('whatsapp_booking', 'header')
+ * ```
  */
 export function trackCTAClick(ctaType: string, location?: string): void {
   trackEvent('cta_click', {
@@ -53,7 +77,13 @@ export function trackCTAClick(ctaType: string, location?: string): void {
 /**
  * tracka visualização de página de serviço.
  * 
- * @param serviceSlug - slug do serviço (ex: "salao", "cilios")
+ * @param {string} serviceSlug - slug do serviço (ex: "salao", "cilios")
+ * @returns {void}
+ * 
+ * @example
+ * ```ts
+ * trackServiceView('salao')
+ * ```
  */
 export function trackServiceView(serviceSlug: string): void {
   trackEvent('service_view', {
@@ -64,8 +94,14 @@ export function trackServiceView(serviceSlug: string): void {
 /**
  * tracka clique em item de navegação.
  * 
- * @param menuItem - label do item de menu (ex: "Home", "Serviços")
- * @param href - href do link
+ * @param {string} menuItem - label do item de menu (ex: "Home", "Serviços")
+ * @param {string} href - href do link
+ * @returns {void}
+ * 
+ * @example
+ * ```ts
+ * trackNavigationClick('Serviços', '/servicos')
+ * ```
  */
 export function trackNavigationClick(menuItem: string, href: string): void {
   trackEvent('navigation_click', {
@@ -99,9 +135,19 @@ export function trackTimeOnPage(seconds: number): void {
 /**
  * inicializa tracking de scroll depth automaticamente.
  * tracka quando usuário atinge 25%, 50%, 75% e 100% da página.
+ * 
+ * @returns {() => void} função de cleanup para remover event listeners
+ * 
+ * @example
+ * ```ts
+ * useEffect(() => {
+ *   const cleanup = initScrollDepthTracking()
+ *   return cleanup
+ * }, [])
+ * ```
  */
 export function initScrollDepthTracking(): () => void {
-  if (typeof window === 'undefined') return () => {}
+  if (typeof window === 'undefined' || !isAnalyticsEnabled()) return () => {}
 
   const trackedDepths = new Set<number>()
   const depths = [25, 50, 75, 100]
@@ -142,9 +188,19 @@ export function initScrollDepthTracking(): () => void {
 /**
  * inicializa tracking de tempo na página.
  * tracka quando usuário fica 30s, 1min, 2min+ na página.
+ * 
+ * @returns {() => void} função de cleanup para remover interval
+ * 
+ * @example
+ * ```ts
+ * useEffect(() => {
+ *   const cleanup = initTimeOnPageTracking()
+ *   return cleanup
+ * }, [])
+ * ```
  */
 export function initTimeOnPageTracking(): () => void {
-  if (typeof window === 'undefined') return () => {}
+  if (typeof window === 'undefined' || !isAnalyticsEnabled()) return () => {}
 
   const trackedTimes = new Set<number>()
   const times = [30, 60, 120] // 30s, 1min, 2min
@@ -169,3 +225,20 @@ export function initTimeOnPageTracking(): () => void {
   }
 }
 
+/**
+ * tracka pageview (usado pelo AnalyticsPageTracker).
+ * 
+ * @param path - caminho da página (ex: "/", "/servicos/salao")
+ */
+export function trackPageView(path: string): void {
+  if (!isAnalyticsEnabled()) return
+
+  // Plausible tracka pageviews automaticamente, mas podemos forçar um evento customizado
+  if (window.plausible) {
+    window.plausible('pageview', {
+      props: {
+        path,
+      },
+    })
+  }
+}

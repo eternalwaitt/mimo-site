@@ -86,6 +86,26 @@ async function tryOEmbed(
   return null
 }
 
+/**
+ * busca thumbnail de Instagram Reel via oEmbed API com retry e fallbacks.
+ * 
+ * estratégia de múltiplas camadas:
+ * 1. cache em memória (durante o mesmo request)
+ * 2. cache local (arquivos em /public/images/reels/)
+ * 3. oEmbed API oficial com retry e backoff exponencial
+ * 4. variações de URL do oEmbed
+ * 
+ * usa cache do Next.js para evitar múltiplas requisições entre requests.
+ * 
+ * @param {string} reelUrl - URL completa do reel do Instagram
+ * @returns {Promise<string | null>} URL do thumbnail ou null se não conseguir obter
+ * 
+ * @example
+ * ```ts
+ * const thumbnail = await getReelThumbnail('https://instagram.com/reel/DBACXKPOvd0/')
+ * // Retorna: 'https://scontent.cdninstagram.com/...' ou null
+ * ```
+ */
 export async function getReelThumbnail(reelUrl: string): Promise<string | null> {
   // Camada 0: Verificar cache em memória (durante o mesmo request)
   if (memoryCache.has(reelUrl)) {

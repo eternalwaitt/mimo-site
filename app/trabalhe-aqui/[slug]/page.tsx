@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
 import { Button } from '@/components/ui/button'
-import { JOB_OPENINGS, MIMO_CONTACT, getWhatsAppJobApplicationUrl } from '@/lib/constants'
+import { JOB_OPENINGS, MIMO_CONTACT, getWhatsAppJobApplicationUrl } from '@/lib/constants/index'
 
 type Props = {
   params: Promise<{ slug: string }>

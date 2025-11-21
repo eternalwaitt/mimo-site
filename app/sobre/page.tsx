@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
 import { ImageWithFallback } from '@/components/ui/image-with-fallback'
-import { MIMO_COMPANY } from '@/lib/constants'
+import { MIMO_COMPANY } from '@/lib/constants/index'
 
 export const metadata: Metadata = {
   title: 'sobre',

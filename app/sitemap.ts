@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { SERVICES } from '@/lib/constants'
+import { SERVICES } from '@/lib/constants/index'
 
 /**
  * sitemap gerado dinamicamente.
@@ -41,12 +41,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/trabalhe-aqui`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/blog`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
       priority: 0.7,
     },
   ]

@@ -1,6 +1,6 @@
 # Tarefas Pendentes - Requerem Condições Externas
 
-Data: 2025-01-29
+Data: 2025-01-30
 
 ## Tarefas que Requerem Ações Externas
 
@@ -93,7 +93,7 @@ Data: 2025-01-29
 ### Implementar Melhorias UX Identificadas
 
 **Prioridade Alta**:
-1. Menu mobile funcional (documentado em `UX-IMPROVEMENTS.md`)
+1. ✅ Menu mobile funcional - **CONCLUÍDO** (implementado em `components/layout/header.tsx`)
 2. Swipe gestures na galeria
 3. Filtros scrolláveis na galeria
 
@@ -119,9 +119,11 @@ Data: 2025-01-29
 - ⏳ Sharp instalado (otimização de imagens)
 
 ### Próximos Passos Recomendados
-1. Implementar menu mobile (crítico)
+1. ✅ Menu mobile - **CONCLUÍDO**
 2. Deploy do site
 3. Executar PageSpeed Insights
 4. Implementar otimizações de performance
 5. Otimizar imagens quando necessário
+6. Implementar swipe gestures na galeria
+7. Melhorar filtros da galeria (scroll horizontal)
 

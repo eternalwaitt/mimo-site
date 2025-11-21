@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { ImageWithFallback } from '@/components/ui/image-with-fallback'
-import { getWhatsAppBookingUrl, getWhatsAppContactUrl, HOME_COPY } from '@/lib/constants'
+import { getWhatsAppBookingUrl, getWhatsAppContactUrl, HOME_COPY } from '@/lib/constants/index'
 import { trackCTAClick } from '@/lib/analytics'
 
 /**

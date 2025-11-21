@@ -1,0 +1,45 @@
+# Cursor Rules - Mimo Site
+
+## Performance Standards
+
+Este projeto segue padrões rigorosos de performance. Sempre que trabalhar em otimizações ou adicionar novos componentes:
+
+### Metas Obrigatórias (Lighthouse Mobile)
+- Performance ≥ 95
+- LCP < 2.5s
+- FCP < 1.8s
+- TBT < 200ms
+- CLS < 0.1
+- Unused JS < 60 KiB
+
+### Regras de Desenvolvimento
+
+1. **Sempre rode `npm run lighthouse:local`** após mudanças significativas na home ou componentes críticos
+2. **Use server components** sempre que possível (sem `use client`)
+3. **Client islands** apenas para interatividade mínima (menu, toggles, scroll)
+4. **Dynamic imports** para componentes abaixo da dobra
+5. **Imagens**: sempre use `next/image` com `sizes` correto
+6. **Analytics**: use Plausible com `lazyOnload`, nunca bloqueie FCP/LCP
+
+### Processo de Otimização
+
+Para novos projetos ou otimizações significativas, use o prompt template em:
+`docs/performance/PERFORMANCE-PROMPT-TEMPLATE.md`
+
+### CI Guardrails
+
+O CI falha automaticamente se:
+- Performance < 95
+- LCP > 2.5s
+
+Teste localmente com:
+```bash
+DISABLE_ANALYTICS=true npm run lighthouse:local
+```
+
+### Documentação
+
+- Performance budget: `docs/performance/PERFORMANCE-GUIDE.md`
+- Otimizações aplicadas: `docs/performance/PERFORMANCE-OPTIMIZATION-REPORT.md`
+- Baseline atual: `docs/perf-baseline.md`
+

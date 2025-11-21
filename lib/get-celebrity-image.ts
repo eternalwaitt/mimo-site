@@ -26,8 +26,28 @@ function isValidImageUrl(url: string | null | undefined): url is string {
 /**
  * obtém a imagem de um celebrity usando estratégia de fallback em camadas.
  * 
- * @param celebrity - dados do celebrity
- * @returns URL da imagem a ser usada
+ * estratégia de fallback (ordem de prioridade):
+ * 1. reelThumbnail explícito (se configurado manualmente)
+ * 2. cache local (/public/images/reels/)
+ * 3. oEmbed API (com retry)
+ * 4. image estática do celebrity
+ * 5. placeholder genérico
+ * 
+ * @param {Celebrity} celebrity - dados do celebrity/influencer
+ * @returns {Promise<string>} URL da imagem a ser usada (sempre retorna string válida)
+ * 
+ * @example
+ * ```ts
+ * const image = await getCelebrityImage({
+ *   id: 'bruna-huli',
+ *   name: 'Bruna Huli',
+ *   image: '/images/depo/bruna.webp',
+ *   imageAlt: 'Bruna Huli',
+ *   reelUrl: 'https://instagram.com/reel/...',
+ *   reelThumbnail: '/images/reels/DBACXKPOvd0.webp' // prioridade 1
+ * })
+ * // Retorna: '/images/reels/DBACXKPOvd0.webp'
+ * ```
  */
 export async function getCelebrityImage(celebrity: Celebrity): Promise<string> {
   // Fallback padrão

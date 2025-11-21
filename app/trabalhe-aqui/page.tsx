@@ -3,7 +3,7 @@ import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
 import { JobCard } from '@/components/ui/job-card'
 import { Button } from '@/components/ui/button'
-import { JOB_OPENINGS, JOB_BENEFITS, MIMO_COMPANY, MIMO_CONTACT, getWhatsAppContactUrl } from '@/lib/constants'
+import { JOB_OPENINGS, JOB_BENEFITS, MIMO_COMPANY, MIMO_CONTACT, getWhatsAppContactUrl } from '@/lib/constants/index'
 
 export const metadata: Metadata = {
   title: 'trabalhe aqui',

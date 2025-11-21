@@ -1,5 +1,5 @@
 import { CelebrityCard } from '@/components/ui/celebrity-card'
-import { CELEBRITIES } from '@/lib/constants'
+import { CELEBRITIES } from '@/lib/constants/index'
 import { ANIMATION_DELAYS } from '@/lib/ui-constants'
 
 /**
@@ -12,7 +12,13 @@ import { ANIMATION_DELAYS } from '@/lib/ui-constants'
  * - section is below fold to prevent LCP interference
  * - server component para melhor performance
  * 
- * @returns {JSX.Element} seção com grid de celebridades
+ * @returns {Promise<JSX.Element>} seção com grid de celebridades
+ * 
+ * @example
+ * ```tsx
+ * // Usado na home page
+ * <MomentoMimo />
+ * ```
  */
 export async function MomentoMimo() {
   // Renderizar cards em paralelo para melhor performance

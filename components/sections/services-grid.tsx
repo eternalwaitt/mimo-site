@@ -1,5 +1,5 @@
 import { ServiceCard } from '@/components/ui/service-card'
-import { SERVICES } from '@/lib/constants'
+import { SERVICES } from '@/lib/constants/index'
 import { ANIMATION_DELAYS } from '@/lib/ui-constants'
 
 /**
@@ -8,9 +8,15 @@ import { ANIMATION_DELAYS } from '@/lib/ui-constants'
  * - nome BUENO, preço sutil
  * - hover: revela frase curta + "Ver detalhes"
  * - link para subpáginas de cada serviço
- * - animações de entrada escalonadas com framer-motion
+ * - animações de entrada escalonadas com CSS (não framer-motion)
  * 
  * @returns {JSX.Element} seção com grid de serviços
+ * 
+ * @example
+ * ```tsx
+ * // Usado na home page e página de serviços
+ * <ServicesGrid />
+ * ```
  */
 export function ServicesGrid() {
   return (

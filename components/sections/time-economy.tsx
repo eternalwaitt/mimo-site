@@ -1,5 +1,5 @@
 import { OrganicShape } from '@/components/ui/organic-shape'
-import { HOME_COPY } from '@/lib/constants'
+import { HOME_COPY } from '@/lib/constants/index'
 
 /**
  * seção de economia de tempo visualizada.
@@ -10,7 +10,7 @@ import { HOME_COPY } from '@/lib/constants'
  * - cálculo dinâmico: "Unhas 40min + Lashes 30min + Cabelo 1h = Xh totais"
  * - punchline: "Economize Xh/mês"
  * - inspiração: Notion/Canva moderno
- * - animações suaves com framer-motion
+ * - animações suaves com CSS (não framer-motion para melhor performance)
  * 
  * @returns {JSX.Element} seção de economia de tempo
  */
