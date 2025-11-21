@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { usePathname, useSearchParams } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 
 /**
  * provider de analytics que inicializa google analytics 4 (ga4).
@@ -16,7 +16,6 @@ import { usePathname, useSearchParams } from 'next/navigation'
  */
 export function AnalyticsProvider() {
   const pathname = usePathname()
-  const searchParams = useSearchParams()
 
   useEffect(() => {
     const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
@@ -30,6 +29,9 @@ export function AnalyticsProvider() {
       window.dataLayer = []
     }
 
+    // pega query string do window.location (não precisa de useSearchParams)
+    const search = typeof window !== 'undefined' ? window.location.search : ''
+
     // inicializa gtag se não existir
     if (!window.gtag) {
       window.gtag = function (...args: Array<unknown>) {
@@ -37,15 +39,15 @@ export function AnalyticsProvider() {
       }
       window.gtag('js', new Date())
       window.gtag('config', gaId, {
-        page_path: pathname,
+        page_path: pathname + search,
       })
     } else {
       // atualiza pageview quando rota muda
       window.gtag('config', gaId, {
-        page_path: pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : ''),
+        page_path: pathname + search,
       })
     }
-  }, [pathname, searchParams])
+  }, [pathname])
 
   return null
 }
