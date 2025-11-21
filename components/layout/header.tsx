@@ -86,10 +86,10 @@ export function Header() {
                 <div key={item.href} className="relative inline-flex items-center group">
                   {item.comingSoon ? (
                     <>
-                      <span className="font-satoshi text-mimo-blue/50 relative inline-flex items-center gap-2 transition-all duration-150 group-hover:text-mimo-blue/70">
+                      <span className="font-satoshi text-mimo-blue/70 relative inline-flex items-center gap-2 transition-all duration-150 group-hover:text-mimo-blue">
                         {item.label}
                         <svg
-                          className="w-4 h-4 text-mimo-gold transition-all duration-150 group-hover:scale-110"
+                          className="w-4 h-4 text-mimo-brown transition-all duration-150 group-hover:scale-110"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"

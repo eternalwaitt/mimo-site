@@ -91,7 +91,7 @@ export default function GaleriaPage() {
                   className={`px-6 py-2 rounded-full font-satoshi transition-all ${
                     selectedFilter === filter.id
                       ? 'bg-mimo-brown text-white'
-                      : 'bg-mimo-neutral-light text-mimo-blue hover:bg-mimo-neutral-medium'
+                      : 'bg-mimo-neutral-light text-mimo-brown hover:bg-mimo-neutral-medium'
                   }`}
                 >
                   {filter.label}

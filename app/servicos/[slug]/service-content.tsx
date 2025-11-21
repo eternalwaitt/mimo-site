@@ -170,8 +170,8 @@ export function ServiceContent({ service, whatsappUrl }: ServiceContentProps) {
                 className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow duration-300"
               >
                 <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-mimo-gold/20 flex items-center justify-center">
-                    <span className="text-mimo-gold text-xl">✓</span>
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-mimo-brown/10 flex items-center justify-center">
+                    <span className="text-mimo-brown text-xl">✓</span>
                   </div>
                   <p className="font-satoshi text-lg text-mimo-blue flex-1 pt-1">
                     {benefit}

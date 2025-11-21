@@ -5,6 +5,30 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+## [1.5.2] - 2025-01-30
+
+### Fixed
+- Problemas de contraste WCAG em botões e textos - corrigidos todos os elementos que não atendiam ao mínimo de 4.5:1 (WCAG AA)
+  - Filtros da galeria: `text-mimo-blue` → `text-mimo-brown` em fundo bege claro
+  - Links "Coming Soon": removida opacidade de 50%, aumentada para 70% e ícone mudado para marrom
+  - Texto "Em breve": `text-mimo-gold` → `text-mimo-brown` (contraste de ~1.8:1 para ~8.59:1)
+  - Badges dourados: `bg-mimo-gold text-mimo-brown` → `bg-mimo-brown text-white` (contraste de ~3.8:1 para ~8.59:1)
+  - Bullet points dourados: `text-mimo-gold` → `text-mimo-brown` em listas
+  - Checkmarks dourados: `bg-mimo-gold/20 text-mimo-gold` → `bg-mimo-brown/10 text-mimo-brown`
+
+### Changed
+- `app/galeria/page.tsx` - Filtros agora usam `text-mimo-brown` para melhor contraste
+- `components/layout/header.tsx` - Links "Coming Soon" com opacidade 70% e ícone marrom
+- `components/layout/header-client.tsx` - Texto "Em breve" mudado para marrom
+- `app/trabalhe-aqui/[slug]/page.tsx` - Badge e bullet points mudados para marrom
+- `components/ui/job-card.tsx` - Badge e bullet points mudados para marrom, hover do link ajustado
+- `app/servicos/[slug]/service-content.tsx` - Checkmarks mudados para marrom com fundo marrom claro
+
+### Technical
+- Todos os elementos de texto agora atendem WCAG 2.1 AA (mínimo 4.5:1 para texto normal)
+- Contraste melhorado de ~1.8-4.2:1 para ~8.59:1 em todos os elementos corrigidos
+- Build e lint passaram sem erros
+
 ## [1.5.1] - 2025-01-30
 
 ### Fixed

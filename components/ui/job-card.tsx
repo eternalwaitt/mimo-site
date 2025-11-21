@@ -25,7 +25,7 @@ export function JobCard({ job, className }: JobCardProps) {
       )}
     >
       <div className="mb-4">
-        <span className="inline-block rounded-full bg-mimo-gold px-3 py-1 font-satoshi text-xs font-medium text-mimo-brown mb-2">
+        <span className="inline-block rounded-full bg-mimo-brown text-white px-3 py-1 font-satoshi text-xs font-medium mb-2">
           {job.area}
         </span>
         <h3 className="font-bueno text-2xl font-bold text-mimo-brown mb-2">
@@ -43,7 +43,7 @@ export function JobCard({ job, className }: JobCardProps) {
         <ul className="space-y-1">
           {job.requirements.slice(0, 3).map((req, index) => (
             <li key={index} className="font-satoshi text-sm text-mimo-blue flex items-start">
-              <span className="text-mimo-gold mr-2">•</span>
+              <span className="text-mimo-brown mr-2">•</span>
               <span>{req}</span>
             </li>
           ))}
@@ -56,7 +56,7 @@ export function JobCard({ job, className }: JobCardProps) {
       </div>
 
       <div className="text-center mt-6">
-        <span className="font-satoshi text-mimo-brown font-medium hover:text-mimo-gold transition-colors">
+        <span className="font-satoshi text-mimo-brown font-medium hover:text-mimo-blue transition-colors">
           Ver detalhes da vaga →
         </span>
       </div>

@@ -60,7 +60,7 @@ export default async function JobPage({ params }: Props) {
               Voltar para vagas
             </Link>
             <div className="max-w-4xl">
-              <span className="inline-block rounded-full bg-mimo-gold px-4 py-2 font-satoshi text-sm font-medium text-mimo-brown mb-4">
+              <span className="inline-block rounded-full bg-mimo-brown text-white px-4 py-2 font-satoshi text-sm font-medium mb-4">
                 {job.area}
               </span>
               <h1 className="font-bueno text-5xl md:text-6xl font-bold text-mimo-brown mb-6">
@@ -100,7 +100,7 @@ export default async function JobPage({ params }: Props) {
                 <ul className="space-y-4">
                   {job.responsibilities.map((responsibility, index) => (
                     <li key={index} className="font-satoshi text-lg text-mimo-blue flex items-start">
-                      <span className="text-mimo-gold mr-3 mt-1">•</span>
+                      <span className="text-mimo-brown mr-3 mt-1">•</span>
                       <span>{responsibility}</span>
                     </li>
                   ))}
@@ -140,7 +140,7 @@ export default async function JobPage({ params }: Props) {
                 <ul className="space-y-4">
                   {job.benefits.map((benefit, index) => (
                     <li key={index} className="font-satoshi text-lg text-mimo-blue flex items-start">
-                      <span className="text-mimo-gold mr-3 mt-1">•</span>
+                      <span className="text-mimo-brown mr-3 mt-1">•</span>
                       <span>{benefit}</span>
                     </li>
                   ))}

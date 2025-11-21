@@ -253,9 +253,9 @@ export function HeaderClient({
                 {menuItemsRight.map((item) => (
                   <div key={item.href} className="py-2 min-h-[44px] flex items-center">
                     {item.comingSoon ? (
-                      <span className="font-satoshi text-lg text-mimo-blue/50 flex items-center gap-2">
+                      <span className="font-satoshi text-lg text-mimo-blue/70 flex items-center gap-2">
                         {item.label}
-                        <span className="text-sm text-mimo-gold">👀 Em breve</span>
+                        <span className="text-sm text-mimo-brown">👀 Em breve</span>
                       </span>
                     ) : (
                       <Link
