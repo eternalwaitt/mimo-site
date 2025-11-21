@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { getWhatsAppBookingUrl } from '@/lib/constants'
 import { cn } from '@/lib/utils'
+import { trackCTAClick, trackNavigationClick } from '@/lib/analytics'
 
 /**
  * header fixo minimalista.
@@ -74,6 +75,7 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 className="font-satoshi text-mimo-blue hover:text-mimo-brown transition-colors"
+                onClick={() => trackNavigationClick(item.label, item.href)}
               >
                 {item.label}
               </Link>
@@ -136,6 +138,7 @@ export function Header() {
               href={getWhatsAppBookingUrl()}
               external
               className="text-xl px-10 py-4"
+              onClick={() => trackCTAClick('whatsapp_booking', 'header')}
             >
               Agendar
             </Button>
@@ -159,6 +162,7 @@ export function Header() {
                 href={getWhatsAppBookingUrl()}
                 external
                 className="text-lg px-8 py-3"
+                onClick={() => trackCTAClick('whatsapp_booking', 'header_mobile')}
               >
                 Agendar
               </Button>
@@ -230,7 +234,10 @@ export function Header() {
                     key={item.href}
                     href={item.href}
                     className="block font-satoshi text-lg text-mimo-blue hover:text-mimo-brown transition-colors py-2"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={() => {
+                      setIsMobileMenuOpen(false)
+                      trackNavigationClick(item.label, item.href)
+                    }}
                   >
                     {item.label}
                   </Link>

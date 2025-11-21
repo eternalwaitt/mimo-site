@@ -7,9 +7,11 @@
 // só é carregado quando esta página é acessada (não na home)
 import { motion } from 'framer-motion'
 /* eslint-enable no-restricted-imports */
+import { useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { ImageWithFallback } from '@/components/ui/image-with-fallback'
 import type { Service } from '@/lib/types'
+import { trackServiceView, trackCTAClick, trackNavigationClick, initScrollDepthTracking, initTimeOnPageTracking } from '@/lib/analytics'
 
 type ServiceContentProps = {
   service: Service
@@ -28,6 +30,20 @@ type ServiceContentProps = {
  * - animações com framer-motion
  */
 export function ServiceContent({ service, whatsappUrl }: ServiceContentProps) {
+  useEffect(() => {
+    // track service view quando página carrega
+    trackServiceView(service.slug)
+
+    // inicializa tracking de scroll depth e time on page
+    const cleanupScroll = initScrollDepthTracking()
+    const cleanupTime = initTimeOnPageTracking()
+
+    return () => {
+      cleanupScroll()
+      cleanupTime()
+    }
+  }, [service.slug])
+
   return (
     <main className="pt-20">
       {/* Hero */}
@@ -240,6 +256,7 @@ export function ServiceContent({ service, whatsappUrl }: ServiceContentProps) {
                 href={whatsappUrl}
                 external
                 className="bg-white text-mimo-brown hover:bg-mimo-neutral-light text-xl px-10 py-5"
+                onClick={() => trackCTAClick('whatsapp_booking', `service_${service.slug}`)}
               >
                 Agendar {service.title}
               </Button>
@@ -247,6 +264,7 @@ export function ServiceContent({ service, whatsappUrl }: ServiceContentProps) {
                 variant="ghost"
                 href="/servicos"
                 className="border-2 border-white text-white hover:bg-white/10 text-xl px-10 py-5"
+                onClick={() => trackNavigationClick('Ver outros serviços', '/servicos')}
               >
                 Ver outros serviços
               </Button>

@@ -5,6 +5,31 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+## [1.5.0] - 2025-01-29
+
+### Added
+- Google Analytics 4 (GA4) integrado com tracking automático de pageviews
+- Microsoft Clarity para heatmaps e session recordings
+- Sistema de analytics com eventos customizados:
+  - `cta_click` - tracking de cliques em CTAs (WhatsApp, agendamento)
+  - `service_view` - tracking de visualização de páginas de serviço
+  - `navigation_click` - tracking de cliques em navegação
+  - `scroll_depth` - tracking automático de profundidade de scroll (25%, 50%, 75%, 100%)
+  - `time_on_page` - tracking automático de tempo na página (30s, 1min, 2min+)
+- Utilitários de analytics type-safe em `lib/analytics.ts`
+- `AnalyticsProvider` component para inicialização do GA4
+- `AnalyticsPageTracker` component para tracking de scroll/time em páginas
+- Documentação completa em `docs/ANALYTICS-SETUP.md`
+- Guia de troubleshooting em `docs/GA4-TROUBLESHOOTING.md`
+
+### Changed
+- Layout atualizado para incluir scripts do Google Analytics e Microsoft Clarity
+- Componentes atualizados com tracking de eventos (Header, CTA, Service pages)
+
+### Technical
+- API de analytics projetada para ser provider-agnostic (facilita migração futura para Plausible)
+- Tracking de pageviews atualiza automaticamente em mudanças de rota (Next.js App Router)
+
 ## [1.4.0] - 2025-01-20
 
 ### Added

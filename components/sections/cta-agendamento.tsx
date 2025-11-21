@@ -1,6 +1,9 @@
+'use client'
+
 import { Button } from '@/components/ui/button'
 import { ImageWithFallback } from '@/components/ui/image-with-fallback'
 import { getWhatsAppBookingUrl, getWhatsAppContactUrl, HOME_COPY } from '@/lib/constants'
+import { trackCTAClick } from '@/lib/analytics'
 
 /**
  * cta de agendamento simplificado.
@@ -49,6 +52,7 @@ export function CTAAgendamento() {
               href={getWhatsAppBookingUrl()}
               external
               className="bg-white text-mimo-brown hover:bg-mimo-neutral-light text-xl px-10 py-5"
+              onClick={() => trackCTAClick('whatsapp_booking', 'cta_section')}
             >
               {HOME_COPY.ctaAgendamento.ctaWhatsApp}
             </Button>
@@ -57,6 +61,7 @@ export function CTAAgendamento() {
               href={getWhatsAppContactUrl()}
               external
               className="border-white text-white hover:bg-white/10 text-xl px-10 py-5"
+              onClick={() => trackCTAClick('whatsapp_contact', 'cta_section')}
             >
               {HOME_COPY.ctaAgendamento.ctaEquipe}
             </Button>

@@ -6,6 +6,7 @@ import { ServicesGrid } from '@/components/sections/services-grid'
 import { MomentoMimo } from '@/components/sections/momento-mimo'
 import { CTAAgendamento } from '@/components/sections/cta-agendamento'
 import { ErrorBoundary } from '@/components/error-boundary'
+import { AnalyticsPageTracker } from '@/components/analytics-page-tracker'
 
 /**
  * home page - integra todas as seções na ordem especificada.
@@ -24,6 +25,7 @@ export default function HomePage() {
   return (
     <>
       <Header />
+      <AnalyticsPageTracker />
       <main id="main-content">
         <ErrorBoundary>
           <HeroManifesto />

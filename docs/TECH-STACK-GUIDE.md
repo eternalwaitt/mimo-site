@@ -227,7 +227,7 @@ Render no browser
 
 - [ ] Adicionar estado global (Zustand/Context) se necessário
 - [ ] Implementar CMS headless (Contentful/Sanity) para conteúdo dinâmico
-- [ ] Adicionar analytics (Plausible/Google Analytics)
+- [x] Adicionar analytics (Google Analytics 4 + Microsoft Clarity)
 - [ ] Implementar testes (Jest + React Testing Library)
 - [ ] Adicionar PWA capabilities
 - [ ] Implementar dark mode (se necessário)
