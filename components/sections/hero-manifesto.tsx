@@ -81,17 +81,16 @@ export function HeroManifesto({
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center md:justify-start">
             <Button
-              variant="primary"
               href={getWhatsAppBookingUrl()}
               external
-              className="bg-white text-mimo-brown hover:bg-mimo-neutral-light text-xl md:text-2xl px-10 md:px-12 py-5 md:py-6"
+              className="inline-flex items-center justify-center rounded-lg font-bueno font-bold transition-all duration-300 focus-visible:outline-2 focus-visible:outline-mimo-gold focus-visible:outline-offset-2 bg-white text-mimo-brown hover:bg-mimo-neutral-light text-xl md:text-2xl px-10 md:px-12 py-5 md:py-6 active:scale-95"
             >
               {HOME_COPY.hero.ctaPrimary}
             </Button>
             <Button 
               variant="ghost" 
               href="/servicos" 
-              className="text-white border-2 border-white hover:bg-white/10 text-xl md:text-2xl px-10 md:px-12 py-5 md:py-6"
+              className="!text-white !border-2 !border-white !bg-black/30 hover:!bg-black/40 backdrop-blur-sm text-xl md:text-2xl px-10 md:px-12 py-5 md:py-6"
             >
               {HOME_COPY.hero.ctaSecondary}
             </Button>

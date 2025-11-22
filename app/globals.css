@@ -37,6 +37,12 @@
     text-wrap: balance;
   }
 
+  /* fix wcag: botões whatsapp com fundo branco devem ter texto marrom */
+  a[href*="wa.me"].bg-white,
+  a[href*="wa.me"][class*="bg-white"] {
+    color: #493125 !important;
+  }
+
   /* Screen reader only - visually hidden but accessible */
   .sr-only {
     position: absolute;

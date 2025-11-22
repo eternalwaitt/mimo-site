@@ -252,10 +252,9 @@ export function ServiceContent({ service, whatsappUrl }: ServiceContentProps) {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
-                variant="primary"
                 href={whatsappUrl}
                 external
-                className="bg-white text-mimo-brown hover:bg-mimo-neutral-light text-xl px-10 py-5"
+                className="inline-flex items-center justify-center rounded-lg font-bueno font-bold transition-all duration-300 focus-visible:outline-2 focus-visible:outline-mimo-gold focus-visible:outline-offset-2 bg-white text-mimo-brown hover:bg-mimo-neutral-light text-xl px-10 py-5 active:scale-95"
                 onClick={() => trackCTAClick('whatsapp_booking', `service_${service.slug}`)}
               >
                 Agendar {service.title}
@@ -263,7 +262,7 @@ export function ServiceContent({ service, whatsappUrl }: ServiceContentProps) {
               <Button
                 variant="ghost"
                 href="/servicos"
-                className="border-2 border-white text-white hover:bg-white/10 text-xl px-10 py-5"
+                className="!border-2 !border-white !text-white !bg-black/30 hover:!bg-black/40 backdrop-blur-sm text-xl px-10 py-5"
                 onClick={() => trackNavigationClick('Ver outros serviços', '/servicos')}
               >
                 Ver outros serviços

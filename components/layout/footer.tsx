@@ -100,10 +100,9 @@ export function Footer() {
 
             <div className="mt-6">
               <Button
-                variant="primary"
                 href={getWhatsAppContactUrl()}
                 external
-                className="w-full bg-white text-mimo-brown hover:bg-mimo-neutral-light text-xl py-5"
+                className="inline-flex items-center justify-center rounded-lg font-bueno font-bold transition-all duration-300 focus-visible:outline-2 focus-visible:outline-mimo-gold focus-visible:outline-offset-2 w-full bg-white text-mimo-brown hover:bg-mimo-neutral-light text-xl py-5 active:scale-95"
               >
                 Falar no WhatsApp
               </Button>

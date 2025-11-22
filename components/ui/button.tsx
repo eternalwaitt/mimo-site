@@ -49,9 +49,12 @@ export function Button({
     whatsapp: 'bg-mimo-brown text-white hover:bg-[#3a2519] active:scale-95',
   }
 
-  // Concatenação simples de classes - remove dependência de cn/clsx/tailwind-merge
-  // Reduz bundle em ~2-5 KB
-  const styles = [baseStyles, variants[variant], className].filter(Boolean).join(' ')
+  // Se className customizado for fornecido, usar apenas baseStyles + className
+  // Caso contrário, usar variant padrão
+  // Isso garante que classes customizadas sempre sobrescrevam o variant
+  const styles = className 
+    ? [baseStyles, className].filter(Boolean).join(' ')
+    : [baseStyles, variants[variant]].filter(Boolean).join(' ')
 
   if (href) {
     if (external) {

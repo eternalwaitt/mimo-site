@@ -163,18 +163,16 @@ export default async function JobPage({ params }: Props) {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 {job.contactMethod === 'whatsapp' ? (
                   <Button
-                    variant="primary"
                     href={whatsappUrl}
                     external
-                    className="bg-white text-mimo-brown hover:bg-mimo-neutral-light text-xl px-10 py-5"
+                    className="inline-flex items-center justify-center rounded-lg font-bueno font-bold transition-all duration-300 focus-visible:outline-2 focus-visible:outline-mimo-gold focus-visible:outline-offset-2 bg-white text-mimo-brown hover:bg-mimo-neutral-light text-xl px-10 py-5 active:scale-95"
                   >
                     Candidatar-se via WhatsApp
                   </Button>
                 ) : (
                   <Button
-                    variant="primary"
                     href={emailUrl}
-                    className="bg-white text-mimo-brown hover:bg-mimo-neutral-light text-xl px-10 py-5"
+                    className="inline-flex items-center justify-center rounded-lg font-bueno font-bold transition-all duration-300 focus-visible:outline-2 focus-visible:outline-mimo-gold focus-visible:outline-offset-2 bg-white text-mimo-brown hover:bg-mimo-neutral-light text-xl px-10 py-5 active:scale-95"
                   >
                     Enviar Currículo por Email
                   </Button>
@@ -182,7 +180,7 @@ export default async function JobPage({ params }: Props) {
                 <Button
                   variant="ghost"
                   href="/trabalhe-aqui"
-                  className="text-white border-2 border-white hover:bg-white/10 text-xl px-10 py-5"
+                  className="!text-white !border-2 !border-white !bg-black/30 hover:!bg-black/40 backdrop-blur-sm text-xl px-10 py-5"
                 >
                   Ver outras vagas
                 </Button>

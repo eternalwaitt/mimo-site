@@ -28,7 +28,7 @@ export function CTAAgendamento() {
           width: '100%',
         }}
       >
-        <div className="absolute inset-0 bg-mimo-brown/40 z-10" />
+        <div className="absolute inset-0 bg-mimo-brown/60 z-10" />
         <ImageWithFallback
           src="/images/cta-ambiente.jpg"
           alt="Ambiente acolhedor Mimo"
@@ -48,19 +48,18 @@ export function CTAAgendamento() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
-              variant="primary"
               href={getWhatsAppBookingUrl()}
               external
-              className="bg-white text-mimo-brown hover:bg-mimo-neutral-light text-xl px-10 py-5"
+              className="inline-flex items-center justify-center rounded-lg font-bueno font-bold transition-all duration-300 focus-visible:outline-2 focus-visible:outline-mimo-gold focus-visible:outline-offset-2 bg-white text-mimo-brown hover:bg-mimo-neutral-light text-xl px-10 py-5 active:scale-95"
               onClick={() => trackCTAClick('whatsapp_booking', 'cta_section')}
             >
               {HOME_COPY.ctaAgendamento.ctaWhatsApp}
             </Button>
             <Button
-              variant="secondary"
+              variant="ghost"
               href={getWhatsAppContactUrl()}
               external
-              className="border-white text-white hover:bg-white/10 text-xl px-10 py-5"
+              className="!border-2 !border-white !text-white !bg-black/30 hover:!bg-black/40 backdrop-blur-sm text-xl px-10 py-5"
               onClick={() => trackCTAClick('whatsapp_contact', 'cta_section')}
             >
               {HOME_COPY.ctaAgendamento.ctaEquipe}
