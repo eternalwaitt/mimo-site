@@ -181,10 +181,13 @@
 .testimonial-avatar {
 	contain: layout style paint;
 	width: 80px !important;
-	height: 80px !important;
+	/* REMOVIDO: height: 80px !important - conflito com aspect-ratio causa layout shift */
+	/* Usar aspect-ratio + min-height ao invés de height fixo */
 	min-width: 80px;
 	min-height: 80px;
-	aspect-ratio: 1 / 1;
+	width: 80px; /* Largura fixa para manter tamanho */
+	height: auto; /* Altura automática baseada em aspect-ratio */
+	aspect-ratio: 1 / 1; /* Garantir proporção quadrada */
 	/* FIX: Reserve space even when image is loading */
 	flex-shrink: 0;
 	display: flex;
@@ -2222,11 +2225,13 @@ textarea {
 
 
 .img-cat {
-
-	height: 100px;
-
-	border-radius: 90px
-
+	/* REMOVIDO: height: 100px - conflito com aspect-ratio causa layout shift */
+	/* Usar aspect-ratio + min-height ao invés de height fixo */
+	border-radius: 90px;
+	aspect-ratio: 1 / 1; /* Garantir proporção quadrada */
+	width: 100px; /* Largura fixa para manter tamanho */
+	height: auto; /* Altura automática baseada em aspect-ratio */
+	object-fit: cover; /* Garantir que imagem preenche o espaço */
 }
 
 

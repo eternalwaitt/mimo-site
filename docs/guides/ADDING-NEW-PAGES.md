@@ -6,7 +6,7 @@ Este guia garante que todas as novas páginas mantenham o padrão de qualidade e
 
 Antes de criar uma nova página, verifique:
 
-- [ ] Li o template em `docs/templates/page-template.tsx`
+- [ ] Li o template em `docs/guides/templates/page-template.tsx`
 - [ ] Entendi as regras de performance
 - [ ] Sei como testar localmente
 - [ ] Sei como validar antes de fazer merge
@@ -17,7 +17,7 @@ Antes de criar uma nova página, verifique:
 
 ```bash
 # Copie o template
-cp docs/templates/page-template.tsx app/nova-pagina/page.tsx
+cp docs/guides/templates/page-template.tsx app/nova-pagina/page.tsx
 ```
 
 ### 2. Preencher Metadata
@@ -281,15 +281,15 @@ O GitHub Actions valida automaticamente em PRs:
 
 ## 📚 Recursos
 
-- **Template de Página**: `docs/templates/page-template.tsx`
-- **Template de Seção**: `docs/templates/section-template.tsx`
-- **Performance Guide**: `docs/performance-guide-mimo.md`
+- **Template de Página**: `docs/guides/templates/page-template.tsx`
+- **Template de Seção**: `docs/guides/templates/section-template.tsx`
+- **Performance Guide**: `docs/performance/PERFORMANCE-GUIDE.md`
 - **Checklist Rápido**: `docs/PERFORMANCE-CHECKLIST.md`
 
 ## ❓ Dúvidas?
 
 Se tiver dúvidas sobre:
-- **Performance**: Consulte `docs/performance-guide-mimo.md`
+- **Performance**: Consulte `docs/performance/PERFORMANCE-GUIDE.md`
 - **Estrutura**: Veja páginas existentes em `app/`
 - **Componentes**: Veja exemplos em `components/`
 

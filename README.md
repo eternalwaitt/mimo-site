@@ -243,12 +243,11 @@ O projeto usa `output: 'standalone'` no `next.config.ts`, facilitando deploy em 
 
 ## 📖 Documentação
 
-Documentação técnica completa disponível em [`docs/`](./docs/):
-- Revisão de código e qualidade
-- Estratégia de imagens
-- Pesquisa UX/UI mobile
-- Comparação de frameworks e tecnologias
-- Relatórios de performance
+Documentação técnica essencial disponível em [`docs/`](./docs/):
+- Guias práticos para desenvolvimento
+- Documentação de performance
+- Templates de código
+- Configurações e setup
 
 Veja [`docs/README.md`](./docs/README.md) para índice completo.
 
@@ -287,8 +286,8 @@ Este projeto mantém **Performance ≥95** e **LCP <2.5s** em todas as páginas.
 ### Quick Checklist
 
 Antes de criar uma nova página:
-- [ ] Li `docs/ADDING-NEW-PAGES.md`
-- [ ] Usei template de `docs/templates/`
+- [ ] Li `docs/guides/ADDING-NEW-PAGES.md`
+- [ ] Usei template de `docs/guides/templates/`
 - [ ] Validei com `npm run pre-deploy`
 
 ### Validação Automática
@@ -303,10 +302,9 @@ Antes de criar uma nova página:
 - 🎯 **Performance Guide**: [`docs/performance/PERFORMANCE-GUIDE.md`](./docs/performance/PERFORMANCE-GUIDE.md)
 - 📋 **Prompt Template**: [`docs/performance/PERFORMANCE-PROMPT-TEMPLATE.md`](./docs/performance/PERFORMANCE-PROMPT-TEMPLATE.md) ⭐ **Use para novos projetos**
 - 📊 **Relatório de Otimização**: [`docs/performance/PERFORMANCE-OPTIMIZATION-REPORT.md`](./docs/performance/PERFORMANCE-OPTIMIZATION-REPORT.md)
-- 📈 **Baseline Atual**: [`docs/perf-baseline.md`](./docs/perf-baseline.md)
-- ✅ **Checklist Rápido**: [`docs/PERFORMANCE-CHECKLIST.md`](./docs/PERFORMANCE-CHECKLIST.md)
-- 📖 **Guia Completo**: [`docs/ADDING-NEW-PAGES.md`](./docs/ADDING-NEW-PAGES.md)
-- 📝 **Templates**: [`docs/templates/`](./docs/templates/)
+- ✅ **Checklist Rápido**: [`docs/performance/PERFORMANCE-CHECKLIST.md`](./docs/performance/PERFORMANCE-CHECKLIST.md)
+- 📖 **Guia de Páginas**: [`docs/guides/ADDING-NEW-PAGES.md`](./docs/guides/ADDING-NEW-PAGES.md)
+- 📝 **Templates**: [`docs/guides/templates/`](./docs/guides/templates/)
 
 ## 🧪 Scripts Disponíveis
 

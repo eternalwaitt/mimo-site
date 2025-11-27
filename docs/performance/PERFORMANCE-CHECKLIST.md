@@ -119,9 +119,9 @@ Se você ver qualquer um destes, **pare e corrija**:
 
 ## 📚 Referências
 
-- **Guia Completo**: `docs/ADDING-NEW-PAGES.md`
-- **Performance Guide**: `docs/performance-guide-mimo.md`
-- **Templates**: `docs/templates/`
+- **Guia Completo**: `docs/guides/ADDING-NEW-PAGES.md`
+- **Performance Guide**: `docs/performance/PERFORMANCE-GUIDE.md`
+- **Templates**: `docs/guides/templates/`
 
 ---
 

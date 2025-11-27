@@ -318,10 +318,6 @@ if ($_POST) {
     <!-- Preconnect para domínio próprio (imagens e fontes) -->
     <link rel="preconnect" href="https://minhamimo.com.br" crossorigin>
     
-    <!-- CRITICAL: Preload critical fonts for faster FCP -->
-    <link rel="preload" href="https://fonts.gstatic.com/s/nunito/v26/XRXI3I6Li01BKofAjsOUYevI.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="https://fonts.gstatic.com/s/nunito/v26/XRXI3I6Li01BKofAnsOUYevI.woff2" as="font" type="font/woff2" crossorigin>
-
     <!-- Critical CSS (Above the fold) -->
     <?php include 'inc/critical-css.php'; ?>
 
@@ -330,24 +326,26 @@ if ($_POST) {
     <script>
     /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
     (function(w){"use strict";if(!w.loadCSS){w.loadCSS=function(href,media,rel){var ss=w.document.createElement("link");var ref;if(rel){ref=w.document.getElementsByTagName(rel)[0];}else{var refs=w.document.getElementsByTagName("script");ref=refs[refs.length-1];}ss.rel="stylesheet";ss.href=href;ss.media="only x";function onloadcssdefined(cb){for(var i=0;i<w.document.styleSheets.length;i++){if(w.document.styleSheets[i].href===ss.href){return cb();}}setTimeout(function(){onloadcssdefined(cb);});}onloadcssdefined(function(){ss.media=media||"all";});if(ref){ref.parentNode.insertBefore(ss,ref.nextSibling);}else{w.document.head.appendChild(ss);}return ss;};}})(this);
+    /*! Polyfill for rel="preload" onload - Fallback for browsers that don't support preload onload */
+    (function(){var rel=document.querySelector('link[rel="preload"][as="style"]');if(rel&&!rel.onload){rel.onload=function(){this.onload=null;this.rel='stylesheet';};rel.addEventListener('load',rel.onload);}}());
     </script>
     
     <!-- Accessibility fixes CSS - Defer (not critical for FCP) -->
     <script>loadCSS("<?php echo get_css_asset('css/modules/accessibility-fixes.css'); ?>");</script>
     <noscript><link rel="stylesheet" href="<?php echo get_css_asset('css/modules/accessibility-fixes.css'); ?>"></noscript>
 
-    <!-- Fonts - Defer using loadCSS (melhor que media="print") -->
+    <!-- Fonts - Optimized: Preload CSS + onload (better than loadCSS for fonts) -->
     <!-- Preconnect já configurado acima -->
     <!-- Nunito: fonte principal, usa swap para garantir legibilidade -->
-    <script>loadCSS("https://fonts.googleapis.com/css?family=Nunito:200,300,400&display=swap");</script>
+    <link rel="preload" href="https://fonts.googleapis.com/css?family=Nunito:200,300,400&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400&display=swap" rel="stylesheet"></noscript>
     <!-- EB Garamond: fonte decorativa, usa optional para melhor performance -->
-    <script>loadCSS("https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700i&display=optional");</script>
+    <link rel="preload" href="https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700i&display=optional" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,700i&display=optional" rel="stylesheet"></noscript>
     <!-- Akrobat font loaded via CSS @font-face in product.css with font-display: optional -->
     
-    <!-- Bootstrap core CSS - Defer using loadCSS (melhor que media="print") -->
-    <script>loadCSS("https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css");</script>
+    <!-- Bootstrap core CSS - Optimized: Preload + onload (better than loadCSS) -->
+    <link rel="preload" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"></noscript>
 
     <!-- CSS Variables agora inline no critical CSS (evita render blocking) -->
@@ -356,8 +354,9 @@ if ($_POST) {
     <script>loadCSS("<?php echo get_css_asset('product.css'); ?>");</script>
     <noscript><?php echo css_tag('product.css'); ?></noscript>
     
-    <!-- Dark Mode Styles - Load synchronously (critical for color matching) -->
-    <?php echo css_tag('css/modules/dark-mode.css'); ?>
+    <!-- Dark Mode Styles - Defer (não crítico para FCP, carrega apenas quando dark mode ativado) -->
+    <script>loadCSS("<?php echo get_css_asset('css/modules/dark-mode.css'); ?>");</script>
+    <noscript><?php echo css_tag('css/modules/dark-mode.css'); ?></noscript>
     
     <!-- Animations - Defer (não crítico para FCP) -->
     <script>loadCSS("<?php echo get_css_asset('css/modules/animations.css'); ?>");</script>

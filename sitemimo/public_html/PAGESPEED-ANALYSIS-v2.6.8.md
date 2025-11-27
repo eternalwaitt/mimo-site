@@ -155,3 +155,4 @@
 6. Iterar até performance mobile >= 90
 
 
+
