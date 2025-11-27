@@ -63,7 +63,7 @@ vercel --prod
 
 Se precisar de variáveis de ambiente:
 1. No dashboard Vercel, vá em **Settings** → **Environment Variables**
-2. Adicione as variáveis necessárias (ex: `NEXT_PUBLIC_GA_MEASUREMENT_ID`)
+2. Adicione as variáveis necessárias (ex: `NEXT_PUBLIC_PLAUSIBLE_DOMAIN`)
 3. Faça redeploy
 
 #### Domínio Customizado

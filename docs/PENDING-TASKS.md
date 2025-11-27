@@ -94,13 +94,13 @@ Data: 2025-01-30
 
 **Prioridade Alta**:
 1. ✅ Menu mobile funcional - **CONCLUÍDO** (implementado em `components/layout/header.tsx`)
-2. Swipe gestures na galeria
-3. Filtros scrolláveis na galeria
+2. Swipe gestures na galeria - **PENDENTE**
+3. Filtros scrolláveis na galeria - **PENDENTE**
 
 **Prioridade Média**:
-4. Skeleton screens
-5. Touch targets audit
-6. Active states em touch
+4. ✅ Skeleton screens - **CONCLUÍDO** (implementado na versão 1.4.0, ver CHANGELOG.md)
+5. ✅ Touch targets audit - **CONCLUÍDO** (mínimo 44x44px garantido via CSS em `app/globals.css`)
+6. Active states em touch - **PENDENTE**
 
 **Documentação**: Ver `docs/UX-IMPROVEMENTS.md` para detalhes completos.
 
@@ -120,10 +120,13 @@ Data: 2025-01-30
 
 ### Próximos Passos Recomendados
 1. ✅ Menu mobile - **CONCLUÍDO**
-2. Deploy do site
-3. Executar PageSpeed Insights
-4. Implementar otimizações de performance
-5. Otimizar imagens quando necessário
-6. Implementar swipe gestures na galeria
-7. Melhorar filtros da galeria (scroll horizontal)
+2. ✅ Skeleton screens - **CONCLUÍDO** (v1.4.0)
+3. ✅ Touch targets - **CONCLUÍDO** (v1.5.1)
+4. Deploy do site
+5. Executar PageSpeed Insights
+6. Implementar otimizações de performance (se necessário)
+7. Otimizar imagens quando necessário
+8. Implementar swipe gestures na galeria
+9. Melhorar filtros da galeria (scroll horizontal)
+10. Adicionar active states em touch
 

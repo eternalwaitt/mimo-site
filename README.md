@@ -67,11 +67,11 @@ mimo-site/
 
 ### Cores
 
-- **mimo-brown** (#493125): Cor protagonista - títulos, botões primários
-- **mimo-blue** (#1F2A3E): Apoio estrutural - header, footer
+- **mimo-brown** (#3D1F12): Cor protagonista - títulos, botões primários
+- **mimo-blue** (#400303): Apoio estrutural - header, footer
 - **mimo-neutral-light** (#F4EFEB): Fundos principais
-- **mimo-neutral-medium** (#E5DCD3): Fundos alternativos
-- **mimo-gold** (#EFDFAC): Acentos e detalhes
+- **mimo-neutral-medium** (#CBB9A4): Fundos alternativos
+- **mimo-gold** (#FFF4B9): Acentos e detalhes
 
 ### Tipografia
 

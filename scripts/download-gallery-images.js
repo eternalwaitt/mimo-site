@@ -79,16 +79,16 @@ const IMAGES_TO_DOWNLOAD = [
   
   // Cílios
   {
-    url: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=1200&q=85&auto=format&fit=crop',
-    filename: 'cilios-extensao-1.webp',
-    category: 'cilios',
-    alt: 'Extensão de cílios'
-  },
-  {
     url: 'https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=1200&q=85&auto=format&fit=crop&crop=face',
     filename: 'cilios-design-1.webp',
     category: 'cilios',
-    alt: 'Design de cílios'
+    alt: 'Design de sobrancelhas'
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=1200&q=85&auto=format&fit=crop',
+    filename: 'cilios-lash-lift-1.webp',
+    category: 'cilios',
+    alt: 'Lash lift'
   },
   
   // Micropigmentação
@@ -96,7 +96,7 @@ const IMAGES_TO_DOWNLOAD = [
     url: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=1200&q=85&auto=format&fit=crop',
     filename: 'micro-sobrancelhas-1.webp',
     category: 'micropigmentacao',
-    alt: 'Microblading de sobrancelhas'
+    alt: 'Nanoblading de sobrancelhas'
   },
   {
     url: 'https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=1200&q=85&auto=format&fit=crop&crop=face',

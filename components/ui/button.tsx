@@ -27,7 +27,7 @@ type ButtonProps = {
 /**
  * button component com variants seguindo brand book.
  * 
- * primary: marrom (#493125) - CTAs principais
+ * primary: marrom (#3D1F12) - CTAs principais
  * secondary: outline - CTAs secundários
  * ghost: transparente - links discretos
  * whatsapp: verde sutil ou marrom com ícone - links WhatsApp
@@ -43,10 +43,10 @@ export function Button({
   const baseStyles = 'inline-flex items-center justify-center px-8 py-4 rounded-lg font-bueno font-bold text-lg transition-all duration-300 focus-visible:outline-2 focus-visible:outline-mimo-gold focus-visible:outline-offset-2'
 
   const variants = {
-    primary: 'bg-mimo-brown text-white hover:bg-[#3a2519] active:scale-95',
+    primary: 'bg-mimo-brown text-white hover:bg-[#2D0F08] active:scale-95',
     secondary: 'border-2 border-mimo-brown text-mimo-brown hover:bg-mimo-brown hover:text-white active:scale-95',
-    ghost: 'text-mimo-brown hover:text-[#3a2519] hover:underline',
-    whatsapp: 'bg-mimo-brown text-white hover:bg-[#3a2519] active:scale-95',
+    ghost: 'text-mimo-brown hover:text-[#2D0F08] hover:underline',
+    whatsapp: 'bg-mimo-brown text-white hover:bg-[#2D0F08] active:scale-95',
   }
 
   // Se className customizado for fornecido, usar apenas baseStyles + className

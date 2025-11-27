@@ -88,7 +88,7 @@ export function HeaderClient({
       link.href = whatsappUrl
       link.target = '_blank'
       link.rel = 'noopener noreferrer'
-      link.className = 'inline-flex items-center justify-center px-10 py-4 rounded-lg font-bueno font-bold text-xl transition-all duration-300 bg-mimo-brown text-white hover:bg-[#3a2519] active:scale-95 focus-visible:outline-2 focus-visible:outline-mimo-gold focus-visible:outline-offset-2'
+      link.className = 'inline-flex items-center justify-center px-10 py-4 rounded-lg font-bueno font-bold text-xl transition-all duration-300 bg-mimo-brown text-white hover:bg-[#2D0F08] active:scale-95 focus-visible:outline-2 focus-visible:outline-mimo-gold focus-visible:outline-offset-2'
       link.textContent = 'Agendar'
       link.addEventListener('click', () => handleCTAClick('header'))
       placeholder.innerHTML = ''
@@ -155,7 +155,7 @@ export function HeaderClient({
     ctaLink.href = whatsappUrl
     ctaLink.target = '_blank'
     ctaLink.rel = 'noopener noreferrer'
-    ctaLink.className = 'inline-flex items-center justify-center px-8 py-3 rounded-lg font-bueno font-bold text-lg transition-all duration-300 bg-mimo-brown text-white hover:bg-[#3a2519] active:scale-95 focus-visible:outline-2 focus-visible:outline-mimo-gold focus-visible:outline-offset-2 min-h-[44px] min-w-[44px]'
+    ctaLink.className = 'inline-flex items-center justify-center px-8 py-3 rounded-lg font-bueno font-bold text-lg transition-all duration-300 bg-mimo-brown text-white hover:bg-[#2D0F08] active:scale-95 focus-visible:outline-2 focus-visible:outline-mimo-gold focus-visible:outline-offset-2 min-h-[44px] min-w-[44px]'
     ctaLink.textContent = 'Agendar'
     ctaLink.addEventListener('click', (e) => {
       e.preventDefault()

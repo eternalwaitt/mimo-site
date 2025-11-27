@@ -261,7 +261,7 @@ Após cada fase, documentar:
 
 ### Risco 3: Analytics Parar de Funcionar
 - **Mitigação**: Testar analytics após otimizações
-- **Verificação**: GA4 dashboard
+- **Verificação**: Plausible Analytics dashboard
 
 ---
 

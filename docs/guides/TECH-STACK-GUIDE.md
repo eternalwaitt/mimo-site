@@ -227,7 +227,7 @@ Render no browser
 
 - [ ] Adicionar estado global (Zustand/Context) se necessário
 - [ ] Implementar CMS headless (Contentful/Sanity) para conteúdo dinâmico
-- [x] Adicionar analytics (Google Analytics 4 + Microsoft Clarity)
+- [x] Adicionar analytics (Plausible Analytics - migrado de GA4/Clarity na v1.5.2)
 - [ ] Implementar testes (Jest + React Testing Library)
 - [ ] Adicionar PWA capabilities
 - [ ] Implementar dark mode (se necessário)
@@ -239,8 +239,13 @@ Render no browser
 - [Framer Motion Docs](https://www.framer.com/motion/)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/)
 
+### Referências Detalhadas
+
+Para referências completas, cheat sheets e links úteis de Next.js, React, TypeScript e Tailwind CSS, consulte:
+- **[TECH-REFERENCES.md](./TECH-REFERENCES.md)** - Referências técnicas completas
+
 ---
 
-**Versão atual**: 1.2.0  
-**Última atualização**: 2025-01-29
+**Versão atual**: 1.5.2  
+**Última atualização**: 2025-01-30
 

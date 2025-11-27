@@ -1,87 +1,65 @@
 # Configuração de Analytics
 
-Este documento explica como configurar as ferramentas de analytics e inteligência de usuário no site.
+Este documento explica como configurar o Plausible Analytics no site.
 
 ## Variáveis de Ambiente
 
-Crie um arquivo `.env.local` na raiz do projeto com as seguintes variáveis:
+Crie um arquivo `.env.local` na raiz do projeto com a seguinte variável:
 
 ```bash
-# Google Analytics 4 (GA4)
-# Obtenha seu Measurement ID em https://analytics.google.com
-# Formato: G-XXXXXXXXXX
-NEXT_PUBLIC_GA_MEASUREMENT_ID=G-KN32FXHXW8
+# Plausible Analytics
+# Obtenha seu domain em https://plausible.io
+# Formato: seu-dominio.com.br
+NEXT_PUBLIC_PLAUSIBLE_DOMAIN=minhamimo.com.br
 
-# Microsoft Clarity
-# Obtenha seu project ID em https://clarity.microsoft.com
-# Free tier: sessões e gravações ilimitadas
-NEXT_PUBLIC_CLARITY_PROJECT_ID=your_project_id_here
+# Opcional: Desabilitar analytics (útil para desenvolvimento local)
+# DISABLE_ANALYTICS=true
 ```
 
 ## Setup
 
-### 1. Google Analytics 4 (GA4)
+### 1. Plausible Analytics
 
-**Configuração do Google Analytics:**
+**Configuração do Plausible:**
 
-1. Acesse [Google Analytics](https://analytics.google.com) e faça login com sua conta Google
-2. Clique em "Criar" para criar uma nova propriedade (se ainda não tiver)
-3. Configure:
-   - Nome da propriedade: "Mimo Site" (ou o que preferir)
-   - Fuso horário: (GMT-03:00) Brasília
-   - Moeda: Real brasileiro (BRL)
-4. Configure o fluxo de dados:
-   - Escolha "Web"
-   - URL do site: `https://minhamimo.com.br`
-   - Nome do fluxo: "Mimo Site"
-5. Copie o **Measurement ID** (formato: `G-XXXXXXXXXX`)
-   - ID atual: `G-KN32FXHXW8`
-6. Adicione `NEXT_PUBLIC_GA_MEASUREMENT_ID=G-KN32FXHXW8` no `.env.local` ou nas variáveis de ambiente do Vercel
-
-**⚠️ Importante - Banner de Consentimento (LGPD/GDPR):**
-
-Google Analytics usa cookies e coleta dados pessoais, então você **precisa** de um banner de consentimento no site para estar em conformidade com LGPD/GDPR.
+1. Acesse [Plausible Analytics](https://plausible.io) e crie uma conta
+2. Adicione seu site (`minhamimo.com.br`)
+3. Copie o **Domain** (o domínio que você adicionou)
+4. Adicione `NEXT_PUBLIC_PLAUSIBLE_DOMAIN=minhamimo.com.br` no `.env.local` ou nas variáveis de ambiente do Vercel
 
 **O que você ganha:**
-- Analytics completo e gratuito
-- Funis de conversão avançados
-- Integração com Google Ads e Search Console
-- Análises detalhadas de comportamento
-- Dados em tempo real
-- Sem limites de uso
+- Analytics privacy-friendly (sem cookies, sem banner de consentimento necessário)
+- Conformidade automática com LGPD/GDPR
+- Métricas essenciais (pageviews, visitantes únicos, bounce rate, etc)
+- Dashboard simples e intuitivo
+- Dados agregados (não coleta dados pessoais)
+- Script leve (~1KB) que não bloqueia renderização
 
-**O que você precisa:**
-- Banner de consentimento (obrigatório por LGPD)
-- Configurar políticas de privacidade
-
-### 2. Microsoft Clarity
-
-1. Acesse [Microsoft Clarity](https://clarity.microsoft.com) e faça login com conta Microsoft
-2. Crie um novo projeto
-3. Copie o Project ID
-4. Adicione `NEXT_PUBLIC_CLARITY_PROJECT_ID` no `.env.local`
-
-**O que você ganha:**
-- Heatmaps (click, scroll, move)
-- Session recordings ilimitados
-- Insights automáticos (rage clicks, dead clicks, etc)
+**Vantagens sobre GA4/Clarity:**
+- ✅ Não requer banner de consentimento (LGPD/GDPR compliant)
+- ✅ Não usa cookies
+- ✅ Não coleta dados pessoais (IPs são hasheados)
+- ✅ Script carregado com `lazyOnload` (não bloqueia FCP/LCP)
+- ✅ Mais leve e performático
 
 ## Eventos Trackados
 
 O sistema tracka automaticamente os seguintes eventos:
 
 ### Automáticos
-- `page_view` - Visualização de página (GA4 automático, atualiza em mudanças de rota)
-- `scroll_depth` - Profundidade de scroll (25%, 50%, 75%, 100%)
-- `time_on_page` - Tempo na página (30s, 1min, 2min+)
+- `pageview` - Visualização de página (atualiza automaticamente em mudanças de rota do Next.js)
 
-### Manuais
+### Customizados (via API)
 - `cta_click` - Cliques em CTAs (WhatsApp, agendamento)
   - Propriedades: `cta_type`, `location`
 - `service_view` - Visualização de página de serviço
   - Propriedades: `service_slug`
 - `navigation_click` - Cliques em itens de navegação
   - Propriedades: `menu_item`, `href`
+- `scroll_depth` - Profundidade de scroll (25%, 50%, 75%, 100%)
+  - Propriedades: `depth_percent`
+- `time_on_page` - Tempo na página (30s, 1min, 2min+)
+  - Propriedades: `seconds`
 
 ## Uso no Código
 
@@ -112,49 +90,93 @@ import { trackServiceView } from '@/lib/analytics'
 trackServiceView('salao')
 ```
 
+### Trackar scroll depth (automático)
+
+O componente `AnalyticsPageTracker` já inicializa tracking automático de scroll depth. Se precisar fazer manualmente:
+
+```typescript
+import { initScrollDepthTracking } from '@/lib/analytics'
+
+useEffect(() => {
+  const cleanup = initScrollDepthTracking()
+  return cleanup
+}, [])
+```
+
+### Trackar tempo na página (automático)
+
+O componente `AnalyticsPageTracker` já inicializa tracking automático de tempo na página. Se precisar fazer manualmente:
+
+```typescript
+import { initTimeOnPageTracking } from '@/lib/analytics'
+
+useEffect(() => {
+  const cleanup = initTimeOnPageTracking()
+  return cleanup
+}, [])
+```
+
 ## Verificação
 
-Após configurar as variáveis de ambiente:
+Após configurar a variável de ambiente:
 
 1. Reinicie o servidor de desenvolvimento (`npm run dev`)
 2. Navegue pelo site
-3. Verifique no dashboard do Google Analytics (Relatórios > Tempo Real) se os eventos estão sendo coletados
-4. Verifique no dashboard do Clarity se as sessões estão sendo gravadas
+3. Verifique no dashboard do Plausible se os eventos estão sendo coletados
+4. Eventos aparecem em tempo real no dashboard
 
 ## Privacidade e LGPD
 
-### Google Analytics
-- ⚠️ **Requer banner de consentimento** (obrigatório por LGPD/GDPR)
-- Usa cookies para rastreamento
-- Coleta dados pessoais (IP, user agent, etc)
-- Dados ficam nos servidores do Google
-- Configure política de privacidade no site
+### Plausible Analytics
+- ✅ **Não requer banner de consentimento** (LGPD/GDPR compliant)
+- ✅ Não usa cookies
+- ✅ Não coleta dados pessoais (IPs são hasheados, não armazenados)
+- ✅ Dados agregados apenas
+- ✅ Open source e auditável
+- ✅ Dados ficam nos servidores do Plausible (ou self-hosted se configurado)
 
-### Microsoft Clarity
-- Pode precisar de banner de consentimento (verificar LGPD)
-- Grava sessões (pode conter dados pessoais)
-- Dados ficam nos servidores da Microsoft
+## Desabilitar Analytics
 
-## Migração Futura para Plausible
+Para desabilitar analytics (útil em desenvolvimento local):
 
-A API de eventos (`trackEvent`, `trackCTAClick`, etc) foi projetada para ser provider-agnostic. Para migrar para Plausible no futuro:
+```bash
+# No .env.local
+DISABLE_ANALYTICS=true
+```
 
-1. Atualize `lib/analytics.ts` para usar `window.plausible()` ao invés de `window.gtag()`
-2. Atualize `components/analytics-provider.tsx` para carregar script do Plausible
-3. Atualize `app/layout.tsx` para incluir script do Plausible
-4. Remova variável `NEXT_PUBLIC_GA_MEASUREMENT_ID` e adicione `NEXT_PUBLIC_PLAUSIBLE_*`
+Isso desabilita completamente o carregamento do script do Plausible e todas as funções de tracking retornam sem fazer nada.
 
 ## Troubleshooting
 
-### Eventos não aparecem no Google Analytics
-- Verifique se `NEXT_PUBLIC_GA_MEASUREMENT_ID` está configurado corretamente (formato: `G-XXXXXXXXXX`)
-- ID atual: `G-KN32FXHXW8`
+### Eventos não aparecem no Plausible
+- Verifique se `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` está configurado corretamente
+- Verifique se `DISABLE_ANALYTICS` não está definido como `true`
 - Verifique se o script está carregando (Network tab no DevTools)
 - Verifique o console do browser por erros
-- No GA4, vá em Relatórios > Tempo Real para ver eventos imediatamente
-- Aguarde alguns minutos para eventos aparecerem em relatórios padrão
+- Aguarde alguns minutos - eventos podem levar tempo para aparecer no dashboard
 
-### Clarity não está gravando
-- Verifique se `NEXT_PUBLIC_CLARITY_PROJECT_ID` está configurado
-- Aguarde alguns minutos - pode levar tempo para aparecer no dashboard
-- Verifique o console do browser por erros
+### Script não está carregando
+- Verifique se `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` está configurado
+- Verifique se `DISABLE_ANALYTICS` não está definido
+- Verifique o Network tab no DevTools para ver se há requisições bloqueadas
+- Verifique se ad blockers não estão bloqueando o script
+
+### Verificar se analytics está funcionando
+
+No console do browser:
+```javascript
+// Verificar se plausible está disponível
+console.log(window.plausible)
+
+// Verificar variável de ambiente (apenas em desenvolvimento)
+console.log(process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN)
+```
+
+## Migração de GA4/Clarity
+
+O projeto migrou de Google Analytics 4 e Microsoft Clarity para Plausible Analytics por questões de:
+- **Performance**: Script mais leve, não bloqueia renderização
+- **Privacidade**: Não requer banner de consentimento (LGPD compliant)
+- **Simplicidade**: Dashboard mais simples, focado no essencial
+
+A API de eventos (`trackEvent`, `trackCTAClick`, etc) foi mantida compatível para facilitar a migração.

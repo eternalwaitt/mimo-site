@@ -13,12 +13,12 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'mimo-brown': '#493125',
-        'mimo-blue': '#1F2A3E',
-        'mimo-blue-hover': '#2A3A52',
+        'mimo-brown': '#3D1F12',
+        'mimo-blue': '#400303',
+        'mimo-blue-hover': '#500404',
         'mimo-neutral-light': '#F4EFEB',
-        'mimo-neutral-medium': '#E5DCD3',
-        'mimo-gold': '#EFDFAC',
+        'mimo-neutral-medium': '#CBB9A4',
+        'mimo-gold': '#FFF4B9',
       },
       fontFamily: {
         'bueno': ['var(--font-bueno)', 'sans-serif'],

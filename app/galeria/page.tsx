@@ -42,11 +42,11 @@ export default function GaleriaPage() {
     { src: '/images/galeria/esmalteria/esmalteria-design-1.webp', alt: 'Design de unhas artístico', category: 'esmalteria' },
     
     // Cílios
-    { src: '/images/galeria/cilios/cilios-extensao-1.webp', alt: 'Extensão de cílios', category: 'cilios' },
-    { src: '/images/galeria/cilios/cilios-design-1.webp', alt: 'Design de cílios', category: 'cilios' },
+    { src: '/images/galeria/cilios/cilios-design-1.webp', alt: 'Design de sobrancelhas', category: 'cilios' },
+    { src: '/images/galeria/cilios/cilios-lash-lift-1.webp', alt: 'Lash lift', category: 'cilios' },
     
     // Micropigmentação
-    { src: '/images/galeria/micropigmentacao/micro-sobrancelhas-1.webp', alt: 'Microblading de sobrancelhas', category: 'micropigmentacao' },
+    { src: '/images/galeria/micropigmentacao/micro-sobrancelhas-1.webp', alt: 'Nanoblading de sobrancelhas', category: 'micropigmentacao' },
     { src: '/images/galeria/micropigmentacao/micro-pigmentacao-1.webp', alt: 'Micropigmentação profissional', category: 'micropigmentacao' },
     
     // Estética Facial

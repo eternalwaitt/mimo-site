@@ -7,6 +7,15 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [1.5.2] - 2025-01-30
 
+### Changed
+- Migração de Google Analytics 4 e Microsoft Clarity para Plausible Analytics
+  - Motivos: melhor performance (script mais leve, não bloqueia renderização), privacidade (não requer banner de consentimento LGPD), simplicidade
+  - Variável de ambiente atualizada: `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` (substitui `NEXT_PUBLIC_GA_MEASUREMENT_ID` e `NEXT_PUBLIC_CLARITY_PROJECT_ID`)
+  - API de eventos mantida compatível (`trackEvent`, `trackCTAClick`, etc)
+  - Script carregado com `strategy="lazyOnload"` para não bloquear FCP/LCP
+  - Documentação atualizada em `docs/guides/ANALYTICS-SETUP.md`
+  - Removido `docs/guides/GA4-TROUBLESHOOTING.md` (não mais necessário)
+
 ### Fixed
 - Problemas de contraste WCAG em botões e textos - corrigidos todos os elementos que não atendiam ao mínimo de 4.5:1 (WCAG AA)
   - Filtros da galeria: `text-mimo-blue` → `text-mimo-brown` em fundo bege claro
@@ -55,6 +64,7 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 ### Added
 - Google Analytics 4 (GA4) integrado com tracking automático de pageviews
 - Microsoft Clarity para heatmaps e session recordings
+- **Nota**: Migrado para Plausible Analytics na versão 1.5.2 (ver changelog da 1.5.2)
 - Sistema de analytics com eventos customizados:
   - `cta_click` - tracking de cliques em CTAs (WhatsApp, agendamento)
   - `service_view` - tracking de visualização de páginas de serviço

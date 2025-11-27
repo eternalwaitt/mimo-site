@@ -38,8 +38,8 @@ docs/
 └── guides/              # Guias e comparações
     ├── ADDING-NEW-PAGES.md
     ├── ANALYTICS-SETUP.md
-    ├── GA4-TROUBLESHOOTING.md
     ├── TECH-STACK-GUIDE.md
+    ├── TECH-REFERENCES.md
     ├── TECH-STACK-ALTERNATIVES.md
     ├── DATA-FORMATS-COMPARISON.md
     ├── CSS-FRAMEWORKS-COMPARISON.md
@@ -75,9 +75,9 @@ docs/
 
 ### Guias
 - **[guides/ADDING-NEW-PAGES.md](./guides/ADDING-NEW-PAGES.md)** - Como adicionar novas páginas
-- **[guides/ANALYTICS-SETUP.md](./guides/ANALYTICS-SETUP.md)** - Configuração de analytics
-- **[guides/GA4-TROUBLESHOOTING.md](./guides/GA4-TROUBLESHOOTING.md)** - Troubleshooting do GA4
+- **[guides/ANALYTICS-SETUP.md](./guides/ANALYTICS-SETUP.md)** - Configuração de analytics (Plausible)
 - **[guides/TECH-STACK-GUIDE.md](./guides/TECH-STACK-GUIDE.md)** - Guia da stack tecnológica
+- **[guides/TECH-REFERENCES.md](./guides/TECH-REFERENCES.md)** - Referências rápidas (Next.js, React, TypeScript, Tailwind)
 - **[guides/TECH-STACK-ALTERNATIVES.md](./guides/TECH-STACK-ALTERNATIVES.md)** - Comparação de tecnologias
 - **[guides/DATA-FORMATS-COMPARISON.md](./guides/DATA-FORMATS-COMPARISON.md)** - Comparação de formatos de dados
 - **[guides/CSS-FRAMEWORKS-COMPARISON.md](./guides/CSS-FRAMEWORKS-COMPARISON.md)** - Comparação de frameworks CSS
