@@ -6,7 +6,6 @@ import { ANIMATION_DELAYS } from '@/lib/ui-constants'
  * grid de serviços - cards grandes com foto dominante.
  * 
  * - nome BUENO, preço sutil
- * - hover: revela frase curta + "Ver detalhes"
  * - link para subpáginas de cada serviço
  * - animações de entrada escalonadas com CSS (não framer-motion)
  * 

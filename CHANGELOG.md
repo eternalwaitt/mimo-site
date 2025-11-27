@@ -5,6 +5,49 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
+## [1.6.0] - 2025-01-30
+
+### Added
+- **Mimo Hub**: Nova seção para produtos recomendados pela Mimo e influencers
+  - Página `/mimo-hub` com grid de produtos
+  - Sistema de filtros avançado (categoria, quem indicou, tipo de produto)
+  - Componente `ProductCard` para exibição de produtos
+  - Componente `ProductGrid` com animações escalonadas
+  - Componente `ProductFilters` com dropdown interativo
+  - Placeholders visuais elegantes para produtos sem imagem
+  - Links de afiliados configurados corretamente
+  - Estrutura preparada para expansão futura
+- **Página 404 Personalizada**: Página de erro 404 criativa e alinhada com a marca
+  - Mensagem criativa: "Deixou a coroa cair, princesa? Essa página não existe"
+  - Design consistente com o resto do site
+  - Botões de ação (Voltar para casa, Agendar no WhatsApp)
+  - Links úteis para navegação rápida
+- **Novos tipos TypeScript**: Tipo `Product` para produtos do hub
+- **Novas constantes**: `lib/constants/hub.ts` com produtos e categorias
+
+### Changed
+- Cores da marca atualizadas conforme PDF do rebrand:
+  - `mimo-brown`: `#493125` → `#3D1F12`
+  - `mimo-blue`: `#1F2A3E` → `#400303`
+  - `mimo-blue-hover`: `#2A3A52` → `#500404`
+  - `mimo-neutral-medium`: `#E5DCD3` → `#CBB9A4`
+  - `mimo-gold`: `#EFDFAC` → `#FFF4B9`
+- Componentes atualizados com novas cores:
+  - `components/ui/button.tsx` - hover states atualizados
+  - `components/layout/header-client.tsx` - CTAs atualizados
+  - `app/globals.css` - regras WCAG atualizadas
+  - `public/images/logo.svg` - cor do logo atualizada
+  - `public/images/placeholder.svg` - cores atualizadas
+- `ServiceCard`: Removida expansão no hover e botão "Ver detalhes"
+  - Cards agora são estáticos, apenas com hover sutil na shadow
+  - Melhor UX e performance
+
+### Technical
+- Estrutura modular para produtos (tipos, constantes, componentes)
+- Filtros implementados com estado local e múltipla seleção
+- Performance otimizada (server components quando possível)
+- Acessibilidade: ARIA labels, navegação por teclado, contraste WCAG
+
 ## [1.5.2] - 2025-01-30
 
 ### Changed

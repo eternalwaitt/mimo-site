@@ -10,4 +10,5 @@ export * from './home'
 export * from './services'
 export * from './celebrities'
 export * from './jobs'
+export * from './hub'
 

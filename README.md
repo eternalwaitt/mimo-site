@@ -42,7 +42,9 @@ mimo-site/
 │   ├── sobre/             # Página sobre
 │   ├── galeria/           # Galeria de fotos
 │   ├── trabalhe-aqui/     # Página de carreiras
+│   ├── mimo-hub/          # Mimo Hub - produtos recomendados
 │   ├── blog/              # Blog (estrutura fase 2)
+│   ├── not-found.tsx      # Página 404 personalizada
 │   └── sitemap.ts         # Sitemap dinâmico
 ├── components/
 │   ├── layout/            # Header e Footer
@@ -54,6 +56,7 @@ mimo-site/
 │   │   ├── services.ts   # Serviços
 │   │   ├── celebrities.ts # Celebridades/influencers
 │   │   ├── jobs.ts       # Vagas
+│   │   ├── hub.ts        # Produtos do Mimo Hub
 │   │   ├── contact.ts    # Contato e empresa
 │   │   └── home.ts       # Copy da home
 │   ├── utils.ts           # Funções utilitárias
@@ -86,6 +89,17 @@ Componente `OrganicShape` com variants:
 - `ellipse`: Elipses
 
 ## 📝 Como Adicionar Conteúdo
+
+### Páginas Disponíveis
+
+- **Home** (`/`): Página principal com hero, serviços, depoimentos e CTA
+- **Serviços** (`/servicos`): Lista de todos os serviços
+- **Serviço Individual** (`/servicos/[slug]`): Página detalhada de cada serviço
+- **Sobre** (`/sobre`): História e valores da Mimo
+- **Galeria** (`/galeria`): Galeria de fotos com filtros
+- **Trabalhe Aqui** (`/trabalhe-aqui`): Vagas disponíveis
+- **Mimo Hub** (`/mimo-hub`): Produtos recomendados com filtros
+- **404** (`not-found.tsx`): Página de erro personalizada
 
 ### Adicionar Novo Serviço
 
@@ -142,6 +156,31 @@ Componente `OrganicShape` com variants:
   contactMethod: 'whatsapp' | 'email',
 }
 ```
+
+### Adicionar Produto ao Mimo Hub
+
+1. Editar `lib/constants/hub.ts` e adicionar ao array `PRODUCTS`:
+
+```typescript
+{
+  id: 'produto-id',
+  slug: 'produto-slug',
+  title: 'Nome do Produto',
+  shortDescription: 'Descrição curta',
+  description: 'Descrição completa',
+  image: '/images/hub/produto.webp',
+  imageAlt: 'Descrição da imagem',
+  affiliateUrl: 'https://exemplo.com/produto?ref=mimo',
+  category: 'cabelo' | 'pele' | 'acessorios' | 'tratamentos',
+  recommendedBy: 'Mimo' | 'Influencer X',
+  brand: 'Marca do Produto',
+  price: 'R$ 45,90',
+  tags: ['tag1', 'tag2'],
+}
+```
+
+2. A imagem será exibida automaticamente no grid de produtos
+3. O produto aparecerá nos filtros automaticamente
 
 ## 🛠️ Padrões de Código
 
@@ -235,19 +274,21 @@ O projeto usa `output: 'standalone'` no `next.config.ts`, facilitando deploy em 
 
 ## 📚 Tecnologias
 
-- **Next.js 15**: Framework React
+- **Next.js 15**: Framework React com App Router
 - **TypeScript**: Tipagem estática
 - **Tailwind CSS**: Estilização
-- **Framer Motion**: Animações
+- **Framer Motion**: Animações (apenas abaixo do fold)
 - **Next/Image**: Otimização de imagens
+- **React 19**: Biblioteca UI
 
 ## 📖 Documentação
 
-Documentação técnica essencial disponível em [`docs/`](./docs/):
-- Guias práticos para desenvolvimento
-- Documentação de performance
-- Templates de código
-- Configurações e setup
+Documentação técnica completa disponível em [`docs/`](./docs/):
+- Revisão de código e qualidade
+- Estratégia de imagens
+- Pesquisa UX/UI mobile
+- Comparação de frameworks e tecnologias
+- Relatórios de performance
 
 Veja [`docs/README.md`](./docs/README.md) para índice completo.
 
@@ -302,8 +343,9 @@ Antes de criar uma nova página:
 - 🎯 **Performance Guide**: [`docs/performance/PERFORMANCE-GUIDE.md`](./docs/performance/PERFORMANCE-GUIDE.md)
 - 📋 **Prompt Template**: [`docs/performance/PERFORMANCE-PROMPT-TEMPLATE.md`](./docs/performance/PERFORMANCE-PROMPT-TEMPLATE.md) ⭐ **Use para novos projetos**
 - 📊 **Relatório de Otimização**: [`docs/performance/PERFORMANCE-OPTIMIZATION-REPORT.md`](./docs/performance/PERFORMANCE-OPTIMIZATION-REPORT.md)
-- ✅ **Checklist Rápido**: [`docs/performance/PERFORMANCE-CHECKLIST.md`](./docs/performance/PERFORMANCE-CHECKLIST.md)
-- 📖 **Guia de Páginas**: [`docs/guides/ADDING-NEW-PAGES.md`](./docs/guides/ADDING-NEW-PAGES.md)
+- 📈 **Baseline Atual**: [`docs/perf-baseline.md`](./docs/perf-baseline.md)
+- ✅ **Checklist Rápido**: [`docs/PERFORMANCE-CHECKLIST.md`](./docs/PERFORMANCE-CHECKLIST.md)
+- 📖 **Guia Completo**: [`docs/guides/ADDING-NEW-PAGES.md`](./docs/guides/ADDING-NEW-PAGES.md)
 - 📝 **Templates**: [`docs/guides/templates/`](./docs/guides/templates/)
 
 ## 🧪 Scripts Disponíveis

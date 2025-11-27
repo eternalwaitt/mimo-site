@@ -1,9 +1,7 @@
 import Link from 'next/link'
 import { ImageWithFallback } from './image-with-fallback'
-import { Button } from './button'
 import { cn } from '@/lib/utils'
 import type { Service } from '@/lib/types'
-import { MAX_HEIGHTS } from '@/lib/ui-constants'
 
 /**
  * props do componente service-card.
@@ -19,9 +17,8 @@ type ServiceCardProps = {
  * service card component - cards grandes com foto dominante.
  * 
  * - foto com overlay gradiente no hover
- * - revela descrição completa e botão "Ver detalhes" no hover
  * - link para subpáginas de cada serviço
- * - animações suaves com scale e opacity
+ * - hover sutil apenas na shadow
  * 
  * @param {ServiceCardProps} props - props do componente
  * @param {Service} props.service - dados do serviço a ser exibido
@@ -51,7 +48,7 @@ export function ServiceCard({ service, className }: ServiceCardProps) {
       href={`/servicos/${service.slug}`}
       aria-label={`Ver detalhes de ${service.title}`}
       className={cn(
-        'group relative block overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-400 hover:shadow-xl hover:scale-[1.02]',
+        'group relative block overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-400 hover:shadow-xl',
         className
       )}
     >
@@ -74,19 +71,9 @@ export function ServiceCard({ service, className }: ServiceCardProps) {
         <p className="font-satoshi text-mimo-blue text-sm mb-3 line-clamp-2">
           {service.shortDescription}
         </p>
-        <p className="font-satoshi text-mimo-brown font-medium text-lg mb-4">
+        <p className="font-satoshi text-mimo-brown font-medium text-lg">
           {service.price}
         </p>
-
-        {/* max-h-[500px] - MAX_HEIGHTS.serviceCardHover */}
-        <div className="opacity-0 max-h-0 overflow-hidden transition-all duration-400 group-hover:opacity-100 group-hover:max-h-[500px]">
-          <p className="font-satoshi text-mimo-blue text-sm mb-3">
-            {service.description}
-          </p>
-          <Button variant="secondary" className="w-full text-lg py-4">
-            Ver detalhes
-          </Button>
-        </div>
       </div>
     </Link>
   )

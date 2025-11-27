@@ -1,7 +1,7 @@
 /**
  * tipos typescript para o site mimo.
  * 
- * definições de dados para serviços, celebridades e vagas.
+ * definições de dados para serviços, celebridades, vagas e produtos.
  */
 
 /**
@@ -91,5 +91,38 @@ export type JobOpening = {
   responsibilities?: Array<string>
   benefits?: Array<string>
   contactMethod: 'whatsapp' | 'email'
+}
+
+/**
+ * tipo para produtos recomendados no mimo hub.
+ * 
+ * @property {string} id - identificador único do produto
+ * @property {string} slug - slug usado na URL (ex: "shampoo-reparador")
+ * @property {string} title - nome do produto exibido
+ * @property {string} description - descrição completa do produto
+ * @property {string} [shortDescription] - descrição curta para cards (opcional)
+ * @property {string} image - caminho da imagem principal
+ * @property {string} imageAlt - texto alternativo da imagem
+ * @property {string} affiliateUrl - link de afiliado para o produto
+ * @property {string} category - categoria do produto (ex: "beleza", "cuidados", "acessorios", "tratamentos")
+ * @property {string} recommendedBy - quem recomendou (ex: "Mimo", "Influencer X")
+ * @property {string} [brand] - marca do produto (opcional)
+ * @property {string} [price] - preço formatado (opcional, ex: "R$ 45,90")
+ * @property {Array<string>} [tags] - tags para filtros futuros (opcional)
+ */
+export type Product = {
+  id: string
+  slug: string
+  title: string
+  description: string
+  shortDescription?: string
+  image: string
+  imageAlt: string
+  affiliateUrl: string
+  category: string
+  recommendedBy: string
+  brand?: string
+  price?: string
+  tags?: Array<string>
 }
 

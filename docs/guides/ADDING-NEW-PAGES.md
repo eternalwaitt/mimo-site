@@ -283,13 +283,13 @@ O GitHub Actions valida automaticamente em PRs:
 
 - **Template de Página**: `docs/guides/templates/page-template.tsx`
 - **Template de Seção**: `docs/guides/templates/section-template.tsx`
-- **Performance Guide**: `docs/performance/PERFORMANCE-GUIDE.md`
+- **Performance Guide**: `docs/performance-guide-mimo.md`
 - **Checklist Rápido**: `docs/PERFORMANCE-CHECKLIST.md`
 
 ## ❓ Dúvidas?
 
 Se tiver dúvidas sobre:
-- **Performance**: Consulte `docs/performance/PERFORMANCE-GUIDE.md`
+- **Performance**: Consulte `docs/performance-guide-mimo.md`
 - **Estrutura**: Veja páginas existentes em `app/`
 - **Componentes**: Veja exemplos em `components/`
 
