@@ -1,0 +1,23 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "framer-motion",
+            "message": "Framer Motion deve ser usado apenas abaixo do fold ou para animações complexas. Use CSS animations para acima do fold. Veja: docs/ADDING-NEW-PAGES.md"
+          }
+        ],
+        "patterns": [
+          {
+            "group": ["framer-motion/*"],
+            "message": "Framer Motion deve ser usado apenas abaixo do fold. Use CSS animations para acima do fold."
+          }
+        ]
+      }
+    ]
+  }
+}
+

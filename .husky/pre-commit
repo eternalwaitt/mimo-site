@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+
+echo "🔍 Running pre-commit checks..."
+
+# Run lint-staged (runs next lint on staged files)
+npx lint-staged
+
+# Run type check
+npm run type-check
+
+# If type check fails, exit
+if [ $? -ne 0 ]; then
+  echo "❌ Type check failed. Please fix errors before committing."
+  exit 1
+fi
+
+echo "✅ Pre-commit checks passed!"

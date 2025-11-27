@@ -1,0 +1,129 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * fontes mimo.
+ * 
+ * fontes carregadas via next/font/local em layout.tsx.
+ * fallback para system fonts caso fontes não carreguem.
+ */
+:root {
+  --font-bueno: 'Bueno', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-satoshi: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-mimo-neutral-light text-mimo-blue font-satoshi antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bueno;
+  }
+
+  /* focus visível para acessibilidade */
+  *:focus-visible {
+    @apply outline-2 outline-mimo-gold outline-offset-2;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* fix wcag: botões whatsapp com fundo branco devem ter texto marrom */
+  a[href*="wa.me"].bg-white,
+  a[href*="wa.me"][class*="bg-white"] {
+    color: #3D1F12 !important;
+  }
+
+  /* Screen reader only - visually hidden but accessible */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  .sr-only:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: inherit;
+    margin: inherit;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+}
+
+/* Acessibilidade Mobile - Tamanho mínimo de texto e área de toque */
+@media (max-width: 768px) {
+  /* Garantir tamanho mínimo de texto de 14px em mobile (WCAG recomendação) */
+  body,
+  p,
+  span,
+  a,
+  button,
+  label {
+    font-size: max(14px, 1em) !important;
+  }
+
+  /* Textos muito pequenos (text-xs) devem ter pelo menos 14px */
+  .text-xs {
+    font-size: 14px !important;
+  }
+
+  /* Touch targets mínimos de 44x44px (WCAG recomendação) */
+  button,
+  a[role="button"],
+  .cursor-pointer,
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"] {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+
+  /* Links e botões pequenos precisam de padding adequado */
+  a:not([class*="block"]):not([class*="flex"]) {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+  }
+
+  /* Ícones clicáveis precisam de área de toque adequada */
+  button svg,
+  a svg {
+    min-width: 24px;
+    min-height: 24px;
+  }
+}
+
+/* formas orgânicas - blobs e círculos decorativos */
+@layer components {
+  .organic-blob {
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  }
+
+  .organic-circle {
+    border-radius: 50%;
+  }
+
+  .organic-ellipse {
+    border-radius: 50% / 60%;
+  }
+}
+

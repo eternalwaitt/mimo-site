@@ -1,0 +1,446 @@
+{
+  "timestamp": "2025-11-19T18:43:37.956Z",
+  "duration": "129.65s",
+  "pages": [
+    {
+      "page": "Home",
+      "path": "/",
+      "url": "https://minhamimo.com.br/",
+      "score": 55,
+      "lcp": 4353.051659971475,
+      "fid": 38,
+      "cls": 0.8457170900133473,
+      "tbt": 0,
+      "tti": 4368.051851304703,
+      "opportunities": [
+        {
+          "id": "unminified-javascript",
+          "title": "Minify JavaScript",
+          "description": "Minifying JavaScript files can reduce payload sizes and script parse time. [Learn how to minify JavaScript](https://developer.chrome.com/docs/lighthouse/performance/unminified-javascript/).",
+          "score": 1,
+          "numericValue": 0
+        },
+        {
+          "id": "server-response-time",
+          "title": "Initial server response time was short",
+          "description": "Keep the server response time for the main document short because all other requests depend on it. [Learn more about the Time to First Byte metric](https://developer.chrome.com/docs/lighthouse/performance/time-to-first-byte/).",
+          "score": 1,
+          "numericValue": 102
+        },
+        {
+          "id": "unminified-css",
+          "title": "Minify CSS",
+          "description": "Minifying CSS files can reduce network payload sizes. [Learn how to minify CSS](https://developer.chrome.com/docs/lighthouse/performance/unminified-css/).",
+          "score": 0,
+          "numericValue": 150
+        },
+        {
+          "id": "redirects",
+          "title": "Avoid multiple page redirects",
+          "description": "Redirects introduce additional delays before the page can be loaded. [Learn how to avoid page redirects](https://developer.chrome.com/docs/lighthouse/performance/redirects/).",
+          "score": 1,
+          "numericValue": 0
+        },
+        {
+          "id": "unused-css-rules",
+          "title": "Reduce unused CSS",
+          "description": "Reduce unused rules from stylesheets and defer CSS not used for above-the-fold content to decrease bytes consumed by network activity. [Learn how to reduce unused CSS](https://developer.chrome.com/docs/lighthouse/performance/unused-css-rules/).",
+          "score": 0,
+          "numericValue": 300
+        },
+        {
+          "id": "unused-javascript",
+          "title": "Reduce unused JavaScript",
+          "description": "Reduce unused JavaScript and defer loading scripts until they are required to decrease bytes consumed by network activity. [Learn how to reduce unused JavaScript](https://developer.chrome.com/docs/lighthouse/performance/unused-javascript/).",
+          "score": 1,
+          "numericValue": 0
+        }
+      ]
+    },
+    {
+      "page": "Serviços",
+      "path": "/servicos",
+      "url": "https://minhamimo.com.br/servicos",
+      "score": 89,
+      "lcp": 2736.1190583441507,
+      "fid": 16,
+      "cls": 0,
+      "tbt": 0,
+      "tti": 2736.1190583441507,
+      "opportunities": [
+        {
+          "id": "unminified-javascript",
+          "title": "Minify JavaScript",
+          "description": "Minifying JavaScript files can reduce payload sizes and script parse time. [Learn how to minify JavaScript](https://developer.chrome.com/docs/lighthouse/performance/unminified-javascript/).",
+          "score": 1,
+          "numericValue": 0
+        },
+        {
+          "id": "unused-css-rules",
+          "title": "Reduce unused CSS",
+          "description": "Reduce unused rules from stylesheets and defer CSS not used for above-the-fold content to decrease bytes consumed by network activity. [Learn how to reduce unused CSS](https://developer.chrome.com/docs/lighthouse/performance/unused-css-rules/).",
+          "score": 0.5,
+          "numericValue": 0
+        },
+        {
+          "id": "unused-javascript",
+          "title": "Reduce unused JavaScript",
+          "description": "Reduce unused JavaScript and defer loading scripts until they are required to decrease bytes consumed by network activity. [Learn how to reduce unused JavaScript](https://developer.chrome.com/docs/lighthouse/performance/unused-javascript/).",
+          "score": 1,
+          "numericValue": 0
+        },
+        {
+          "id": "server-response-time",
+          "title": "Initial server response time was short",
+          "description": "Keep the server response time for the main document short because all other requests depend on it. [Learn more about the Time to First Byte metric](https://developer.chrome.com/docs/lighthouse/performance/time-to-first-byte/).",
+          "score": 1,
+          "numericValue": 174
+        },
+        {
+          "id": "redirects",
+          "title": "Avoid multiple page redirects",
+          "description": "Redirects introduce additional delays before the page can be loaded. [Learn how to avoid page redirects](https://developer.chrome.com/docs/lighthouse/performance/redirects/).",
+          "score": 1,
+          "numericValue": 0
+        },
+        {
+          "id": "unminified-css",
+          "title": "Minify CSS",
+          "description": "Minifying CSS files can reduce network payload sizes. [Learn how to minify CSS](https://developer.chrome.com/docs/lighthouse/performance/unminified-css/).",
+          "score": 0.5,
+          "numericValue": 0
+        }
+      ]
+    },
+    {
+      "page": "Serviço: Salão",
+      "path": "/servicos/salao",
+      "url": "https://minhamimo.com.br/servicos/salao",
+      "score": 91,
+      "lcp": 2595.292002127125,
+      "fid": 16,
+      "cls": 0,
+      "tbt": 0,
+      "tti": 2595.292002127125,
+      "opportunities": [
+        {
+          "id": "unminified-css",
+          "title": "Minify CSS",
+          "description": "Minifying CSS files can reduce network payload sizes. [Learn how to minify CSS](https://developer.chrome.com/docs/lighthouse/performance/unminified-css/).",
+          "score": 0.5,
+          "numericValue": 0
+        },
+        {
+          "id": "unused-css-rules",
+          "title": "Reduce unused CSS",
+          "description": "Reduce unused rules from stylesheets and defer CSS not used for above-the-fold content to decrease bytes consumed by network activity. [Learn how to reduce unused CSS](https://developer.chrome.com/docs/lighthouse/performance/unused-css-rules/).",
+          "score": 0.5,
+          "numericValue": 0
+        },
+        {
+          "id": "server-response-time",
+          "title": "Initial server response time was short",
+          "description": "Keep the server response time for the main document short because all other requests depend on it. [Learn more about the Time to First Byte metric](https://developer.chrome.com/docs/lighthouse/performance/time-to-first-byte/).",
+          "score": 1,
+          "numericValue": 11
+        },
+        {
+          "id": "unused-javascript",
+          "title": "Reduce unused JavaScript",
+          "description": "Reduce unused JavaScript and defer loading scripts until they are required to decrease bytes consumed by network activity. [Learn how to reduce unused JavaScript](https://developer.chrome.com/docs/lighthouse/performance/unused-javascript/).",
+          "score": 1,
+          "numericValue": 0
+        },
+        {
+          "id": "redirects",
+          "title": "Avoid multiple page redirects",
+          "description": "Redirects introduce additional delays before the page can be loaded. [Learn how to avoid page redirects](https://developer.chrome.com/docs/lighthouse/performance/redirects/).",
+          "score": 1,
+          "numericValue": 0
+        },
+        {
+          "id": "unminified-javascript",
+          "title": "Minify JavaScript",
+          "description": "Minifying JavaScript files can reduce payload sizes and script parse time. [Learn how to minify JavaScript](https://developer.chrome.com/docs/lighthouse/performance/unminified-javascript/).",
+          "score": 1,
+          "numericValue": 0
+        }
+      ]
+    },
+    {
+      "page": "Serviço: Esmalteria",
+      "path": "/servicos/esmalteria",
+      "url": "https://minhamimo.com.br/servicos/esmalteria",
+      "score": 92,
+      "lcp": 2637.7277135475997,
+      "fid": 16,
+      "cls": 0,
+      "tbt": 0,
+      "tti": 2637.7277135475997,
+      "opportunities": [
+        {
+          "id": "unused-css-rules",
+          "title": "Reduce unused CSS",
+          "description": "Reduce unused rules from stylesheets and defer CSS not used for above-the-fold content to decrease bytes consumed by network activity. [Learn how to reduce unused CSS](https://developer.chrome.com/docs/lighthouse/performance/unused-css-rules/).",
+          "score": 0.5,
+          "numericValue": 0
+        },
+        {
+          "id": "unminified-css",
+          "title": "Minify CSS",
+          "description": "Minifying CSS files can reduce network payload sizes. [Learn how to minify CSS](https://developer.chrome.com/docs/lighthouse/performance/unminified-css/).",
+          "score": 0.5,
+          "numericValue": 0
+        },
+        {
+          "id": "redirects",
+          "title": "Avoid multiple page redirects",
+          "description": "Redirects introduce additional delays before the page can be loaded. [Learn how to avoid page redirects](https://developer.chrome.com/docs/lighthouse/performance/redirects/).",
+          "score": 1,
+          "numericValue": 0
+        },
+        {
+          "id": "unminified-javascript",
+          "title": "Minify JavaScript",
+          "description": "Minifying JavaScript files can reduce payload sizes and script parse time. [Learn how to minify JavaScript](https://developer.chrome.com/docs/lighthouse/performance/unminified-javascript/).",
+          "score": 1,
+          "numericValue": 0
+        },
+        {
+          "id": "unused-javascript",
+          "title": "Reduce unused JavaScript",
+          "description": "Reduce unused JavaScript and defer loading scripts until they are required to decrease bytes consumed by network activity. [Learn how to reduce unused JavaScript](https://developer.chrome.com/docs/lighthouse/performance/unused-javascript/).",
+          "score": 1,
+          "numericValue": 0
+        },
+        {
+          "id": "server-response-time",
+          "title": "Initial server response time was short",
+          "description": "Keep the server response time for the main document short because all other requests depend on it. [Learn more about the Time to First Byte metric](https://developer.chrome.com/docs/lighthouse/performance/time-to-first-byte/).",
+          "score": 1,
+          "numericValue": 134
+        }
+      ]
+    },
+    {
+      "page": "Serviço: Cílios",
+      "path": "/servicos/cilios",
+      "url": "https://minhamimo.com.br/servicos/cilios",
+      "score": 92,
+      "lcp": 2634.3066833428747,
+      "fid": 16,
+      "cls": 0,
+      "tbt": 0,
+      "tti": 2634.3066833428747,
+      "opportunities": [
+        {
+          "id": "unminified-javascript",
+          "title": "Minify JavaScript",
+          "description": "Minifying JavaScript files can reduce payload sizes and script parse time. [Learn how to minify JavaScript](https://developer.chrome.com/docs/lighthouse/performance/unminified-javascript/).",
+          "score": 1,
+          "numericValue": 0
+        },
+        {
+          "id": "unminified-css",
+          "title": "Minify CSS",
+          "description": "Minifying CSS files can reduce network payload sizes. [Learn how to minify CSS](https://developer.chrome.com/docs/lighthouse/performance/unminified-css/).",
+          "score": 0.5,
+          "numericValue": 0
+        },
+        {
+          "id": "unused-css-rules",
+          "title": "Reduce unused CSS",
+          "description": "Reduce unused rules from stylesheets and defer CSS not used for above-the-fold content to decrease bytes consumed by network activity. [Learn how to reduce unused CSS](https://developer.chrome.com/docs/lighthouse/performance/unused-css-rules/).",
+          "score": 0.5,
+          "numericValue": 0
+        },
+        {
+          "id": "unused-javascript",
+          "title": "Reduce unused JavaScript",
+          "description": "Reduce unused JavaScript and defer loading scripts until they are required to decrease bytes consumed by network activity. [Learn how to reduce unused JavaScript](https://developer.chrome.com/docs/lighthouse/performance/unused-javascript/).",
+          "score": 1,
+          "numericValue": 0
+        },
+        {
+          "id": "server-response-time",
+          "title": "Initial server response time was short",
+          "description": "Keep the server response time for the main document short because all other requests depend on it. [Learn more about the Time to First Byte metric](https://developer.chrome.com/docs/lighthouse/performance/time-to-first-byte/).",
+          "score": 1,
+          "numericValue": 130
+        },
+        {
+          "id": "redirects",
+          "title": "Avoid multiple page redirects",
+          "description": "Redirects introduce additional delays before the page can be loaded. [Learn how to avoid page redirects](https://developer.chrome.com/docs/lighthouse/performance/redirects/).",
+          "score": 1,
+          "numericValue": 0
+        }
+      ]
+    },
+    {
+      "page": "Galeria",
+      "path": "/galeria",
+      "url": "https://minhamimo.com.br/galeria",
+      "score": 90,
+      "lcp": 2708.4637697377007,
+      "fid": 16,
+      "cls": 0,
+      "tbt": 0,
+      "tti": 2708.463769737701,
+      "opportunities": [
+        {
+          "id": "unused-javascript",
+          "title": "Reduce unused JavaScript",
+          "description": "Reduce unused JavaScript and defer loading scripts until they are required to decrease bytes consumed by network activity. [Learn how to reduce unused JavaScript](https://developer.chrome.com/docs/lighthouse/performance/unused-javascript/).",
+          "score": 1,
+          "numericValue": 0
+        },
+        {
+          "id": "redirects",
+          "title": "Avoid multiple page redirects",
+          "description": "Redirects introduce additional delays before the page can be loaded. [Learn how to avoid page redirects](https://developer.chrome.com/docs/lighthouse/performance/redirects/).",
+          "score": 1,
+          "numericValue": 0
+        },
+        {
+          "id": "server-response-time",
+          "title": "Initial server response time was short",
+          "description": "Keep the server response time for the main document short because all other requests depend on it. [Learn more about the Time to First Byte metric](https://developer.chrome.com/docs/lighthouse/performance/time-to-first-byte/).",
+          "score": 1,
+          "numericValue": 2
+        },
+        {
+          "id": "unminified-css",
+          "title": "Minify CSS",
+          "description": "Minifying CSS files can reduce network payload sizes. [Learn how to minify CSS](https://developer.chrome.com/docs/lighthouse/performance/unminified-css/).",
+          "score": 0.5,
+          "numericValue": 0
+        },
+        {
+          "id": "unused-css-rules",
+          "title": "Reduce unused CSS",
+          "description": "Reduce unused rules from stylesheets and defer CSS not used for above-the-fold content to decrease bytes consumed by network activity. [Learn how to reduce unused CSS](https://developer.chrome.com/docs/lighthouse/performance/unused-css-rules/).",
+          "score": 0.5,
+          "numericValue": 0
+        },
+        {
+          "id": "unminified-javascript",
+          "title": "Minify JavaScript",
+          "description": "Minifying JavaScript files can reduce payload sizes and script parse time. [Learn how to minify JavaScript](https://developer.chrome.com/docs/lighthouse/performance/unminified-javascript/).",
+          "score": 1,
+          "numericValue": 0
+        }
+      ]
+    },
+    {
+      "page": "Sobre",
+      "path": "/sobre",
+      "url": "https://minhamimo.com.br/sobre",
+      "score": 92,
+      "lcp": 2718.780414745027,
+      "fid": 16,
+      "cls": 0.014933838825324836,
+      "tbt": 0,
+      "tti": 2718.780414745027,
+      "opportunities": [
+        {
+          "id": "unminified-javascript",
+          "title": "Minify JavaScript",
+          "description": "Minifying JavaScript files can reduce payload sizes and script parse time. [Learn how to minify JavaScript](https://developer.chrome.com/docs/lighthouse/performance/unminified-javascript/).",
+          "score": 1,
+          "numericValue": 0
+        },
+        {
+          "id": "unused-javascript",
+          "title": "Reduce unused JavaScript",
+          "description": "Reduce unused JavaScript and defer loading scripts until they are required to decrease bytes consumed by network activity. [Learn how to reduce unused JavaScript](https://developer.chrome.com/docs/lighthouse/performance/unused-javascript/).",
+          "score": 1,
+          "numericValue": 0
+        },
+        {
+          "id": "redirects",
+          "title": "Avoid multiple page redirects",
+          "description": "Redirects introduce additional delays before the page can be loaded. [Learn how to avoid page redirects](https://developer.chrome.com/docs/lighthouse/performance/redirects/).",
+          "score": 1,
+          "numericValue": 0
+        },
+        {
+          "id": "server-response-time",
+          "title": "Initial server response time was short",
+          "description": "Keep the server response time for the main document short because all other requests depend on it. [Learn more about the Time to First Byte metric](https://developer.chrome.com/docs/lighthouse/performance/time-to-first-byte/).",
+          "score": 1,
+          "numericValue": 130
+        },
+        {
+          "id": "unused-css-rules",
+          "title": "Reduce unused CSS",
+          "description": "Reduce unused rules from stylesheets and defer CSS not used for above-the-fold content to decrease bytes consumed by network activity. [Learn how to reduce unused CSS](https://developer.chrome.com/docs/lighthouse/performance/unused-css-rules/).",
+          "score": 0.5,
+          "numericValue": 0
+        },
+        {
+          "id": "unminified-css",
+          "title": "Minify CSS",
+          "description": "Minifying CSS files can reduce network payload sizes. [Learn how to minify CSS](https://developer.chrome.com/docs/lighthouse/performance/unminified-css/).",
+          "score": 0.5,
+          "numericValue": 0
+        }
+      ]
+    },
+    {
+      "page": "Trabalhe Aqui",
+      "path": "/trabalhe-aqui",
+      "url": "https://minhamimo.com.br/trabalhe-aqui",
+      "score": 90,
+      "lcp": 2728.962802817609,
+      "fid": 16,
+      "cls": 0.014933838825324836,
+      "tbt": 0,
+      "tti": 2728.962802817609,
+      "opportunities": [
+        {
+          "id": "unminified-javascript",
+          "title": "Minify JavaScript",
+          "description": "Minifying JavaScript files can reduce payload sizes and script parse time. [Learn how to minify JavaScript](https://developer.chrome.com/docs/lighthouse/performance/unminified-javascript/).",
+          "score": 1,
+          "numericValue": 0
+        },
+        {
+          "id": "unminified-css",
+          "title": "Minify CSS",
+          "description": "Minifying CSS files can reduce network payload sizes. [Learn how to minify CSS](https://developer.chrome.com/docs/lighthouse/performance/unminified-css/).",
+          "score": 0.5,
+          "numericValue": 0
+        },
+        {
+          "id": "unused-javascript",
+          "title": "Reduce unused JavaScript",
+          "description": "Reduce unused JavaScript and defer loading scripts until they are required to decrease bytes consumed by network activity. [Learn how to reduce unused JavaScript](https://developer.chrome.com/docs/lighthouse/performance/unused-javascript/).",
+          "score": 1,
+          "numericValue": 0
+        },
+        {
+          "id": "unused-css-rules",
+          "title": "Reduce unused CSS",
+          "description": "Reduce unused rules from stylesheets and defer CSS not used for above-the-fold content to decrease bytes consumed by network activity. [Learn how to reduce unused CSS](https://developer.chrome.com/docs/lighthouse/performance/unused-css-rules/).",
+          "score": 0.5,
+          "numericValue": 0
+        },
+        {
+          "id": "server-response-time",
+          "title": "Initial server response time was short",
+          "description": "Keep the server response time for the main document short because all other requests depend on it. [Learn more about the Time to First Byte metric](https://developer.chrome.com/docs/lighthouse/performance/time-to-first-byte/).",
+          "score": 1,
+          "numericValue": 164
+        },
+        {
+          "id": "redirects",
+          "title": "Avoid multiple page redirects",
+          "description": "Redirects introduce additional delays before the page can be loaded. [Learn how to avoid page redirects](https://developer.chrome.com/docs/lighthouse/performance/redirects/).",
+          "score": 1,
+          "numericValue": 0
+        }
+      ]
+    }
+  ]
+}
