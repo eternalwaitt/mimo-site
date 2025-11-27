@@ -22,6 +22,11 @@ export function Footer() {
     { href: '/blog', label: 'Blog' },
   ]
 
+  const legalLinks = [
+    { href: '/privacidade', label: 'Política de Privacidade' },
+    { href: '/termos', label: 'Termos de Uso' },
+  ]
+
   return (
     <footer className="bg-mimo-blue text-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -63,6 +68,17 @@ export function Footer() {
                   key={link.href}
                   href={link.href}
                   className="block font-satoshi text-sm hover:text-mimo-gold transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+            <nav className="space-y-2 mt-6 pt-6 border-t border-white/20">
+              {legalLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="block font-satoshi text-xs hover:text-mimo-gold transition-colors text-white/80"
                 >
                   {link.label}
                 </Link>

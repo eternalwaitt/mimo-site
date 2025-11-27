@@ -43,6 +43,8 @@ mimo-site/
 │   ├── galeria/           # Galeria de fotos
 │   ├── trabalhe-aqui/     # Página de carreiras
 │   ├── mimo-hub/          # Mimo Hub - produtos recomendados
+│   ├── privacidade/       # Política de Privacidade (LGPD)
+│   ├── termos/            # Termos de Uso
 │   ├── blog/              # Blog (estrutura fase 2)
 │   ├── not-found.tsx      # Página 404 personalizada
 │   └── sitemap.ts         # Sitemap dinâmico

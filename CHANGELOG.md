@@ -22,6 +22,20 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
   - Design consistente com o resto do site
   - Botões de ação (Voltar para casa, Agendar no WhatsApp)
   - Links úteis para navegação rápida
+- **Compliance LGPD**: Páginas de privacidade e termos de uso
+  - Página de Política de Privacidade (`app/privacidade/page.tsx`) - Compliance LGPD completo
+    - Informações sobre coleta e tratamento de dados (Plausible Analytics)
+    - Direitos do titular conforme LGPD art. 18
+    - Contato do encarregado de dados (DPO)
+    - Base legal e finalidade do tratamento
+    - Retenção e compartilhamento de dados
+    - Informações sobre segurança e cookies
+  - Página de Termos de Uso (`app/termos/page.tsx`)
+    - Condições de uso do site
+    - Propriedade intelectual
+    - Limitações de responsabilidade
+    - Lei aplicável (brasileira)
+  - Links de compliance no footer (Política de Privacidade e Termos de Uso)
 - **Novos tipos TypeScript**: Tipo `Product` para produtos do hub
 - **Novas constantes**: `lib/constants/hub.ts` com produtos e categorias
 
@@ -41,12 +55,17 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 - `ServiceCard`: Removida expansão no hover e botão "Ver detalhes"
   - Cards agora são estáticos, apenas com hover sutil na shadow
   - Melhor UX e performance
+- `components/layout/footer.tsx` - Adicionada seção de links legais separada visualmente
 
 ### Technical
 - Estrutura modular para produtos (tipos, constantes, componentes)
 - Filtros implementados com estado local e múltipla seleção
 - Performance otimizada (server components quando possível)
 - Acessibilidade: ARIA labels, navegação por teclado, contraste WCAG
+- Site agora em conformidade com LGPD (Lei Geral de Proteção de Dados)
+- Páginas de compliance são server components (performance)
+- Design consistente com padrão visual Mimo
+- Metadata SEO configurada para ambas as páginas de compliance
 
 ## [1.5.2] - 2025-01-30
 
