@@ -24,11 +24,17 @@
    Baseado em boas práticas: #121212 (não preto puro)
    ============================================ */
 
+/* CRITICAL: Dark mode body - lighter dark tone for better contrast and readability */
+
 /* Garantir que navbar-nav seja visível no dark mode */
+
+/* Hero section - MATCH PRODUCTION */
 
 /* Classes de texto mantendo identidade */
 
-/* Backgrounds mantendo identidade */
+/* Backgrounds mantendo identidade - Different tones for visual separation */
+
+/* Ensure text inside .backgroundPink in dark mode uses white for best contrast */
 
 /* Cards e modais */
 
@@ -39,6 +45,10 @@
 /* Link de reviews do Google - sempre com bom contraste */
 
 /* Seção de testimonials - garantir legibilidade */
+
+/* CRITICAL: Dark mode testimonial - lighter tone for better contrast */
+
+/* Dark mode testimonial text and author - must override light mode */
 
 /* Tipografia - garantir legibilidade */
 
@@ -64,13 +74,92 @@
 
 /* Outras páginas - seções genéricas */
 
-/* Vaga Cards (página de vagas) */
+/* Dark mode: Section backgrounds for visual separation */
+/* Hero section - slightly lighter than body */
+
+/* About section (backgroundGrey) - different tone */
+
+/* Services section - different tone */
+
+/* Testimonials section - different tone */
+
+/* Service cards - elevated appearance */
+
+/* Service cards (.sessoes.container) - better contrast in dark mode */
+
+/* Service card content - better text contrast */
+
+/* ============================================
+   SERVICE PAGES - NAV PILLS (TABS) - Dark Mode
+   Match home page patterns for consistency
+   ============================================ */
+
+/* Nav pills inactive links - light text for dark mode readability */
+/* High specificity to override product.css rules */
+
+/* Nav pills active link - brand pink background with white text */
+
+/* Nav pills hover - lighter brand pink for better visibility */
+/* High specificity to override product.css rules */
+
+/* ============================================
+   SERVICE PAGES - Dark Mode
+   Match home page patterns for consistency
+   ============================================ */
+
+/* Service pages body - match home page dark mode */
+
+/* Service page containers - match home page pattern */
+
+/* Service page content sections - different tones for visual separation */
+
+/* Service page headers - ensure good contrast */
+
+/* Service page tables - better contrast */
+
+/* ============================================
+   FAQ & VAGAS PAGES - Dark Mode
+   Match home page patterns for consistency
+   ============================================ */
+
+/* FAQ & Vagas pages body - match home page dark mode */
+/* Use more specific selectors to ensure they override base body rules */
+
+/* Note: :has() selector may not be supported in all browsers, but modern browsers support it */
+
+/* FAQ & Vagas page containers - match home page pattern */
+
+/* FAQ & Vagas page sections - different tones for visual separation */
+
+/* ============================================
+   CONTATO PAGE - Dark Mode
+   Better contrast for info cards and page hero
+   ============================================ */
+
+/* Page hero - darker background for better contrast */
+
+/* Info cards - elevated appearance with better contrast */
+
+/* Form inputs in info cards */
+
+/* Map container */
+
+/* FAQ header - ensure good contrast */
+
+/* Page hero (Vagas, Contato, etc) - ensure good contrast */
+/* NOTE: More specific rules for .page-hero are defined in the CONTATO PAGE section above */
+
+/* Vaga Cards (página de vagas) - match home page card pattern */
+
+/* Vaga info items - match home page text pattern */
+
+/* Vaga requirements and description - match home page pattern */
 
 /* Mobile - Vagas Page - Melhorias de Layout */
 
-/* FAQ Items */
+/* FAQ Items - match home page card pattern */
 
-/* Accordion (Bootstrap) */
+/* Accordion (Bootstrap) - match home page card pattern */
 
 /* List Groups */
 

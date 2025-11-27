@@ -76,15 +76,15 @@ define('GOOGLE_PLACE_ID', getenv('GOOGLE_PLACE_ID') ?: 'ChIJkVYWuB1XzpQRjbjBjyb4
 // MAJOR: Breaking changes
 // MINOR: New features, backwards compatible
 // PATCH: Bug fixes, backwards compatible
-define('APP_VERSION', '2.6.13');
+define('APP_VERSION', '2.6.12');
 define('APP_VERSION_MAJOR', 2);
 define('APP_VERSION_MINOR', 6);
-define('APP_VERSION_PATCH', 13);
+define('APP_VERSION_PATCH', 12);
 
 // Asset version for cache busting (update this when deploying changes)
 // Format: YYYYMMDD (date-based for easy tracking)
 // IMPORTANTE: Atualizar sempre que houver mudanças em CSS/JS para forçar reload do cache
-define('ASSET_VERSION', '20251116-98'); // Updated: CLS fixes - removed height conflicts with aspect-ratio in .img-cat and .testimonial-avatar
+define('ASSET_VERSION', '20251116-92'); // Updated: Further optimized spacing between testimonials section (gray bar) and services section - reduced padding-bottom of .testimonials-section from 1rem to 0.5rem (8px) and removed p-3 class from HTML, using inline styles for tighter control
 
 // Use minified assets in production
 // IMPORTANTE: Ative apenas DEPOIS de rodar os scripts de build:

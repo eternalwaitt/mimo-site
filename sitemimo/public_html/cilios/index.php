@@ -65,7 +65,7 @@ ob_start();
                 <h3 class="textPink font-weight-bold">MIMO LASH LIFT</h3>
                 <p style="letter-spacing: 0.8px">
                     O Mimo Lash Lift é um tratamento para os cílios, que usa produtos específicos para hidratar e fortificar os fios, ajudando-os a ficarem maiores, mais volumosos e saudáveis. Além disso, o Lash Lift acentua a curvatura dos fios e realçar bastante a cor, criando um efeito de maquiagem (rímel e curvex). <br><br>
-                    O Lash Lift NÃO têm o volume que a extensão de cílios proporciona, e preserva a naturalidade e volume do seu olhar. É ideal também para aquelas pessoas que não se adaptaram às extensões de cílios, mas querem manter os olhos um pouco mais destacados que o natural. <br>
+                    O Lash Lift preserva a naturalidade e volume do seu olhar, criando um efeito de maquiagem duradouro. <br>
                     É um procedimento que não requer manutenção.
                     <br /><br />
                     Passo a Passo:<br />
@@ -98,12 +98,12 @@ ob_start();
             <div class="col-md-8 service-content">
                 <h3 class="textPink font-weight-bold">COMBO DUO - R$249,99</h3>
                 <p style="letter-spacing: 0.8px">
-                    Monte seu combo: design, brow lamination, lash lift e mimo gloss.
+                    Monte seu combo: design, brow lamination e lash lift.
                 </p>
                 <h3 class="textPink font-weight-bold mt-4">COMBO BEAUTY</h3>
                 <p style="letter-spacing: 0.8px">
-                    Brow Lamination + Lash Lift + Mimo Gloss<br>
-                    O combo beauty veio pra trazer praticidade na nossa rotina. Sabemos da importância que a vaidade traz pra nossa autoestima, e sabemos também que o nosso tempo é curto. O combo trouxe o brow lamination pra facilitar na estilização da sua sobrancelha, o lash lift trazendo volume, curvatura e definição pra aposentar ou reduzir o uso de rímel, e o mimo gloss que além de previnir rugas e vincos, deixa os lábios super hidratados trazendo aquele aspecto de saudável. <br><br>
+                    Brow Lamination + Lash Lift<br>
+                    O combo beauty veio pra trazer praticidade na nossa rotina. Sabemos da importância que a vaidade traz pra nossa autoestima, e sabemos também que o nosso tempo é curto. O combo trouxe o brow lamination pra facilitar na estilização da sua sobrancelha, o lash lift trazendo volume, curvatura e definição pra aposentar ou reduzir o uso de rímel. <br><br>
                 </p>
                 <h3 class="textPink font-weight-bold mt-4">COMBO BEAUTY DESIGN - R$299,99</h3>
                 <p style="letter-spacing: 0.8px">

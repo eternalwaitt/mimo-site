@@ -31,9 +31,9 @@ ob_start();
         <div class="col-md-12 container my-5">
             <div class="col-md-4 col-xs-12 imgaporcelana" style="float:left;"></div>
             <div class="col-md-8 col-xs-12 service-content">
-                <h3 class="textPink font-weight-bold">Alongamento Polygel </h3>
+                <h3 class="textPink font-weight-bold">Alongamento de Polygel com Molde F1</h3>
                 <p style="letter-spacing: 0.8px">
-                    O Alongamento de Polygel ou Acrigel une a força do acrílico e a leveza do gel, e é realizado de forma pré-moldada para facilitar a aplicação, resultando em unhas mais naturais e resistentes.
+                    O Alongamento de Polygel com Molde F1 une a força do acrílico e a leveza do gel, e é realizado de forma pré-moldada para facilitar a aplicação, resultando em unhas mais naturais e resistentes.
                 </p>
                 <p class="textDarkGrey" style="font-size: 17px;">
                     <b>Primeira sessão:</b> R$230,00<br>

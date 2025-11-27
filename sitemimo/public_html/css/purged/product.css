@@ -63,26 +63,46 @@
 
 /* FIX: Prevenir layout shift no main-content (causa 93% do CLS - 0.358 de 0.383) */
 /* CRITICAL: Desktop CLS fix - main-content causing 0.501 shift */
-
-/* FIX: Garantir altura mínima para seções principais dentro do main */
 /* FIX: Add padding-top to compensate for fixed navbar - but only on main-content, not body */
 /* Removed body padding-top to prevent white rectangle above navbar */
+
+/* Hero section height is now defined in .hero-section rule above */
+/* Removed duplicate min-height rules to prevent conflicts */
 
 /* FIX: Garantir altura mínima para seção about */
 
 /* FIX: Garantir altura mínima para seção services */
 
+/* Clear floats for service cards container */
+
 /* FIX: Garantir altura mínima para testimonials section */
 
-/* FIX: Testimonials container needs min-height for dynamic content */
+/* CRITICAL: CLS Fix - Testimonials carousel container */
 
-/* FIX: Google Reviews carousel - prevent layout shift when loading */
+/* CRITICAL: CLS Fix - Testimonials carousel inner */
+
+/* CRITICAL: CLS Fix - Testimonial cards */
+
+/* CRITICAL: CLS Fix - Testimonial content */
+
+/* CRITICAL: CLS Fix - Testimonial text */
+
+/* CRITICAL: CLS Fix - Testimonial author */
+
+/* CRITICAL: CLS Fix - Testimonial rating */
+
+/* CRITICAL: CLS Fix - Testimonial avatar (already has dimensions but add containment) */
+
+/* CRITICAL: CLS Fix - Testimonial avatar image */
+
+/* CRITICAL: CLS Fix - Testimonial avatar placeholder */
 
 /* FIX: Carousel inner container - prevent layout shift */
 
 /* Light mode: transparent background to eliminate white border */
 
 /* FIX: Google Reviews container - prevent layout shift when loading */
+/* Google reviews link icon styling - minimalista */
 
 /* FIX: All sections should have containment to prevent CLS */
 
@@ -91,6 +111,19 @@
 /* FIX: Service cards need min-height */
 
 /* FIX: Category items need min-height */
+
+/* Light mode body - default */
+
+/* Service procedure pages - body background should be rgb(250,250,250) (match production) */
+/* Target pages with service headers */
+
+
+/* Force light mode colors when not in dark mode - Based on brand colors */
+
+/* Service procedure pages - containers should be 960px max-width (match production) */
+/* Target pages with service headers (esmal-header, salao-header, etc.) */
+
+/* CRITICAL: Override .container for .sessoes.container - must be more specific than Bootstrap */
 
 
 
@@ -112,7 +145,53 @@
 	font-variant: normal;
 }
 
-/* Light mode: darker navbar background for better text readability */
+
+
+/* High specificity to override any other rules */
+
+/* Ensure text inside .backgroundPink uses the correct color - high specificity */
+
+/* Hero title - MATCH PRODUCTION */
+
+
+
+/* WhatsApp button in header - make it look clickable with borders */
+
+
+
+/* General btn-rosa hover (not in navbar) */
+
+
+
+/* Navbar - Base: Always compact, only logo animates */
+/* Background darkened for better contrast with white logo (WCAG AA compliant) */
+
+/* Navbar compressed (scrolled) - Same size, only logo changes */
+/* High specificity to ensure it overrides base .navbar rules */
+
+/* Nav links - Remove underline from all nav links */
+
+/* Nav links - When navbar is transparent (top of page), use brand pink in light mode */
+
+/* Light mode: ensure transparent header uses brand pink */
+
+/* Nav links - When navbar is compressed (scrolled), use off-white or brand pink in light mode */
+
+/* Light mode: compressed header uses brand pink text */
+
+/* Nav links hover - When transparent */
+
+/* Nav links hover - When compressed */
+
+/* Light mode: compressed header hover uses darker brand pink */
+
+/* Light mode: compressed header uses brand pink (already set above) */
+
+/* Dark mode: navbar compressed - lighter dark gray background (same as light mode) */
+
+/* Dark mode: nav links white when compressed */
+
+/* Dark mode: nav links when transparent - use brand pink */
 
 /* Override para footer nav vertical */
 
@@ -120,13 +199,17 @@
 
 /* FIX: Hero section agora usa <img> tag em vez de background-image para melhor LCP */
 
+/* Desktop: taller hero section */
+
 /* Light mode: transparent background to allow vivid image */
 
 /* Light mode: remove overlay completely for vivid image - use text-shadow on text instead */
 
 /* Mantido para compatibilidade com outras páginas que ainda usam .bg-header */
 
-/* Garantir que o logo não seja distorcido */
+/* Garantir que o logo não seja distorcido - Estado inicial (não comprimido) */
+
+/* Logo compressed state - high specificity - Logo menor quando comprimido */
 
 
 
@@ -148,10 +231,21 @@
 
 }
 
+
+
+/* Note: .sessoes.container base styles moved to after .container definition for better specificity */
+
+/* Override inline min-width on service card images */
+
+/* CRITICAL: Service card titles - better readability like production */
+
+/* Dark mode: white text for titles */
+
 /* CRITICAL: CLS Fix - About section col-md-7 (causes 93% of layout shift) */
 /* FIX: Make text column wider horizontally to reduce vertical length */
 
 /* FIX: Make image column narrower to give more space to text */
+/* Removed flex and max-width overrides - let Bootstrap handle responsive widths */
 
 /* CRITICAL: Desktop CLS fix - h1 in about section causing 0.501 shift */
 /* FIX: Better proportions - reduce title size, increase text size */
@@ -170,6 +264,8 @@
 /* Disable animations on mobile for better performance */
 @media (max-width: 768px) {
 	
+	/* CRITICAL: Ensure content-details is hidden by default on mobile */
+	
 	/* Disable ALL transitions and animations globally on mobile */
 	*,
 	*::before,
@@ -182,7 +278,9 @@
 		animation-fill-mode: none !important;
 	}
 	
-	/* Force all animated elements to be visible immediately */
+	/* Force all animated elements to be visible immediately - MOBILE ONLY */
+	
+	/* Also disable visible state animations on mobile */
 	
 	/* Disable hover effects on mobile */
 	
@@ -279,6 +377,8 @@
 
 /* Google Reviews */
 
+/* Unicode stars (replaced Font Awesome) */
+
 /* Print Styles */
 @media print {
 	/* Hide navigation, buttons, and non-essential elements */
@@ -309,29 +409,45 @@
 
 /* Light mode: transparent background to eliminate white border */
 
-/* Light mode: reduce padding to match dark mode natural spacing */
+/* Light mode: MATCH PRODUCTION - light gray background, no shadow */
+/* FIX: Only use html:not() or [data-theme="light"] - :not() without html: checks the element itself, not html */
 
-/* Light mode: ensure testimonial text uses proper text color for contrast */
+/* Light mode: ensure testimonial text uses proper text color for contrast - MATCH PRODUCTION */
 
-/* Light mode: remove padding and make testimonial-card completely transparent to show only testimonial-content */
+/* CRITICAL: Dark mode testimonials - must be in product.css to override light mode (loads after dark-mode.css) */
+/* FIX: Use html[data-theme="dark"] for higher specificity than html:not([data-theme="dark"]) */
+
+/* Dark mode testimonial text and author - must override light mode */
+
+/* Light mode: MATCH PRODUCTION - transparent card wrapper, content has background */
 
 /* Avatar */
 
 /* Rating */
 
-/* Estrelas Unicode (fallback quando Font Awesome não carrega) */
+/* Unicode stars (replaced Font Awesome) */
 
 /* Texto do depoimento */
 
 /* Autor */
 
-/* Link para reviews do Google */
+/* Link para reviews do Google - estilo minimalista integrado */
+
+/* Light mode hover: darker brand dark (blue) for feedback */
+
+/* Light mode: use brand dark (blue) */
+
+/* Light mode: icon also uses brand dark (blue) */
+
+/* Dark mode Google reviews link - minimalista como light mode */
 
 /* Controles do carousel */
 
 /* Garantir que os controles do Bootstrap sejam visíveis */
 
-/* Estilizar ícones dentro dos controles */
+/* Estilizar ícones dentro dos controles - Light mode */
+
+/* FIX: Dark mode testimonial controls - brand pink icons on white background for better contrast */
 
 /* Indicadores - Especificidade máxima para sobrescrever Bootstrap */
 
@@ -341,9 +457,20 @@
    FOOTER - Estilos Modernos e Elegantes
    ======================================== */
 
-/* Footer titles - corrigido para h2 (heading order) */
+/* Footer - High specificity to ensure background applies */
+
+/* Footer container - Match production max-width */
+/* Higher specificity to ensure it applies */
+
+/* Footer row - ensure proper spacing and alignment */
+
+/* Footer titles - Match production: rgb(184, 149, 160) */
+
+/* Footer columns - Navigation and Contact: left align, Social: center align */
 
 /* Centralizar título e ícones da seção de redes sociais */
+
+/* Footer social title - Highest specificity to override all other rules */
 
 /* SVG Icons - tamanho consistente e moderno */
 
@@ -352,6 +479,12 @@
 /* Específico para ícone WhatsApp (fab) - reduzir visualmente para compensar design que parece maior */
 
 /* Específico para ícone de telefone (fas) - manter tamanho normal */
+
+/* Footer social icons container - CRITICAL: High specificity to override any conflicting styles */
+
+/* Footer social link - Match production: 42px width/height, high specificity to prevent overrides */
+
+/* Footer social link SVG - High specificity to prevent generic SVG rules from overriding */
 
 
 /* Forçar Font Awesome nos ícones do footer */

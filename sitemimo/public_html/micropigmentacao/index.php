@@ -80,18 +80,6 @@ ob_start();
                 <p class="textDarkGrey" style="font-size: 17px;">Valor: R$ 449,90 (retoque de 30 à 45 dias incluso, se necessário)</p>
             </div>
         </div>
-        <div class="col-md-12 container my-5">
-            <div class="col-md-4" style="float:left;width: 200px; height: 200px; overflow: hidden;">
-                <?php echo picture_webp('MimoGloss.png', 'Mimo Gloss', '', ['style' => 'width: 100%; height: 100%; object-fit: cover;', 'width' => '600', 'height' => '400']); ?>
-            </div>
-            <div class="col-md-8 service-content">
-                <h3 class="textPink font-weight-bold">MIMO GLOSS</h3>
-                <p style="letter-spacing: 0.8px">
-                    O <b>Mimo Gloss</b> é um procedimento de hidratação labial, onde é feita esfoliação com produtos específicos e é aplicado ácido hialurônico com nanoagulhas superficiais para hidratação acontecer de dentro pra fora durante um mês, aproximadamente. Não é um procedimento invasivo e é preciso se atentar nas contra-indicações do procedimento.
-                </p>
-                <p class="textDarkGrey" style="font-size: 17px;">R$ 150,00</p>
-            </div>
-        </div>
     </div>
 </div>
 <?php

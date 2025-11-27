@@ -84,8 +84,7 @@ $customContentBeforeBanner = ob_get_clean();
 // Define tabs
 $tabs = [
     ['id' => 'limpeza', 'label' => 'limpeza de pele', 'active' => true],
-    ['id' => 'microagulhamento', 'label' => 'microagulhamento', 'active' => false],
-    ['id' => 'cuidados', 'label' => 'mimo cuidados', 'active' => false]
+    ['id' => 'microagulhamento', 'label' => 'microagulhamento', 'active' => false]
 ];
 
 // Tab content - Limpeza de Pele
@@ -173,35 +172,6 @@ ob_start();
             </div>
         </div>
 
-        <!-- Combo GlowUp -->
-        <div class="col-md-12 container my-5">
-            <div class="col-md-4 imglmimovip" style="float:left;"></div>
-            <div class="col-md-8 service-content">
-                <h3 class="textPink font-weight-bold">Combo GlowUp</h3>
-                <p style="letter-spacing: 0.8px">
-                    Limpeza de pele Mimo + Revitalift Mimo<br><br>
-                    - <b>Limpeza de pele Mimo</b> é um tratamento para remover secreções e desobstruir os
-                    poros, remover comedões, afinar a pele, oxigenar, reestabelecer o equilíbrio
-                    hidrolipídico e preparar para tratamentos estéticos.<br>
-                    - <b>Revitalift</b> é um tratamento de cuidados com a pele que utiliza uma máscara à
-                    base de ácido retinoico em baixa concentração, criada especialmente para revitalizar a
-                    pele.<br><br>
-
-                    É um procedimento seguro e eficaz, que pode ser realizado em pessoas de todas as idades,
-                    um tratamento versátil e benéfico para várias necessidades da pele, e pode ser realizada
-                    uma vez por mês para obter melhores resultados em tratamento preventivo e estimulação de
-                    colágeno.<br><br>
-                </p>
-                <p class="textDarkGrey" style="font-size: 17px;">
-                    R$ 349,90
-                </p>
-                <div class="nav-item">
-                    <a class="btn btnAgendamento"
-                        href="https://api.whatsapp.com/send/?phone=5511994781012&text=Ol%C3%A1,+vim+pelo+site+e+queria+mais+informa%C3%A7%C3%B5es"
-                        target="_blank" data-target="#MImpedimento2">AGENDAR</a>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 <?php
@@ -239,40 +209,6 @@ ob_start();
 </div>
 <?php
 $tabContent['microagulhamento'] = ob_get_clean();
-
-// Tab content - Mimo Cuidados
-ob_start();
-?>
-<div class="col-md-12 container my-5">
-    <div class="col-md-4 imglmimo" style="float:left;"></div>
-    <div class="col-md-8 service-content">
-        <h3 class="textPink font-weight-bold">Revitalização Facial</h3>
-        <p style="letter-spacing: 0.8px">
-            A <b>Revitalização facial</b> é um procedimento personalizado para cada tipo de pele, criado
-            para restaurar as funções de hidratação, nutrição e oxigenação da pele, pois sofremos no dia a
-            dia casos de: radiação solar, poluição, entre outras coisas. O procedimento visa entregar
-            nutrientes e aminoácidos que são necessários para o tecido cutâneo funcionar de forma adequada.
-        </p>
-        <p style="font-size: 16px;">
-            Este procedimento inclui: <br>
-            - Sabonete de higienização; <br>
-            - Esfoliante Manual; <br>
-            - Peeling Ultrassônico para remover impurezas superficiais; <br>
-            - Máscara finalizadora; <br>
-            - Sérum potencializador.
-        </p>
-        <p class="textDarkGrey" style="font-size: 17px;">
-            R$ 80,00
-        </p>
-        <div class="nav-item">
-            <a class="btn btnAgendamento"
-                href="https://api.whatsapp.com/send/?phone=5511994781012&text=Ol%C3%A1,+vim+pelo+site+e+queria+mais+informa%C3%A7%C3%B5es"
-                target="_blank" data-target="#MImpedimentoCuidados">AGENDAR</a>
-        </div>
-    </div>
-</div>
-<?php
-$tabContent['cuidados'] = ob_get_clean();
 
 // Include the template
 include '../inc/service-template.php';

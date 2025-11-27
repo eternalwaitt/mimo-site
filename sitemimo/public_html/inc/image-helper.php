@@ -236,41 +236,63 @@ function picture_webp($src, $alt = '', $class = '', $attributes = [], $lazy = tr
             }
         }
         
-        // Se ainda não encontrou dimensões, adicionar aspect-ratio via CSS como fallback
-        // CRITICAL: Always ensure we have either width/height or aspect-ratio to prevent CLS
-        // FIX: Only add aspect-ratio CSS, don't force width/height attributes that might not match actual image
+        // Se ainda não encontrou dimensões, tentar inferir baseado no tipo de imagem
+        // CRITICAL: Always ensure we have either width/height attributes OR aspect-ratio CSS to prevent CLS
         if (!isset($attributes['width']) || !isset($attributes['height'])) {
             $aspectRatioStyle = '';
+            $inferredWidth = null;
+            $inferredHeight = null;
             
-            // Tentar inferir aspect-ratio baseado no tipo de imagem comum
-            // Para imagens de categoria (150x150), usar aspect-ratio 1:1
+            // Tentar inferir dimensões baseado no tipo de imagem comum
+            // Para imagens de categoria (150x150), usar dimensões explícitas
             if (strpos($src, 'categoria') !== false || strpos($src, 'menu_') !== false || strpos($src, 'micro.png') !== false) {
+                $inferredWidth = 150;
+                $inferredHeight = 150;
                 $aspectRatioStyle = 'aspect-ratio: 1 / 1;';
             }
-            // Para imagens de serviço (500x400), usar aspect-ratio 5:4
+            // Para imagens de serviço (500x400), usar dimensões explícitas
             elseif (strpos($src, 'esmalteria.png') !== false || strpos($src, 'corporal.png') !== false || 
                     strpos($src, 'facial.png') !== false || strpos($src, 'cilios.png') !== false) {
+                $inferredWidth = 500;
+                $inferredHeight = 400;
                 $aspectRatioStyle = 'aspect-ratio: 5 / 4;';
             }
-            // Para salao (600x400), usar aspect-ratio 3:2
+            // Para salao (600x400), usar dimensões explícitas
             elseif (strpos($src, 'salao.png') !== false) {
+                $inferredWidth = 600;
+                $inferredHeight = 400;
                 $aspectRatioStyle = 'aspect-ratio: 3 / 2;';
             }
-            // Para hero images (mimo5), usar aspect-ratio 1:1
+            // Para hero images (mimo5), usar dimensões explícitas
             elseif (strpos($src, 'mimo5') !== false) {
+                $inferredWidth = 500;
+                $inferredHeight = 500;
                 $aspectRatioStyle = 'aspect-ratio: 1 / 1;';
             }
-            // Default fallback: use 16:9 for unknown images
+            // Default fallback: use 16:9 aspect-ratio for unknown images
             else {
                 $aspectRatioStyle = 'aspect-ratio: 16 / 9;';
             }
             
-            // Add aspect-ratio to style if not already set (don't force width/height - let CSS handle it)
+            // CRITICAL: Always add width/height attributes when we can infer them (prevents CLS)
+            // This is better than just CSS aspect-ratio because browsers can reserve space immediately
+            if ($inferredWidth && $inferredHeight) {
+                if (!isset($attributes['width'])) {
+                    $attributes['width'] = $inferredWidth;
+                }
+                if (!isset($attributes['height'])) {
+                    $attributes['height'] = $inferredHeight;
+                }
+            }
+            
+            // Add aspect-ratio to style as fallback (works even if width/height are set)
             if ($aspectRatioStyle && !isset($attributes['style'])) {
                 $attributes['style'] = $aspectRatioStyle;
             } elseif ($aspectRatioStyle && isset($attributes['style'])) {
-                // Append aspect-ratio to existing style
-                $attributes['style'] = rtrim($attributes['style'], ';') . '; ' . $aspectRatioStyle;
+                // Append aspect-ratio to existing style (only if not already present)
+                if (strpos($attributes['style'], 'aspect-ratio') === false) {
+                    $attributes['style'] = rtrim($attributes['style'], ';') . '; ' . $aspectRatioStyle;
+                }
             }
         }
     }
@@ -432,9 +454,16 @@ function picture_webp($src, $alt = '', $class = '', $attributes = [], $lazy = tr
     $imgClass = $class ? ' class="' . htmlspecialchars($class) . '"' : '';
     $imgAlt = $alt ? ' alt="' . htmlspecialchars($alt) . '"' : '';
     $imgLoading = $lazy ? ' loading="lazy"' : '';
-    // CRITICAL: Add fetchpriority="high" for LCP images (non-lazy images above the fold)
-    // This tells the browser to prioritize loading this image for better LCP score
-    $imgFetchPriority = !$lazy ? ' fetchpriority="high"' : '';
+    // CRITICAL: Add fetchpriority for better resource prioritization
+    // - "high" for LCP images (non-lazy images above the fold)
+    // - "low" for non-critical images (lazy images below the fold)
+    // This tells the browser to prioritize loading critical images for better LCP score
+    if (!$lazy) {
+        $imgFetchPriority = ' fetchpriority="high"';
+    } else {
+        // Add fetchpriority="low" for lazy images to deprioritize them
+        $imgFetchPriority = ' fetchpriority="low"';
+    }
     
     // Extract width and height for explicit dimensions (prevents layout shift)
     $width = isset($attributes['width']) ? $attributes['width'] : '';

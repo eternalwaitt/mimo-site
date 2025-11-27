@@ -824,9 +824,6 @@
 
                                 O Mimo Lift veio para aposentar o rímel e curvex sem usar cola e fios sintéticos. É um procedimento que usa produtos específicos para acentuar a curvatura dos seus cílios, e realçar a cor, além de hidratar o seu pêlo. Lembrando que não têm o volume que a extensão de cílios proporciona, e preserva a naturalidade do olhar.<br/><br/>
 
-                                <b>Posso fazer extensão de cílios tendo feito o lash lift?</b><br/>
-
-                                Sim! Não há contraindicação para o procedimento.<br/><br/>
 
                                 <b>Posso usar rímel?</b><br/>
 
@@ -839,55 +836,6 @@
                                 <b>Quanto tempo dura o lash lift nos meus cílios?</b><br/>
 
                                 O lash lift tende a acompanhar o ciclo de vida dos seus cílios naturais. Mas garantimos a curvatura acentuada em até 1 mês!<br/><br/>
-
-                                <b>O que são extensões de cílios? </b><br/>
-
-                                As extensões de cílios são fios sintéticos cuidadosamente colados nos cílios naturais. A proposta desse procedimento é aposentar o rímel, por isso o seu resultado pode ser longo, volumoso, levantar o olhar, disfarçar flacidez nas pálpebras, e até mesmo criar aquele efeito curvado do rímel! <br/><br/>
-
-                                <b>Quanto tempo as extensões de cílios duram? </b><br/>
-
-                                A durabilidade média é de até 4 semanas, sendo <b>opcional</b> realizar manutenções entre a segunda ou quarta semana para mantê-los cheios. <br/><br/>
-
-                                <b>Quanto tempo demora o procedimento? </b><br/>
-
-                                Este tipo de procedimento demora em torno de 2 a 3 horas, pois a quantidade de cílios pode variar de acordo com cada cliente, e o método escolhido. <br/><br/>
-
-                                <b>Em quanto tempo preciso fazer a manutenção? </b><br/>
-
-                                A durabilidade das extensões de cílios varia muito de seus cuidados. No entanto, realizamos uma manutenção após 03 (três) semanas da realização do procedimento. <br>
-                                Para o modelo fio a fio Mimo, recomentamos a manutenção após 02 (duas) semanas da realização do procedimento.
-                                <br/><br/>
-
-                                <b> Quais as contraindicações? </b><br/>
-
-                                • Pessoas que fez/fazem uso de colírio para latisse em menos de seis meses; <br/>
-
-                                • Pessoas que possuem blefarite; <br/>
-
-                                • Pessoas alérgicas a estes componentes: cianocrilato, formaldeído, hidroquinonea, carbono e poly isocyante. <br/><br/>
-
-                                <b>Preciso fazer uma pausa entre um alongamento e outro? </b><br/>
-
-                                Não é necessário fazer pausa, mas caso o cliente queira, indicamos uma pausa de pelo menos 03 meses que é o tempo de renovação do ciclo nos nossos cílios. Nesse período você pode fazer o Lash Lift que é um tratamento para hidratação, fortalecimento e crescimento dos fios, que também os curva e pigmenta.<br/><br/>
-
-
-
-                                <b>As extensões de cílios podem prejudicar os meus cílios naturais? </b><br/>
-
-                                Não! Respeitamos a raiz dos cílios, sempre colando os fios sintéticos a 1mm de distência, para não obstruir seu crescimento. Além disso, o método consiste em diversas etapas de higienização, esfoliação, hidratação profunda, isolamento, realinhamento dos seus fios, separação das extensões, análise de espessuras e tamanhos. <br>
-                                A saúde dos seus fios também vai depender dos cuidados que você tem em casa, devendo seguir todas as orientações passadas pelos profissionais.<br/><br/>
-
-
-
-                                <b>Posso usar máscara (rímel) nas minhas extensões de cílios? </b><br/>
-
-                                Normalmente o uso da máscara não é necessário, pois buscamos entender e atender o desejo visual de cada cliente. Mas, caso seja usada, não pode ser à prova d’água e é importante salientar que vai encurtar o tempo de vida da extensão. O uso da máscara pode encurtar a vida útil das extensões. <br/><br/>
-
-
-
-                                <b>Quais os cuidados que devo ter no pós-procedimento? </b><br/>
-
-                                No geral o que craqueja a cola é oleosidade, por isso indicamos não usar demaquilantes, evitar que caia resíduos de shampoo e condicionador durante o banho, e pentear os cílios cuidadosamente duas vezes ao dia, no mínimo. <br/><br/>
 
 
 

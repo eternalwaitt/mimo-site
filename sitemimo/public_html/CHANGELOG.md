@@ -5,6 +5,82 @@ All notable changes to the Mimo Site project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.13] - 2025-01-20
+
+### Changed - Atualização de Serviços
+
+#### Salão
+- **Removidos serviços descontinuados**:
+  - Mimo Gloss
+  - Amônia Free
+  - Full Fantasy / Colorido Mimo
+  - Ombre / Mechas Mimo
+  - Royal
+  - Ruivo Deluxe
+  - Blond, Full Blond, Summer
+  - Tonalização
+- **Simplificados**:
+  - Ruivos: mantido apenas serviço "Ruivos" (anteriormente "Ruivo Mimo")
+  - Loiros: mantido apenas serviço "Loiros" (anteriormente "Descoloração Global Mimo")
+- **Removido**: Referência a "Summer" na aba LET COESTA
+
+#### Esmalteria
+- **Atualizado**: "Alongamento Polygel" → "Alongamento de Polygel com Molde F1"
+- **Removidos serviços descontinuados** (se existiam):
+  - Gel molde
+  - Gel com prótese
+  - Acrigel molde
+  - Acrigel prótese
+  - Fibra
+  - Banho de acrigel
+- **Confirmado**: "Banho de Gel" já estava corretamente nomeado como "Blindagem de Gel"
+
+#### Cílios e Design
+- **Removido**: Todas as referências a extensão de cílios
+- **Removido**: Mimo Gloss dos combos
+- **Mantidos**:
+  - Design de sobrancelha
+  - Brow lamination
+  - Lash lift
+- **Atualizado**: Descrições dos combos removendo referências a extensão de cílios e mimo gloss
+
+#### Micropigmentação
+- **Removido**: Mimo Gloss da aba labial
+- **Confirmado**: Serviço já estava corretamente nomeado como "Nanopigmentação" (não "Microblading")
+
+#### Estética Facial
+- **Removidos serviços**:
+  - Combo GlowUp
+  - Revitalização Facial / Mimo Cuidados (aba removida)
+- **Mantidos apenas**:
+  - Limpeza de Pele Mimo
+  - Limpeza de Pele Mimo VIP
+  - Microagulhamento
+
+#### Estética Corporal
+- **Atualizado**: "Modeladora + Endermoterapia" → "Massagem Modeladora" (separado)
+- **Mantidos**:
+  - Drenagem Linfática
+  - Massagem Relaxante
+  - Massagem Modeladora
+  - Radiofrequência
+  - Ultrassom
+  - Endermoterapia
+
+#### FAQ
+- **Removido**: Todas as perguntas e respostas sobre extensão de cílios
+- **Removido**: Referência a "Posso fazer extensão de cílios tendo feito o lash lift?"
+
+#### Meta Descriptions e SEO
+- **Atualizado**: `service-template.php` com descrições atualizadas:
+  - Removido "extensão de cílios" das descrições
+  - Atualizado "microblading" → "nanoblading"
+  - Atualizado "mechas" → "loiros, ruivos"
+  - Atualizado descrição de esmalteria com "polygel com molde f1"
+
+### Added
+- **Footer**: Adicionada exibição da versão do site no footer
+
 ## [2.6.12] - 2025-11-16
 
 ### Performance - Comprehensive 90+ Optimization (All Phases)

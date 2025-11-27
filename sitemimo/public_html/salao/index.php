@@ -92,79 +92,14 @@ $tabs = [
 ob_start();
 ?>
 <div class="col-md-12 container my-5">
-    <div class="col-xs-12 imgOmbre" style="float:left;"></div>
+    <div class="col-xs-12" style="float:left;width: 200px; height: 200px; overflow: hidden;">
+        <?php echo picture_webp('Mimo-AllBlond.png', 'Loiros', '', ['style' => 'width: 100%; height: 100%; object-fit: cover;', 'width' => '600', 'height' => '400']); ?>
+    </div>
     <div class="col-md-8 col-xs-12 service-content">
-        <h3 class="textPink font-weight-bold">MECHAS MIMO</h3>
+        <h3 class="textPink font-weight-bold">LOIROS</h3>
         <p style="letter-spacing: 0.8px">
-            O serviço de Mechas leva um tempo médio de serviço de 6h a 8h, varia conforme comprimento e
+            O serviço de Loiros leva um tempo médio de serviço de 4h a 10h, varia conforme comprimento e
             quantidade de cabelo.<br /><br />
-            Inclui descoloração, 01 tonalização, reconstrução e finalização.
-        </p>
-        <p class="textDarkGrey" style="font-size: 17px;">
-            a partir de R$500,00
-        </p>
-        <div class="modal fade" id="consultarComprimento" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="bottom: inherit;">
-            <div class="modal-dialog modal-dialog-centered" style="max-width: 1080px;" role="document">
-                <div class="modal-content">
-                    <div class="modal-body" style="overflow: hidden;">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h3 class="textPink text-center my-3">ATENÇÃO!</h3>
-                        <?php echo picture_webp('comprimento.png', '', '', ['style' => 'max-width: 100%;display: block;', 'width' => '400', 'height' => '300']); ?>
-                        <p>*O orçamento passado pelo profissional é baseado no tamanho e volume do cabelo,
-                            tabela ilustrativa.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal -->
-        <div class="modal fade" id="modalBlond1" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- Modal removido - agendamento via WhatsApp -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="col-md-12 container my-5">
-    <div class="col-xs-12" style="float:left;width: 200px; height: 200px; overflow: hidden;">
-        <?php echo picture_webp('Mimo-Summer.png', 'Iluminado Mimo', '', ['style' => 'width: 100%; height: 100%; object-fit: cover;', 'width' => '600', 'height' => '400']); ?>
-    </div>
-    <div class="col-md-8 col-xs-12 service-content">
-        <h3 class="textPink font-weight-bold">ILUMINADO MIMO</h3>
-        <p style="letter-spacing: 0.8px">
-            O Iluminado Mimo ou morena iluminada leva um tempo médio de serviço de 4h a 6h, varia conforme
-            comprimento e quantidade de cabelo.<br /><br />
-            Inclui clareamento, 01 tonalização, reconstrução e finalização.
-        </p>
-        <p class="textDarkGrey" style="font-size: 17px;">
-            a partir de R$550,00
-        </p>
-    </div>
-</div>
-
-<div class="col-md-12 container my-5">
-    <div class="col-xs-12" style="float:left;width: 200px; height: 200px; overflow: hidden;">
-        <?php echo picture_webp('Mimo-AllBlond.png', 'Descoloração Global Mimo', '', ['style' => 'width: 100%; height: 100%; object-fit: cover;', 'width' => '600', 'height' => '400']); ?>
-    </div>
-    <div class="col-md-8 col-xs-12 service-content">
-        <h3 class="textPink font-weight-bold">DESCOLORAÇÃO GLOBAL MIMO</h3>
-        <p style="letter-spacing: 0.8px">
-            O Descoloração Global ou platinado leva um tempo médio de serviço de 4h a 10h, varia conforme
-            comprimento e quantidade de cabelo.<br /><br />
             Inclui a descoloração, 01 tonalização, reconstrução e finalização.
         </p>
         <p class="textDarkGrey" style="font-size: 17px;">
@@ -175,31 +110,13 @@ ob_start();
 
 <div class="col-md-12 container my-5">
     <div class="col-xs-12" style="float:left;width: 200px; height: 200px; overflow: hidden;">
-        <?php echo picture_webp('fantasy.png', 'Colorido Mimo', '', ['style' => 'width: 100%; height: 100%; object-fit: cover;', 'width' => '600', 'height' => '400']); ?>
+        <?php echo picture_webp('Ruivo-Mimo.png', 'Ruivos', '', ['style' => 'width: 100%; height: 100%; object-fit: cover;', 'width' => '600', 'height' => '400']); ?>
     </div>
     <div class="col-md-8 col-xs-12 service-content">
-        <h3 class="textPink font-weight-bold">COLORIDO MIMO</h3>
+        <h3 class="textPink font-weight-bold">RUIVOS</h3>
         <p style="letter-spacing: 0.8px">
-            O Colorido Mimo ou cabelo fantasia leva um tempo médio de serviço de 6h a 8h, varia conforme
-            comprimento e quantidade de cabelo e quantidade de cores.<br /><br />
-            Inclui descoloração, 01 tonalização, reconstrução e finalização incluso, demais tonalizações são
-            cobradas à parte <br />
-        </p>
-        <p class="textDarkGrey" style="font-size: 17px;">
-            a partir de R$600,00
-        </p>
-    </div>
-</div>
-
-<div class="col-md-12 container my-5">
-    <div class="col-xs-12" style="float:left;width: 200px; height: 200px; overflow: hidden;">
-        <?php echo picture_webp('Ruivo-Mimo.png', 'Coloração Mimo', '', ['style' => 'width: 100%; height: 100%; object-fit: cover;', 'width' => '600', 'height' => '400']); ?>
-    </div>
-    <div class="col-md-8 col-xs-12 service-content">
-        <h3 class="textPink font-weight-bold">COLORAÇÃO MIMO</h3>
-        <p style="letter-spacing: 0.8px">
-            A Coloração Mimo ou o serviço para pintar o cabelo leva um tempo médio de serviço de 4h a 6h,
-            varia conforme comprimento e quantidade de cabelo.<br />
+            O serviço de Ruivos leva um tempo médio de serviço de 4h a 6h, varia conforme comprimento e
+            quantidade de cabelo.<br />
             Tempo mínimo para retoque: 20 dias e máximo de 45 dias, passando será cobrado valor do serviço
             total novamente. <br />
             Inclui coloração, 01 tonalização, hidratação e finalização. <br />
@@ -331,9 +248,6 @@ ob_start();
 
         <h3 class="textPink font-weight-bold mt-4">SERVIÇOS DE COR E DESCOLORAÇÃO</h3>
         <p style="letter-spacing: 0.8px">
-            <b>Summer:</b> a partir de R$700,00<br>
-            Consultoria, iluminado sem pó descolorante e baixa manutenção, finalização.<br><br>
-
             <b>Iluminado:</b> a partir de R$800,00<br>
             Consultoria, iluminado com pó descolorante, finalização.<br><br>
 

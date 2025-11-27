@@ -80,6 +80,7 @@ define('FOOTER_INCLUDED', true);
             <div class="col-12">
                 <div class="footer-copyright">
                     <p>&copy; <?php echo date('Y'); ?> Mimo | 57.659.472/0001-78 | Todos os direitos reservados</p>
+                    <p style="font-size: 0.85rem; opacity: 0.7; margin-top: 0.5rem;">Versão <?php echo APP_VERSION; ?></p>
                 </div>
             </div>
         </div>

@@ -85,12 +85,12 @@ if (!isset($includeGTM)) {
     
     // Descrições específicas por serviço
     $serviceDescriptions = [
-        'Esmalteria' => 'Esmalteria em São Paulo: alongamento de unhas, blindagem e manicure & pedicure. Serviços de qualidade com preços acessíveis. Agende seu horário!',
-        'Cílios e Design' => 'Design de sobrancelha e extensão de cílios em São Paulo. Mimo Lash Lift, design personalizado e combos. Profissionais especializadas. Agende!',
+        'Esmalteria' => 'Esmalteria em São Paulo: alongamento de polygel com molde f1, blindagem de gel e manicure & pedicure. Serviços de qualidade com preços acessíveis. Agende seu horário!',
+        'Cílios e Design' => 'Design de sobrancelha em São Paulo. Mimo Lash Lift, design personalizado, brow lamination e combos. Profissionais especializadas. Agende!',
         'Estética Corporal' => 'Estética corporal em São Paulo: radiofrequência, ultrassom, endermoterapia, drenagem linfática e massagens. Tratamentos para celulite e gordura localizada.',
         'Estética Facial' => 'Estética facial em São Paulo: limpeza de pele, microagulhamento e tratamentos faciais. Cuidados especializados para sua pele. Agende sua avaliação!',
-        'Micropigmentação' => 'Micropigmentação em São Paulo: sobrancelhas, lábios e despigmentação. Resultados naturais e duradouros. Profissionais especializadas.',
-        'Salão' => 'Salão de beleza em São Paulo: mechas, coloração, corte, alisamento e mega hair. Serviços completos de cabelo com profissionais especializadas.'
+        'Micropigmentação' => 'Micropigmentação em São Paulo: nanoblading de sobrancelhas, lábios e despigmentação. Resultados naturais e duradouros. Profissionais especializadas.',
+        'Salão' => 'Salão de beleza em São Paulo: loiros, ruivos, corte, alisamento e mega hair. Serviços completos de cabelo com profissionais especializadas.'
     ];
     
     $pageDescription = $serviceDescriptions[$serviceNameClean] ?? "Serviços de {$serviceNameClean} em São Paulo. Centro de beleza Mimo com profissionais especializadas e preços acessíveis.";
@@ -331,12 +331,12 @@ if (!isset($includeGTM)) {
     <?php
     // Schema.org Structured Data - Service
     $serviceDescriptions = [
-        'Esmalteria' => 'Serviços de esmalteria incluindo alongamento de unhas, blindagem e manicure & pedicure',
-        'Cílios e Design' => 'Design de sobrancelha personalizado e extensão de cílios com técnicas modernas',
+        'Esmalteria' => 'Serviços de esmalteria incluindo alongamento de polygel com molde f1, blindagem de gel e manicure & pedicure',
+        'Cílios e Design' => 'Design de sobrancelha personalizado, brow lamination e lash lift com técnicas modernas',
         'Estética Corporal' => 'Tratamentos estéticos corporais para celulite, gordura localizada e flacidez',
         'Estética Facial' => 'Tratamentos faciais especializados incluindo limpeza de pele e microagulhamento',
-        'Micropigmentação' => 'Micropigmentação de sobrancelhas, lábios e procedimentos de despigmentação',
-        'Salão' => 'Serviços completos de salão incluindo mechas, coloração, corte e alisamento'
+        'Micropigmentação' => 'Nanoblading de sobrancelhas, revitalização labial e procedimentos de despigmentação',
+        'Salão' => 'Serviços completos de salão incluindo loiros, ruivos, corte e alisamento'
     ];
     
     $serviceDesc = $serviceDescriptions[$serviceNameClean] ?? "Serviços de {$serviceNameClean}";

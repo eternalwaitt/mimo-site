@@ -95,9 +95,9 @@ ob_start();
         <div class="col-md-12 container my-5">
             <div class="col-md-4 imgmdrenamod" style="float:left;"></div>
             <div class="col-md-8 service-content">
-                <h3 class="textPink font-weight-bold">MODELADORA + ENDERMOTERAPIA</h3>
+                <h3 class="textPink font-weight-bold">MASSAGEM MODELADORA</h3>
                 <p style="letter-spacing: 0.8px">
-                    A <b>Modeladora</b> é uma técnica de massagem com movimentos profundos, com o intuito de modelagem corpórea, melhora de celulite, circulação, oxigenação e nutrição tecidual.
+                    A <b>Massagem Modeladora</b> é uma técnica de massagem com movimentos profundos, com o intuito de modelagem corpórea, melhora de celulite, circulação, oxigenação e nutrição tecidual.
                 </p>
                 <p class="textDarkGrey" style="font-size: 17px;">
                     Valor Individual: R$ 100,00 <br>
@@ -145,6 +145,19 @@ ob_start();
                 <h3 class="textPink font-weight-bold">MASSAGEM RELAXANTE</h3>
                 <p style="letter-spacing: 0.8px">
                     A <b>Massagem Relaxante</b> é uma técnica de massagem que adota movimentos profundos e relaxantes que promovem a diminuição do estresse/ansiedade, sensação de bem-estar, hidratação da pele, redução de tensões, dores musculares e aumento da circulação sanguínea.
+                </p>
+                <p class="textDarkGrey" style="font-size: 17px;">
+                    Valor Individual: R$ 100,00 <br>
+                    Pacotes com 10% de desconto<br /><br />
+                </p>
+            </div>
+        </div>
+        <div class="col-md-12 container my-5">
+            <div class="col-md-4 imgmdrenamod" style="float:left;"></div>
+            <div class="col-md-8 service-content">
+                <h3 class="textPink font-weight-bold">MASSAGEM MODELADORA</h3>
+                <p style="letter-spacing: 0.8px">
+                    A <b>Massagem Modeladora</b> é uma técnica de massagem com movimentos profundos, com o intuito de modelagem corpórea, melhora de celulite, circulação, oxigenação e nutrição tecidual.
                 </p>
                 <p class="textDarkGrey" style="font-size: 17px;">
                     Valor Individual: R$ 100,00 <br>
