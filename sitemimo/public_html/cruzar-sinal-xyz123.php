@@ -42,55 +42,17 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 // Verificar se PhpSpreadsheet está disponível
 // Não bloquear o carregamento da página - só mostrar aviso se necessário
 $phpspreadsheet_error = !$phpspreadsheet_loaded;
-if ($phpspreadsheet_error) {
-    // Não usar http_response_code(500) aqui - deixa a página carregar normalmente
-    // O erro será mostrado no formulário se o usuário tentar usar
-        <html>
-        <head>
-            <title>Erro - Cruzar Sinal</title>
-            <style>
-                body { font-family: Arial, sans-serif; padding: 40px; max-width: 800px; margin: 0 auto; }
-                .error { background: #fee; border: 2px solid #f00; padding: 20px; border-radius: 8px; }
-                .debug { background: #f5f5f5; border: 1px solid #ccc; padding: 15px; margin-top: 20px; border-radius: 4px; font-family: monospace; font-size: 12px; }
-                h1 { color: #c00; }
-                code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; }
-                ul { text-align: left; }
-            </style>
-        </head>
-        <body>
-            <div class="error">
-                <h1>❌ PhpSpreadsheet não está instalado</h1>
-                <p>O PhpSpreadsheet é necessário para processar arquivos Excel.</p>
-                <p><strong>Solução:</strong></p>
-                <ol style="text-align: left; max-width: 500px; margin: 20px auto;">
-                    <li>Verificar se o diretório <code>vendor/</code> existe no servidor</li>
-                    <li>Se não existir, executar <code>composer install</code> no servidor</li>
-                    <li>Ou fazer upload do diretório <code>vendor/</code> completo</li>
-                </ol>
-                <div class="debug">
-                    <strong>Detalhes de Debug:</strong><br>
-                    <ul>';
-    foreach ($error_details as $detail) {
-        $error_html .= '<li>' . htmlspecialchars($detail) . '</li>';
-    }
-    $error_html .= '</ul>
-                    <p><strong>Diretório atual:</strong> ' . htmlspecialchars(__DIR__) . '</p>
-                    <p><strong>vendor/autoload.php existe:</strong> ' . (file_exists(__DIR__ . '/vendor/autoload.php') ? 'SIM' : 'NÃO') . '</p>
-                    <p><strong>vendor/ existe:</strong> ' . (is_dir(__DIR__ . '/vendor') ? 'SIM' : 'NÃO') . '</p>
-                </div>
-                <p><small>Verifique os logs do GitHub Actions para mais detalhes sobre o deploy.</small></p>
-            </div>
-        </body>
-        </html>';
-    die($error_html);
-    }
-}
+// Continuar carregando a página mesmo sem PhpSpreadsheet - o erro será mostrado no formulário
 
 // Carregar helpers
 require_once __DIR__ . '/inc/asset-helper.php';
 require_once __DIR__ . '/inc/seo-helper.php';
-require_once __DIR__ . '/inc/cruzar-sinal/validacao.php';
-require_once __DIR__ . '/inc/cruzar-sinal/cruzar-dados.php';
+
+// Só carregar funções de cruzar-sinal se PhpSpreadsheet estiver disponível
+if ($phpspreadsheet_loaded) {
+    require_once __DIR__ . '/inc/cruzar-sinal/validacao.php';
+    require_once __DIR__ . '/inc/cruzar-sinal/cruzar-dados.php';
+}
 
 // Iniciar sessão
 if (session_status() === PHP_SESSION_NONE) {
@@ -112,6 +74,8 @@ if (!is_dir($outputs_dir)) {
 // Variáveis de estado
 $erro_agendamentos = false;
 $erro_credito_debito = false;
+$erro_geral = false;
+$mensagem_erro_geral = '';
 $erros_agendamentos = [];
 $erros_credito_debito = [];
 $filename_agendamentos = '';
@@ -124,17 +88,22 @@ $arquivo_cred_salvo = $_SESSION['arquivo_credito_debito_validado'] ?? null;
 
 // Processar upload
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['processar'])) {
-    // Processar arquivo de agendamentos
-    if (isset($_FILES['arquivo_agendamentos']) && $_FILES['arquivo_agendamentos']['error'] === UPLOAD_ERR_OK) {
-        $arquivo_agend = $_FILES['arquivo_agendamentos'];
-        $filename_agendamentos = $arquivo_agend['name'];
-        $arquivo_temp = $arquivo_agend['tmp_name'];
-        
-        // Ler arquivo
-        $arquivo_bytes = file_get_contents($arquivo_temp);
-        
-        // Validar
-        $resultado_validacao = validar_arquivo_agendamentos($arquivo_bytes, $filename_agendamentos);
+    // Verificar se PhpSpreadsheet está disponível antes de processar
+    if (!$phpspreadsheet_loaded) {
+        $erro_geral = true;
+        $mensagem_erro_geral = 'PhpSpreadsheet não está instalado. Execute: composer install --no-dev --optimize-autoloader no servidor ou faça upload do diretório vendor/ completo.';
+    } else {
+        // Processar arquivo de agendamentos
+        if (isset($_FILES['arquivo_agendamentos']) && $_FILES['arquivo_agendamentos']['error'] === UPLOAD_ERR_OK) {
+            $arquivo_agend = $_FILES['arquivo_agendamentos'];
+            $filename_agendamentos = $arquivo_agend['name'];
+            $arquivo_temp = $arquivo_agend['tmp_name'];
+            
+            // Ler arquivo
+            $arquivo_bytes = file_get_contents($arquivo_temp);
+            
+            // Validar
+            $resultado_validacao = validar_arquivo_agendamentos($arquivo_bytes, $filename_agendamentos);
         
         if (!$resultado_validacao['valido']) {
             $erro_agendamentos = true;
@@ -190,35 +159,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['processar'])) {
         $erros_credito_debito[] = 'arquivo de crédito/débito é obrigatório';
     }
     
-    // Se ambos arquivos estão válidos, processar
-    if (!$erro_agendamentos && !$erro_credito_debito && $arquivo_agend_salvo && $arquivo_cred_salvo) {
-        try {
-            $resultado = cruzar_dados($arquivo_agend_salvo['path'], $arquivo_cred_salvo['path']);
-            
-            // Salvar resultado
-            $timestamp = date('Ymd_His');
-            $filename_resultado = "cruzamento_{$timestamp}.xlsx";
-            $arquivo_saida = $outputs_dir . '/' . $filename_resultado;
-            
-            salvar_resultado_excel($resultado['df_resultado'], $arquivo_saida);
-            
-            $estatisticas = $resultado['estatisticas'];
-            $sucesso = true;
-            
-            // Limpar sessão
-            unset($_SESSION['arquivo_agendamentos_validado']);
-            unset($_SESSION['arquivo_credito_debito_validado']);
-            
-            // Limpar arquivos temporários
-            if (file_exists($arquivo_agend_salvo['path'])) {
-                unlink($arquivo_agend_salvo['path']);
+        // Se ambos arquivos estão válidos, processar
+        if (!$erro_agendamentos && !$erro_credito_debito && $arquivo_agend_salvo && $arquivo_cred_salvo) {
+        // Verificar se PhpSpreadsheet está disponível antes de processar
+        if (!$phpspreadsheet_loaded) {
+            $erro_geral = true;
+            $mensagem_erro_geral = 'PhpSpreadsheet não está instalado. Execute: composer install --no-dev --optimize-autoloader no servidor ou faça upload do diretório vendor/ completo.';
+        } else {
+            try {
+                $resultado = cruzar_dados($arquivo_agend_salvo['path'], $arquivo_cred_salvo['path']);
+                
+                // Salvar resultado
+                $timestamp = date('Ymd_His');
+                $filename_resultado = "cruzamento_{$timestamp}.xlsx";
+                $arquivo_saida = $outputs_dir . '/' . $filename_resultado;
+                
+                salvar_resultado_excel($resultado['df_resultado'], $arquivo_saida);
+                
+                $estatisticas = $resultado['estatisticas'];
+                $sucesso = true;
+                
+                // Limpar sessão
+                unset($_SESSION['arquivo_agendamentos_validado']);
+                unset($_SESSION['arquivo_credito_debito_validado']);
+                
+                // Limpar arquivos temporários
+                if (file_exists($arquivo_agend_salvo['path'])) {
+                    unlink($arquivo_agend_salvo['path']);
+                }
+                if (file_exists($arquivo_cred_salvo['path'])) {
+                    unlink($arquivo_cred_salvo['path']);
+                }
+            } catch (Exception $e) {
+                $erro_agendamentos = true;
+                $erros_agendamentos[] = 'erro ao processar cruzamento: ' . $e->getMessage();
             }
-            if (file_exists($arquivo_cred_salvo['path'])) {
-                unlink($arquivo_cred_salvo['path']);
-            }
-        } catch (Exception $e) {
-            $erro_agendamentos = true;
-            $erros_agendamentos[] = 'erro ao processar cruzamento: ' . $e->getMessage();
         }
     }
 }
