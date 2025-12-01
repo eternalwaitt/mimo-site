@@ -88,11 +88,11 @@ jobs:
           # Verify the change
           grep "ASSET_VERSION" config.php | head -1
       
-      - name: Setup PHP extensions
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y php-xml php-zip php-gd php-mbstring php-iconv
-          php -m | grep -E "(xml|zip|gd|mbstring|iconv)" || echo "Some extensions may not be available"
+      - name: Setup PHP 8.x
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          extensions: xml, zip, gd, mbstring, iconv
       
       - name: Install PHP dependencies (Composer)
         run: |
@@ -117,10 +117,10 @@ jobs:
             echo "Using Composer: $COMPOSER_CMD"
             $COMPOSER_CMD --version
             
-            # Install dependencies with verbose output and ignore platform requirements if needed
-            echo "Running: $COMPOSER_CMD install --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs"
-            if ! $COMPOSER_CMD install --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs; then
-              echo "❌ ERROR: Composer install failed even with --ignore-platform-reqs!"
+            # Install dependencies with verbose output
+            echo "Running: $COMPOSER_CMD install --no-dev --optimize-autoloader --no-interaction"
+            if ! $COMPOSER_CMD install --no-dev --optimize-autoloader --no-interaction; then
+              echo "❌ ERROR: Composer install failed!"
               echo "Trying to diagnose the issue..."
               php -r "echo 'PHP extensions: '; print_r(get_loaded_extensions());"
               cat composer.json
