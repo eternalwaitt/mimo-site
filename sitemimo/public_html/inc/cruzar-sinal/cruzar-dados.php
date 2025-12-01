@@ -64,11 +64,21 @@ function identificar_colunas_agendamentos($df) {
  * Identifica colunas relevantes no arquivo de crédito/débito
  */
 function identificar_colunas_credito_debito($df) {
+    $credito = identificar_coluna($df, ['credito', 'crédito', 'credit', 'a receber']);
+    $debito = identificar_coluna($df, ['debito', 'débito', 'debit', 'a pagar', 'divida', 'dívida']);
+    
+    // Se não encontrou crédito ou débito separados, procura coluna genérica
+    $valor_generico = null;
+    if (!$credito && !$debito) {
+        $valor_generico = identificar_coluna($df, ['valor', 'saldo', 'total', 'crédito ou dívida']);
+    }
+    
     return [
         'nome' => identificar_coluna($df, ['nome', 'cliente', 'name']),
         'telefone' => identificar_coluna($df, ['telefone', 'fone', 'phone', 'celular', 'whatsapp']),
-        'credito' => identificar_coluna($df, ['credito', 'crédito', 'credit', 'saldo', 'a receber']),
-        'debito' => identificar_coluna($df, ['debito', 'débito', 'debit', 'a pagar', 'divida', 'dívida']),
+        'credito' => $credito,
+        'debito' => $debito,
+        'valor_generico' => $valor_generico,
     ];
 }
 
@@ -163,11 +173,18 @@ function cruzar_dados($arquivo_agendamentos_path, $arquivo_credito_debito_path) 
             }
             
             // Converte valores monetários
-            if ($cols_cred['credito'] && $cols_cred['debito'] && $cols_cred['credito'] === $cols_cred['debito']) {
+            if ($cols_cred['valor_generico']) {
+                // Coluna genérica: valor positivo = crédito, negativo = débito
+                $valor = converter_valor_monetario($row[$cols_cred['valor_generico']] ?? 0);
+                $row['credito_valor'] = $valor >= 0 ? $valor : 0.0;
+                $row['debito_valor'] = $valor < 0 ? abs($valor) : 0.0;
+            } elseif ($cols_cred['credito'] && $cols_cred['debito'] && $cols_cred['credito'] === $cols_cred['debito']) {
+                // Mesma coluna para crédito e débito (valor positivo = crédito, negativo = débito)
                 $valor = converter_valor_monetario($row[$cols_cred['credito']] ?? 0);
                 $row['credito_valor'] = $valor >= 0 ? $valor : 0.0;
                 $row['debito_valor'] = $valor < 0 ? abs($valor) : 0.0;
             } else {
+                // Colunas separadas para crédito e débito
                 $row['credito_valor'] = $cols_cred['credito'] ? converter_valor_monetario($row[$cols_cred['credito']] ?? 0) : 0.0;
                 $row['debito_valor'] = $cols_cred['debito'] ? converter_valor_monetario($row[$cols_cred['debito']] ?? 0) : 0.0;
             }
