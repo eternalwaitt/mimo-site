@@ -95,3 +95,7 @@ cruzar-sinal-legacy/venv/
 sitemimo/public_html/cruzar-sinal-uploads/
 sitemimo/public_html/cruzar-sinal-outputs/
 sitemimo/public_html/*.xlsx
+
+# Scripts temporários com repositórios Git aninhados
+sitemimo/public_html/scripts/temp-scraper/.git/
+sitemimo/public_html/scripts/temp-scraper/.git
