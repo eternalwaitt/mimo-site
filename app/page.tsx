@@ -52,7 +52,7 @@ const CTAAgendamento = dynamic(
 export default function HomePage() {
   return (
     <>
-      <Header />
+      <Header isHomepage={true} />
       <AnalyticsPageTracker />
       <main id="main-content">
         <ErrorBoundary>

@@ -37,12 +37,22 @@ const menuItemsRight: Array<MenuItem> = [
  * 
  * otimizado: reduz JS inicial ao mínimo necessário.
  */
-export function Header() {
+type HeaderProps = {
+  /** se true, header começa com background para contraste (ex: homepage com hero escuro) */
+  isHomepage?: boolean
+}
+
+export function Header({ isHomepage = false }: HeaderProps = {}) {
   const whatsappUrl = getWhatsAppBookingUrl()
+  
+  // no homepage, começa com background para contraste com hero escuro
+  const headerBgClass = isHomepage 
+    ? 'bg-white/95 backdrop-blur-md shadow-sm' 
+    : 'bg-transparent'
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent">
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${headerBgClass}`}>
         {/* Skip to main content link for keyboard navigation */}
         <a
           href="#main-content"
