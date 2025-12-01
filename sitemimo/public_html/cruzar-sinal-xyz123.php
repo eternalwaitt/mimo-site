@@ -40,10 +40,11 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 }
 
 // Verificar se PhpSpreadsheet está disponível
-if (!$phpspreadsheet_loaded) {
-    // Mostrar erro amigável com detalhes de debug
-    http_response_code(500);
-    $error_html = '<!DOCTYPE html>
+// Não bloquear o carregamento da página - só mostrar aviso se necessário
+$phpspreadsheet_error = !$phpspreadsheet_loaded;
+if ($phpspreadsheet_error) {
+    // Não usar http_response_code(500) aqui - deixa a página carregar normalmente
+    // O erro será mostrado no formulário se o usuário tentar usar
         <html>
         <head>
             <title>Erro - Cruzar Sinal</title>
