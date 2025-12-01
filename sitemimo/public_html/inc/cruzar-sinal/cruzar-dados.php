@@ -25,6 +25,7 @@ function normalizar_telefone($telefone) {
 
 /**
  * Converte valor monetário para float
+ * Suporta formatos brasileiro (1.459,88) e americano (1,459.88)
  */
 function converter_valor_monetario($valor) {
     if ($valor === null || $valor === '') {
@@ -36,10 +37,25 @@ function converter_valor_monetario($valor) {
     }
     
     if (is_string($valor)) {
-        $valor_limpo = str_replace(['R$', '$', ' '], '', $valor);
-        $valor_limpo = str_replace(',', '.', $valor_limpo);
-        $valor_limpo = trim($valor_limpo);
+        // Remove símbolos de moeda e espaços
+        $valor_limpo = str_replace(['R$', '$', ' '], '', trim($valor));
         
+        // Detecta formato brasileiro (tem vírgula como decimal)
+        if (strpos($valor_limpo, ',') !== false) {
+            // Formato brasileiro: 1.459,88
+            // Remove pontos (separadores de milhares) e substitui vírgula por ponto
+            $valor_limpo = str_replace('.', '', $valor_limpo);
+            $valor_limpo = str_replace(',', '.', $valor_limpo);
+        } elseif (strpos($valor_limpo, '.') !== false && substr_count($valor_limpo, '.') === 1) {
+            // Formato americano simples: 1459.88 (um ponto = decimal)
+            // Não precisa fazer nada
+        } elseif (strpos($valor_limpo, '.') !== false && substr_count($valor_limpo, '.') > 1) {
+            // Formato americano com milhares: 1,459.88
+            // Remove vírgulas (separadores de milhares)
+            $valor_limpo = str_replace(',', '', $valor_limpo);
+        }
+        
+        // Tenta converter para float
         if (is_numeric($valor_limpo)) {
             return (float)$valor_limpo;
         }
