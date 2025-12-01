@@ -12,8 +12,52 @@
 require_once __DIR__ . '/config.php';
 
 // Autoloader do Composer para PhpSpreadsheet
+$phpspreadsheet_loaded = false;
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';
+    $phpspreadsheet_loaded = class_exists('PhpOffice\PhpSpreadsheet\IOFactory');
+}
+
+// Verificar se PhpSpreadsheet está disponível
+if (!$phpspreadsheet_loaded) {
+    // Tentar verificar se está instalado mas não carregado
+    if (file_exists(__DIR__ . '/vendor/phpoffice/phpspreadsheet/src/PhpSpreadsheet/IOFactory.php')) {
+        // PhpSpreadsheet existe mas autoloader pode não ter carregado
+        require_once __DIR__ . '/vendor/phpoffice/phpspreadsheet/src/PhpSpreadsheet/IOFactory.php';
+        $phpspreadsheet_loaded = class_exists('PhpOffice\PhpSpreadsheet\IOFactory');
+    }
+    
+    if (!$phpspreadsheet_loaded) {
+        // Mostrar erro amigável em vez de 500
+        http_response_code(500);
+        die('
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Erro - Cruzar Sinal</title>
+            <style>
+                body { font-family: Arial, sans-serif; padding: 40px; text-align: center; }
+                .error { background: #fee; border: 2px solid #f00; padding: 20px; border-radius: 8px; max-width: 600px; margin: 0 auto; }
+                h1 { color: #c00; }
+                code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; }
+            </style>
+        </head>
+        <body>
+            <div class="error">
+                <h1>❌ PhpSpreadsheet não está instalado</h1>
+                <p>O PhpSpreadsheet é necessário para processar arquivos Excel.</p>
+                <p><strong>Solução:</strong></p>
+                <ol style="text-align: left; max-width: 400px; margin: 20px auto;">
+                    <li>Verificar se o diretório <code>vendor/</code> existe no servidor</li>
+                    <li>Se não existir, executar <code>composer install</code> no servidor</li>
+                    <li>Ou fazer upload do diretório <code>vendor/</code> completo</li>
+                </ol>
+                <p><small>Verifique os logs do GitHub Actions para mais detalhes sobre o deploy.</small></p>
+            </div>
+        </body>
+        </html>
+        ');
+    }
 }
 
 // Carregar helpers
