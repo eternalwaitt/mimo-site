@@ -151,8 +151,11 @@ jobs:
           find . -name "readme.html" -type f -delete 2>/dev/null || true
           # Remove verificar-instalacao.php (security)
           find . -name "verificar-instalacao.php" -type f -delete 2>/dev/null || true
-          # Remove directories (but keep vendor if it exists)
-          rm -rf .git* .env* node_modules wp-* x6f7689 cache img_backup_* .DS_Store Thumbs.db build 2>/dev/null || true
+          # Remove ALL .git directories (including nested ones) to prevent Git errors in FTP-Deploy-Action
+          find . -type d -name ".git" -exec rm -rf {} + 2>/dev/null || true
+          find . -type f -name ".git*" -delete 2>/dev/null || true
+          # Remove other directories (but keep vendor if it exists)
+          rm -rf .env* node_modules wp-* x6f7689 cache img_backup_* .DS_Store Thumbs.db build 2>/dev/null || true
           echo "Cleanup complete. Ready for deploy."
       
       - name: Verify FTP secrets are configured
@@ -199,6 +202,8 @@ jobs:
           server-dir: "./public_html/"
           protocol: ftp
           exclude: |
+            **/.git
+            **/.git/**
             **/.git*
             **/.env*
             **/node_modules/**
