@@ -5,6 +5,28 @@ All notable changes to the Mimo Site project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.14] - 2025-12-01
+
+### Fixed
+- **Cruzar Sinal - HTTP 500 Error**: Corrigido erro fatal que impedia carregamento da página
+  - Corrigido uso da API PhpSpreadsheet: substituído `setCellValueByColumnAndRow()` por `setCellValue()` com função customizada `coluna_para_letra()` para compatibilidade com PHP 8.0
+  - Movido `session_start()` para o início do script, antes de qualquer output, para evitar "headers already sent" warnings
+  - Removido texto "MIMO CENTRO DE BELEZA" do header conforme solicitado
+  - Adicionado tratamento robusto de erros e logging extensivo para debug
+  - Corrigida compatibilidade com PHP 8.0.30 (servidor Locaweb)
+
+### Changed
+- **Cruzar Sinal - PhpSpreadsheet API**: Refatorado `inc/cruzar-sinal/cruzar-dados.php` para usar API compatível
+  - Função `coluna_para_letra()` criada para converter número de coluna (1, 2, 3...) para letra (A, B, C...)
+  - Substituído método não disponível por `setCellValue()` com coordenadas de célula geradas dinamicamente
+  - Mantida compatibilidade com versões antigas do PhpSpreadsheet e PHP 8.0
+
+### Technical
+- **Error Handling**: Melhorado tratamento de erros em `cruzar-sinal-xyz123.php`
+  - Logging em múltiplos locais para debug
+  - Verificação de versão PHP antes de carregar dependências
+  - Fallbacks para funções auxiliares quando arquivos não estão disponíveis
+
 ## [2.6.13] - 2025-01-20
 
 ### Changed - Atualização de Serviços
