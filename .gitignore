@@ -35,6 +35,7 @@ logs/
 *.bak
 *_backup.*
 *_old.*
+.tmp/
 
 # Node modules (if any)
 node_modules/
@@ -81,3 +82,16 @@ yarn-error.log*
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+# Cruzar Sinal Legacy - arquivos temporários
+cruzar-sinal-legacy/__pycache__/
+cruzar-sinal-legacy/uploads/
+cruzar-sinal-legacy/outputs/
+cruzar-sinal-legacy/*.xlsx
+cruzar-sinal-legacy/.venv/
+cruzar-sinal-legacy/venv/
+
+# Cruzar Sinal PHP - arquivos temporários
+sitemimo/public_html/cruzar-sinal-uploads/
+sitemimo/public_html/cruzar-sinal-outputs/
+sitemimo/public_html/*.xlsx

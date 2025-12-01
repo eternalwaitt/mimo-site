@@ -88,6 +88,36 @@ jobs:
           # Verify the change
           grep "ASSET_VERSION" config.php | head -1
       
+      - name: Install PHP dependencies (Composer)
+        run: |
+          cd sitemimo/public_html
+          if [ -f "composer.json" ]; then
+            echo "Installing PHP dependencies via Composer..."
+            # Install Composer if not available
+            if ! command -v composer &> /dev/null; then
+              echo "Composer not found, downloading..."
+              php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+              php composer-setup.php --install-dir=/tmp --filename=composer
+              php -r "unlink('composer-setup.php');"
+              COMPOSER_CMD="/tmp/composer"
+            else
+              COMPOSER_CMD="composer"
+            fi
+            
+            # Install dependencies
+            $COMPOSER_CMD install --no-dev --optimize-autoloader --no-interaction
+            echo "✅ Composer dependencies installed"
+            
+            # Verify PhpSpreadsheet is installed
+            if [ -d "vendor/phpoffice/phpspreadsheet" ]; then
+              echo "✅ PhpSpreadsheet found in vendor/"
+            else
+              echo "⚠️  WARNING: PhpSpreadsheet not found in vendor/"
+            fi
+          else
+            echo "No composer.json found, skipping Composer install"
+          fi
+      
       - name: Clean files before deploy
         run: |
           cd sitemimo/public_html
@@ -106,8 +136,10 @@ jobs:
           find . -name "LICENSE*" -type f -delete 2>/dev/null || true
           find . -name "license.txt" -type f -delete 2>/dev/null || true
           find . -name "readme.html" -type f -delete 2>/dev/null || true
-          # Remove directories
-          rm -rf .git* .env* node_modules vendor wp-* x6f7689 cache img_backup_* .DS_Store Thumbs.db build 2>/dev/null || true
+          # Remove verificar-instalacao.php (security)
+          find . -name "verificar-instalacao.php" -type f -delete 2>/dev/null || true
+          # Remove directories (but keep vendor if it exists)
+          rm -rf .git* .env* node_modules wp-* x6f7689 cache img_backup_* .DS_Store Thumbs.db build 2>/dev/null || true
           echo "Cleanup complete. Ready for deploy."
       
       - name: Verify FTP secrets are configured
@@ -157,7 +189,6 @@ jobs:
             **/.git*
             **/.env*
             **/node_modules/**
-            **/vendor/**
             **/wp-*/
             **/x6f7689/**
             **/cache/**
@@ -178,3 +209,4 @@ jobs:
             **/LICENSE*
             **/license.txt
             **/readme.html
+            **/verificar-instalacao.php
