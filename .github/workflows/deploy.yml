@@ -93,6 +93,9 @@ jobs:
           cd sitemimo/public_html
           if [ -f "composer.json" ]; then
             echo "Installing PHP dependencies via Composer..."
+            echo "Current directory: $(pwd)"
+            echo "PHP version: $(php -v | head -1)"
+            
             # Install Composer if not available
             if ! command -v composer &> /dev/null; then
               echo "Composer not found, downloading..."
@@ -104,29 +107,54 @@ jobs:
               COMPOSER_CMD="composer"
             fi
             
-            # Install dependencies
-            $COMPOSER_CMD install --no-dev --optimize-autoloader --no-interaction
+            echo "Using Composer: $COMPOSER_CMD"
+            $COMPOSER_CMD --version
+            
+            # Install dependencies with verbose output
+            echo "Running: $COMPOSER_CMD install --no-dev --optimize-autoloader --no-interaction"
+            if ! $COMPOSER_CMD install --no-dev --optimize-autoloader --no-interaction; then
+              echo "❌ ERROR: Composer install failed!"
+              echo "Trying to diagnose the issue..."
+              php -r "echo 'PHP extensions: '; print_r(get_loaded_extensions());"
+              exit 1
+            fi
+            
             echo "✅ Composer dependencies installed"
+            
+            # Verify vendor directory structure
+            echo "Verifying vendor directory..."
+            if [ ! -d "vendor" ]; then
+              echo "❌ ERROR: vendor/ directory does not exist after Composer install!"
+              exit 1
+            fi
+            
+            echo "Vendor directory size: $(du -sh vendor | cut -f1)"
+            echo "Vendor directory contents:"
+            ls -la vendor/ | head -20
             
             # Verify PhpSpreadsheet is installed
             if [ -d "vendor/phpoffice/phpspreadsheet" ]; then
               echo "✅ PhpSpreadsheet found in vendor/"
+              echo "PhpSpreadsheet directory size: $(du -sh vendor/phpoffice/phpspreadsheet | cut -f1)"
               ls -la vendor/phpoffice/phpspreadsheet/src/PhpSpreadsheet/ | head -10
             else
-              echo "⚠️  WARNING: PhpSpreadsheet not found in vendor/"
+              echo "❌ ERROR: PhpSpreadsheet not found in vendor/"
               echo "Listing vendor directory:"
               ls -la vendor/ 2>/dev/null || echo "vendor/ directory does not exist!"
               echo "Listing vendor/phpoffice/ if exists:"
               ls -la vendor/phpoffice/ 2>/dev/null || echo "vendor/phpoffice/ does not exist!"
+              exit 1
             fi
             
             # Verify vendor/autoload.php exists
             if [ -f "vendor/autoload.php" ]; then
-              echo "✅ vendor/autoload.php exists"
+              echo "✅ vendor/autoload.php exists ($(du -h vendor/autoload.php | cut -f1))"
             else
               echo "❌ ERROR: vendor/autoload.php does not exist!"
               exit 1
             fi
+            
+            echo "✅ All Composer dependencies verified successfully"
           else
             echo "No composer.json found, skipping Composer install"
           fi
