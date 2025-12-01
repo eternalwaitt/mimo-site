@@ -6,6 +6,19 @@
 require_once __DIR__ . '/validacao.php';
 
 /**
+ * Converte número de coluna (1, 2, 3...) para letra de coluna (A, B, C...)
+ */
+function coluna_para_letra($col) {
+    $letra = '';
+    while ($col > 0) {
+        $resto = ($col - 1) % 26;
+        $letra = chr(65 + $resto) . $letra;
+        $col = intval(($col - $resto) / 26);
+    }
+    return $letra;
+}
+
+/**
  * Normaliza telefone removendo caracteres especiais
  */
 function normalizar_telefone($telefone) {
@@ -442,7 +455,8 @@ function salvar_resultado_excel($df_resultado, $arquivo_saida) {
     foreach ($headers as $header) {
         // Renomear colunas para melhor legibilidade
         $header_formatado = ucwords(str_replace('_', ' ', $header));
-        $sheet->setCellValueByColumnAndRow($col, 1, $header_formatado);
+        $cellAddress = coluna_para_letra($col) . '1';
+        $sheet->setCellValue($cellAddress, $header_formatado);
         $col++;
     }
     
@@ -452,7 +466,8 @@ function salvar_resultado_excel($df_resultado, $arquivo_saida) {
         $col = 1;
         foreach ($headers as $header) {
             $value = $data_row[$header] ?? '';
-            $sheet->setCellValueByColumnAndRow($col, $row, $value);
+            $cellAddress = coluna_para_letra($col) . $row;
+            $sheet->setCellValue($cellAddress, $value);
             $col++;
         }
         $row++;

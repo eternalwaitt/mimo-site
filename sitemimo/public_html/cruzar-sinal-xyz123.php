@@ -8,34 +8,110 @@
  * Versão: 1.0.0
  */
 
-// Carregar configuração
-require_once __DIR__ . '/config.php';
+// LOG DE DEBUG - escrever em arquivo ANTES de qualquer coisa
+// Tentar múltiplos locais para garantir que capturemos o erro
+$debug_logs = [
+    __DIR__ . '/cruzar-sinal-debug.log',
+    sys_get_temp_dir() . '/cruzar-sinal-debug.log',
+    '/tmp/cruzar-sinal-debug.log'
+];
+
+$debug_start = "[" . date('Y-m-d H:i:s') . "] INICIO - PHP " . phpversion() . " - Arquivo: " . __FILE__ . "\n";
+foreach ($debug_logs as $log_path) {
+    @file_put_contents($log_path, $debug_start);
+}
+
+// Habilitar TODOS os erros ANTES de qualquer coisa
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+ini_set('log_errors', 1);
+
+// Log em múltiplos locais
+foreach ($debug_logs as $log_path) {
+    @file_put_contents($log_path, "[" . date('Y-m-d H:i:s') . "] Erros habilitados\n", FILE_APPEND);
+}
+
+// Definir constantes necessárias sem depender de config.php
+if (!defined('APP_VERSION')) {
+    define('APP_VERSION', '2.6.13');
+}
+
+// NÃO carregar config.php - pode causar timeout/loops
+// Definir constantes diretamente
+
+// Iniciar sessão ANTES de qualquer output
+try {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+} catch (Throwable $e) {
+    error_log('Erro ao iniciar sessão: ' . $e->getMessage());
+    // Continuar mesmo se sessão falhar
+}
+
+// Headers primeiro
+if (!headers_sent()) {
+    header('Content-Type: text/html; charset=utf-8');
+    foreach ($debug_logs as $log_path) {
+        @file_put_contents($log_path, "[" . date('Y-m-d H:i:s') . "] Headers enviados\n", FILE_APPEND);
+    }
+}
+
+// Limpar qualquer output buffer existente
+while (ob_get_level()) {
+    ob_end_clean();
+}
+
+// Output imediato SEM buffering para debug
+echo "<!-- DEBUG: INICIO -->\n";
+foreach ($debug_logs as $log_path) {
+    @file_put_contents($log_path, "[" . date('Y-m-d H:i:s') . "] Primeiro echo executado\n", FILE_APPEND);
+}
+flush();
+
+// Iniciar output buffering DEPOIS do primeiro output
+ob_start();
+foreach ($debug_logs as $log_path) {
+    @file_put_contents($log_path, "[" . date('Y-m-d H:i:s') . "] Output buffering iniciado\n", FILE_APPEND);
+}
+
+// Shutdown function DESABILITADO temporariamente para ver erros
+// register_shutdown_function removido para debug
 
 // Autoloader do Composer para PhpSpreadsheet
 $phpspreadsheet_loaded = false;
 $error_details = [];
 
-// Verificar se vendor/autoload.php existe
+// Verificar versão do PHP primeiro
+foreach ($debug_logs as $log_path) {
+    @file_put_contents($log_path, "[" . date('Y-m-d H:i:s') . "] Verificando versão PHP\n", FILE_APPEND);
+}
+$php_version = phpversion();
+$php_version_ok = version_compare($php_version, '8.0.0', '>=');
+foreach ($debug_logs as $log_path) {
+    @file_put_contents($log_path, "[" . date('Y-m-d H:i:s') . "] PHP Version: $php_version, OK: " . ($php_version_ok ? 'SIM' : 'NÃO') . "\n", FILE_APPEND);
+}
+
+// Verificar se vendor/autoload.php existe E se PHP é compatível
 if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
     $error_details[] = 'vendor/autoload.php não encontrado';
     $error_details[] = 'Caminho verificado: ' . __DIR__ . '/vendor/autoload.php';
     $error_details[] = 'Diretório vendor existe: ' . (is_dir(__DIR__ . '/vendor') ? 'SIM' : 'NÃO');
+} elseif (!$php_version_ok) {
+    $error_details[] = 'PHP ' . $php_version . ' detectado. PhpSpreadsheet requer PHP >= 8.0.0';
+    $error_details[] = 'Atualize a versão do PHP no painel cPanel para PHP 8.0 ou superior';
 } else {
-    require_once __DIR__ . '/vendor/autoload.php';
-    $phpspreadsheet_loaded = class_exists('PhpOffice\PhpSpreadsheet\IOFactory');
-    
-    if (!$phpspreadsheet_loaded) {
-        $error_details[] = 'vendor/autoload.php existe mas PhpSpreadsheet não foi carregado';
-        $error_details[] = 'Verificando se PhpSpreadsheet existe...';
+    // PHP é compatível, tentar carregar
+    try {
+        require_once __DIR__ . '/vendor/autoload.php';
+        $phpspreadsheet_loaded = class_exists('PhpOffice\PhpSpreadsheet\IOFactory');
         
-        // Tentar verificar se está instalado mas não carregado
-        if (file_exists(__DIR__ . '/vendor/phpoffice/phpspreadsheet/src/PhpSpreadsheet/IOFactory.php')) {
-            $error_details[] = 'PhpSpreadsheet encontrado em: vendor/phpoffice/phpspreadsheet/';
-            require_once __DIR__ . '/vendor/phpoffice/phpspreadsheet/src/PhpSpreadsheet/IOFactory.php';
-            $phpspreadsheet_loaded = class_exists('PhpOffice\PhpSpreadsheet\IOFactory');
-        } else {
-            $error_details[] = 'PhpSpreadsheet NÃO encontrado em: vendor/phpoffice/phpspreadsheet/';
+        if (!$phpspreadsheet_loaded) {
+            $error_details[] = 'vendor/autoload.php existe mas PhpSpreadsheet não foi carregado';
         }
+    } catch (Throwable $e) {
+        $error_details[] = 'Erro ao carregar vendor/autoload.php: ' . $e->getMessage();
     }
 }
 
@@ -44,31 +120,96 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 $phpspreadsheet_error = !$phpspreadsheet_loaded;
 // Continuar carregando a página mesmo sem PhpSpreadsheet - o erro será mostrado no formulário
 
-// Carregar helpers
-require_once __DIR__ . '/inc/asset-helper.php';
-require_once __DIR__ . '/inc/seo-helper.php';
-
-// Só carregar funções de cruzar-sinal se PhpSpreadsheet estiver disponível
-if ($phpspreadsheet_loaded) {
-    require_once __DIR__ . '/inc/cruzar-sinal/validacao.php';
-    require_once __DIR__ . '/inc/cruzar-sinal/cruzar-dados.php';
+// Definir funções helper diretamente (não depender de includes externos)
+if (!function_exists('get_css_asset')) {
+    function get_css_asset($file) {
+        // Versão simples sem minificação
+        return $file . '?v=' . (defined('APP_VERSION') ? APP_VERSION : '2.6.13');
+    }
+}
+if (!function_exists('generate_seo_meta_tags')) {
+    function generate_seo_meta_tags($title, $description, $keywords = '') {
+        $html = '<meta name="description" content="' . htmlspecialchars($description) . '">';
+        if ($keywords) {
+            $html .= '<meta name="keywords" content="' . htmlspecialchars($keywords) . '">';
+        }
+        return $html;
+    }
 }
 
-// Iniciar sessão
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+// Só carregar funções de cruzar-sinal se PhpSpreadsheet estiver disponível
+// IMPORTANTE: Não carregar includes se PhpSpreadsheet não estiver disponível
+// para evitar erros fatais que impedem a página de carregar
+if ($phpspreadsheet_loaded) {
+    echo "<!-- DEBUG: PhpSpreadsheet carregado, tentando carregar includes -->\n";
+    flush();
+    if (ob_get_level()) {
+        ob_flush();
+    }
+    
+    try {
+        $validacao_path = __DIR__ . '/inc/cruzar-sinal/validacao.php';
+        if (!file_exists($validacao_path)) {
+            throw new Exception('Arquivo inc/cruzar-sinal/validacao.php não encontrado');
+        }
+        require_once $validacao_path;
+        echo "<!-- DEBUG: validacao.php carregado -->\n";
+        
+        $cruzar_dados_path = __DIR__ . '/inc/cruzar-sinal/cruzar-dados.php';
+        if (!file_exists($cruzar_dados_path)) {
+            throw new Exception('Arquivo inc/cruzar-sinal/cruzar-dados.php não encontrado');
+        }
+        require_once $cruzar_dados_path;
+        echo "<!-- DEBUG: cruzar-dados.php carregado -->\n";
+        
+        flush();
+        if (ob_get_level()) {
+            ob_flush();
+        }
+    } catch (Throwable $e) {
+        // Se houver erro ao carregar, desabilitar PhpSpreadsheet mas continuar
+        $phpspreadsheet_loaded = false;
+        $error_details[] = 'Erro ao carregar funções de cruzar-sinal: ' . $e->getMessage();
+        error_log('Erro ao carregar includes cruzar-sinal: ' . $e->getMessage());
+        echo "<!-- DEBUG: Erro ao carregar includes: " . htmlspecialchars($e->getMessage()) . " -->\n";
+        flush();
+        if (ob_get_level()) {
+            ob_flush();
+        }
+    }
+} else {
+    echo "<!-- DEBUG: PhpSpreadsheet não disponível, pulando includes -->\n";
+    flush();
+    if (ob_get_level()) {
+        ob_flush();
+    }
 }
 
 // Diretórios
 $uploads_dir = __DIR__ . '/cruzar-sinal-uploads';
 $outputs_dir = __DIR__ . '/cruzar-sinal-outputs';
 
-// Criar diretórios se não existirem
+// Criar diretórios se não existirem e verificar permissões
 if (!is_dir($uploads_dir)) {
-    mkdir($uploads_dir, 0755, true);
+    if (!@mkdir($uploads_dir, 0755, true)) {
+        $error_details[] = 'Não foi possível criar diretório de uploads: ' . $uploads_dir;
+    }
 }
 if (!is_dir($outputs_dir)) {
-    mkdir($outputs_dir, 0755, true);
+    if (!@mkdir($outputs_dir, 0755, true)) {
+        $error_details[] = 'Não foi possível criar diretório de outputs: ' . $outputs_dir;
+    }
+}
+
+// Verificar permissões de escrita
+$uploads_writable = is_dir($uploads_dir) && is_writable($uploads_dir);
+$outputs_writable = is_dir($outputs_dir) && is_writable($outputs_dir);
+
+if (!$uploads_writable) {
+    $error_details[] = 'Diretório de uploads não é gravável: ' . $uploads_dir;
+}
+if (!$outputs_writable) {
+    $error_details[] = 'Diretório de outputs não é gravável: ' . $outputs_dir;
 }
 
 // Variáveis de estado
@@ -102,97 +243,117 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['processar'])) {
             // Ler arquivo
             $arquivo_bytes = file_get_contents($arquivo_temp);
             
-            // Validar
-            $resultado_validacao = validar_arquivo_agendamentos($arquivo_bytes, $filename_agendamentos);
+            // Validar (verificar se função existe)
+            if (!function_exists('validar_arquivo_agendamentos')) {
+                $erro_agendamentos = true;
+                $erros_agendamentos[] = 'função de validação não disponível (PhpSpreadsheet não instalado)';
+            } else {
+                $resultado_validacao = validar_arquivo_agendamentos($arquivo_bytes, $filename_agendamentos);
         
-        if (!$resultado_validacao['valido']) {
+                if (!$resultado_validacao['valido']) {
+                    $erro_agendamentos = true;
+                    $erros_agendamentos = $resultado_validacao['erros'];
+                } else {
+                    // Salvar arquivo validado
+                    $arquivo_path = $uploads_dir . '/' . uniqid() . '_' . $filename_agendamentos;
+                    move_uploaded_file($arquivo_temp, $arquivo_path);
+                    $_SESSION['arquivo_agendamentos_validado'] = [
+                        'filename' => $filename_agendamentos,
+                        'path' => $arquivo_path
+                    ];
+                    $arquivo_agend_salvo = $_SESSION['arquivo_agendamentos_validado'];
+                }
+            }
+        } elseif ($arquivo_agend_salvo && file_exists($arquivo_agend_salvo['path'])) {
+            // Usar arquivo salvo
+            $filename_agendamentos = $arquivo_agend_salvo['filename'];
+        } else {
             $erro_agendamentos = true;
-            $erros_agendamentos = $resultado_validacao['erros'];
-        } else {
-            // Salvar arquivo validado
-            $arquivo_path = $uploads_dir . '/' . uniqid() . '_' . $filename_agendamentos;
-            move_uploaded_file($arquivo_temp, $arquivo_path);
-            $_SESSION['arquivo_agendamentos_validado'] = [
-                'filename' => $filename_agendamentos,
-                'path' => $arquivo_path
-            ];
-            $arquivo_agend_salvo = $_SESSION['arquivo_agendamentos_validado'];
+            $erros_agendamentos[] = 'arquivo de agendamentos é obrigatório';
         }
-    } elseif ($arquivo_agend_salvo && file_exists($arquivo_agend_salvo['path'])) {
-        // Usar arquivo salvo
-        $filename_agendamentos = $arquivo_agend_salvo['filename'];
-    } else {
-        $erro_agendamentos = true;
-        $erros_agendamentos[] = 'arquivo de agendamentos é obrigatório';
-    }
-    
-    // Processar arquivo de crédito/débito
-    if (isset($_FILES['arquivo_credito_debito']) && $_FILES['arquivo_credito_debito']['error'] === UPLOAD_ERR_OK) {
-        $arquivo_cred = $_FILES['arquivo_credito_debito'];
-        $filename_credito_debito = $arquivo_cred['name'];
-        $arquivo_temp = $arquivo_cred['tmp_name'];
         
-        // Ler arquivo
-        $arquivo_bytes = file_get_contents($arquivo_temp);
+        // Processar arquivo de crédito/débito
+        if (isset($_FILES['arquivo_credito_debito']) && $_FILES['arquivo_credito_debito']['error'] === UPLOAD_ERR_OK) {
+            $arquivo_cred = $_FILES['arquivo_credito_debito'];
+            $filename_credito_debito = $arquivo_cred['name'];
+            $arquivo_temp = $arquivo_cred['tmp_name'];
+            
+            // Ler arquivo
+            $arquivo_bytes = file_get_contents($arquivo_temp);
+            
+            // Validar (verificar se função existe)
+            if (!function_exists('validar_arquivo_credito_debito')) {
+                $erro_credito_debito = true;
+                $erros_credito_debito[] = 'função de validação não disponível (PhpSpreadsheet não instalado)';
+            } else {
+                $resultado_validacao = validar_arquivo_credito_debito($arquivo_bytes, $filename_credito_debito);
         
-        // Validar
-        $resultado_validacao = validar_arquivo_credito_debito($arquivo_bytes, $filename_credito_debito);
-        
-        if (!$resultado_validacao['valido']) {
+                if (!$resultado_validacao['valido']) {
+                    $erro_credito_debito = true;
+                    $erros_credito_debito = $resultado_validacao['erros'];
+                } else {
+                    // Salvar arquivo validado
+                    $arquivo_path = $uploads_dir . '/' . uniqid() . '_' . $filename_credito_debito;
+                    move_uploaded_file($arquivo_temp, $arquivo_path);
+                    $_SESSION['arquivo_credito_debito_validado'] = [
+                        'filename' => $filename_credito_debito,
+                        'path' => $arquivo_path
+                    ];
+                    $arquivo_cred_salvo = $_SESSION['arquivo_credito_debito_validado'];
+                }
+            }
+        } elseif ($arquivo_cred_salvo && file_exists($arquivo_cred_salvo['path'])) {
+            // Usar arquivo salvo
+            $filename_credito_debito = $arquivo_cred_salvo['filename'];
+        } else {
             $erro_credito_debito = true;
-            $erros_credito_debito = $resultado_validacao['erros'];
-        } else {
-            // Salvar arquivo validado
-            $arquivo_path = $uploads_dir . '/' . uniqid() . '_' . $filename_credito_debito;
-            move_uploaded_file($arquivo_temp, $arquivo_path);
-            $_SESSION['arquivo_credito_debito_validado'] = [
-                'filename' => $filename_credito_debito,
-                'path' => $arquivo_path
-            ];
-            $arquivo_cred_salvo = $_SESSION['arquivo_credito_debito_validado'];
+            $erros_credito_debito[] = 'arquivo de crédito/débito é obrigatório';
         }
-    } elseif ($arquivo_cred_salvo && file_exists($arquivo_cred_salvo['path'])) {
-        // Usar arquivo salvo
-        $filename_credito_debito = $arquivo_cred_salvo['filename'];
-    } else {
-        $erro_credito_debito = true;
-        $erros_credito_debito[] = 'arquivo de crédito/débito é obrigatório';
-    }
-    
+        
         // Se ambos arquivos estão válidos, processar
         if (!$erro_agendamentos && !$erro_credito_debito && $arquivo_agend_salvo && $arquivo_cred_salvo) {
-        // Verificar se PhpSpreadsheet está disponível antes de processar
-        if (!$phpspreadsheet_loaded) {
-            $erro_geral = true;
-            $mensagem_erro_geral = 'PhpSpreadsheet não está instalado. Execute: composer install --no-dev --optimize-autoloader no servidor ou faça upload do diretório vendor/ completo.';
-        } else {
-            try {
-                $resultado = cruzar_dados($arquivo_agend_salvo['path'], $arquivo_cred_salvo['path']);
-                
-                // Salvar resultado
-                $timestamp = date('Ymd_His');
-                $filename_resultado = "cruzamento_{$timestamp}.xlsx";
-                $arquivo_saida = $outputs_dir . '/' . $filename_resultado;
-                
-                salvar_resultado_excel($resultado['df_resultado'], $arquivo_saida);
-                
-                $estatisticas = $resultado['estatisticas'];
-                $sucesso = true;
-                
-                // Limpar sessão
-                unset($_SESSION['arquivo_agendamentos_validado']);
-                unset($_SESSION['arquivo_credito_debito_validado']);
-                
-                // Limpar arquivos temporários
-                if (file_exists($arquivo_agend_salvo['path'])) {
-                    unlink($arquivo_agend_salvo['path']);
+            // Verificar se PhpSpreadsheet está disponível antes de processar
+            if (!$phpspreadsheet_loaded) {
+                $erro_geral = true;
+                $mensagem_erro_geral = 'PhpSpreadsheet não está instalado. Execute: composer install --no-dev --optimize-autoloader no servidor ou faça upload do diretório vendor/ completo.';
+            } else {
+                // Verificar se função existe
+                if (!function_exists('cruzar_dados')) {
+                    $erro_geral = true;
+                    $mensagem_erro_geral = 'função cruzar_dados não disponível (PhpSpreadsheet não instalado)';
+                } elseif (!function_exists('salvar_resultado_excel')) {
+                    $erro_geral = true;
+                    $mensagem_erro_geral = 'função salvar_resultado_excel não disponível (PhpSpreadsheet não instalado)';
+                } else {
+                    try {
+                        $resultado = cruzar_dados($arquivo_agend_salvo['path'], $arquivo_cred_salvo['path']);
+                        
+                        // Salvar resultado
+                        $timestamp = date('Ymd_His');
+                        $filename_resultado = "cruzamento_{$timestamp}.xlsx";
+                        $arquivo_saida = $outputs_dir . '/' . $filename_resultado;
+                        
+                        salvar_resultado_excel($resultado['df_resultado'], $arquivo_saida);
+                        
+                        $estatisticas = $resultado['estatisticas'];
+                        $sucesso = true;
+                        
+                        // Limpar sessão
+                        unset($_SESSION['arquivo_agendamentos_validado']);
+                        unset($_SESSION['arquivo_credito_debito_validado']);
+                        
+                        // Limpar arquivos temporários
+                        if (file_exists($arquivo_agend_salvo['path'])) {
+                            unlink($arquivo_agend_salvo['path']);
+                        }
+                        if (file_exists($arquivo_cred_salvo['path'])) {
+                            unlink($arquivo_cred_salvo['path']);
+                        }
+                    } catch (Exception $e) {
+                        $erro_geral = true;
+                        $mensagem_erro_geral = 'erro ao processar cruzamento: ' . $e->getMessage();
+                    }
                 }
-                if (file_exists($arquivo_cred_salvo['path'])) {
-                    unlink($arquivo_cred_salvo['path']);
-                }
-            } catch (Exception $e) {
-                $erro_agendamentos = true;
-                $erros_agendamentos[] = 'erro ao processar cruzamento: ' . $e->getMessage();
             }
         }
     }
@@ -209,20 +370,34 @@ if (isset($_GET['clear']) && $_GET['clear'] === 'credito_debito') {
     header('Location: cruzar-sinal-xyz123.php');
     exit;
 }
+// Debug: antes de iniciar HTML
+echo "<!-- DEBUG: Iniciando HTML -->\n";
+flush();
+if (ob_get_level()) {
+    ob_flush();
+}
 ?>
 <!doctype html>
 <html lang="pt-br">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="generator" content="Mimo Site v<?php echo APP_VERSION; ?>">
+    <meta name="generator" content="Mimo Site v<?php echo defined('APP_VERSION') ? APP_VERSION : '2.6.13'; ?>">
     <title>Cruzar Sinal - Mimo</title>
     
     <?php
     // SEO Meta Tags
-    $pageTitle = 'Cruzar Sinal - Mimo';
-    $pageDescription = 'Ferramenta para cruzar agendamentos com clientes que têm crédito ou débito';
-    echo generate_seo_meta_tags($pageTitle, $pageDescription, '');
+    try {
+        $pageTitle = 'Cruzar Sinal - Mimo';
+        $pageDescription = 'Ferramenta para cruzar agendamentos com clientes que têm crédito ou débito';
+        if (function_exists('generate_seo_meta_tags')) {
+            echo generate_seo_meta_tags($pageTitle, $pageDescription, '');
+        } else {
+            echo '<meta name="description" content="' . htmlspecialchars($pageDescription) . '">';
+        }
+    } catch (Exception $e) {
+        echo '<!-- Erro ao gerar meta tags: ' . htmlspecialchars($e->getMessage()) . ' -->';
+    }
     ?>
     
     <!-- Bootstrap CSS -->
@@ -234,7 +409,18 @@ if (isset($_GET['clear']) && $_GET['clear'] === 'credito_debito') {
     <noscript><link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700&display=swap" rel="stylesheet"></noscript>
     
     <!-- CSS Principal -->
-    <link rel="stylesheet" href="<?php echo get_css_asset('product.css'); ?>">
+    <?php
+    try {
+        if (function_exists('get_css_asset')) {
+            echo '<link rel="stylesheet" href="' . htmlspecialchars(get_css_asset('product.css')) . '">';
+        } else {
+            echo '<link rel="stylesheet" href="product.css">';
+        }
+    } catch (Exception $e) {
+        echo '<!-- Erro ao carregar CSS: ' . htmlspecialchars($e->getMessage()) . ' -->';
+        echo '<link rel="stylesheet" href="product.css">';
+    }
+    ?>
     
     <!-- CSS específico do cruzar-sinal -->
     <style>
@@ -512,20 +698,66 @@ if (isset($_GET['clear']) && $_GET['clear'] === 'credito_debito') {
     </style>
 </head>
 <body>
-    <?php include 'inc/header-inner.php'; ?>
+    <?php 
+    // Header simplificado (não depender de include externo)
+    if (file_exists(__DIR__ . '/inc/header-inner.php')) {
+        try {
+            include 'inc/header-inner.php';
+        } catch (Throwable $e) {
+            echo '<!-- Erro ao carregar header: ' . htmlspecialchars($e->getMessage()) . ' -->';
+        }
+    }
+    ?>
     
     <main id="main-content" style="padding-top: 70px;">
         <div class="cruzar-sinal-container">
             <header class="cruzar-sinal-header">
-                <div>
-                    <h1 class="cruzar-sinal-logo">MIMO</h1>
-                    <p class="cruzar-sinal-subtitle">CENTRO DE BELEZA</p>
-                </div>
                 <h2 class="cruzar-sinal-title">Cruzar Sinal</h2>
                 <p class="cruzar-sinal-description">Cruze agendamentos com clientes que têm crédito ou débito</p>
             </header>
             
             <div class="cruzar-sinal-main">
+                <?php if (!$phpspreadsheet_loaded): ?>
+                    <div class="cruzar-sinal-alert cruzar-sinal-alert-error">
+                        <h3>⚠️ PhpSpreadsheet não está instalado</h3>
+                        <p>A ferramenta precisa do PhpSpreadsheet para processar arquivos Excel. Por favor, instale seguindo uma das opções abaixo:</p>
+                        <div style="margin-top: 20px; padding: 15px; background: #fff; border-radius: 6px;">
+                            <h4 style="margin-top: 0; color: #2c2c2c;">Opção 1: Upload via FTP (Recomendado)</h4>
+                            <ol style="margin-left: 20px; line-height: 1.8;">
+                                <li>Instale o PhpSpreadsheet localmente executando: <code>composer require phpoffice/phpspreadsheet</code></li>
+                                <li>Faça upload da pasta <code>vendor/</code> completa para o servidor via FTP</li>
+                                <li>Coloque a pasta <code>vendor/</code> na raiz do site (mesmo diretório onde está este arquivo)</li>
+                                <li>Certifique-se de que o arquivo <code>vendor/autoload.php</code> existe</li>
+                            </ol>
+                            <p style="margin-top: 15px;"><strong>Credenciais FTP:</strong></p>
+                            <ul style="margin-left: 20px; line-height: 1.8;">
+                                <li>Host: <code>ftp.esteticamimo.hospedagemdesites.ws</code></li>
+                                <li>Usuário: <code>esteticamimo</code></li>
+                                <li>Diretório: <code>/home/esteticamimo/public_html/</code></li>
+                            </ul>
+                        </div>
+                        <div style="margin-top: 20px; padding: 15px; background: #fff; border-radius: 6px;">
+                            <h4 style="margin-top: 0; color: #2c2c2c;">Opção 2: Instalação via SSH (se tiver acesso)</h4>
+                            <ol style="margin-left: 20px; line-height: 1.8;">
+                                <li>Conecte-se ao servidor via SSH</li>
+                                <li>Navegue até o diretório: <code>cd /home/esteticamimo/public_html</code></li>
+                                <li>Execute: <code>composer require phpoffice/phpspreadsheet --no-dev --optimize-autoloader</code></li>
+                            </ol>
+                        </div>
+                        <p style="margin-top: 20px; font-size: 0.9em; color: #666;">
+                            <strong>Nota:</strong> Após instalar, recarregue esta página. Se o problema persistir, acesse 
+                            <a href="cruzar-sinal-debug.php" style="color: #ccb7bc;">cruzar-sinal-debug.php</a> para verificar o status da instalação.
+                        </p>
+                    </div>
+                <?php endif; ?>
+                
+                <?php if ($erro_geral && !empty($mensagem_erro_geral)): ?>
+                    <div class="cruzar-sinal-alert cruzar-sinal-alert-error">
+                        <h3>❌ Erro</h3>
+                        <p><?php echo htmlspecialchars($mensagem_erro_geral); ?></p>
+                    </div>
+                <?php endif; ?>
+                
                 <?php if ($sucesso): ?>
                     <div class="cruzar-sinal-alert cruzar-sinal-alert-success">
                         <h3>✅ Processamento concluído!</h3>
@@ -614,13 +846,29 @@ if (isset($_GET['clear']) && $_GET['clear'] === 'credito_debito') {
                         <?php endif; ?>
                     </div>
                     
-                    <button type="submit" class="cruzar-sinal-btn cruzar-sinal-btn-primary">🚀 Processar</button>
+                    <button type="submit" class="cruzar-sinal-btn cruzar-sinal-btn-primary" <?php echo !$phpspreadsheet_loaded ? 'disabled' : ''; ?>>
+                        <?php echo $phpspreadsheet_loaded ? '🚀 Processar' : '⚠️ Instale PhpSpreadsheet para processar'; ?>
+                    </button>
+                    <?php if (!$phpspreadsheet_loaded): ?>
+                        <p style="margin-top: 15px; text-align: center; color: #666; font-size: 0.9em;">
+                            O formulário está desabilitado até que o PhpSpreadsheet seja instalado.
+                        </p>
+                    <?php endif; ?>
                 </form>
             </div>
         </div>
     </main>
     
-    <?php include 'inc/footer.php'; ?>
+    <?php 
+    // Footer simplificado (não depender de include externo)
+    if (file_exists(__DIR__ . '/inc/footer.php')) {
+        try {
+            include 'inc/footer.php';
+        } catch (Throwable $e) {
+            echo '<!-- Erro ao carregar footer: ' . htmlspecialchars($e->getMessage()) . ' -->';
+        }
+    }
+    ?>
     
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -644,4 +892,14 @@ if (isset($_GET['clear']) && $_GET['clear'] === 'credito_debito') {
     </script>
 </body>
 </html>
+<?php
+// Debug: fim do arquivo
+foreach ($debug_logs as $log_path) {
+    @file_put_contents($log_path, "[" . date('Y-m-d H:i:s') . "] FIM DO ARQUIVO\n", FILE_APPEND);
+}
+echo "<!-- DEBUG: Fim do arquivo -->\n";
+if (ob_get_level()) {
+    ob_end_flush();
+}
+?>
 
