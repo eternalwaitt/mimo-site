@@ -84,8 +84,7 @@ $tabs = [
     ['id' => 'mimocolors', 'label' => 'MIMO COLORS', 'active' => true, 'navLinkId' => 'mimocolors', 'tabPaneId' => 'mimocolorss'],
     ['id' => 'allsalon', 'label' => 'MIMO ALL SALON', 'active' => false, 'navLinkId' => 'allsalon', 'tabPaneId' => 'allsalonn'],
     ['id' => 'alisamentos', 'label' => 'MIMO ALISA', 'active' => false, 'navLinkId' => 'alisamentos', 'tabPaneId' => 'alisamentoss'],
-    ['id' => 'mimo-mega-hair', 'label' => 'MIMO MEGA HAIR', 'active' => false, 'navLinkId' => 'mimo-mega-hair', 'tabPaneId' => 'mimo-mega-hairr'],
-    ['id' => 'let-coesta', 'label' => 'LET COESTA', 'active' => false, 'navLinkId' => 'let-coesta', 'tabPaneId' => 'let-coestaa']
+    ['id' => 'mimo-mega-hair', 'label' => 'MIMO MEGA HAIR', 'active' => false, 'navLinkId' => 'mimo-mega-hair', 'tabPaneId' => 'mimo-mega-hairr']
 ];
 
 // Tab content - MIMO COLORS
@@ -228,39 +227,6 @@ ob_start();
 </div>
 <?php
 $tabContent['mimo-mega-hair'] = ob_get_clean();
-
-// Tab content - LET COESTA
-ob_start();
-?>
-<div class="col-md-12 container my-5">
-    <div class="col-md-8 col-xs-12" style="margin: auto;">
-        <h3 class="textPink font-weight-bold">CORTE</h3>
-        <p style="letter-spacing: 0.8px">
-            R$199,90
-        </p>
-
-        <h3 class="textPink font-weight-bold mt-4">COMBOS</h3>
-        <p style="letter-spacing: 0.8px">
-            Corte + Tratamento Wella: R$249,90<br>
-            Corte + Tratamento Wella + SPA Detox (argiloterapia): R$299,90<br>
-            Consultoria, lavagem, corte e finalização incluso em todos os serviços.
-        </p>
-
-        <h3 class="textPink font-weight-bold mt-4">SERVIÇOS DE COR E DESCOLORAÇÃO</h3>
-        <p style="letter-spacing: 0.8px">
-            <b>Iluminado:</b> a partir de R$800,00<br>
-            Consultoria, iluminado com pó descolorante, finalização.<br><br>
-
-            <b>Mechas:</b> a partir de R$900,00<br>
-            Consultoria, descoloração com pó, finalização.<br><br>
-
-            <b>Criação de ruivo e Cherry:</b> a partir de R$700,00<br>
-            Manutenção até 45 dias: R$500,00
-        </p>
-    </div>
-</div>
-<?php
-$tabContent['let-coesta'] = ob_get_clean();
 
 // Include the template
 include '../inc/service-template.php';

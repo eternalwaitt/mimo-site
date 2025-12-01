@@ -1,5 +1,9 @@
 ##### LOCAWEB - NAO REMOVER #####
-#AddHandler php71-script .php
+# Handler PHP comentado - usar configuração do painel ao invés
+# Se precisar configurar via .htaccess, descomente uma das opções abaixo:
+#AddHandler php83-script .php
+#AddHandler php80-script .php
+#AddHandler php8-script .php
 #suPHP_ConfigPath /home/esteticamimo/
 ##### LOCAWEB - NAO REMOVER #####
 RewriteEngine On

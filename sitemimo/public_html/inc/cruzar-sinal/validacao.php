@@ -5,16 +5,25 @@
  */
 
 // Verificar se PhpSpreadsheet está disponível
+// NÃO carregar automaticamente - deixar o arquivo principal decidir
 $phpspreadsheet_available = false;
-if (file_exists(__DIR__ . '/../../vendor/autoload.php')) {
-    require_once __DIR__ . '/../../vendor/autoload.php';
-    $phpspreadsheet_available = class_exists('PhpOffice\PhpSpreadsheet\IOFactory');
-}
 
-// Se não estiver disponível, tentar carregar manualmente (para desenvolvimento)
-if (!$phpspreadsheet_available && file_exists(__DIR__ . '/../../vendor/phpoffice/phpspreadsheet/src/PhpSpreadsheet/IOFactory.php')) {
-    require_once __DIR__ . '/../../vendor/phpoffice/phpspreadsheet/src/PhpSpreadsheet/IOFactory.php';
-    $phpspreadsheet_available = class_exists('PhpOffice\PhpSpreadsheet\IOFactory');
+// Só tentar carregar se já não foi carregado e se PHP >= 8.3
+if (!class_exists('PhpOffice\PhpSpreadsheet\IOFactory')) {
+    $php_version = phpversion();
+    $php_version_ok = version_compare($php_version, '8.3.0', '>=');
+    
+    if ($php_version_ok && file_exists(__DIR__ . '/../../vendor/autoload.php')) {
+        try {
+            require_once __DIR__ . '/../../vendor/autoload.php';
+            $phpspreadsheet_available = class_exists('PhpOffice\PhpSpreadsheet\IOFactory');
+        } catch (Throwable $e) {
+            // Silenciar erro - será tratado pelo arquivo principal
+            error_log('Erro ao carregar vendor em validacao.php: ' . $e->getMessage());
+        }
+    }
+} else {
+    $phpspreadsheet_available = true;
 }
 
 /**
