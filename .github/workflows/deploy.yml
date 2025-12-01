@@ -111,8 +111,21 @@ jobs:
             # Verify PhpSpreadsheet is installed
             if [ -d "vendor/phpoffice/phpspreadsheet" ]; then
               echo "✅ PhpSpreadsheet found in vendor/"
+              ls -la vendor/phpoffice/phpspreadsheet/src/PhpSpreadsheet/ | head -10
             else
               echo "⚠️  WARNING: PhpSpreadsheet not found in vendor/"
+              echo "Listing vendor directory:"
+              ls -la vendor/ 2>/dev/null || echo "vendor/ directory does not exist!"
+              echo "Listing vendor/phpoffice/ if exists:"
+              ls -la vendor/phpoffice/ 2>/dev/null || echo "vendor/phpoffice/ does not exist!"
+            fi
+            
+            # Verify vendor/autoload.php exists
+            if [ -f "vendor/autoload.php" ]; then
+              echo "✅ vendor/autoload.php exists"
+            else
+              echo "❌ ERROR: vendor/autoload.php does not exist!"
+              exit 1
             fi
           else
             echo "No composer.json found, skipping Composer install"
