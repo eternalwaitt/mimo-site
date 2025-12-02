@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useLayoutEffect, useCallback } from 'react'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { trackCTAClick, trackNavigationClick } from '@/lib/analytics'
 
@@ -29,8 +30,10 @@ export function HeaderClient({
   menuItemsRight,
   whatsappUrl,
 }: HeaderClientProps) {
+  const pathname = usePathname()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const isHomepage = pathname === '/'
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,11 +48,22 @@ export function HeaderClient({
     }
   }, [])
 
+  // useLayoutEffect para aplicar background imediatamente no homepage (antes do paint)
+  useLayoutEffect(() => {
+    const header = document.querySelector('header')
+    if (header && isHomepage) {
+      // no homepage, sempre mostra background para contraste com hero escuro
+      header.classList.add('bg-white/95', 'backdrop-blur-md', 'shadow-sm')
+      header.classList.remove('bg-transparent')
+    }
+  }, [isHomepage])
+
   useEffect(() => {
     // aplica classe de scroll ao header
+    // no homepage, sempre mostra background para contraste com hero escuro
     const header = document.querySelector('header')
     if (header) {
-      if (isScrolled) {
+      if (isScrolled || isHomepage) {
         header.classList.add('bg-white/95', 'backdrop-blur-md', 'shadow-sm')
         header.classList.remove('bg-transparent')
       } else {
@@ -57,7 +71,7 @@ export function HeaderClient({
         header.classList.remove('bg-white/95', 'backdrop-blur-md', 'shadow-sm')
       }
     }
-  }, [isScrolled])
+  }, [isScrolled, isHomepage])
 
   useEffect(() => {
     // adiciona event listeners aos links de navegação desktop
