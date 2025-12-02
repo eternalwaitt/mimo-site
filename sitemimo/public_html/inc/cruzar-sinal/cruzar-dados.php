@@ -473,8 +473,26 @@ function salvar_resultado_excel($df_resultado, $arquivo_saida) {
         $row++;
     }
     
+    // Garantir que o diretório existe
+    $dir_saida = dirname($arquivo_saida);
+    if (!is_dir($dir_saida)) {
+        if (!@mkdir($dir_saida, 0755, true)) {
+            throw new Exception('Não foi possível criar diretório: ' . $dir_saida);
+        }
+    }
+    
+    // Verificar se o diretório é gravável
+    if (!is_writable($dir_saida)) {
+        throw new Exception('Diretório não é gravável: ' . $dir_saida);
+    }
+    
     // Salvar
     $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
     $writer->save($arquivo_saida);
+    
+    // Verificar se o arquivo foi salvo corretamente
+    if (!file_exists($arquivo_saida) || !is_file($arquivo_saida)) {
+        throw new Exception('Arquivo não foi salvo corretamente: ' . $arquivo_saida);
+    }
 }
 

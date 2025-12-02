@@ -328,12 +328,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['processar'])) {
                     try {
                         $resultado = cruzar_dados($arquivo_agend_salvo['path'], $arquivo_cred_salvo['path']);
                         
+                        // Garantir que o diretório de outputs existe e é gravável
+                        if (!is_dir($outputs_dir)) {
+                            if (!@mkdir($outputs_dir, 0755, true)) {
+                                throw new Exception('Não foi possível criar diretório de outputs: ' . $outputs_dir);
+                            }
+                        }
+                        if (!is_writable($outputs_dir)) {
+                            throw new Exception('Diretório de outputs não é gravável: ' . $outputs_dir);
+                        }
+                        
                         // Salvar resultado
                         $timestamp = date('Ymd_His');
                         $filename_resultado = "cruzamento_{$timestamp}.xlsx";
                         $arquivo_saida = $outputs_dir . '/' . $filename_resultado;
                         
                         salvar_resultado_excel($resultado['df_resultado'], $arquivo_saida);
+                        
+                        // Verificar se o arquivo foi salvo
+                        if (!file_exists($arquivo_saida)) {
+                            throw new Exception('Arquivo não foi salvo: ' . $filename_resultado);
+                        }
                         
                         $estatisticas = $resultado['estatisticas'];
                         $sucesso = true;
