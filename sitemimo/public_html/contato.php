@@ -167,14 +167,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
 // Definir variáveis para SEO
 $pageTitle = 'Contato - Mimo | Entre em Contato Conosco';
-$pageDescription = 'Entre em contato com a Mimo! Estamos na Rua Heitor Penteado, 626, próximo ao metrô Vila Madalena. Telefone: (11) 3062-8295. Horário: Terça a Sábado, 08h30 às 22h.';
+$pageDescription = 'Entre em contato com a Mimo! Estamos na Rua Bela Cintra, 1951, na Consolação. Telefone: (11) 3062-8295. Horário: Terça a Sábado, 08h30 às 22h.';
 $pageKeywords = 'contato mimo, endereço mimo, telefone mimo, como chegar mimo, minhamimo contato';
 
-// Coordenadas para mapa (Vila Madalena, SP - Rua Heitor Penteado, 626)
+// Coordenadas para mapa (Consolação, SP - Rua Bela Cintra, 1951)
 // Coordenadas aproximadas - ajustar se necessário
 $latitude = '-23.5505';
 $longitude = '-46.6333';
-$googleMapsUrl = 'https://www.google.com/maps?q=Rua+Heitor+Penteado,+626,+Vila+Madalena,+São+Paulo';
+$googleMapsUrl = 'https://www.google.com/maps?q=Rua+Bela+Cintra,+1951,+Consolação,+São+Paulo';
 $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5!2d-46.6333!3d-23.5505!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDMzJzAxLjgiUyA0NsKwMzcnNTkuOSJX!5e0!3m2!1spt-BR!2sbr!4v1234567890';
 ?>
 <!doctype html>
@@ -669,8 +669,8 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
                 <div class="col-lg-5 mb-4">
                     <div class="info-card">
                         <h3><?php echo lucide_icon('map-pin', 'mr-2', 20); ?> Endereço</h3>
-                        <p><strong>Rua Heitor Penteado, 626</strong></p>
-                        <p>(Próximo ao metrô Vila Madalena e Sumaré)</p>
+                        <p><strong>Rua Bela Cintra, 1951</strong></p>
+                        <p>Consolação</p>
                         <p>SÃO PAULO - SP</p>
                         <div class="action-buttons">
                             <a href="<?php echo $googleMapsUrl; ?>" target="_blank" class="action-btn action-btn-primary">
@@ -743,7 +743,7 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
                     <!-- Mapa -->
                     <div class="map-container">
                         <iframe 
-                            src="https://www.google.com/maps/embed/v1/place?key=<?php echo htmlspecialchars(GOOGLE_PLACES_API_KEY); ?>&q=Rua+Heitor+Penteado,+626,+Vila+Madalena,+São+Paulo"
+                            src="https://www.google.com/maps/embed/v1/place?key=<?php echo htmlspecialchars(GOOGLE_PLACES_API_KEY); ?>&q=Rua+Bela+Cintra,+1951,+Consolação,+São+Paulo"
                             allowfullscreen=""
                             loading="lazy"
                             referrerpolicy="no-referrer-when-downgrade">
@@ -995,4 +995,3 @@ $googleMapsEmbed = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.5
 </body>
 
 </html>
-

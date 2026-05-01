@@ -64,6 +64,7 @@ function generate_open_graph_tags($title, $description, $image = '', $url = '', 
     return $html;
 }
 
+
 /**
  * Gera meta tags Twitter Cards
  * 
@@ -106,10 +107,10 @@ function generate_local_business_schema($options = []) {
         'name' => 'Mimo',
         'description' => 'Centro de beleza e estética oferecendo serviços de qualidade com preços acessíveis. Você merece esse mimo!',
         'address' => [
-            'streetAddress' => 'Rua Heitor Penteado, 626',
+            'streetAddress' => 'Rua Bela Cintra, 1951',
             'addressLocality' => 'São Paulo',
             'addressRegion' => 'SP',
-            'postalCode' => '',
+            'postalCode' => '01415-007',
             'addressCountry' => 'BR'
         ],
         'telephone' => '+55-11-3062-8295',
@@ -141,6 +142,7 @@ function generate_local_business_schema($options = []) {
             'streetAddress' => $data['address']['streetAddress'],
             'addressLocality' => $data['address']['addressLocality'],
             'addressRegion' => $data['address']['addressRegion'],
+            'postalCode' => $data['address']['postalCode'],
             'addressCountry' => $data['address']['addressCountry']
         ],
         'openingHoursSpecification' => []
@@ -310,4 +312,3 @@ function generate_seo_meta_tags($title, $description, $keywords = '') {
     
     return $html;
 }
-

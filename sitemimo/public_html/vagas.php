@@ -192,7 +192,7 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
                         [
                             'titulo' => 'Social Media & CRM',
                             'tipo' => 'Tempo Integral',
-                            'localizacao' => 'Vila Madalena, São Paulo',
+                            'localizacao' => 'Consolação, São Paulo',
                             'salario' => 'A combinar',
                             'sobre_mimo' => 'A Mimo é a marca que facilita o dia a dia da mulher moderna ao oferecer serviços de cabelo, unha, cílios, sobrancelhas, micropigmentação, estética facial e corporal com baixa manutenção, qualidade e ciência em um só lugar.',
                             'sobre_vaga' => 'Buscamos alguém que acredite que a beleza é uma experiência cotidiana e que entenda o poder de construir conexões autênticas através da comunicação. Como Social Media & CRM da Mimo, você será responsável por dar vida à presença digital da marca — cuidando de conteúdo, comunidade e relacionamento com a mesma atenção com que cuidamos de cada cliente.',
@@ -471,4 +471,3 @@ $pageKeywords = 'vagas mimo estética, trabalhe conosco, emprego estética são 
 </body>
 
 </html>
-
