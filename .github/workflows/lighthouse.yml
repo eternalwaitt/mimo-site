@@ -11,6 +11,8 @@ jobs:
   lighthouse:
     runs-on: ubuntu-latest
     name: Lighthouse Performance Check
+    env:
+      GOOGLE_PAGESPEED_API_KEY: ${{ secrets.GOOGLE_PAGESPEED_API_KEY }}
     
     steps:
       - name: Checkout code
@@ -35,18 +37,21 @@ jobs:
         run: npm run build
       
       - name: Run Lighthouse CI
+        if: env.GOOGLE_PAGESPEED_API_KEY != ''
         env:
-          GOOGLE_PAGESPEED_API_KEY: ${{ secrets.GOOGLE_PAGESPEED_API_KEY }}
           CI: 'true'
           LIGHTHOUSE_MIN_PERFORMANCE: '95'
           LIGHTHOUSE_MAX_LCP: '2500'
         run: npm run lighthouse:ci
+
+      - name: Skip Lighthouse CI
+        if: env.GOOGLE_PAGESPEED_API_KEY == ''
+        run: echo "Skipping Lighthouse CI because GOOGLE_PAGESPEED_API_KEY is not configured."
       
       - name: Upload Lighthouse results
-        if: always()
+        if: always() && env.GOOGLE_PAGESPEED_API_KEY != ''
         uses: actions/upload-artifact@v4
         with:
           name: lighthouse-results
           path: docs/lighthouse/lighthouse-ci-*.json
           retention-days: 30
-
