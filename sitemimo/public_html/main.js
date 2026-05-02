@@ -616,7 +616,6 @@ function navbar(){
             
             return false;
         });
-    });
 
 
     //Fechar modais de impedimento

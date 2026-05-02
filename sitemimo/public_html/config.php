@@ -84,7 +84,7 @@ define('APP_VERSION_PATCH', 13);
 // Asset version for cache busting (update this when deploying changes)
 // Format: YYYYMMDD (date-based for easy tracking)
 // IMPORTANTE: Atualizar sempre que houver mudanças em CSS/JS para forçar reload do cache
-define('ASSET_VERSION', '20260502-1'); // Updated: mobile header toggler contrast
+define('ASSET_VERSION', '20260502-2'); // Updated: mobile header contrast and main JS parse fix
 
 // Use minified assets in production
 // IMPORTANTE: Ative apenas DEPOIS de rodar os scripts de build:
