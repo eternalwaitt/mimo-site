@@ -1075,13 +1075,21 @@
 	}
 
 	/* Navbar mobile - melhor contraste */
+	.navbar {
+		background-color: #1a1a1a !important;
+	}
+
+	.navbar-light .navbar-toggler {
+		border-color: rgba(255, 255, 255, 0.75) !important;
+	}
+
 	.navbar-light .navbar-nav .nav-link {
-		color: #1a1a1a !important;
+		color: #ffffff !important;
 		font-weight: 600 !important;
 	}
 
 	.navbar-light .navbar-nav .nav-link:hover {
-		color: #3a505a !important;
+		color: #ccb7bc !important;
 	}
 
 	/* Botões de ação - melhor contraste */
@@ -1098,4 +1106,3 @@
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
 	}
 }
-
