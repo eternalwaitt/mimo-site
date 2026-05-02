@@ -1173,7 +1173,7 @@ if ($_POST) {
         }
     });
     </script>
-    <script src="bootstrap/popper.js/dist/popper.min.js" defer></script>
+    <script src="bootstrap/popper.js/dist/umd/popper.min.js" defer></script>
     <!-- Bootstrap JS - Usar completo temporariamente até corrigir build custom -->
     <script src="bootstrap/bootstrap/dist/js/bootstrap.min.js" defer></script>
     <?php echo js_tag('form/main.js', ['defer' => true]); ?>
@@ -1333,8 +1333,9 @@ if ($_POST) {
             });
         }
                 });
-            }
-        });
+            });
+        }
+    });
     </script>
 
     <!-- Piwik -->

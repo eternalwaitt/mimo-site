@@ -376,7 +376,7 @@ if (!isset($includeGTM)) {
         document.write('<script src="../bootstrap/jquery/dist/jquery.slim.min.js"><\/script>');
     }
     </script>
-    <script src="../bootstrap/popper.js/dist/popper.min.js" defer></script>
+    <script src="../bootstrap/popper.js/dist/umd/popper.min.js" defer></script>
     <!-- Bootstrap JS - Usar completo temporariamente até corrigir build custom -->
     <script src="../bootstrap/bootstrap/dist/js/bootstrap.min.js" defer></script>
     <?php echo js_tag('form/main.js', ['defer' => true]); ?>

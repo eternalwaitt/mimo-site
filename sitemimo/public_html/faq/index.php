@@ -1023,7 +1023,7 @@
 
     <script>window.jQuery || document.write('<script src="../bootstrap/jquery/dist/jquery.slim.min.js"><\/script>')</script>
 
-    <script src="../bootstrap/popper.js/dist/popper.min.js"></script>
+    <script src="../bootstrap/popper.js/dist/umd/popper.min.js"></script>
 
     <script src="../bootstrap/bootstrap/dist/js/bootstrap.min.js"></script>
 
