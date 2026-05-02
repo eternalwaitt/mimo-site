@@ -94,6 +94,10 @@ export function HeaderClient({
     }
   }, [])
 
+  const handleCTAClick = useCallback((source: string) => {
+    trackCTAClick('whatsapp_booking', source)
+  }, [])
+
   // injeta desktop CTA button via React portal
   useEffect(() => {
     const placeholder = document.getElementById('header-cta-desktop')
@@ -112,11 +116,7 @@ export function HeaderClient({
         placeholder.innerHTML = ''
       }
     }
-  }, [whatsappUrl])
-
-  const handleCTAClick = useCallback((source: string) => {
-    trackCTAClick('whatsapp_booking', source)
-  }, [])
+  }, [handleCTAClick, whatsappUrl])
 
   const handleMobileNavClick = useCallback((label: string, href: string) => {
     trackNavigationClick(label, href)

@@ -120,7 +120,7 @@ export default function TermosPage() {
                   propriedade intelectual brasileiras e internacionais.
                 </p>
                 <p className="font-satoshi text-mimo-blue leading-relaxed mt-4">
-                  A marca "Mimo" e todos os elementos visuais relacionados são marcas registradas 
+                  A marca &quot;Mimo&quot; e todos os elementos visuais relacionados são marcas registradas 
                   ou marcas de serviço da {MIMO_COMPANY.name}. É proibido o uso não autorizado de 
                   qualquer elemento de propriedade intelectual sem prévia autorização por escrito.
                 </p>
@@ -187,7 +187,7 @@ export default function TermosPage() {
                   7. Limitação de Responsabilidade
                 </h2>
                 <p className="font-satoshi text-mimo-blue leading-relaxed">
-                  O site é fornecido "como está" e "conforme disponível", sem garantias de qualquer 
+                  O site é fornecido &quot;como está&quot; e &quot;conforme disponível&quot;, sem garantias de qualquer 
                   tipo, expressas ou implícitas.
                 </p>
                 <p className="font-satoshi text-mimo-blue leading-relaxed mt-4">
@@ -355,4 +355,3 @@ export default function TermosPage() {
     </>
   )
 }
-

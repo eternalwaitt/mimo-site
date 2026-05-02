@@ -209,7 +209,7 @@ export default function PrivacidadePage() {
                 </ul>
                 <p className="font-satoshi text-mimo-blue leading-relaxed mt-4">
                   Para exercer seus direitos, entre em contato conosco através dos canais indicados 
-                  na seção "Contato e Encarregado de Dados" abaixo.
+                  na seção &quot;Contato e Encarregado de Dados&quot; abaixo.
                 </p>
               </div>
 
@@ -349,4 +349,3 @@ export default function PrivacidadePage() {
     </>
   )
 }
-
