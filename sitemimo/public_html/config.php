@@ -84,7 +84,7 @@ define('APP_VERSION_PATCH', 13);
 // Asset version for cache busting (update this when deploying changes)
 // Format: YYYYMMDD (date-based for easy tracking)
 // IMPORTANTE: Atualizar sempre que houver mudanças em CSS/JS para forçar reload do cache
-define('ASSET_VERSION', '20251116-98'); // Updated: CLS fixes - removed height conflicts with aspect-ratio in .img-cat and .testimonial-avatar
+define('ASSET_VERSION', '20260502-1'); // Updated: mobile header toggler contrast
 
 // Use minified assets in production
 // IMPORTANTE: Ative apenas DEPOIS de rodar os scripts de build:
@@ -101,4 +101,3 @@ define('CHECK_OPCACHE', false);
 // CDN Configuration (if using CDN for static assets)
 // Set CDN_URL in .env file: CDN_URL=https://cdn.minhamimo.com.br
 define('CDN_URL', getenv('CDN_URL') ?: '');
-

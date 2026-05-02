@@ -697,7 +697,8 @@ if ($_POST) {
                             defined('GOOGLE_PLACE_ID') && !empty(GOOGLE_PLACE_ID)) {
                             // Buscar mais reviews para ter opções de randomização (top 50 melhores)
                             // Depois randomizamos e pegamos 10 aleatórios para variar a cada carregamento
-                            $googleReviews = get_google_reviews(GOOGLE_PLACE_ID, GOOGLE_PLACES_API_KEY, 4, 50);
+                            $fetchedReviews = get_google_reviews(GOOGLE_PLACE_ID, GOOGLE_PLACES_API_KEY, 4, 50);
+                            $googleReviews = is_array($fetchedReviews) ? $fetchedReviews : [];
                         }
                         
                         // Normalizar campos de foto nos reviews do Google (scraper usa profile_picture)

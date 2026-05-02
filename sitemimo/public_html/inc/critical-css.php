@@ -270,6 +270,14 @@ body:not([data-theme="dark"]) .navbar {
     max-width: 100%;
 }
 
+.navbar-light .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.navbar-light .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.95)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+}
+
 /* Hero Section - Above the fold (CRITICAL CSS - LCP element) */
 /* FIX: Hero section agora usa <img> tag para melhor LCP e fetchpriority */
 .hero-section {
@@ -1524,4 +1532,3 @@ nav[aria-label="breadcrumb"].breadcrumb-nav {
     }
 }
 </style>
-
