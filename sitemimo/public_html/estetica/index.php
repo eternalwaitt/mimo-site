@@ -133,7 +133,7 @@ ob_start();
                 <p class="textDarkGrey" style="font-size: 17px;">
                     Valor Individual: R$ 110,00 <br>
                     <b>Drenagem Facial</b>: R$ 70,00 <br />
-                    <b>Drenagem Corporal + Facial</b>: R$ 130,00 <br />
+                    <b>Drenagem Corporal + Facial</b>: R$ 170,00 <br />
                     <b>Drenagem Linfática Pós-Operatório Local</b>: R$ 150,00 <br />
                     Pacotes com 10% de desconto<br /><br />
                 </p>
